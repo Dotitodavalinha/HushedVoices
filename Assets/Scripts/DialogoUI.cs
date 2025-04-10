@@ -26,6 +26,7 @@ public class DialogoUI : MonoBehaviour
             opcionesPanel.SetActive(false);
         }
     }
+
     public void MostrarOpciones(List<DialogueOption> opciones)
     {
         foreach (Transform child in opcionesPanel.transform)
@@ -44,16 +45,49 @@ public class DialogoUI : MonoBehaviour
             });
         }
     }
+    public void MostrarSubOpcionesPeligrosas()
+    {
+        foreach (Transform child in opcionesPanel.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        List<DialogueOption> subOpciones = new List<DialogueOption>()
+    {
+        new DialogueOption("Insistir (la policía vendrá pronto)", true),
+        new DialogueOption("Alejarse sin molestar", false)
+    };
+
+        foreach (DialogueOption sub in subOpciones)
+        {
+            GameObject nuevoBoton = Instantiate(botonOpcionPrefab, opcionesPanel.transform);
+            nuevoBoton.GetComponentInChildren<TextMeshProUGUI>().text = sub.text;
+
+            nuevoBoton.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                Debug.Log("Subopción elegida: " + sub.text);
+                opcionesPanel.SetActive(false);
+            });
+        }
+    }
 
     void OnElegirOpcion(DialogueOption opcion)
     {
         Debug.Log("Elegiste: " + opcion.text);
 
-        if (opcion.isDangerous)
+        if (opcion.isVeryDangerous)
         {
-            Debug.Log(" Opción peligrosa. El NPC podría reaccionar...");
+            Debug.Log("¡Esta opción es MUY peligrosa! Mostrando opciones secundarias...");
+            MostrarSubOpcionesPeligrosas();
+            return;
         }
 
-        opcionesPanel.SetActive(false); //cerramos panel
+        if (opcion.isDangerous)
+        {
+            Debug.Log("Opción peligrosa. El NPC podría reaccionar...");
+        }
+
+        opcionesPanel.SetActive(false);
     }
+
 }
