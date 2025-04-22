@@ -57,6 +57,12 @@ public class CameraManager : MonoBehaviour
     }
 
     public bool IsInitialized() => isInitialized;
+
+    public MonoBehaviour GetCurrentCameraBehaviour()
+    {
+        return currentCamera as MonoBehaviour;
+    }
+
 }
 
 

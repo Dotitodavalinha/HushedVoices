@@ -1,14 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+
 public class TextDefault : MonoBehaviour
 {
     [SerializeField] public NPCInteractionZone zonaInteraccion;
     [SerializeField] public TMP_Text text;
+    [SerializeField] public Transform npcTransform;     
+    [SerializeField] public Transform playerTransform;  
 
     private bool yaInteractuó = false;
+
+    
+    public bool IsInteracting => yaInteractuó;
 
     private void Start()
     {
@@ -26,6 +31,8 @@ public class TextDefault : MonoBehaviour
             {
                 yaInteractuó = true;
                 text.text = "";
+
+                // Aquí podrías iniciar un diálogo real, si lo tuvieras
             }
         }
         else if (!zonaInteraccion.jugadorDentro)
