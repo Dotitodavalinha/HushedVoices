@@ -8,7 +8,11 @@ public class DialogoUI : MonoBehaviour
     public GameObject opcionesPanel;
     public GameObject botonOpcionPrefab;
 
-    [SerializeField]public NPCInteractionZone zonaInteraccion;
+    [SerializeField] public NPCInteractionZone zonaInteraccion;
+    public TMP_Text npcText;
+
+    private List<DialogueOption> opcionesOriginales = new List<DialogueOption>();
+
 
     void Start()
     {
@@ -20,15 +24,19 @@ public class DialogoUI : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && zonaInteraccion.jugadorDentro == true)
         {
             opcionesPanel.SetActive(true);
+            npcText.text = "¿Qué necesitás?"; // primer dialogo
+            MostrarOpciones(opcionesOriginales); //reinicia opciones
         }
         if (zonaInteraccion.jugadorDentro == false)
         {
             opcionesPanel.SetActive(false);
+            npcText.text = "";
         }
     }
 
     public void MostrarOpciones(List<DialogueOption> opciones)
     {
+        opcionesOriginales = opciones;
         foreach (Transform child in opcionesPanel.transform)
         {
             Destroy(child.gameObject);
@@ -54,7 +62,7 @@ public class DialogoUI : MonoBehaviour
 
         List<DialogueOption> subOpciones = new List<DialogueOption>()
     {
-        new DialogueOption("Insistir (la policía vendrá pronto)", true),
+        new DialogueOption("Insistir", true),
         new DialogueOption("Alejarse sin molestar", false)
     };
 
@@ -65,15 +73,55 @@ public class DialogoUI : MonoBehaviour
 
             nuevoBoton.GetComponent<Button>().onClick.AddListener(() =>
             {
-                Debug.Log("Subopción elegida: " + sub.text);
-                opcionesPanel.SetActive(false);
+                ManejarSubOpcion(sub);
             });
+
         }
     }
+
+    void ManejarSubOpcion(DialogueOption sub)
+    {
+        Debug.Log("Subopción elegida: " + sub.text);
+        opcionesPanel.SetActive(false);
+        npcText.text = "";
+
+        if (sub.text.Contains("Insistir"))
+        {
+            npcText.text = "¡Bajá la voz! ¿Querés que nos escuchen?";
+            // sumar alerta, activar eventos, etc.
+            // 
+            // GameManager.Instance.AumentarAlerta(1);
+        }
+        else if (sub.text.Contains("Alejarse"))
+        {
+            npcText.text = "Que tengas buen dia";
+            
+        }
+    }
+
 
     void OnElegirOpcion(DialogueOption opcion)
     {
         Debug.Log("Elegiste: " + opcion.text);
+
+        if (opcion.text.Contains("Ben"))
+        {
+            npcText.text = "Ben...? Me pareció verlo ir hacia la cafetería hace un par de días. Estaba apurado.";
+        }
+        else if (opcion.text.Contains("casa"))
+        {
+            npcText.text = "Estamos bien, gracias... Aunque últimamente no dormimos tranquilos.";
+        }
+        else if (opcion.text.Contains("raro"))
+        {
+            npcText.text = "Todo se siente extraño últimamente. Hay caras nuevas rondando.";
+        }
+        else if (opcion.text.Contains("paseo"))
+        {
+            npcText.text = "Sí... aunque uno ya ni se siente libre para caminar.";
+        }
+
+
 
         if (opcion.isVeryDangerous)
         {

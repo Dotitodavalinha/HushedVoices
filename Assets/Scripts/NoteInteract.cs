@@ -5,8 +5,8 @@ using TMPro;
 
 public class NoteInteract : MonoBehaviour
 {
-    public GameObject InteractButton; 
-    public GameObject NoteImage; 
+
+    public GameObject NoteImage;
     public float InteractRange = 5f;
     public Image NoteIcon;
     public Sprite spriteNoteDark;
@@ -14,57 +14,77 @@ public class NoteInteract : MonoBehaviour
 
     private bool DiscoverNote = false;
     private bool InRange = false;
-    private GameObject Player; 
+    private bool NoteIsOpen = false;
 
+    private GameObject Player;
+
+    [SerializeField] public TMP_Text text;
+    [SerializeField] public NOTEInteractionZone zonaInteraccion;
     void Start()
     {
-        InteractButton.SetActive(false);
-        NoteImage.SetActive(false); 
+        text.text = " ";
+        NoteImage.SetActive(false);
         Player = GameObject.FindWithTag("Player");
         NoteIcon.sprite = spriteNoteDark;
     }
 
     void Update()
     {
-        if (Vector3.Distance(Player.transform.position, transform.position) <= InteractRange)
+        float distancia = Vector3.Distance(Player.transform.position, transform.position);
+
+        if (zonaInteraccion.jugadorDentro)
         {
-            if (!InRange)
+           
+            InRange = true;
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                InRange = true;
-                InteractButton.SetActive(true);
+                ShowNote();
             }
         }
-        else
+        else if (!zonaInteraccion.jugadorDentro)
         {
-            if (InRange)
-            {
-                InRange = false;
-                InteractButton.SetActive(false);
-            }
+           
+            InRange = false;
+        }
+        if (InRange && NoteIsOpen == false)
+        {
+            text.text = "Press 'E'";
+        }
+        if (!InRange)
+        {
+            text.text = "";
         }
 
-        if (InRange && Input.GetKeyDown(KeyCode.E))
+        if (NoteIsOpen)
         {
-            ShowNote();
+            NoteImage.SetActive(true);
         }
+        if (!NoteIsOpen)
+        {
+            NoteImage.SetActive(false);
+        }
+
     }
+
 
     void ShowNote()
     {
-        if(!DiscoverNote)
+        if (!DiscoverNote)
         {
             NoteIcon.sprite = spriteNoteColor;
             DiscoverNote = true;
         }
-        InteractButton.SetActive(false); 
-        NoteImage.SetActive(true); 
-        StartCoroutine(Backtogame()); 
+
+        InRange = false;
+        NoteIsOpen = true;
+        StartCoroutine(Backtogame());
     }
+
 
     System.Collections.IEnumerator Backtogame()
     {
-        yield return new WaitForSeconds(2f);
-        NoteImage.SetActive(false);
+        yield return new WaitForSeconds(2.5f);
+        NoteIsOpen = false;
     }
 }
 
