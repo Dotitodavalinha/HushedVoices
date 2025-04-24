@@ -13,7 +13,7 @@ public class CameraManager : MonoBehaviour
     private bool isInitialized = false;
 
     private void Awake()
-    {
+    { 
         initialCamera = initialCameraBehaviour as ICameraController;
 
         //apagamos todas las camaras
@@ -26,6 +26,7 @@ public class CameraManager : MonoBehaviour
 
     private void Start()
     {
+        
         StartCoroutine(InitCamera());
     }
 
@@ -35,6 +36,7 @@ public class CameraManager : MonoBehaviour
 
         if (initialCamera != null)
         {
+            Debug.Log($"Initial camera: {initialCamera}, Behaviour: {initialCameraBehaviour}");
             SwitchToCamera(initialCamera);
         }
         else
@@ -60,6 +62,7 @@ public class CameraManager : MonoBehaviour
 
     public MonoBehaviour GetCurrentCameraBehaviour()
     {
+        Debug.Log("Current camera is: " + (currentCamera != null ? currentCamera.ToString() : "null"));
         return currentCamera as MonoBehaviour;
     }
 

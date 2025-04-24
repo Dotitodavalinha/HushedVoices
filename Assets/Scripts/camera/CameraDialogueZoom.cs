@@ -3,12 +3,13 @@ using UnityEngine;
 
 public class CameraDialogueZoom : MonoBehaviour
 {
-    private CameraManager cameraManager;
+    [SerializeField] private CameraManager cameraManager;
     private Camera activeCamera;
     private Transform originalPos;
     private Coroutine zoomCoroutine;
 
     private bool hasZoomed = false;
+    private bool originalPosSaved = false;
 
     [SerializeField] private TextDefault dialogueScript; 
 
@@ -19,19 +20,24 @@ public class CameraDialogueZoom : MonoBehaviour
 
     private void Update()
     {
+        if (!cameraManager.IsInitialized())
+            return;
+
         if (dialogueScript == null || dialogueScript.playerTransform == null || dialogueScript.npcTransform == null)
             return;
 
-        if (dialogueScript.IsInteracting && !hasZoomed)
+        if (dialogueScript.IsInteracting && !hasZoomed && cameraManager.GetCurrentCameraBehaviour() != null)
         {
             ZoomToDialogue(dialogueScript.playerTransform, dialogueScript.npcTransform, 1f, 3f);
             hasZoomed = true;
         }
+
         else if (!dialogueScript.IsInteracting && hasZoomed)
         {
-            hasZoomed = false; // Por si vuelve a hablar después
+            hasZoomed = false;
         }
     }
+
 
     public void ZoomToDialogue(Transform player, Transform npc, float duration = 1f, float holdTime = 3f)
     {
@@ -51,9 +57,13 @@ public class CameraDialogueZoom : MonoBehaviour
 
         Transform camTransform = activeCamera.transform;
 
-        originalPos = new GameObject("CamTempPos").transform;
-        originalPos.position = camTransform.position;
-        originalPos.rotation = camTransform.rotation;
+        if (!originalPosSaved)
+        {
+            originalPos = new GameObject("CamOriginalPos").transform;
+            originalPos.position = camTransform.position;
+            originalPos.rotation = camTransform.rotation;
+            originalPosSaved = true;
+        }
 
         Vector3 midPoint = (player.position + npc.position) / 2f;
         Vector3 direction = (midPoint - camTransform.position).normalized;
@@ -87,4 +97,5 @@ public class CameraDialogueZoom : MonoBehaviour
         camTransform.rotation = originalPos.rotation;
         Destroy(originalPos.gameObject);
     }
+
 }
