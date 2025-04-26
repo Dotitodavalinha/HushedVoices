@@ -8,6 +8,7 @@ public class DialogoUI : MonoBehaviour
     public GameObject opcionesPanel;
     public GameObject botonOpcionPrefab;
 
+    [SerializeField] private PlayerMovementLocker playerLocker;
     [SerializeField] public NPCInteractionZone zonaInteraccion;
     public TMP_Text npcText;
 
@@ -21,18 +22,27 @@ public class DialogoUI : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && zonaInteraccion.jugadorDentro == true)
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            opcionesPanel.SetActive(true);
-            npcText.text = "¿Qué necesitás?"; // primer dialogo
-            MostrarOpciones(opcionesOriginales); //reinicia opciones
-        }
-        if (zonaInteraccion.jugadorDentro == false)
-        {
-            opcionesPanel.SetActive(false);
-            npcText.text = "";
+            if (opcionesPanel.activeSelf)
+            {
+              
+                opcionesPanel.SetActive(false);
+                npcText.text = "";
+                playerLocker.UnlockMovement();
+            }
+            else if (zonaInteraccion.jugadorDentro)
+            {
+               
+                opcionesPanel.SetActive(true);
+                npcText.text = "¿Qué necesitás?";
+                MostrarOpciones(opcionesOriginales);
+
+                playerLocker.LockMovement();
+            }
         }
     }
+
 
     public void MostrarOpciones(List<DialogueOption> opciones)
     {

@@ -28,28 +28,34 @@ public class CameraDialogueZoom : MonoBehaviour
 
         if (dialogueScript.IsInteracting && !hasZoomed && cameraManager.GetCurrentCameraBehaviour() != null)
         {
-            ZoomToDialogue(dialogueScript.playerTransform, dialogueScript.npcTransform, 1f, 3f);
+            ZoomToDialogue(dialogueScript.playerTransform, dialogueScript.npcTransform, 1f);
             hasZoomed = true;
         }
 
         else if (!dialogueScript.IsInteracting && hasZoomed)
         {
+            if (zoomCoroutine != null)
+                StopCoroutine(zoomCoroutine);
+
+            ReturnToOriginalPosition();
             hasZoomed = false;
         }
+
     }
 
 
-    public void ZoomToDialogue(Transform player, Transform npc, float duration = 1f, float holdTime = 3f)
+    public void ZoomToDialogue(Transform player, Transform npc, float duration = 1f)
     {
         if (!cameraManager.IsInitialized()) return;
 
         if (zoomCoroutine != null)
             StopCoroutine(zoomCoroutine);
 
-        zoomCoroutine = StartCoroutine(ZoomCoroutine(player, npc, duration, holdTime));
+        zoomCoroutine = StartCoroutine(ZoomCoroutine(player, npc, duration));
     }
 
-    private IEnumerator ZoomCoroutine(Transform player, Transform npc, float duration, float holdTime)
+
+    private IEnumerator ZoomCoroutine(Transform player, Transform npc, float duration)
     {
         MonoBehaviour camBehaviour = cameraManager.GetCurrentCameraBehaviour();
         activeCamera = camBehaviour.GetComponent<Camera>();
@@ -81,21 +87,16 @@ public class CameraDialogueZoom : MonoBehaviour
 
         camTransform.position = targetPosition;
         camTransform.rotation = targetRotation;
+    }
 
-        yield return new WaitForSeconds(holdTime);
+    private void ReturnToOriginalPosition()
+    {
+        if (activeCamera == null || originalPos == null) return;
 
-        elapsed = 0f;
-        while (elapsed < duration)
-        {
-            camTransform.position = Vector3.Lerp(camTransform.position, originalPos.position, elapsed / duration);
-            camTransform.rotation = Quaternion.Slerp(camTransform.rotation, originalPos.rotation, elapsed / duration);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        camTransform.position = originalPos.position;
-        camTransform.rotation = originalPos.rotation;
+        activeCamera.transform.position = originalPos.position;
+        activeCamera.transform.rotation = originalPos.rotation;
         Destroy(originalPos.gameObject);
+        originalPosSaved = false;
     }
 
 }

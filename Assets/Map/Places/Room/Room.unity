@@ -685,6 +685,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   opcionesPanel: {fileID: 1327084718}
   botonOpcionPrefab: {fileID: 6661281635988644466, guid: 45833b80732f02f43a8404422d8ced56, type: 3}
+  playerLocker: {fileID: 3469287837361680999}
   zonaInteraccion: {fileID: 1772798462}
   npcText: {fileID: 575421407}
 --- !u!4 &438823828
@@ -4212,7 +4213,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1859098263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4669,6 +4670,7 @@ GameObject:
   - component: {fileID: 1711813855783831209}
   - component: {fileID: 3469287837361680997}
   - component: {fileID: 3469287837361680996}
+  - component: {fileID: 3469287837361680999}
   - component: {fileID: 3469287837361680998}
   m_Layer: 0
   m_Name: luke1.0
@@ -4878,6 +4880,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 36
   m_CollisionDetection: 0
+--- !u!114 &3469287837361680999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132149309368188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d565d41f653632439aff4e0bb7bbfee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 3469287837361680996}
 --- !u!33 &3469287838469342112
 MeshFilter:
   m_ObjectHideFlags: 0
