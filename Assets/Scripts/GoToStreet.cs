@@ -8,7 +8,7 @@ public class GoToStreet : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-        GameManager.Instance.LoadScene("Street");
+        GameManager.Instance.LoadScene("Pueblo");
 
     }
 }
