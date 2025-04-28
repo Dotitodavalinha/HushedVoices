@@ -15,6 +15,7 @@ public class DialogoUI : MonoBehaviour
     private List<DialogueOption> opcionesOriginales = new List<DialogueOption>();
 
 
+    [SerializeField] private NPCMoodController moodController;
     void Start()
     {
         opcionesPanel.SetActive(false);
@@ -107,6 +108,16 @@ public class DialogoUI : MonoBehaviour
             npcText.text = "Que tengas buen dia";
             
         }
+
+
+        if (sub.text.Contains("Insistir"))
+        {
+            moodController.SetMoodAngry();
+        }
+        else if (sub.text.Contains("Alejarse"))
+        {
+            moodController.SetMoodNormal();
+        }
     }
 
 
@@ -145,7 +156,24 @@ public class DialogoUI : MonoBehaviour
             Debug.Log("Opción peligrosa. El NPC podría reaccionar...");
         }
 
+        if (opcion.isVeryDangerous)
+        {
+            moodController.SetMoodAngry();
+            MostrarSubOpcionesPeligrosas();
+            return;
+        }
+
+        if (opcion.isDangerous)
+        {
+            moodController.SetMoodAngry();
+        }
+        else
+        {
+            moodController.SetMoodHappy();
+        }
+
         opcionesPanel.SetActive(false);
+
     }
 
 }

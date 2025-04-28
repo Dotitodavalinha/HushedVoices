@@ -19,8 +19,8 @@ public class CameraManager : MonoBehaviour
         //apagamos todas las camaras
         foreach (var cam in FindObjectsOfType<Camera>())
         {
-            if (cam != (initialCameraBehaviour as MonoBehaviour).GetComponent<Camera>())
-                cam.gameObject.SetActive(false);
+            //if (cam != (initialCameraBehaviour as MonoBehaviour).GetComponent<Camera>())
+               // cam.gameObject.SetActive(false);
         }
     }
 
