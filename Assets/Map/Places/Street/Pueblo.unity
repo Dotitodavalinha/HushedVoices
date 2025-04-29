@@ -8699,6 +8699,7 @@ Transform:
   - {fileID: 1663127125}
   - {fileID: 2014896071}
   - {fileID: 2050653285}
+  - {fileID: 2013636918}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &623031873
@@ -28119,6 +28120,72 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraManager: {fileID: 0}
   dialogueScript: {fileID: 1503125388}
+--- !u!1 &2013636917
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2013636918}
+  - component: {fileID: 2013636920}
+  - component: {fileID: 2013636919}
+  m_Layer: 0
+  m_Name: GoToCoffeShop
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2013636918
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2013636917}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: -0.79535, y: 0.003989197, z: 0.1011}
+  m_LocalScale: {x: 0.009972992, y: 0.009972992, z: 0.009972992}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 622196301}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2013636919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2013636917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c03da0a139bfb03449c0206bec6b4947, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &2013636920
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2013636917}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2.3046305, z: 0.263773}
+  m_Center: {x: -0, y: 0.65231544, z: -0.36811352}
 --- !u!1 &2014608433
 GameObject:
   m_ObjectHideFlags: 0
@@ -30269,6 +30336,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 4
+  cameraFollowSpeed: 5
+  cameraDistance: 5
+  cameraHeight: 3
+  rotationSpeed: 5
 --- !u!143 &3469287837361680997
 CharacterController:
   m_ObjectHideFlags: 0
