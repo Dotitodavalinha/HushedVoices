@@ -8,13 +8,12 @@ public class NoteInteract : MonoBehaviour
 
     public GameObject NoteImage;
     public float InteractRange = 5f;
-    public Image NoteIcon;
-    public Sprite spriteNoteDark;
-    public Sprite spriteNoteColor;
+   
+    //public Sprite spriteNoteDark;
+    //public Sprite spriteNoteColor;
 
     [SerializeField]private PlayerMovementLocker playerLocker;
 
-    private bool DiscoverNote = false;
     private bool InRange = false;
     private bool NoteIsOpen = false;
 
@@ -27,7 +26,7 @@ public class NoteInteract : MonoBehaviour
         text.text = " ";
         NoteImage.SetActive(false);
         Player = GameObject.FindWithTag("Player");
-        NoteIcon.sprite = spriteNoteDark;
+       
 
     }
 
@@ -72,22 +71,19 @@ public class NoteInteract : MonoBehaviour
 
     void ShowNote()
     {
-        if (!DiscoverNote)
+        if (!ProgressManager.Instance.BensNoteUnlocked)
         {
-            NoteIcon.sprite = spriteNoteColor;
-            DiscoverNote = true;
+            ProgressManager.Instance.BensNoteUnlocked = true;
+            Debug.Log("Desbloqueaste la nota de Ben");
         }
 
-        
         NoteIsOpen = !NoteIsOpen;
 
         if (NoteIsOpen)
             playerLocker.LockMovement();
         else
             playerLocker.UnlockMovement();
+    
     }
-
-
-
 }
 
