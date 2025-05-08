@@ -14,6 +14,9 @@ public class DialogoUI : MonoBehaviour
 
     private List<DialogueOption> opcionesOriginales = new List<DialogueOption>();
 
+    //asigno la camara (atado con alambre)
+    public Cinemachine.CinemachineFreeLook freeLookCam;
+
 
     [SerializeField] private NPCMoodController moodController;
     void Start()
@@ -31,6 +34,11 @@ public class DialogoUI : MonoBehaviour
                 opcionesPanel.SetActive(false);
                 npcText.text = "";
                 playerLocker.UnlockMovement();
+
+                //atado con alambre
+                freeLookCam.gameObject.SetActive(true);
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
             }
             else if (zonaInteraccion.jugadorDentro)
             {

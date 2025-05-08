@@ -17,6 +17,8 @@ public class Player_Movement : MonoBehaviour
 
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         controller = GetComponent<CharacterController>();
         currentCam = Camera.main;
         isStreetScene = SceneManager.GetActiveScene().name == "Street";

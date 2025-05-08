@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class NPCMoodController : MonoBehaviour
 {
@@ -9,6 +10,10 @@ public class NPCMoodController : MonoBehaviour
 
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Transform moodIconTransform;
+
+    //asigno policias y materiales
+    public GameObject policias;
+
 
     void Update()
     {
@@ -24,12 +29,20 @@ public class NPCMoodController : MonoBehaviour
 
     void Start()
     {
+
         SetMoodNormal(); 
     }
 
     public void SetMoodHappy()
     {
+
         spriteRenderer.sprite = happyFace;
+
+        //alambreee
+
+        policias.SetActive(false);
+
+
     }
 
     public void SetMoodNormal()
@@ -40,5 +53,9 @@ public class NPCMoodController : MonoBehaviour
     public void SetMoodAngry()
     {
         spriteRenderer.sprite = angryFace;
+
+        //alambreee
+        policias.SetActive(true);
+
     }
 }

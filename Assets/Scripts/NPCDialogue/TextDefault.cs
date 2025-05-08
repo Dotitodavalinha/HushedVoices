@@ -8,7 +8,10 @@ public class TextDefault : MonoBehaviour
     [SerializeField] public NPCInteractionZone zonaInteraccion;
     [SerializeField] public TMP_Text text;
     [SerializeField] public Transform npcTransform;     
-    [SerializeField] public Transform playerTransform;  
+    [SerializeField] public Transform playerTransform;
+
+    //asigno la camara (atado con alambre)
+    public Cinemachine.CinemachineFreeLook freeLookCam;
 
     private bool yaInteractuó = false;
 
@@ -29,14 +32,21 @@ public class TextDefault : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
+                //atado con alambre
+                freeLookCam.gameObject.SetActive(false);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+
+
                 yaInteractuó = true;
                 text.text = "";
 
-                // Aquí podrías iniciar un diálogo real, si lo tuvieras
             }
         }
         else if (!zonaInteraccion.jugadorDentro)
         {
+
+
             yaInteractuó = false;
             text.text = "";
         }
