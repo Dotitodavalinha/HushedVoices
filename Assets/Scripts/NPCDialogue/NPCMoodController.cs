@@ -1,5 +1,6 @@
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
+using UnityEngine.Rendering.Universal;
 
 public class NPCMoodController : MonoBehaviour
 {
@@ -13,7 +14,8 @@ public class NPCMoodController : MonoBehaviour
 
     //asigno policias y materiales
     public GameObject policias;
-
+    public Material paranoia;
+    public Material ambient;
 
     void Update()
     {
@@ -40,6 +42,9 @@ public class NPCMoodController : MonoBehaviour
 
         //alambreee
 
+        paranoia.SetFloat("vig amount", 0f);
+        ambient.SetFloat("dayNight", 1f);
+
         policias.SetActive(false);
 
 
@@ -55,6 +60,9 @@ public class NPCMoodController : MonoBehaviour
         spriteRenderer.sprite = angryFace;
 
         //alambreee
+
+        paranoia.SetFloat("vig amount", 1f);
+        ambient.SetFloat("dayNight", 0f);
         policias.SetActive(true);
 
     }
