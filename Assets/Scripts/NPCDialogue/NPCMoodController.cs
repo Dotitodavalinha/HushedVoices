@@ -42,7 +42,7 @@ public class NPCMoodController : MonoBehaviour
 
         //alambreee
 
-        paranoia.SetFloat("vig amount", 0f);
+        paranoia.SetInt("_vig_amount", 0);
         ambient.SetFloat("dayNight", 1f);
 
         policias.SetActive(false);
@@ -61,7 +61,7 @@ public class NPCMoodController : MonoBehaviour
 
         //alambreee
 
-        paranoia.SetFloat("vig amount", 1f);
+        paranoia.SetInt("_vig_amount", 1);
         ambient.SetFloat("dayNight", 0f);
         policias.SetActive(true);
 
