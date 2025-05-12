@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: glass
-  m_Shader: {fileID: -6465566751694194690, guid: 5631962176fe98d49a3efcec430e9f88, type: 3}
+  m_Name: stool
+  m_Shader: {fileID: -6465566751694194690, guid: c924880da276fdb43873a3563b11effb, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -68,11 +68,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _albedo:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _gradient:
-        m_Texture: {fileID: 2800000, guid: 1d177aa6b3a34fb47b83e4af0b1ff6e2, type: 3}
+        m_Texture: {fileID: 2800000, guid: f1031b183160ee944aa93d75285905c2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -120,21 +116,18 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _alpha: 0.13
-    - _rimlight_scale: -0.02
-    - _rimlight_str: 5
-    - _side: 0
-    - _up: 0
+    - _light_str: 0.6
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-    - _light_color: {r: 0.1535244, g: 0.26078445, b: 0.4339623, a: 0}
-    - _rimlight_color: {r: 1, g: 1, b: 1, a: 0}
-    - _tint: {r: 0.5961196, g: 0.6204751, b: 0.6415094, a: 0}
+    - _cutout_threshold: {r: 0, g: 0, b: 0, a: 0}
+    - _light_color: {r: 1, g: 0.9923392, b: 0.7028302, a: 0}
+    - _rimlight_color: {r: 0.8490566, g: 0.61408633, b: 0.020024916, a: 0}
+    - _tint: {r: 0.99814034, g: 1, b: 0.8349056, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &7537457709525221565
+--- !u!114 &6374297544234041106
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
