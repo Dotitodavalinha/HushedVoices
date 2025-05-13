@@ -32,7 +32,14 @@ public class NPCMoodController : MonoBehaviour
     void Start()
     {
 
-        SetMoodNormal(); 
+        SetMoodNormal();
+
+        //alambreee
+
+        paranoia.SetInt("_vig_amount", 0);
+        ambient.SetFloat("dayNight", 1f);
+
+        policias.SetActive(false);
     }
 
     public void SetMoodHappy()
