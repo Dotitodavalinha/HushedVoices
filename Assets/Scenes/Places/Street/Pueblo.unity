@@ -10756,6 +10756,7 @@ GameObject:
   - component: {fileID: 946127183}
   - component: {fileID: 946127182}
   - component: {fileID: 946127185}
+  - component: {fileID: 946127186}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -10920,6 +10921,18 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &946127186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946127180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7df2fb15392c2748bf87b3db6900aee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &946638688
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14911,7 +14924,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2642501, y: 0}
   m_AnchorMax: {x: 0.758, y: 0.114327565}
-  m_AnchoredPosition: {x: -21.5, y: 19.000122}
+  m_AnchoredPosition: {x: -21.5, y: 19}
   m_SizeDelta: {x: -749, y: -146}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1204099079
@@ -19042,7 +19055,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2642501, y: 0}
   m_AnchorMax: {x: 0.758, y: 0.114327565}
-  m_AnchoredPosition: {x: -21.5, y: 19.000122}
+  m_AnchoredPosition: {x: -21.5, y: 19}
   m_SizeDelta: {x: -749, y: -146}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1503125388
@@ -22893,7 +22906,6 @@ MonoBehaviour:
   normalFace: {fileID: 21300000, guid: 58790cb5481739644a05c3d813dfa38c, type: 3}
   happyFace: {fileID: 21300000, guid: 798e39607d62a4949a087f87ee676dc8, type: 3}
   angryFace: {fileID: 21300000, guid: a54edb32f225245439622f77cea9ac91, type: 3}
-  playerTransform: {fileID: 543450653579132358}
   moodIconTransform: {fileID: 1890023005}
   policias: {fileID: 103851169}
   paranoia: {fileID: 2100000, guid: 6bcf68bea07fcf1439bfd3142bba3172, type: 2}

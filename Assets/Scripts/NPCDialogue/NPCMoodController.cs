@@ -9,7 +9,7 @@ public class NPCMoodController : MonoBehaviour
     public Sprite happyFace;
     public Sprite angryFace;
 
-    [SerializeField] private Transform playerTransform;
+    
     [SerializeField] private Transform moodIconTransform;
 
     //asigno policias y materiales
@@ -19,13 +19,14 @@ public class NPCMoodController : MonoBehaviour
 
     void Update()
     {
-        if (playerTransform != null && moodIconTransform != null)
+        if (ActiveCameraTracker.ActiveCamera != null && moodIconTransform != null)
         {
-            Vector3 toPlayer = playerTransform.position - moodIconTransform.position;
-            toPlayer.y = 0; 
-            moodIconTransform.forward = toPlayer.normalized;
+            Vector3 toCam = ActiveCameraTracker.ActiveCamera.transform.position - moodIconTransform.position;
+            toCam.y = 0;
+            moodIconTransform.forward = toCam.normalized;
         }
     }
+
 
 
 
