@@ -4,8 +4,10 @@ using UnityEngine;
 public class RoomCameraController : MonoBehaviour, ICameraController
 {
     public Camera roomCamera;
-    
-    public void Activate()
+
+
+
+public void Activate()
     {
 
         Debug.Log("RoomCamera ACTIVATED!");
