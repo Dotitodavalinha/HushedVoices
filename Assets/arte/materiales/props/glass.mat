@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: glass
-  m_Shader: {fileID: -6465566751694194690, guid: 5631962176fe98d49a3efcec430e9f88, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: be9a33141588d6d42b4d884fdec3c898, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -24,6 +24,10 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Base_Color:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -64,6 +68,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_db6237d1fbc341cdb4b8928b693940bb_Out_0_Texture2D:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -108,31 +116,37 @@ Material:
     - _GlossyReflections: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
+    - _Offset: 0
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _RimLightBrightness: 5
+    - _RimLight_Power: 2
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
+    - _Smoothness_of_Shadow: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _alpha: 0.13
-    - _rimlight_scale: -0.02
+    - _alpha: 0.73
+    - _rimlight_scale: 1
     - _rimlight_str: 5
     - _side: 0
     - _up: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.6745283, g: 0.7596109, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _RimLight_Color: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _TInt: {r: 0, g: 0, b: 0, a: 0}
     - _light_color: {r: 0.1535244, g: 0.26078445, b: 0.4339623, a: 0}
-    - _rimlight_color: {r: 1, g: 1, b: 1, a: 0}
-    - _tint: {r: 0.5961196, g: 0.6204751, b: 0.6415094, a: 0}
+    - _rimlight_color: {r: 0, g: 0, b: 0, a: 0}
+    - _tint: {r: 0.14373443, g: 0.23224457, b: 0.3207547, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &7537457709525221565
 MonoBehaviour:
