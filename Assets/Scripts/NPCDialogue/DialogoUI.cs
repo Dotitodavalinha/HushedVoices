@@ -7,6 +7,7 @@ public class DialogoUI : MonoBehaviour
 {
     public GameObject opcionesPanel;
     public GameObject botonOpcionPrefab;
+    public GameObject cajaDialogo;
 
     [SerializeField] private PlayerMovementLocker playerLocker;
     [SerializeField] public NPCInteractionZone zonaInteraccion;
@@ -22,6 +23,7 @@ public class DialogoUI : MonoBehaviour
     void Start()
     {
         opcionesPanel.SetActive(false);
+        cajaDialogo.SetActive(false);
     }
 
     void Update()
@@ -32,6 +34,7 @@ public class DialogoUI : MonoBehaviour
             {
               
                 opcionesPanel.SetActive(false);
+                cajaDialogo.SetActive(false);
                 npcText.text = "";
                 playerLocker.UnlockMovement();
 
@@ -42,7 +45,7 @@ public class DialogoUI : MonoBehaviour
             }
             else if (zonaInteraccion.jugadorDentro)
             {
-               
+                cajaDialogo.SetActive(true);
                 opcionesPanel.SetActive(true);
                 npcText.text = "¿Qué necesitás?";
                 MostrarOpciones(opcionesOriginales);
