@@ -646,7 +646,7 @@ Transform:
   m_Children:
   - {fileID: 438823828}
   - {fileID: 2013389719}
-  - {fileID: 99683968}
+  - {fileID: 1617149331}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &58433738
@@ -1596,52 +1596,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1131711523088234769, guid: c5b26a5d5ca716848880fecd4ff9749b, type: 3}
   m_PrefabInstance: {fileID: 94549750}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &99683967
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 99683968}
-  - component: {fileID: 99683969}
-  m_Layer: 0
-  m_Name: ProgressManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &99683968
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 99683967}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 39369767}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &99683969
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 99683967}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42475355a5d255b45b8ec5d00e29fa99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BensNoteUnlocked: 0
-  CoffeeShopUnlocked: 0
 --- !u!1 &103851169
 GameObject:
   m_ObjectHideFlags: 0
@@ -19683,7 +19637,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 16
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -21942,6 +21896,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3154540645042745528, guid: c2d1f3122e79cba489d409515fa3a580, type: 3}
   m_PrefabInstance: {fileID: 1616207193}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1617149329
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1617149331}
+  - component: {fileID: 1617149330}
+  m_Layer: 0
+  m_Name: PogressManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1617149330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1617149329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42475355a5d255b45b8ec5d00e29fa99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BensNoteUnlocked: 0
+  CoffeeShopUnlocked: 0
+--- !u!4 &1617149331
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1617149329}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 39369767}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1619010902
 GameObject:
   m_ObjectHideFlags: 0
@@ -25742,8 +25742,8 @@ Transform:
   m_GameObject: {fileID: 1905438729}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -11.103, y: 1.39, z: 40.682}
-  m_LocalScale: {x: 0.45073, y: 1, z: 1}
+  m_LocalPosition: {x: -11.1, y: 1.202, z: 45.26}
+  m_LocalScale: {x: 0.45073, y: 1, z: 1.4625}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

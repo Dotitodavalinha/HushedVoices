@@ -364,6 +364,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 39369767}
+  - component: {fileID: 39369768}
   m_Layer: 0
   m_Name: MANAGERS
   m_TagString: Untagged
@@ -386,9 +387,22 @@ Transform:
   m_Children:
   - {fileID: 438823828}
   - {fileID: 2013389719}
-  - {fileID: 1438001381}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &39369768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 39369766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42475355a5d255b45b8ec5d00e29fa99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BensNoteUnlocked: 0
+  CoffeeShopUnlocked: 0
 --- !u!4 &54725752 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1661361543440991400, guid: 992c5d2268fc5294ba65235bffc34964, type: 3}
@@ -2429,6 +2443,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   opcionesPanel: {fileID: 1327084718}
   botonOpcionPrefab: {fileID: 6661281635988644466, guid: 45833b80732f02f43a8404422d8ced56, type: 3}
+  cajaDialogo: {fileID: 0}
   playerLocker: {fileID: 3469287837361680999}
   zonaInteraccion: {fileID: 0}
   npcText: {fileID: 575421407}
@@ -9960,52 +9975,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95bda1bc2a6886246bf16679ea6f0ec6, type: 3}
---- !u!1 &1438001380
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1438001381}
-  - component: {fileID: 1438001382}
-  m_Layer: 0
-  m_Name: ProgressManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1438001381
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1438001380}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 39369767}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1438001382
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1438001380}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42475355a5d255b45b8ec5d00e29fa99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BensNoteUnlocked: 0
-  CoffeeShopUnlocked: 0
 --- !u!1001 &1442851651
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10473,7 +10442,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1503125387
 RectTransform:
   m_ObjectHideFlags: 0

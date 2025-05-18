@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class ProgressManager : MonoBehaviour
 {
+    
     public static ProgressManager Instance;
 
     public bool BensNoteUnlocked;
@@ -13,8 +14,14 @@ public class ProgressManager : MonoBehaviour
     void Awake()
     {
         if (Instance == null)
+        {
             Instance = this;
+            DontDestroyOnLoad(gameObject); 
+        }
         else
+        {
             Destroy(gameObject);
+        }
     }
+
 }
