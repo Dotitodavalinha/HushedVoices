@@ -10,12 +10,14 @@ public class TextDefault : MonoBehaviour
     [SerializeField] public Transform npcTransform;     
     [SerializeField] public Transform playerTransform;
 
-    //asigno la camara (atado con alambre)
+    
     public Cinemachine.CinemachineFreeLook freeLookCam;
 
     private bool yaInteractuó = false;
+    public event System.Action OnDialogueStart;
+    public event System.Action OnDialogueEnd;
 
-    
+
     public bool IsInteracting => yaInteractuó;
 
     private void Start()
@@ -32,23 +34,25 @@ public class TextDefault : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                //atado con alambre
                 freeLookCam.gameObject.SetActive(false);
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
 
-
                 yaInteractuó = true;
                 text.text = "";
 
+                OnDialogueStart?.Invoke(); 
             }
+
         }
         else if (!zonaInteraccion.jugadorDentro)
         {
-
+            if (yaInteractuó)
+                OnDialogueEnd?.Invoke(); 
 
             yaInteractuó = false;
             text.text = "";
+
         }
     }
 }

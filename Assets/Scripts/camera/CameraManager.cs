@@ -16,18 +16,21 @@ public class CameraManager : MonoBehaviour
     { 
         initialCamera = initialCameraBehaviour as ICameraController;
 
+        SwitchToCamera(initialCamera); // otra vez pq esta medio bug
+
         //apagamos todas las camaras
         foreach (var cam in FindObjectsOfType<Camera>())
         {
             //if (cam != (initialCameraBehaviour as MonoBehaviour).GetComponent<Camera>())
                // cam.gameObject.SetActive(false);
         }
+
     }
 
     private void Start()
-    {
-        
+    {      
         StartCoroutine(InitCamera());
+       
     }
 
     private IEnumerator InitCamera()
@@ -38,6 +41,7 @@ public class CameraManager : MonoBehaviour
         {
             Debug.Log($"Initial camera: {initialCamera}, Behaviour: {initialCameraBehaviour}");
             SwitchToCamera(initialCamera);
+            Debug.LogWarning("Cámara inicial es " + initialCamera);
         }
         else
         {

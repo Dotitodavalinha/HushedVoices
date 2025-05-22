@@ -4,6 +4,8 @@ using UnityEngine;
 public class CameraDialogueZoom : MonoBehaviour
 {
     [SerializeField] private CameraManager cameraManager;
+    [SerializeField] private TextDefault dialogueScript;
+
     private Camera activeCamera;
     private Transform originalPos;
     private Coroutine zoomCoroutine;
@@ -11,49 +13,59 @@ public class CameraDialogueZoom : MonoBehaviour
     private bool hasZoomed = false;
     private bool originalPosSaved = false;
 
-    [SerializeField] private TextDefault dialogueScript; 
-
     private void Awake()
     {
-        cameraManager = GetComponent<CameraManager>();
+        if (cameraManager == null)
+            cameraManager = GetComponent<CameraManager>();
     }
 
-    private void Update()
+    private void Start()
     {
-        if (!cameraManager.IsInitialized())
-            return;
+        if (dialogueScript != null)
+        {
+            dialogueScript.OnDialogueStart += HandleDialogueStart;
+            dialogueScript.OnDialogueEnd += HandleDialogueEnd;
+        }
+    }
 
-        if (dialogueScript == null || dialogueScript.playerTransform == null || dialogueScript.npcTransform == null)
-            return;
 
-        if (dialogueScript.IsInteracting && !hasZoomed && cameraManager.GetCurrentCameraBehaviour() != null)
+    private void HandleDialogueStart()
+    {
+        if (!hasZoomed && cameraManager.GetCurrentCameraBehaviour() != null)
         {
             ZoomToDialogue(dialogueScript.playerTransform, dialogueScript.npcTransform, 1f);
             hasZoomed = true;
         }
-
-        else if (!dialogueScript.IsInteracting && hasZoomed)
-        {
-            if (zoomCoroutine != null)
-                StopCoroutine(zoomCoroutine);
-
-            ReturnToOriginalPosition();
-            hasZoomed = false;
-        }
-
     }
 
+    private void HandleDialogueEnd()
+    {
+        if (zoomCoroutine != null)
+            StopCoroutine(zoomCoroutine);
+
+        if (hasZoomed)
+        {
+            zoomCoroutine = StartCoroutine(ReturnToOriginalCoroutine(1f));
+            hasZoomed = false;
+        }
+    }
 
     public void ZoomToDialogue(Transform player, Transform npc, float duration = 1f)
     {
         if (!cameraManager.IsInitialized()) return;
+        Debug.Log("Zoom start");
+        if (originalPos != null)
+        {
+            Destroy(originalPos.gameObject);
+            originalPos = null;
+            originalPosSaved = false;
+        }
 
         if (zoomCoroutine != null)
             StopCoroutine(zoomCoroutine);
 
         zoomCoroutine = StartCoroutine(ZoomCoroutine(player, npc, duration));
     }
-
 
     private IEnumerator ZoomCoroutine(Transform player, Transform npc, float duration)
     {
@@ -89,14 +101,31 @@ public class CameraDialogueZoom : MonoBehaviour
         camTransform.rotation = targetRotation;
     }
 
-    private void ReturnToOriginalPosition()
+    private IEnumerator ReturnToOriginalCoroutine(float duration)
     {
-        if (activeCamera == null || originalPos == null) return;
+        if (activeCamera == null || originalPos == null) yield break;
 
-        activeCamera.transform.position = originalPos.position;
-        activeCamera.transform.rotation = originalPos.rotation;
+        Transform camTransform = activeCamera.transform;
+
+        Vector3 startPos = camTransform.position;
+        Quaternion startRot = camTransform.rotation;
+
+        Vector3 endPos = originalPos.position;
+        Quaternion endRot = originalPos.rotation;
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            camTransform.position = Vector3.Lerp(startPos, endPos, elapsed / duration);
+            camTransform.rotation = Quaternion.Slerp(startRot, endRot, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        camTransform.position = endPos;
+        camTransform.rotation = endRot;
+
         Destroy(originalPos.gameObject);
         originalPosSaved = false;
     }
-
 }

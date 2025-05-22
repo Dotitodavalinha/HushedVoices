@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+        Debug.Log("cargando escena: " + sceneName);
     }
 
     public void ReloadCurrentScene()
