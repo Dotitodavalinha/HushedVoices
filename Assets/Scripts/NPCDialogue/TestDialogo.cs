@@ -7,6 +7,7 @@ public class TestDialogo : MonoBehaviour
     {
         List<DialogueOption> opciones = new List<DialogueOption>()
           {
+
              new DialogueOption("¿Viste a Ben últimamente?", true, true),
              new DialogueOption("¿Cómo van las cosas en casa?", false),
              new DialogueOption("¿Notaste algo raro en el pueblo?", true),
