@@ -14,12 +14,9 @@ public class DialogoUIChloe : MonoBehaviour
     public TMP_Text npcText;
 
     private List<DialogueOption> opcionesOriginales = new List<DialogueOption>();
-
-    //asigno la camara (atado con alambre)
     public Cinemachine.CinemachineFreeLook freeLookCam;
-
-
     [SerializeField] private NPCMoodController moodController;
+
     void Start()
     {
         opcionesPanel.SetActive(false);
@@ -32,29 +29,37 @@ public class DialogoUIChloe : MonoBehaviour
         {
             if (opcionesPanel.activeSelf)
             {
-              
-                opcionesPanel.SetActive(false);
-                cajaDialogo.SetActive(false);
-                npcText.text = "";
-                playerLocker.UnlockMovement();
-
-                //atado con alambre
-                freeLookCam.gameObject.SetActive(true);
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
+                CerrarDialogo();
             }
             else if (zonaInteraccion.jugadorDentro)
             {
-                cajaDialogo.SetActive(true);
-                opcionesPanel.SetActive(true);
-                npcText.text = "Hola Luke!";
-                MostrarOpciones(opcionesOriginales);
-
-                playerLocker.LockMovement();
+                AbrirDialogo("Hola Luke!", opcionesOriginales);
             }
         }
     }
 
+    void CerrarDialogo()
+    {
+        opcionesPanel.SetActive(false);
+        cajaDialogo.SetActive(false);
+        npcText.text = "";
+        playerLocker.UnlockMovement();
+        freeLookCam.gameObject.SetActive(true);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    void AbrirDialogo(string texto, List<DialogueOption> opciones)
+    {
+        cajaDialogo.SetActive(true);
+        opcionesPanel.SetActive(true);
+        npcText.text = texto;
+        MostrarOpciones(opciones);
+        playerLocker.LockMovement();
+        freeLookCam.gameObject.SetActive(false);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
 
     public void MostrarOpciones(List<DialogueOption> opciones)
     {
@@ -68,367 +73,163 @@ public class DialogoUIChloe : MonoBehaviour
         {
             GameObject nuevoBoton = Instantiate(botonOpcionPrefab, opcionesPanel.transform);
             nuevoBoton.GetComponentInChildren<TextMeshProUGUI>().text = opcion.text;
-
             nuevoBoton.GetComponent<Button>().onClick.AddListener(() =>
             {
                 OnElegirOpcion(opcion);
             });
         }
     }
-    public void MostrarSubOpciones1()
+
+    void MostrarSubOpciones(List<DialogueOption> subOpciones, System.Action<DialogueOption> callback)
     {
         foreach (Transform child in opcionesPanel.transform)
         {
             Destroy(child.gameObject);
         }
 
-        List<DialogueOption> subOpciones = new List<DialogueOption>()
-    {
-        new DialogueOption("Triple expresso", true),
-        new DialogueOption("Cafe helado", true),
-        new DialogueOption("No quiero nada", true)
-    };
-
         foreach (DialogueOption sub in subOpciones)
         {
             GameObject nuevoBoton = Instantiate(botonOpcionPrefab, opcionesPanel.transform);
             nuevoBoton.GetComponentInChildren<TextMeshProUGUI>().text = sub.text;
-
             nuevoBoton.GetComponent<Button>().onClick.AddListener(() =>
             {
-                ManejarSubOpcion(sub);
+                callback(sub);
             });
-
         }
     }
+
+    public void MostrarSubOpciones1()
+    {
+        MostrarSubOpciones(new List<DialogueOption>
+        {
+            new DialogueOption("Triple expresso", false),
+            new DialogueOption("Cafe helado", false),
+            new DialogueOption("No quiero nada", false)
+        }, ManejarSubOpcion);
+    }
+
     public void MostrarSubOpciones2()
     {
-        foreach (Transform child in opcionesPanel.transform)
+        MostrarSubOpciones(new List<DialogueOption>
         {
-            Destroy(child.gameObject);
-        }
-
-        List<DialogueOption> subOpciones = new List<DialogueOption>()
-    {
-        new DialogueOption("¿Sabes lo que le paso a Ben?", true)
-    };
-
-        foreach (DialogueOption sub in subOpciones)
-        {
-            GameObject nuevoBoton = Instantiate(botonOpcionPrefab, opcionesPanel.transform);
-            nuevoBoton.GetComponentInChildren<TextMeshProUGUI>().text = sub.text;
-
-            nuevoBoton.GetComponent<Button>().onClick.AddListener(() =>
-            {
-                ManejarSubOpcion2(sub);
-            });
-
-        }
+            new DialogueOption("¿Sabes lo que le paso a Ben?", true)
+        }, ManejarSubOpcion2);
     }
 
     public void MostrarSubOpciones3()
     {
-        foreach (Transform child in opcionesPanel.transform)
+        MostrarSubOpciones(new List<DialogueOption>
         {
-            Destroy(child.gameObject);
-        }
-
-        List<DialogueOption> subOpciones = new List<DialogueOption>()
-    {
-        new DialogueOption("Gracias por la informacion", false),
-        new DialogueOption("¿Sabes que era lo que queria?", true)
-    };
-
-        foreach (DialogueOption sub in subOpciones)
-        {
-            GameObject nuevoBoton = Instantiate(botonOpcionPrefab, opcionesPanel.transform);
-            nuevoBoton.GetComponentInChildren<TextMeshProUGUI>().text = sub.text;
-
-            nuevoBoton.GetComponent<Button>().onClick.AddListener(() =>
-            {
-                ManejarSubOpcion3(sub);
-            });
-
-        }
+            new DialogueOption("Gracias por la informacion", false),
+            new DialogueOption("¿Sabes que era lo que queria?", true)
+        }, ManejarSubOpcion3);
     }
 
     public void MostrarSubOpciones4()
     {
-        foreach (Transform child in opcionesPanel.transform)
+        MostrarSubOpciones(new List<DialogueOption>
         {
-            Destroy(child.gameObject);
-        }
+            new DialogueOption("No, para nada, el esta bien", false),
+            new DialogueOption("El no volvio y estoy buscandolo", true)
+        }, ManejarSubOpcion4);
+    }
 
-        List<DialogueOption> subOpciones = new List<DialogueOption>()
+    void ProcesarReaccion(DialogueOption sub)
     {
-        new DialogueOption("No, para nada, el esta bien", false),
-        new DialogueOption("El no volvio y estoy buscandolo", true)
-    };
-
-        foreach (DialogueOption sub in subOpciones)
+        if (sub.isVeryDangerous)
         {
-            GameObject nuevoBoton = Instantiate(botonOpcionPrefab, opcionesPanel.transform);
-            nuevoBoton.GetComponentInChildren<TextMeshProUGUI>().text = sub.text;
-
-            nuevoBoton.GetComponent<Button>().onClick.AddListener(() =>
-            {
-                ManejarSubOpcion4(sub);
-            });
-
+            moodController.SetMoodAngry();
+        }
+        else if (sub.isDangerous)
+        {
+            moodController.SetMoodAngry();
+        }
+        else
+        {
+            moodController.SetMoodHappy();
         }
     }
 
     void ManejarSubOpcion(DialogueOption sub)
     {
-        Debug.Log("Subopción elegida: " + sub.text);
-        opcionesPanel.SetActive(false);
-        npcText.text = "";
-
+        npcText.text = sub.text.Contains("No quiero") ? "¿Necesitas algo entonces?" : "Ahora lo preparo, ¿Algo mas?";
         if (sub.text.Contains("Triple"))
-        {
-            npcText.text = "Ahora lo preparo, ¿Algo mas?";
-            // sumar alerta, activar eventos, etc.
-            // 
-            // GameManager.Instance.AumentarAlerta(1);
-        }
-        else if (sub.text.Contains("Cafe"))
-        {
-            npcText.text = "Ahora lo preparo, ¿Algo mas?";
-
-        }
-        else if (sub.text.Contains("No quiero"))
-        {
-            npcText.text = "¿Necesitas algo entonces?";
-
-        }
-
-        if (sub.isVeryDangerous)
-        {
-            Debug.Log("¡Esta opción es MUY peligrosa! Mostrando opciones secundarias...");
-            MostrarSubOpciones2();
-            return;
-        }
-
-        if (sub.isDangerous)
-        {
-            Debug.Log("Opción peligrosa. El NPC podría reaccionar...");
-        }
-
-        if (sub.isVeryDangerous)
-        {
-            moodController.SetMoodAngry();
-            MostrarSubOpciones2();
-            return;
-        }
-
-        if (sub.isDangerous)
-        {
-            moodController.SetMoodAngry();
-        }
-        else
         {
             moodController.SetMoodHappy();
         }
-
-       // opcionesPanel.SetActive(false);
-
-
-        /*  if (sub.text.Contains("Insistir"))
-          {
-              moodController.SetMoodAngry();
-          }
-          else if (sub.text.Contains("Alejarse"))
-          {
-              moodController.SetMoodNormal();
-          }*/
+        else if (sub.text.Contains("Cafe"))
+        {
+            moodController.SetMoodHappy();
+        }
+       else if (sub.text.Contains("No quiero"))
+        {
+            moodController.SetMoodHappy();
+        }
+        ProcesarReaccion(sub);
+        MostrarSubOpciones2();
     }
 
     void ManejarSubOpcion2(DialogueOption sub)
     {
-        Debug.Log("Subopción elegida: " + sub.text);
-        opcionesPanel.SetActive(false);
-        npcText.text = "";
-
+        npcText.text = "Se pidio un triple espresso y se fue a sentar a la mesa 2";
+        ProcesarReaccion(sub);
+        MostrarSubOpciones3();
         if (sub.text.Contains("Ben"))
-        {
-            npcText.text = "Se pidio un triple espresso y se fue a sentar a la mesa 2";
-            // sumar alerta, activar eventos, etc.
-            // 
-            // GameManager.Instance.AumentarAlerta(1);
-        }
-
-        if (sub.isVeryDangerous)
-        {
-            Debug.Log("¡Esta opción es MUY peligrosa! Mostrando opciones secundarias...");
-            MostrarSubOpciones3();
-            return;
-        }
-
-        if (sub.isDangerous)
-        {
-            Debug.Log("Opción peligrosa. El NPC podría reaccionar...");
-        }
-
-        if (sub.isVeryDangerous)
-        {
-            moodController.SetMoodAngry();
-            MostrarSubOpciones3();
-            return;
-        }
-
-        if (sub.isDangerous)
-        {
-            moodController.SetMoodAngry();
-        }
-        else
         {
             moodController.SetMoodHappy();
         }
-
-        opcionesPanel.SetActive(false);
-
-
-        /*  if (sub.text.Contains("Insistir"))
-          {
-              moodController.SetMoodAngry();
-          }
-          else if (sub.text.Contains("Alejarse"))
-          {
-              moodController.SetMoodNormal();
-          }*/
     }
 
     void ManejarSubOpcion3(DialogueOption sub)
     {
-        Debug.Log("Subopción elegida: " + sub.text);
-        opcionesPanel.SetActive(false);
-        npcText.text = "";
-
         if (sub.text.Contains("informacion"))
         {
             npcText.text = "Suerte";
-            // sumar alerta, activar eventos, etc.
-            // 
-            // GameManager.Instance.AumentarAlerta(1);
-        }
-
-        if (sub.text.Contains("Sabes"))
-        {
-            npcText.text = "Vino con una lista de personas pero solo me acuerdo de la primera, la maestra del colegio. ¿¡Le paso algo!?";
-            // sumar alerta, activar eventos, etc.
-            // 
-            // GameManager.Instance.AumentarAlerta(1);
-        }
-
-        if (sub.isVeryDangerous)
-        {
-            Debug.Log("¡Esta opción es MUY peligrosa! Mostrando opciones secundarias...");
-            MostrarSubOpciones4();
-            return;
-        }
-
-        if (sub.isDangerous)
-        {
-            Debug.Log("Opción peligrosa. El NPC podría reaccionar...");
-        }
-
-        if (sub.isVeryDangerous)
-        {
-            moodController.SetMoodAngry();
-            MostrarSubOpciones4();
-            return;
-        }
-
-        if (sub.isDangerous)
-        {
-            moodController.SetMoodAngry();
+        ProcesarReaccion(sub);
+        CerrarDialogo();
         }
         else
         {
+            npcText.text = "Vino con una lista de personas pero solo me acuerdo de la primera, la maestra del colegio. ¿¡Le paso algo!?";
+
+        ProcesarReaccion(sub);
+        MostrarSubOpciones4();
+        }
+        if (sub.text.Contains("Gracias"))
+        {
             moodController.SetMoodHappy();
         }
-
-        opcionesPanel.SetActive(false);
-
-
-        /*  if (sub.text.Contains("Insistir"))
-          {
-              moodController.SetMoodAngry();
-          }
-          else if (sub.text.Contains("Alejarse"))
-          {
-              moodController.SetMoodNormal();
-          }*/
     }
 
     void ManejarSubOpcion4(DialogueOption sub)
     {
-        Debug.Log("Subopción elegida: " + sub.text);
-        opcionesPanel.SetActive(false);
-        npcText.text = "";
+        npcText.text = sub.text.Contains("para nada")
+            ? "Ah me habias asustado, termina tu cafe porfavor"
+            : "NO, POBRE BEN QUE LE HABRA OCURRIDO!!!!";
 
-        if (sub.text.Contains("para nada"))
-        {
-            npcText.text = "Ah me habias asustado, termina tu cafe porfavor";
-            // sumar alerta, activar eventos, etc.
-            // 
-            // GameManager.Instance.AumentarAlerta(1);
-        }
-
+        ProcesarReaccion(sub);
+        CerrarDialogo();
         if (sub.text.Contains("no volvio"))
         {
-            npcText.text = "NO, POBRE BEN QUE LE HABRA OCURRIDO!!!!";
-            // sumar alerta, activar eventos, etc.
-            // 
-            // GameManager.Instance.AumentarAlerta(1);
+            moodController.SetMoodAngry();
         }
-
-        opcionesPanel.SetActive(false);
-
     }
-
 
     void OnElegirOpcion(DialogueOption opcion)
     {
         Debug.Log("Elegiste: " + opcion.text);
 
-        if (opcion.text.Contains("cafe"))
+        if (opcion.text.ToLower().Contains("cafe"))
         {
             npcText.text = "¿Que te gustaria pedir?";
+            MostrarSubOpciones1();
         }
        
-
-
-        if (opcion.isVeryDangerous)
-        {
-            Debug.Log("¡Esta opción es MUY peligrosa! Mostrando opciones secundarias...");
-            MostrarSubOpciones1();
-            return;
-        }
-
-        if (opcion.isDangerous)
-        {
-            Debug.Log("Opción peligrosa. El NPC podría reaccionar...");
-        }
-
-        if (opcion.isVeryDangerous)
-        {
-            moodController.SetMoodAngry();
-            MostrarSubOpciones1();
-            return;
-        }
-
-        if (opcion.isDangerous)
-        {
-            moodController.SetMoodAngry();
-        }
-        else
+        ProcesarReaccion(opcion);
+        if (opcion.text.Contains("Hola"))
         {
             moodController.SetMoodHappy();
         }
 
-     //   opcionesPanel.SetActive(false);
-
     }
-
 }
