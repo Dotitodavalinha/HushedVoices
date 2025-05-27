@@ -6,8 +6,8 @@ public class PlayerMovementLocker : MonoBehaviour
     [SerializeField] private Player_Movement player;
 
     //[SerializeField] private bool isLocked = false;
-
    
+
     public void LockMovement()
     {       
             player.enabled = false;       
