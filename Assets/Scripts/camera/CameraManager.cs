@@ -15,7 +15,7 @@ public class CameraManager : MonoBehaviour
     private void Awake()
     { 
         initialCamera = initialCameraBehaviour as ICameraController;
-
+        
         SwitchToCamera(initialCamera); // otra vez pq esta medio bug
 
         //apagamos todas las camaras
@@ -40,6 +40,7 @@ public class CameraManager : MonoBehaviour
         if (initialCamera != null)
         {
             Debug.Log($"Initial camera: {initialCamera}, Behaviour: {initialCameraBehaviour}");
+            
             SwitchToCamera(initialCamera);
             Debug.LogWarning("Cámara inicial es " + initialCamera);
         }
@@ -47,7 +48,7 @@ public class CameraManager : MonoBehaviour
         {
             Debug.LogWarning("Cámara inicial no válida.");
         }
-
+        
         isInitialized = true;
     }
 
