@@ -18,9 +18,9 @@ public class OsilacionCamera : MonoBehaviour
 
     void Update()
     {
-        float wobbleX = Mathf.PerlinNoise(Time.time * wobbleSpeed, 0f) - 0.5f;
-        float wobbleY = Mathf.PerlinNoise(0f, Time.time * wobbleSpeed) - 0.5f;
-
-        transform.localPosition = initialPosition + new Vector3(wobbleX, wobbleY, 0f) * wobbleIntensity;
+        float yOffset = Mathf.Sin(Time.time * wobbleSpeed) * wobbleIntensity;
+        transform.localPosition = initialPosition + new Vector3(0f, yOffset, 0f);
     }
+
+
 }

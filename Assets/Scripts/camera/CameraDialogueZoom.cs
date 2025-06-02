@@ -4,7 +4,7 @@ using UnityEngine;
 public class CameraDialogueZoom : MonoBehaviour
 {
     [SerializeField] private CameraManager cameraManager;
-    [SerializeField] private TextDefault dialogueScript;
+    [SerializeField] private DialogueManager dialogueScript;
 
     private Camera activeCamera;
     private Transform originalPos;
@@ -23,8 +23,8 @@ public class CameraDialogueZoom : MonoBehaviour
     {
         if (dialogueScript != null)
         {
-            dialogueScript.OnDialogueStart += HandleDialogueStart;
-            dialogueScript.OnDialogueEnd += HandleDialogueEnd;
+          //  dialogueScript.OnDialogueStart += HandleDialogueStart;
+          //  dialogueScript.OnDialogueEnd += HandleDialogueEnd;
         }
     }
 
@@ -33,7 +33,7 @@ public class CameraDialogueZoom : MonoBehaviour
     {
         if (!hasZoomed && cameraManager.GetCurrentCameraBehaviour() != null)
         {
-            ZoomToDialogue(dialogueScript.playerTransform, dialogueScript.npcTransform, 1f);
+           // ZoomToDialogue(dialogueScript.playerTransform, dialogueScript.npcTransform, 1f);
             hasZoomed = true;
         }
     }

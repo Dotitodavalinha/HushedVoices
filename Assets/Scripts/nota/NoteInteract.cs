@@ -5,12 +5,7 @@ using TMPro;
 
 public class NoteInteract : MonoBehaviour
 {
-
     public GameObject NoteImage;
-    public float InteractRange = 5f;
-   
-    //public Sprite spriteNoteDark;
-    //public Sprite spriteNoteColor;
 
     [SerializeField]private PlayerMovementLocker playerLocker;
 
@@ -19,11 +14,12 @@ public class NoteInteract : MonoBehaviour
 
     private GameObject Player;
 
-    [SerializeField] public TMP_Text text;
+    [SerializeField] public GameObject text;
     [SerializeField] public NOTEInteractionZone zonaInteraccion;
     void Start()
     {
-        text.text = " ";
+        text.SetActive(false);
+
         NoteImage.SetActive(false);
         Player = GameObject.FindWithTag("Player");
        
@@ -50,16 +46,18 @@ public class NoteInteract : MonoBehaviour
         }
         if (InRange && NoteIsOpen == false)
         {
-            text.text = "Press 'E'";
+            text.SetActive(true);
+         
         }
         if (!InRange)
         {
-            text.text = "";
+            text.SetActive(false);
         }
 
         if (NoteIsOpen)
         {
             NoteImage.SetActive(true);
+            text.SetActive(false);
         }
         if (!NoteIsOpen)
         {
@@ -68,15 +66,8 @@ public class NoteInteract : MonoBehaviour
 
     }
 
-
     void ShowNote()
     {
-        if (!ProgressManager.Instance.BensNoteUnlocked)
-        {
-            ProgressManager.Instance.BensNoteUnlocked = true;
-            Debug.Log("Desbloqueaste la nota de Ben");
-        }
-
         NoteIsOpen = !NoteIsOpen;
 
         if (NoteIsOpen)
