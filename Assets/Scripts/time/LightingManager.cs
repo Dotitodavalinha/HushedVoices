@@ -5,9 +5,8 @@ using UnityEngine;
 [ExecuteAlways]
 public class LightingManager : MonoBehaviour
 {
-    public Material DaySky;
-    public Material NightSky;
-    public Material NoonSky;
+    public Material Sky;
+
     [SerializeField] private Light DirectionalLight;
     [SerializeField] private LightingPreset preset;
     [SerializeField, Range(0, 24)] private float TimeOfDay;
@@ -19,7 +18,7 @@ public class LightingManager : MonoBehaviour
         }
         if (Application.isPlaying)
         {
-            TimeOfDay += Time.deltaTime;
+            TimeOfDay += Time.deltaTime/2;
             TimeOfDay %= 24;
             UpdateLighting(TimeOfDay / 24);
         }
@@ -27,26 +26,14 @@ public class LightingManager : MonoBehaviour
         {
             UpdateLighting(TimeOfDay / 24);
         }
-       
+        Sky.SetFloat("_TimeOfDay", TimeOfDay);
     }
 
     private void UpdateLighting(float timePercent)
     {
         RenderSettings.ambientLight = preset.AmbientColor.Evaluate(timePercent);
         RenderSettings.fogColor = preset.FogColor.Evaluate(timePercent);
-        if (TimeOfDay > 7 && TimeOfDay < 19)
-        {
-            RenderSettings.skybox = DaySky;
-           
-        }
-        else if (TimeOfDay > 21 || TimeOfDay < 3)
-        {
-            RenderSettings.skybox = NightSky;
-        }
-        else
-        {
-            RenderSettings.skybox = NoonSky;
-        }
+
         if (DirectionalLight != null)
         {
             DirectionalLight.color = preset.DirectionalColor.Evaluate(timePercent);
