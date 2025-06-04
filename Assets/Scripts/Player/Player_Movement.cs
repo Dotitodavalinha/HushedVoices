@@ -14,6 +14,9 @@ public class Player_Movement : MonoBehaviour
     private Camera lastCam;
     private bool holdingMovementInput;
     private bool isStreetScene;
+    public Animator anim;
+
+
 
     void Start()
     {
@@ -22,12 +25,17 @@ public class Player_Movement : MonoBehaviour
         controller = GetComponent<CharacterController>();
         currentCam = Camera.main;
         isStreetScene = SceneManager.GetActiveScene().name == "Street";
+
+
     }
 
     void Update()
     {
         Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical")).normalized;
         holdingMovementInput = input.magnitude >= 0.1f;
+
+        anim.SetFloat("Speed", input.magnitude);
+
 
         if (!isStreetScene && !holdingMovementInput && Camera.main != currentCam)
         {
