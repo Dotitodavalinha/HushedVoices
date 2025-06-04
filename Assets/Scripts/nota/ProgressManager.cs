@@ -1,22 +1,24 @@
 using UnityEngine;
-using UnityEngine.UI;
+using System;
 using System.Collections.Generic;
 
 public class ProgressManager : MonoBehaviour
 {
-    
+
     public static ProgressManager Instance;
 
     public bool BensNoteUnlocked;
     public bool CoffeeShopUnlocked;
-    // mas bools según los avances
+
+    public event Action OnBensNoteUnlocked;
+    public event Action OnCoffeeShopUnlocked;
 
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); 
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -24,4 +26,15 @@ public class ProgressManager : MonoBehaviour
         }
     }
 
+    public void UnlockBensNote()
+    {
+        BensNoteUnlocked = true;
+        OnBensNoteUnlocked?.Invoke();
+    }
+
+    public void UnlockCoffeeShop()
+    {
+        CoffeeShopUnlocked = true;
+        OnCoffeeShopUnlocked?.Invoke();
+    }
 }

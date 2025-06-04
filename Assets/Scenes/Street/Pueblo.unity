@@ -2761,7 +2761,7 @@ GameObject:
   - component: {fileID: 168664416}
   - component: {fileID: 168664417}
   m_Layer: 0
-  m_Name: Npc Marina
+  m_Name: Marina
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2872,6 +2872,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: MARINA
   moodController: {fileID: 168664417}
+  currentDialogue: {fileID: 11400000, guid: 1ea010d75fe7d6e4f87fad9aadc9ab0b, type: 2}
+  eventDialogueMappings:
+  - {fileID: 11400000, guid: 8570ee01e2cf1664d93cb08e9290ae0f, type: 2}
 --- !u!114 &168664417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32126,6 +32129,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: Chloe
   moodController: {fileID: 919132147540460679}
+  currentDialogue: {fileID: 0}
+  eventDialogueMappings: []
 --- !u!1 &919132149309368188
 GameObject:
   m_ObjectHideFlags: 0
@@ -32965,6 +32970,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: Police
   moodController: {fileID: 1039233912}
+  currentDialogue: {fileID: 0}
+  eventDialogueMappings: []
 --- !u!136 &5834134081996258045
 CapsuleCollider:
   m_ObjectHideFlags: 0
