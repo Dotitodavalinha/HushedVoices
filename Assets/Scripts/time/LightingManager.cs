@@ -5,7 +5,7 @@ using UnityEngine;
 [ExecuteAlways]
 public class LightingManager : MonoBehaviour
 {
-    public Material Sky;
+    [SerializeField] private Material Sky;
 
     [SerializeField] private Light DirectionalLight;
     [SerializeField] private LightingPreset preset;
