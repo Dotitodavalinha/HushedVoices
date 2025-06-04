@@ -3,7 +3,7 @@ using TMPro;
 
 public class DialogueTrigger : MonoBehaviour
 {
-    [SerializeField] private DialogueSO dialogue;
+   // [SerializeField] private DialogueSO dialogue;
     [SerializeField] private GameObject pressEText;
 
     [SerializeField] public bool playerInRange = false;
@@ -29,7 +29,7 @@ public class DialogueTrigger : MonoBehaviour
             }
             else
             {
-                npcDialogue.StartDialogue(dialogue);
+                npcDialogue.StartDialogue(npcDialogue.currentRoot);
 
 
                 pressEText.SetActive(false);

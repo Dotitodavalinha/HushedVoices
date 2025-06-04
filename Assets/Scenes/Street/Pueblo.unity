@@ -2871,10 +2871,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcName: MARINA
+  roots:
+  - {fileID: 11400000, guid: 69482e65ec0e25c4c8a5f201268b35b4, type: 2}
+  currentRoot: {fileID: 11400000, guid: 1ea010d75fe7d6e4f87fad9aadc9ab0b, type: 2}
   moodController: {fileID: 168664417}
-  currentDialogue: {fileID: 11400000, guid: 1ea010d75fe7d6e4f87fad9aadc9ab0b, type: 2}
-  eventDialogueMappings:
-  - {fileID: 11400000, guid: 8570ee01e2cf1664d93cb08e9290ae0f, type: 2}
 --- !u!114 &168664417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3613,7 +3613,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e49731479bf07b042b475cb944ab3ad2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: {fileID: 11400000, guid: 1ea010d75fe7d6e4f87fad9aadc9ab0b, type: 2}
   pressEText: {fileID: 40136079}
   playerInRange: 0
   npcDialogue: {fileID: 168664416}
@@ -16333,7 +16332,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e49731479bf07b042b475cb944ab3ad2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: {fileID: 11400000, guid: 69482e65ec0e25c4c8a5f201268b35b4, type: 2}
   pressEText: {fileID: 1999333022}
   playerInRange: 0
   npcDialogue: {fileID: 5834134081996258044}
@@ -32128,9 +32126,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcName: Chloe
+  roots: []
+  currentRoot: {fileID: 11400000, guid: be938ae49b1b6bd43ae38357f6d2d0f5, type: 2}
   moodController: {fileID: 919132147540460679}
-  currentDialogue: {fileID: 0}
-  eventDialogueMappings: []
 --- !u!1 &919132149309368188
 GameObject:
   m_ObjectHideFlags: 0
@@ -32969,9 +32967,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcName: Police
+  roots: []
+  currentRoot: {fileID: 11400000, guid: 69482e65ec0e25c4c8a5f201268b35b4, type: 2}
   moodController: {fileID: 1039233912}
-  currentDialogue: {fileID: 0}
-  eventDialogueMappings: []
 --- !u!136 &5834134081996258045
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -33142,7 +33140,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e49731479bf07b042b475cb944ab3ad2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: {fileID: 11400000, guid: be938ae49b1b6bd43ae38357f6d2d0f5, type: 2}
   pressEText: {fileID: 575492400}
   playerInRange: 0
   npcDialogue: {fileID: 919132147540460680}

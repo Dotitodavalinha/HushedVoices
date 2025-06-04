@@ -1,64 +1,27 @@
+using System.Collections.Generic;
 using UnityEngine;
-
 
 public class NPCDialogue : MonoBehaviour
 {
-
+   
     public string npcName;
+    public List<DialogueSO> roots; // aca pasas todos los dialogos posibles q va a tener(roots) dsp llamas a ProgressManager.Instance.CambiarRootNPC("npcname", "RootName"); y cambiara de dialogo !
+    [SerializeField]public DialogueSO currentRoot;
+
     public NPCMoodController moodController;
-    public DialogueSO currentDialogue;
 
-    [SerializeField] private EventDialogueMappingSO[] eventDialogueMappings;
-
-    void OnEnable()
+   
+    public void GoToRoot(string rootName)
     {
-        if (ProgressManager.Instance != null)
-        {
-            ProgressManager.Instance.OnBensNoteUnlocked += HandleBensNoteUnlocked;
-            ProgressManager.Instance.OnCoffeeShopUnlocked += HandleCoffeeShopUnlocked;
-        }
+        var root = roots.Find(r => r.name == rootName);
+        if (root != null)
+            currentRoot = root; Debug.Log("Se cambio el root excitosamente");
     }
 
-    void OnDisable()
-    {
-        if (ProgressManager.Instance != null)
-        {
-            ProgressManager.Instance.OnBensNoteUnlocked -= HandleBensNoteUnlocked;
-            ProgressManager.Instance.OnCoffeeShopUnlocked -= HandleCoffeeShopUnlocked;
-        }
-    }
 
-    private void HandleBensNoteUnlocked()
-    {
-        UpdateDialogue("BensNoteUnlocked");
-    }
-
-    private void HandleCoffeeShopUnlocked()
-    {
-        UpdateDialogue("CoffeeShopUnlocked");
-    }
-
-    private void UpdateDialogue(string eventName)
-    {
-        foreach (var mapping in eventDialogueMappings)
-        {
-            if (mapping.eventName == eventName)
-            {
-                foreach (var entry in mapping.npcDialogues)
-                {
-                    if (entry.npcName == npcName)
-                    {
-                        currentDialogue = entry.dialogue;
-                        return;
-                    }
-                }
-            }
-        }
-    }
     public void StartDialogue(DialogueSO dialogue)
     {
         DialogueManager.Instance.StartDialogue(dialogue, this);
     }
-
 
 }
