@@ -8709,6 +8709,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: be095c4baff2fe8428b20bbca37f7bac, type: 2}
+    - target: {fileID: 5866666021909216657, guid: eebc56c7960218d48a1cfd0289d5b41d, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 4389a879383759a4f8f30687162ff5fe, type: 2}
     - target: {fileID: 8697622322353277003, guid: eebc56c7960218d48a1cfd0289d5b41d, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -19303,9 +19307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e3d630572a27af429212b3397c1752f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DaySky: {fileID: 2100000, guid: 9106c4b6f86661148998c5bd2ef5fb57, type: 2}
-  NightSky: {fileID: 2100000, guid: 414f19e57786bcc4fba32f3777907974, type: 2}
-  NoonSky: {fileID: 2100000, guid: 08df9c3cb73706d4cba0a82015f0b9e0, type: 2}
+  Sky: {fileID: 0}
   DirectionalLight: {fileID: 730473044}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
   TimeOfDay: 10.8
@@ -22128,6 +22130,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1480155303}
   m_Mesh: {fileID: 3102628241457482905, guid: 504e2ed3dbf002d45b53895b382a09b4, type: 3}
+--- !u!95 &1488015558 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: eebc56c7960218d48a1cfd0289d5b41d, type: 3}
+  m_PrefabInstance: {fileID: 580588730}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1490493792
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32279,6 +32286,7 @@ MonoBehaviour:
   cameraDistance: 5
   cameraHeight: 3
   rotationSpeed: 5
+  anim: {fileID: 1488015558}
 --- !u!143 &3469287837361680997
 CharacterController:
   m_ObjectHideFlags: 0
