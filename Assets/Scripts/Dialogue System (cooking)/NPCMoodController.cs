@@ -9,7 +9,7 @@ public class NPCMoodController : MonoBehaviour
     public Sprite happyFace;
     public Sprite angryFace;
 
-    
+
     [SerializeField] private Transform moodIconTransform;
 
     //asigno policias y materiales
@@ -68,6 +68,11 @@ public class NPCMoodController : MonoBehaviour
         spriteRenderer.sprite = angryFace;
 
         //alambreee
+        if (JailManager.Instance != null)
+        {
+            JailManager.Instance.Increment();
+
+        }
 
         paranoia.SetInt("_vig_amount", 1);
         ambient.SetFloat("dayNight", 0f);
