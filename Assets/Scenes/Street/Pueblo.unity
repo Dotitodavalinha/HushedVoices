@@ -17691,6 +17691,55 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1157774749}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1165196959
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1165196961}
+  - component: {fileID: 1165196960}
+  m_Layer: 0
+  m_Name: GameEvents
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1165196960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165196959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88d61a7092271fb46b1a9b671b43187b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  respuestas:
+  - {fileID: 11400000, guid: 62ad4920bafbcda4793b8b7a8ebd62b8, type: 2}
+  - {fileID: 11400000, guid: fa24c6b08dbac9b409717f1277b9cb42, type: 2}
+  - {fileID: 11400000, guid: 6bf767738e7e5b34085bc60461b6b277, type: 2}
+  ColegioStreet: {fileID: 75990524}
+--- !u!4 &1165196961
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165196959}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -12.309, y: 1.8643215, z: 49.716}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1168309056
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25106,6 +25155,7 @@ MonoBehaviour:
   Policez: 0
   ChangeDialoguePolicez: 0
   Policeznt: 0
+  ColegioStreet: 0
 --- !u!4 &1617149331
 Transform:
   m_ObjectHideFlags: 0
@@ -27303,7 +27353,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1784185211
 Transform:
   m_ObjectHideFlags: 0
@@ -34026,4 +34076,5 @@ SceneRoots:
   - {fileID: 1104037539}
   - {fileID: 1652332994}
   - {fileID: 700994089}
+  - {fileID: 1165196961}
   - {fileID: 31543527}

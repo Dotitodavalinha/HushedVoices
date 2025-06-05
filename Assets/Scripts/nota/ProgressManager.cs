@@ -12,6 +12,7 @@ public class ProgressManager : MonoBehaviour
     public bool Policez;
     public bool ChangeDialoguePolicez;
     public bool Policeznt;
+    public bool ColegioStreet;
 
 
 
