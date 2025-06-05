@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections.Generic;
 
@@ -14,6 +15,8 @@ public class DialogueManager : MonoBehaviour
     private NPCDialogue currentNPC;
 
 
+
+
     private DialogueNodeSO currentNode;
     public bool IsOpen => dialoguePanel.activeSelf;
 
@@ -23,8 +26,9 @@ public class DialogueManager : MonoBehaviour
 
     private void Awake()
     {
-        dialoguePanel.SetActive(false);
         DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -32,6 +36,12 @@ public class DialogueManager : MonoBehaviour
         }
 
         Instance = this;
+
+    }
+
+    private void Start()
+    {
+        EndDialogue();
     }
     public void StartDialogue(DialogueSO dialogue, NPCDialogue npc)
     {
@@ -97,4 +107,44 @@ public class DialogueManager : MonoBehaviour
         movementLocker.UnlockMovement();
         currentNode = null;
     }
+
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (dialoguePanel == null)
+        {
+            GameObject dialogueCanvas = GameObject.Find("DialogueCanvas");
+
+            if (dialogueCanvas != null)
+            {
+                dialoguePanel = dialogueCanvas.transform.Find("DialoguePanel")?.gameObject;
+                if (dialoguePanel != null)
+                {
+                    responseContainer = dialoguePanel.transform.Find("ButtonContainer");
+
+                    // Buscar dentro de DialogueBox
+                    Transform dialogueBox = dialoguePanel.transform.Find("DialogueBox");
+                    if (dialogueBox != null)
+                    {
+                        npcNameText = dialogueBox.transform.Find("NombreNPC")?.GetComponent<TextMeshProUGUI>();
+                        npcText = dialogueBox.transform.Find("DialogoNPC")?.GetComponent<TextMeshProUGUI>();
+                    }
+
+                    dialoguePanel.SetActive(false);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("No se encontró DialogueCanvas en la escena.");
+            }
+        }
+
+        if (movementLocker == null)
+        {
+            movementLocker = FindObjectOfType<PlayerMovementLocker>();
+        }
+    }
+
 }
+
+

@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class Player_Movement : MonoBehaviour
 {
     public float moveSpeed = 5f;
+    public float RunMagnitude = 1.5f;
     public float cameraFollowSpeed = 5f;
     public float cameraDistance = 5f;
     public float cameraHeight = 3f;
@@ -16,8 +17,6 @@ public class Player_Movement : MonoBehaviour
     private bool isStreetScene;
     public Animator anim;
 
-
-
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -25,8 +24,6 @@ public class Player_Movement : MonoBehaviour
         controller = GetComponent<CharacterController>();
         currentCam = Camera.main;
         isStreetScene = SceneManager.GetActiveScene().name == "Street";
-
-
     }
 
     void Update()
@@ -35,7 +32,6 @@ public class Player_Movement : MonoBehaviour
         holdingMovementInput = input.magnitude >= 0.1f;
 
         anim.SetFloat("Speed", input.magnitude);
-
 
         if (!isStreetScene && !holdingMovementInput && Camera.main != currentCam)
         {
@@ -51,12 +47,10 @@ public class Player_Movement : MonoBehaviour
 
         if (isStreetScene)
         {
-            // Movimiento en base al propio personaje
             moveDir = transform.forward * input.z + transform.right * input.x;
         }
         else
         {
-            // Movimiento basado en la cámara
             Camera camToUse = lastCam != null ? lastCam : currentCam;
             Vector3 camForward = camToUse.transform.forward;
             Vector3 camRight = camToUse.transform.right;
@@ -71,9 +65,9 @@ public class Player_Movement : MonoBehaviour
 
         if (holdingMovementInput)
         {
-            controller.Move(moveDir * moveSpeed * Time.deltaTime);
+            float speedMultiplier = Input.GetKey(KeyCode.LeftShift) ? RunMagnitude : 1f;
+            controller.Move(moveDir.normalized * moveSpeed * speedMultiplier * Time.deltaTime);
 
-            // Rotar hacia la dirección de movimiento
             if (moveDir != Vector3.zero)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(moveDir, Vector3.up);
@@ -81,12 +75,11 @@ public class Player_Movement : MonoBehaviour
             }
         }
 
-        // Hacer que la cámara siga al jugador en "street"
         if (isStreetScene && currentCam != null)
         {
             Vector3 targetCamPos = transform.position - transform.forward * cameraDistance + Vector3.up * cameraHeight;
             currentCam.transform.position = Vector3.Lerp(currentCam.transform.position, targetCamPos, cameraFollowSpeed * Time.deltaTime);
-            currentCam.transform.LookAt(transform.position + Vector3.up * 1.5f); // Mirar al personaje
+            currentCam.transform.LookAt(transform.position + Vector3.up * 1.5f);
         }
     }
 }
