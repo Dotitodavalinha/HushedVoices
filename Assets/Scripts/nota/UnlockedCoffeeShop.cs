@@ -9,7 +9,6 @@ public class UnlockedCoffeeShop : MonoBehaviour
         if (!other.CompareTag("Player")) return;
 
         ProgressManager.Instance.CoffeeShopUnlocked = true;
-        ProgressManager.Instance.CambiarRootNPC("MARINA", "RootPolice0"); //testeando cambio(funciono)
 
     }
 

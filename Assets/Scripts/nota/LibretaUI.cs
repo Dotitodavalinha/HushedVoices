@@ -9,6 +9,9 @@ public class LibretaUI : MonoBehaviour
     [SerializeField] private GameObject libretaCanvas;
     [SerializeField] private GameObject notaBenUI;
     [SerializeField] private GameObject cafeteriaUI;
+    [SerializeField] private GameObject PoliciazUI;
+    [SerializeField] private GameObject PolicezntUI;
+
 
     private bool libretaAbierta = false;
 
@@ -35,6 +38,8 @@ public class LibretaUI : MonoBehaviour
     {
         notaBenUI.SetActive(ProgressManager.Instance.BensNoteUnlocked);
         cafeteriaUI.SetActive(ProgressManager.Instance.CoffeeShopUnlocked);
+        PoliciazUI.SetActive(ProgressManager.Instance.Policez);
+        PolicezntUI.SetActive(ProgressManager.Instance.Policeznt);
     }
 }
 

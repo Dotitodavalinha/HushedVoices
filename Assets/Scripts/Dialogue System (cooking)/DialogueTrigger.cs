@@ -30,6 +30,7 @@ public class DialogueTrigger : MonoBehaviour
             else
             {
                 npcDialogue.StartDialogue(npcDialogue.currentRoot);
+           
 
 
                 pressEText.SetActive(false);

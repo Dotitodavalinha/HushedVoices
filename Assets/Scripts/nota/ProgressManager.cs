@@ -9,8 +9,12 @@ public class ProgressManager : MonoBehaviour
 
     public bool BensNoteUnlocked;
     public bool CoffeeShopUnlocked;
+    public bool Policez;
+    public bool ChangeDialoguePolicez;
+    public bool Policeznt;
 
-  
+
+
 
     void Awake()
     {
