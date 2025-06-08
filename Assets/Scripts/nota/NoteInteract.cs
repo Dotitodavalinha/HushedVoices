@@ -70,6 +70,8 @@ public class NoteInteract : MonoBehaviour
     {
         NoteIsOpen = !NoteIsOpen;
 
+        transform.Find("OutlinerCube").gameObject.SetActive(false);
+
         if (NoteIsOpen)
             playerLocker.LockMovement();
         else
