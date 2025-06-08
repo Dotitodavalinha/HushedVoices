@@ -405,6 +405,7 @@ MonoBehaviour:
   Policez: 0
   ChangeDialoguePolicez: 0
   Policeznt: 0
+  ColegioStreet: 0
 --- !u!1001 &53637110
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -960,6 +961,42 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43f151ecabef2584d90343da09a5e4fc, type: 3}
+--- !u!1 &158177238
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 158177239}
+  m_Layer: 5
+  m_Name: CarcelContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &158177239
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158177238}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 525026031}
+  m_Father: {fileID: 1459070940}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.5, y: -0.5}
+  m_SizeDelta: {x: -1821, y: -979}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &167890718 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4527499876634747769, guid: 386de061dae98c04d991a79871a27c67, type: 3}
@@ -3680,7 +3717,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &525026031
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3695,12 +3732,12 @@ RectTransform:
   m_Children:
   - {fileID: 805001462}
   - {fileID: 1212277490}
-  m_Father: {fileID: 1459070940}
+  m_Father: {fileID: 158177239}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.5, y: -0.5}
-  m_SizeDelta: {x: -1821, y: -979}
+  m_AnchoredPosition: {x: -0.000061035156, y: 0.000030517578}
+  m_SizeDelta: {x: 1920, y: 1080.5381}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &531801146
 GameObject:
@@ -11304,7 +11341,7 @@ RectTransform:
   - {fileID: 1936862383}
   - {fileID: 755507020}
   - {fileID: 1319517886}
-  - {fileID: 525026031}
+  - {fileID: 158177239}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -14230,53 +14267,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1661361543440991400, guid: 992c5d2268fc5294ba65235bffc34964, type: 3}
   m_PrefabInstance: {fileID: 2145712673}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1905618073
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1905618075}
-  - component: {fileID: 1905618074}
-  m_Layer: 0
-  m_Name: GoToJailManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1905618074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1905618073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e769ba6adf1cba478dda6823df981b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  counter: 0
-  maxValue: 3
-  objectToActivate: {fileID: 525026030}
---- !u!4 &1905618075
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1905618073}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.309, y: 1.8643215, z: 49.716}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1907990875
 GameObject:
   m_ObjectHideFlags: 0
@@ -14410,6 +14400,53 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af39b86a2c14ebc4691325e1c7578742, type: 3}
+--- !u!1 &1920791906
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1920791908}
+  - component: {fileID: 1920791907}
+  m_Layer: 0
+  m_Name: JailManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1920791907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920791906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e769ba6adf1cba478dda6823df981b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  counter: 0
+  maxValue: 3
+  objectToActivate: {fileID: 0}
+--- !u!4 &1920791908
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920791906}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -12.309, y: 1.8643215, z: 49.716}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1921159774 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1661361543440991400, guid: 992c5d2268fc5294ba65235bffc34964, type: 3}
@@ -16246,4 +16283,4 @@ SceneRoots:
   - {fileID: 1617760075}
   - {fileID: 1792531009}
   - {fileID: 53637110}
-  - {fileID: 1905618075}
+  - {fileID: 1920791908}

@@ -40,14 +40,18 @@ public class JailManager : MonoBehaviour
         if (counter >= maxValue)
         {
             triggered = true;
-
+            Debug.Log("a la carcelphitee");
             if (objectToActivate != null)
             {
                 objectToActivate.SetActive(true);
                 counter = 0;
             }
+            else
+            {
+                Debug.Log("no se encontro el png de 'fuiste encarcelado'");
+            }
 
-            Time.timeScale = 0f; // Pausa total
+           // Time.timeScale = 0f; // Pausa total
             StartCoroutine(WaitAndGoToRoom());
         }
     }
@@ -55,16 +59,12 @@ public class JailManager : MonoBehaviour
     private IEnumerator WaitAndGoToRoom()
     {
         yield return new WaitForSecondsRealtime(3f);
+        triggered = false;
 
-        Time.timeScale = 1f; // Reanuda por si se usa en otra escena
-        if (GameManager.Instance == null)
-        {
-            GameObject gm = new GameObject("GameManager");
-            gm.AddComponent<GameManager>();
-        }
+        // Time.timeScale = 1f; // Reanuda por si se usa en otra escena
 
         GameManager.Instance.LoadScene("Room");
-        objectToActivate.SetActive(false);
+       
     }
 
     private void OnEnable()
@@ -79,9 +79,21 @@ public class JailManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        objectToActivate = GameObject.Find("CaisteEnCana"); 
-        if (objectToActivate != null)
-            objectToActivate.SetActive(false);
+        Time.timeScale = 1f;
+        Transform container = GameObject.Find("CarcelContainer")?.transform;
+        if (container != null)
+        {
+            objectToActivate = container.Find("CaisteEnCana")?.gameObject;
+            if (objectToActivate != null)
+                objectToActivate.SetActive(false);
+            else
+                Debug.LogWarning("No se encontró el PNG hijo");
+        }
+        else
+        {
+            Debug.LogWarning("No se encontró el contenedor CarcelContainer");
+        }
+
     }
 
 }
