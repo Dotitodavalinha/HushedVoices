@@ -11,25 +11,41 @@ public class PoliceBehaviour : MonoBehaviour
 
     private int currentIndex = 0;
     private bool goingForward = true;
-    private bool isWaiting = false;
+    [SerializeField] private bool isWaiting = false;
+
+    public Animator animator;
+
+    private void Start()
+    {
+        animator = GetComponentInChildren<Animator>();
+    }
 
     private void Update()
     {
-        if (patrolPoints.Count < 2 || isWaiting || DialogueTrigger.playerInRange) return;
 
+        if (patrolPoints.Count < 2 || isWaiting || DialogueTrigger.playerInRange)
+        {
+            animator.SetBool("IsWaiting", true);
+            return;
+        }
+
+        animator.SetBool("IsWaiting", false);
         Transform target = patrolPoints[currentIndex];
         Vector3 direction = (target.position - transform.position).normalized;
         transform.position += direction * moveSpeed * Time.deltaTime;
         transform.forward = direction;
 
         if (Vector3.Distance(transform.position, target.position) < 0.1f)
+        {
             StartCoroutine(WaitAndMove());
+        }
     }
 
 
     private IEnumerator WaitAndMove()
     {
         isWaiting = true;
+
         yield return new WaitForSeconds(waitTime);
 
         if (goingForward)
@@ -52,5 +68,6 @@ public class PoliceBehaviour : MonoBehaviour
         }
 
         isWaiting = false;
+
     }
 }
