@@ -49,6 +49,7 @@ public class Player_Movement : MonoBehaviour
         {
             moveDir = transform.forward * input.z + transform.right * input.x;
         }
+        
         else
         {
             Camera camToUse = lastCam != null ? lastCam : currentCam;
