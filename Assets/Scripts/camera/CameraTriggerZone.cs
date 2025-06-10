@@ -1,24 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class CameraTriggerZone : MonoBehaviour
-
 {
     public CameraManagerZ manager;
-    
+    public Cinemachine.CinemachineVirtualCamera targetCamera;
+    public Material Static;
+
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
 
-        manager.SwitchCamera(manager.CamaraPoste2);
-        /*
-        CameraManager manager = FindObjectOfType<CameraManager>();
-        if (manager != null && manager.IsInitialized())
-            manager.SwitchToCamera(targetCamera);
-        */
-    }
-    
+        if (manager.GetCurrentCamera() == targetCamera) return;
 
+        Static.SetInt("_Turn", 1);
+        StartCoroutine(Wait());
+
+        manager.SwitchCamera(targetCamera);
+    }
+
+    IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(0.1f);
+        Static.SetInt("_Turn", 0);
+    }
 }
 

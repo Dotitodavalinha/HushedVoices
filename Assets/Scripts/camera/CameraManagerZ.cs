@@ -35,6 +35,8 @@ public class CameraManagerZ : MonoBehaviour
     }
     public void SwitchCamera(CinemachineVirtualCamera newCam)
     {
+        currentCam.Priority = 10;
+
         currentCam = newCam;
 
         currentCam.Priority = 20;
@@ -46,5 +48,10 @@ public class CameraManagerZ : MonoBehaviour
                 cameras[i].Priority = 10;
             }
         }
+    }
+
+    public CinemachineVirtualCamera GetCurrentCamera()
+    {
+        return currentCam;
     }
 }
