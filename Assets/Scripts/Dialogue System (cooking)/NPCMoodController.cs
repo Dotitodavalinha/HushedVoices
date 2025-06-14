@@ -26,10 +26,6 @@ public class NPCMoodController : MonoBehaviour
             moodIconTransform.forward = toCam.normalized;
         }
     }
-
-
-
-
     void Start()
     {
 
@@ -66,6 +62,8 @@ public class NPCMoodController : MonoBehaviour
     public void SetMoodAngry()
     {
         spriteRenderer.sprite = angryFace;
+
+        ParanoiaManager.Instance.SetParanoia(1f / 3f);
 
         //alambreee
         if (JailManager.Instance != null)

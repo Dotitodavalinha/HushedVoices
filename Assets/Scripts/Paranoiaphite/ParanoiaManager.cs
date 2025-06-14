@@ -1,7 +1,10 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ParanoiaManager : MonoBehaviour
 {
+    public static ParanoiaManager Instance { get; private set; }
+
     [SerializeField] private float paranoiaLevel = 0f;
     private ParanoiaObject[] paranoiaObjects;
     public Material vignette;
@@ -9,13 +12,42 @@ public class ParanoiaManager : MonoBehaviour
 
     private void Awake()
     {
+        // Singleton Pattern
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
         paranoiaObjects = FindObjectsOfType<ParanoiaObject>();
+
+        // Suscribirse al evento de cambio de escena
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        // Evita fugas de memoria al desuscribirse
+        if (Instance == this)
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        
+        paranoiaObjects = FindObjectsOfType<ParanoiaObject>();
+        SetParanoia(paranoiaLevel); 
     }
 
     public void SetParanoia(float value)
     {
-        Debug.LogWarning("Paranoia actualizada a " + value);
-        paranoiaLevel = Mathf.Clamp01(value);
+        Debug.LogWarning("Paranoia actualizada");
+        paranoiaLevel = Mathf.Clamp01(paranoiaLevel + value);
 
         foreach (var obj in paranoiaObjects)
         {
@@ -23,7 +55,7 @@ public class ParanoiaManager : MonoBehaviour
         }
     }
 
-    void Update() //test
+    void Update() // test
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
