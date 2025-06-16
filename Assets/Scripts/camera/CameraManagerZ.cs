@@ -8,10 +8,6 @@ public class CameraManagerZ : MonoBehaviour
 {
     public CinemachineVirtualCamera[] cameras;
 
-    public CinemachineVirtualCamera CamaraPoste1;
-    public CinemachineVirtualCamera CamaraPoste2;
-    public CinemachineVirtualCamera CamaraCafetería;
-
 
     public CinemachineVirtualCamera startCamera;
     private CinemachineVirtualCamera currentCam;
