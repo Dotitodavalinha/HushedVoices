@@ -45,7 +45,13 @@ public class DialogueManager : MonoBehaviour
 
     private void Start()
     {
-        EndDialogue();
+        dialoguePanel.SetActive(false);
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        movementLocker.UnlockMovement();
+
+
     }
     public void StartDialogue(DialogueSO dialogue, NPCDialogue npc)
     {
@@ -163,7 +169,35 @@ public class DialogueManager : MonoBehaviour
         {
             movementLocker = FindObjectOfType<PlayerMovementLocker>();
         }
+
+
+        if (lukeCamera == null)
+        {
+            GameObject camObj = GameObject.Find("LukeCamera");
+            if (camObj != null)
+            {
+                lukeCamera = camObj.GetComponent<CinemachineVirtualCamera>();
+            }
+
+            if (lukeCamera == null)
+            {
+                // Como fallback, encontrar cualquier CinemachineVirtualCamera
+                lukeCamera = FindObjectOfType<CinemachineVirtualCamera>();
+                Debug.LogWarning("No se encontró la cámara de Luke por nombre. Se asignó la primera cámara encontrada en la escena.");
+            }
+        }
+
+
+        if (camManager == null)
+        {
+            camManager = FindObjectOfType<CameraManagerZ>();
+            if (camManager == null)
+                Debug.LogWarning("No se encontró CameraManagerZ en la escena.");
+        }
+
     }
+
+
 
 }
 
