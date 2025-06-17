@@ -50,4 +50,9 @@ public class CameraManagerZ : MonoBehaviour
     {
         return currentCam;
     }
+
+    public void CambiarLookAt(Transform npcCurrent)
+    {
+        currentCam.LookAt = npcCurrent;
+    }
 }

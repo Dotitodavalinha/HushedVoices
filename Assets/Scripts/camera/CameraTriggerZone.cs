@@ -1,10 +1,11 @@
 using UnityEngine;
 using System.Collections;
+using Cinemachine;
 
 public class CameraTriggerZone : MonoBehaviour
 {
     public CameraManagerZ manager;
-    public Cinemachine.CinemachineVirtualCamera targetCamera;
+    public CinemachineVirtualCamera targetCamera;
     public Material Static;
 
     private void OnTriggerEnter(Collider other)

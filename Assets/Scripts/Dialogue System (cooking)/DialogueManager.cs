@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections.Generic;
+using Cinemachine;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -14,7 +15,10 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI npcNameText;
     private NPCDialogue currentNPC;
 
-
+    [Header("CAMARA")]
+    public CameraManagerZ camManager;
+    public CinemachineVirtualCamera lukeCamera;
+    private CinemachineVirtualCamera camAnterior;
 
 
     private DialogueNodeSO currentNode;
@@ -45,6 +49,8 @@ public class DialogueManager : MonoBehaviour
     }
     public void StartDialogue(DialogueSO dialogue, NPCDialogue npc)
     {
+
+
         dialoguePanel.SetActive(true);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
@@ -53,6 +59,12 @@ public class DialogueManager : MonoBehaviour
         npcNameText.text = npc.npcName;
         movementLocker.LockMovement();
         ShowNode(dialogue.rootNode);
+
+        camAnterior = camManager.GetCurrentCamera();
+        camManager.SwitchCamera(lukeCamera);
+        camManager.CambiarLookAt(npc.transform);
+
+
     }
 
 
@@ -106,6 +118,14 @@ public class DialogueManager : MonoBehaviour
 
         movementLocker.UnlockMovement();
         currentNode = null;
+
+        var player = GameObject.FindWithTag("Player").transform;
+        if (camAnterior != null)
+        {
+            camManager.SwitchCamera(camAnterior);
+        }
+        camManager.CambiarLookAt(player.transform);
+
     }
 
 
