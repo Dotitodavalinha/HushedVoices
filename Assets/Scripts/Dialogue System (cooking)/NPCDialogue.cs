@@ -13,7 +13,8 @@ public class NPCDialogue : MonoBehaviour
 
     private void Start()
     {
-        //buscar el night manager em escena
+        NightManager = GameObject.Find("NightManager")?.GetComponent<NightManager>();
+
     }
 
     public void GoToRoot(string rootName)
@@ -28,6 +29,7 @@ public class NPCDialogue : MonoBehaviour
     {
         if(npcName == "Police" || npcName == "Policez")
         {
+            Debug.Log("le estas hablando a un gorra ");
             NightManager.TalkingToPolice();
         }
         DialogueManager.Instance.StartDialogue(dialogue, this);

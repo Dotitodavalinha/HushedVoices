@@ -6,9 +6,14 @@ public class NightManager : MonoBehaviour
 {
     public GameObject policias;
 
+    public JailManager JailManager;
     public LightingManager DayManager;
     public bool IsNight;
 
+    private void Start()
+    {
+        JailManager = GameObject.Find("JailManager")?.GetComponent<JailManager>();
+    }
     private void Update()
     {
         if(DayManager.TimeOfDay > 20 || DayManager.TimeOfDay < 4)
@@ -24,8 +29,8 @@ public class NightManager : MonoBehaviour
     {
         if (IsNight)
         {
-            Debug.Log("hablaste con un policia de noche vas presitophite, CARCEEEl");
-            //jail
+            Debug.Log("hablaste con un policia de noche vas presitophite, CARCEEEL");
+            JailManager.SetMaxValue();
         }
     }
 }
