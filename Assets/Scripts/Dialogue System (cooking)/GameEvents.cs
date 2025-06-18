@@ -11,12 +11,16 @@ public class GameEvents : MonoBehaviour
         {
             if (r.responseText.Contains("No decirle nada")) // o cualquier lógica para distinguir
             {
-                //r.onResponseChosen.RemoveAllListeners(); // evita duplicados en testing
-                r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("Chloe", "Root"));
+                r.onResponseChosen.RemoveAllListeners(); // evita duplicados en testing
+                r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("Chloe", "Root3"));
+            }
+            if (r.responseText.Contains("Decirle que no volvio a casa")) // o cualquier lógica para distinguir
+            {
+                r.onResponseChosen.RemoveAllListeners(); // evita duplicados en testing
+                r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("Chloe", "Root-4"));
             }
 
-           
-
+            
             if (r.responseText.Contains("Ok vuelvo luego")) 
             {
                 r.onResponseChosen.RemoveAllListeners(); 
@@ -47,6 +51,8 @@ public class GameEvents : MonoBehaviour
                 r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("Marina", "RootMarina1"));
             }
          
+
+
         }
     }
 }

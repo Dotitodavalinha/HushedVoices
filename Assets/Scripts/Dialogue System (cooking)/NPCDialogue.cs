@@ -9,8 +9,13 @@ public class NPCDialogue : MonoBehaviour
     [SerializeField]public DialogueSO currentRoot;
 
     public NPCMoodController moodController;
+    public NightManager NightManager;
 
-   
+    private void Start()
+    {
+        //buscar el night manager em escena
+    }
+
     public void GoToRoot(string rootName)
     {
         var root = roots.Find(r => r.name == rootName);
@@ -21,6 +26,10 @@ public class NPCDialogue : MonoBehaviour
 
     public void StartDialogue(DialogueSO dialogue)
     {
+        if(npcName == "Police" || npcName == "Policez")
+        {
+            NightManager.TalkingToPolice();
+        }
         DialogueManager.Instance.StartDialogue(dialogue, this);
     }
 

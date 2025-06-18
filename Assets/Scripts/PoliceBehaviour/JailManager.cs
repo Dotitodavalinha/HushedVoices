@@ -7,7 +7,7 @@ public class JailManager : MonoBehaviour
     public static JailManager Instance;
 
     public int counter = 0;
-    public int maxValue = 3;
+    public int maxValue = 4;
     public GameObject objectToActivate;
 
     private bool triggered = false;

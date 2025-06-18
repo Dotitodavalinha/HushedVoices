@@ -9,7 +9,7 @@ public class LightingManager : MonoBehaviour
 
     [SerializeField] private Light DirectionalLight;
     [SerializeField] private LightingPreset preset;
-    [SerializeField, Range(0, 24)] private float TimeOfDay;
+    [SerializeField, Range(0, 24)] public float TimeOfDay;
     private void Start()
     {
         RenderSettings.skybox = Sky;

@@ -46,7 +46,7 @@ public class ParanoiaManager : MonoBehaviour
 
     public void SetParanoia(float value)
     {
-        Debug.LogWarning("Paranoia actualizada");
+        Debug.LogWarning("Paranoia actualizada " + value);
         paranoiaLevel = Mathf.Clamp01(paranoiaLevel + value);
 
         foreach (var obj in paranoiaObjects)
@@ -63,7 +63,7 @@ public class ParanoiaManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
-            SetParanoia(0f);
+            SetParanoia(-1f);
             vignette.SetFloat("_vig_amount", 0f);
             cameraLines.SetFloat("_scanningLinesAmount", 0f);
         }
