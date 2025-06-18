@@ -53,6 +53,10 @@ public class ParanoiaManager : MonoBehaviour
         {
             obj.SetParanoia(paranoiaLevel);
         }
+
+        if (DialogueManager.Instance != null)
+            DialogueManager.Instance.SetModoParanoia(paranoiaLevel >= 1f); //entrara como true cuando la paranioa este al max
+
     }
 
     void Update() // test

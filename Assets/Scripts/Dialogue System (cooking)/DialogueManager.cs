@@ -15,6 +15,11 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI npcNameText;
     private NPCDialogue currentNPC;
 
+    public bool ModoParanoia { get; private set; }
+    [SerializeField] private GameObject ButtonPrefabParanoia;
+
+
+
     [Header("CAMARA")]
     public CameraManagerZ camManager;
     public CinemachineVirtualCamera lukeCamera;
@@ -73,6 +78,10 @@ public class DialogueManager : MonoBehaviour
 
     }
 
+    public void SetModoParanoia(bool valor)
+    {
+        ModoParanoia = valor;
+    }
 
 
     private void ShowNode(DialogueNodeSO node)
@@ -87,10 +96,16 @@ public class DialogueManager : MonoBehaviour
         // Crear botones de respuesta
         foreach (var response in node.responses)
         {
-            GameObject btn = Instantiate(responseButtonPrefab, responseContainer);
+            GameObject prefab = (ModoParanoia && response.paranoiaAffected) ? ButtonPrefabParanoia : responseButtonPrefab; // si hay paranoia y el boton esta afectado usa otro prefab
+
+            GameObject btn = Instantiate(prefab, responseContainer);
+
             btn.GetComponentInChildren<TextMeshProUGUI>().text = response.responseText;
             btn.GetComponent<Button>().onClick.AddListener(() => OnResponseSelected(response));
+
         }
+      
+
     }
 
     private void OnResponseSelected(PlayerResponseSO response)
