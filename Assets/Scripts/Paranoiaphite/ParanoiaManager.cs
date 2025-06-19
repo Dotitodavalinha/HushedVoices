@@ -8,6 +8,8 @@ public class ParanoiaManager : MonoBehaviour
     [SerializeField] private float paranoiaLevel = 0f;
     private ParanoiaObject[] paranoiaObjects;
     public Material vignette;
+    public Material dayNightShader;
+
     public Material cameraLines;
 
     private void Awake()
@@ -21,6 +23,8 @@ public class ParanoiaManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        paranoiaLevel = 0f;
 
         paranoiaObjects = FindObjectsOfType<ParanoiaObject>();
 
@@ -54,12 +58,22 @@ public class ParanoiaManager : MonoBehaviour
             obj.SetParanoia(paranoiaLevel);
         }
 
+        vignette.SetFloat("_vig_amount", paranoiaLevel);
+        dayNightShader.SetFloat("dayNight", paranoiaLevel);
+
+
+
         if (DialogueManager.Instance != null)
             DialogueManager.Instance.SetModoParanoia(paranoiaLevel >= 1f); //entrara como true cuando la paranioa este al max
 
     }
 
-    void Update() // test
+    public void RegisterParanoiaObject(ParanoiaObject obj)
+    {
+        obj.SetParanoia(paranoiaLevel);
+    }
+
+        void Update() // test
     {
         if (Input.GetKeyDown(KeyCode.L))
         {

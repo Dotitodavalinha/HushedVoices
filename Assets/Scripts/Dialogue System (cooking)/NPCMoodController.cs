@@ -13,9 +13,9 @@ public class NPCMoodController : MonoBehaviour
     [SerializeField] private Transform moodIconTransform;
 
     //asigno policias y materiales
-    public GameObject policias;
-    public Material paranoia;
-    public Material ambient;
+    //public GameObject policias;
+    //public Material paranoia;
+    //public Material ambient;
 
     void Update()
     {
@@ -33,10 +33,10 @@ public class NPCMoodController : MonoBehaviour
 
         //alambreee
 
-        paranoia.SetInt("_vig_amount", 0);
-        ambient.SetFloat("dayNight", 1f);
+        //paranoia.SetInt("_vig_amount", 0);
+        //ambient.SetFloat("dayNight", 1f);
 
-        policias.SetActive(false);
+        //policias.SetActive(false);
     }
 
     public void SetMoodHappy()
@@ -46,10 +46,10 @@ public class NPCMoodController : MonoBehaviour
 
         //alambreee
 
-        paranoia.SetInt("_vig_amount", 0);
-        ambient.SetFloat("dayNight", 1f);
+        //paranoia.SetInt("_vig_amount", 0);
+        //ambient.SetFloat("dayNight", 1f);
 
-        policias.SetActive(false);
+        //policias.SetActive(false);
 
 
     }
@@ -72,9 +72,9 @@ public class NPCMoodController : MonoBehaviour
 
         }
 
-        paranoia.SetInt("_vig_amount", 1);
-        ambient.SetFloat("dayNight", 0f);
-        policias.SetActive(true);
+        //paranoia.SetInt("_vig_amount", 1);
+        //ambient.SetFloat("dayNight", 0f);
+        //policias.SetActive(true);
 
     }
 }
