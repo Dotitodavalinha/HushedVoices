@@ -28,7 +28,7 @@ public class JailManager : MonoBehaviour
 
     private void Start()
     {
-        objectToActivate.SetActive(false);
+        //objectToActivate.SetActive(false);
     }
     public void Increment()
     {
@@ -103,6 +103,7 @@ public class JailManager : MonoBehaviour
         Transform container = GameObject.Find("CarcelContainer")?.transform;
         if (container != null)
         {
+            Debug.LogWarning("se encontro carcelcontainer");
             objectToActivate = container.Find("CaisteEnCana")?.gameObject;
             if (objectToActivate != null)
                 objectToActivate.SetActive(false);

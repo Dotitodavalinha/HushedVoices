@@ -25,12 +25,15 @@ public class ParanoiaManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         paranoiaLevel = 0f;
+        vignette.SetFloat("_vig_amount", paranoiaLevel);
+        dayNightShader.SetFloat("dayNight", paranoiaLevel);
 
         paranoiaObjects = FindObjectsOfType<ParanoiaObject>();
 
         // Suscribirse al evento de cambio de escena
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
+
 
     private void OnDestroy()
     {
@@ -42,13 +45,13 @@ public class ParanoiaManager : MonoBehaviour
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        
+    {       
         paranoiaObjects = FindObjectsOfType<ParanoiaObject>();
-        SetParanoia(paranoiaLevel); 
+        //SetParanoiaValue(0);
+        
     }
 
-    public void SetParanoia(float value)
+    public void SetParanoiaValue(float value)
     {
         Debug.LogWarning("Paranoia actualizada " + value);
         paranoiaLevel = Mathf.Clamp01(paranoiaLevel + value);
@@ -77,15 +80,12 @@ public class ParanoiaManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
-            SetParanoia(-1f);
-            vignette.SetFloat("_vig_amount", 0f);
-            cameraLines.SetFloat("_scanningLinesAmount", 0f);
+            SetParanoiaValue(-1f);
+
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
-            SetParanoia(1f);
-            vignette.SetFloat("_vig_amount", 0.33f);
-            cameraLines.SetFloat("_scanningLinesAmount", 0.1f);
+            SetParanoiaValue(1f);
         }
     }
 }

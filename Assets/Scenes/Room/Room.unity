@@ -1331,6 +1331,59 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4527499876634747769, guid: 386de061dae98c04d991a79871a27c67, type: 3}
   m_PrefabInstance: {fileID: 1869644461}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &174340104
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 174340106}
+  - component: {fileID: 174340105}
+  m_Layer: 0
+  m_Name: DialogueManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &174340105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174340104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4a5e8bd58ada2e469dea83c4a3c02be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialoguePanel: {fileID: 0}
+  npcText: {fileID: 0}
+  responseContainer: {fileID: 0}
+  responseButtonPrefab: {fileID: 6661281635988644466, guid: 45833b80732f02f43a8404422d8ced56, type: 3}
+  npcNameText: {fileID: 0}
+  ButtonPrefabParanoia: {fileID: 6661281635988644466, guid: 87f6b66b605093b4dac69a1c6bef602b, type: 3}
+  camManager: {fileID: 0}
+  lukeCamera: {fileID: 0}
+  movementLocker: {fileID: 0}
+--- !u!4 &174340106
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174340104}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -27.29744, y: 3.0315714, z: 4.287407}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &174457911
 GameObject:
   m_ObjectHideFlags: 0
@@ -9669,6 +9722,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paranoiaLevel: 0
   vignette: {fileID: 2100000, guid: 6bcf68bea07fcf1439bfd3142bba3172, type: 2}
+  dayNightShader: {fileID: 2100000, guid: 47b8e24a855c61d40b5a1935c33c5de5, type: 2}
   cameraLines: {fileID: 2100000, guid: c06dc6719fdc7af44bfe6d6911029197, type: 2}
 --- !u!4 &1046023548
 Transform:
@@ -18277,7 +18331,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1920791908}
-  - component: {fileID: 1920791907}
+  - component: {fileID: 1920791909}
   m_Layer: 0
   m_Name: JailManager
   m_TagString: Untagged
@@ -18285,21 +18339,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1920791907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1920791906}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e769ba6adf1cba478dda6823df981b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  counter: 0
-  maxValue: 3
-  objectToActivate: {fileID: 0}
 --- !u!4 &1920791908
 Transform:
   m_ObjectHideFlags: 0
@@ -18315,6 +18354,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1920791909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920791906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e769ba6adf1cba478dda6823df981b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  counter: 0
+  maxValue: 4
+  objectToActivate: {fileID: 0}
 --- !u!4 &1921159774 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1661361543440991400, guid: 992c5d2268fc5294ba65235bffc34964, type: 3}
@@ -19736,7 +19790,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 3469287837361680996}
-  isLocked: 0
 --- !u!1001 &3983164588546060727
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20289,4 +20342,5 @@ SceneRoots:
   - {fileID: 53637110}
   - {fileID: 1920791908}
   - {fileID: 1169516959}
+  - {fileID: 174340106}
   - {fileID: 1046023548}

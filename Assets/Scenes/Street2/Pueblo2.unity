@@ -681,6 +681,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2013389719}
+  - {fileID: 900575214}
   - {fileID: 1617149331}
   - {fileID: 1330924916}
   m_Father: {fileID: 0}
@@ -2114,11 +2115,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 376932323447567241, guid: 6d3c299c05d457f4dbf842500e65e60b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2881622661215677642, guid: 6d3c299c05d457f4dbf842500e65e60b, type: 3}
       propertyPath: m_Name
       value: DialogueCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 2881622661215677642, guid: 6d3c299c05d457f4dbf842500e65e60b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3961049492150782294, guid: 6d3c299c05d457f4dbf842500e65e60b, type: 3}
       propertyPath: m_Pivot.x
@@ -9691,6 +9696,54 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f1e1ac981f7072849b45c84a8849d985, type: 3}
   m_PrefabInstance: {fileID: 899541620}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &900575213
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 900575214}
+  - component: {fileID: 900575215}
+  m_Layer: 0
+  m_Name: ParanoiaManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &900575214
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900575213}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.8374405, y: -1.9615713, z: 26.532593}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 39369767}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &900575215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900575213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0944ecc74a8dbd4428359b8feb93a9ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paranoiaLevel: 0
+  vignette: {fileID: 0}
+  dayNightShader: {fileID: 0}
+  cameraLines: {fileID: 0}
 --- !u!1001 &900636898
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11208,9 +11261,6 @@ MonoBehaviour:
   happyFace: {fileID: 21300000, guid: 798e39607d62a4949a087f87ee676dc8, type: 3}
   angryFace: {fileID: 21300000, guid: a54edb32f225245439622f77cea9ac91, type: 3}
   moodIconTransform: {fileID: 1466583111}
-  policias: {fileID: 1352024451}
-  paranoia: {fileID: 2100000, guid: 6bcf68bea07fcf1439bfd3142bba3172, type: 2}
-  ambient: {fileID: 2100000, guid: 47b8e24a855c61d40b5a1935c33c5de5, type: 2}
 --- !u!23 &1038823144
 MeshRenderer:
   m_ObjectHideFlags: 0

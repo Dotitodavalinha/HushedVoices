@@ -50,6 +50,7 @@ public class DialogueManager : MonoBehaviour
 
     private void Start()
     {
+
         dialoguePanel.SetActive(false);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -116,7 +117,7 @@ public class DialogueManager : MonoBehaviour
             btn.GetComponent<Button>().onClick.AddListener(() => OnResponseSelected(response));
 
         }
-      
+
 
     }
 
@@ -164,8 +165,10 @@ public class DialogueManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+
         if (dialoguePanel == null)
         {
+            dialoguePanel = GameObject.Find("DialogueCanvas")?.transform.Find("DialoguePanel")?.gameObject;
             GameObject dialogueCanvas = GameObject.Find("DialogueCanvas");
 
             if (dialogueCanvas != null)

@@ -15,4 +15,8 @@ public class ParanoiaObject : MonoBehaviour
     {
         _material.SetFloat(ParanoiaProperty, value);
     }
+    public void penelope()
+    {
+        ParanoiaManager.Instance?.RegisterParanoiaObject(this);
+    }
 }

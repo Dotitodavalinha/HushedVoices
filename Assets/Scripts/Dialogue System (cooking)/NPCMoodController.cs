@@ -63,7 +63,7 @@ public class NPCMoodController : MonoBehaviour
     {
         spriteRenderer.sprite = angryFace;
 
-        ParanoiaManager.Instance.SetParanoia(1f / 3f);
+        ParanoiaManager.Instance.SetParanoiaValue(1f / 3f);
 
         //alambreee
         if (JailManager.Instance != null)
