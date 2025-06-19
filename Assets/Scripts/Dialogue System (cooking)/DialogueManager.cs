@@ -71,9 +71,21 @@ public class DialogueManager : MonoBehaviour
         movementLocker.LockMovement();
         ShowNode(dialogue.rootNode);
 
+        //la camara cambia a la de luke y mira al npc
         camAnterior = camManager.GetCurrentCamera();
         camManager.SwitchCamera(lukeCamera);
         camManager.CambiarLookAt(npc.transform);
+
+        //npc mira a luke y luke a npc
+
+        Vector3 targetPosition = movementLocker.transform.position;
+        targetPosition.y = npc.transform.position.y;
+        npc.transform.LookAt(targetPosition);
+
+        Vector3 npcPos = npc.transform.position;
+        npcPos.y = movementLocker.transform.position.y;
+        movementLocker.transform.LookAt(npcPos);
+
 
 
     }
