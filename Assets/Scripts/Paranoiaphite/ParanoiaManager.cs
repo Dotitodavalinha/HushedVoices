@@ -14,7 +14,7 @@ public class ParanoiaManager : MonoBehaviour
 
     private void Awake()
     {
-        // Singleton Pattern
+        // Singleton
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);

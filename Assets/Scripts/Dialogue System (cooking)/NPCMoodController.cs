@@ -43,7 +43,7 @@ public class NPCMoodController : MonoBehaviour
     {
 
         spriteRenderer.sprite = happyFace;
-
+        ParanoiaManager.Instance.SetParanoiaValue(-1f / 3f); 
         //alambreee
 
         //paranoia.SetInt("_vig_amount", 0);

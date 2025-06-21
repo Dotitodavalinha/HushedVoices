@@ -10,9 +10,15 @@ public class LightingManager : MonoBehaviour
     [SerializeField] private Light DirectionalLight;
     [SerializeField] private LightingPreset preset;
     [SerializeField, Range(0, 24)] public float TimeOfDay;
+
+    [SerializeField] public float DaySpeed; 
     private void Start()
     {
         RenderSettings.skybox = Sky;
+
+        if (PlayerPrefs.HasKey("SavedTimeOfDay"))
+            TimeOfDay = PlayerPrefs.GetFloat("SavedTimeOfDay");
+
     }
     private void Update()
     {
@@ -22,7 +28,7 @@ public class LightingManager : MonoBehaviour
         }
         if (Application.isPlaying)
         {
-            TimeOfDay += Time.deltaTime/4;
+            TimeOfDay += Time.deltaTime/DaySpeed;
             TimeOfDay %= 24;
             UpdateLighting(TimeOfDay / 24);
         }
@@ -31,6 +37,9 @@ public class LightingManager : MonoBehaviour
             UpdateLighting(TimeOfDay / 24);
         }
         Sky.SetFloat("_TimeOfDay", TimeOfDay);
+
+        PlayerPrefs.SetFloat("SavedTimeOfDay", TimeOfDay); //guardo el tiempo en cada frame 
+
     }
 
     private void UpdateLighting(float timePercent)
