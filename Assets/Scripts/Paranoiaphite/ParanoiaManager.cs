@@ -50,7 +50,7 @@ public class ParanoiaManager : MonoBehaviour
         //SetParanoiaValue(0);
         
     }
-
+    
     public void SetParanoiaValue(float value)
     {
         Debug.LogWarning("Paranoia actualizada " + value);
@@ -67,7 +67,7 @@ public class ParanoiaManager : MonoBehaviour
 
 
         if (DialogueManager.Instance != null)
-            DialogueManager.Instance.SetModoParanoia(paranoiaLevel >= 1f); //entrara como true cuando la paranioa este al max
+            DialogueManager.Instance.SetModoParanoia(paranoiaLevel >= 1f); //entrara como true cuando la paranioa este al max es para los botones nomas
 
     }
 
