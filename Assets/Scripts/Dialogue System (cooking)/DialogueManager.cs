@@ -61,9 +61,8 @@ public class DialogueManager : MonoBehaviour
     }
     public void StartDialogue(DialogueSO dialogue, NPCDialogue npc)
     {
+        DialoguePanelOn();
 
-
-        dialoguePanel.SetActive(true);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
@@ -146,7 +145,8 @@ public class DialogueManager : MonoBehaviour
 
     public void EndDialogue()
     {
-        dialoguePanel.SetActive(false);
+        DialoguePanelOff();
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -227,7 +227,23 @@ public class DialogueManager : MonoBehaviour
 
     }
 
+    private void DialoguePanelOff()
+    {
+        CanvasGroup cg = dialoguePanel.GetComponent<CanvasGroup>();
+        dialoguePanel.SetActive(false);
+        cg.alpha = 0;
+        cg.interactable = false;
+        cg.blocksRaycasts = false;
+    }
 
+    private void DialoguePanelOn()
+    {
+        CanvasGroup cg = dialoguePanel.GetComponent<CanvasGroup>();
+        dialoguePanel.SetActive(true);
+        cg.alpha = 1;
+        cg.interactable = true;
+        cg.blocksRaycasts = true;
+    }
 
 }
 
