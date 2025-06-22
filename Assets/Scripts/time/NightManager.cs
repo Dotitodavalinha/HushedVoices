@@ -30,7 +30,8 @@ public class NightManager : MonoBehaviour
         if (IsNight)
         {
             Debug.Log("hablaste con un policia de noche vas presitophite, CARCEEEL");
-            JailManager.SetMaxValue();
+            ProgressManager.Instance.CambiarRootNPC("Police", "PoliceNight");
+          //  JailManager.SetMaxValue();
         }
     }
 }

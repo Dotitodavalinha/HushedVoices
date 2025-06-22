@@ -33,6 +33,7 @@ public class GameEvents : MonoBehaviour
               //  r.onResponseChosen.RemoveAllListeners(); 
                 r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("PoliceZ", "RootPoliceZ1"));
                 r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("Chloe", "Root2"));
+                r.onResponseChosen.AddListener(() => ProgressManager.Instance.GotCoffe = true);
             }
 
 
@@ -44,11 +45,32 @@ public class GameEvents : MonoBehaviour
                 r.onResponseChosen.AddListener(() => ProgressManager.Instance.Policeznt = true);
                 r.onResponseChosen.AddListener(() => ProgressManager.Instance.ColegioStreet = true);
                 r.onResponseChosen.AddListener(() => ColegioStreet.SetActive(ProgressManager.Instance.ColegioStreet));
+                r.onResponseChosen.AddListener(() => ProgressManager.Instance.LostCoffe = true);
+                r.onResponseChosen.AddListener(() => ProgressManager.Instance.GotCoffe = false);
             }
             if (r.responseText.Contains("¿Viste a Ben ultimamente?"))
             {
                 r.onResponseChosen.RemoveAllListeners();
                 r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("Marina", "RootMarina1"));
+            }
+
+            if(r.responseText.Contains("..."))
+            {
+                r.onResponseChosen.RemoveAllListeners();
+                r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("Police", "RootPolice1"));
+                r.onResponseChosen.AddListener(() => {
+                    JailManager jail = FindObjectOfType<JailManager>();
+                    if (jail != null)
+                    {
+                        jail.SetMaxValue();
+                    }
+                    else
+                    {
+                        Debug.LogWarning("No se encontró JailManager en la escena.");
+                    }
+                });
+
+
             }
          
 

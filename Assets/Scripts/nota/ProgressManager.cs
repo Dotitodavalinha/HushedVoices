@@ -13,6 +13,8 @@ public class ProgressManager : MonoBehaviour
     public bool ChangeDialoguePolicez;
     public bool Policeznt;
     public bool ColegioStreet;
+    public bool GotCoffe;
+    public bool LostCoffe;
 
 
 
