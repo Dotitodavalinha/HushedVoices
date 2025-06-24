@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GoToStreet : MonoBehaviour
 {
@@ -8,7 +9,13 @@ public class GoToStreet : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-        GameManager.Instance.LoadScene("Pueblo");
+        int currentIndex = SceneManager.GetActiveScene().buildIndex;
+        int previousIndex = currentIndex - 1;
+
+        if (previousIndex >= 0)
+        {
+            SceneManager.LoadScene(previousIndex);
+        }
 
     }
 }
