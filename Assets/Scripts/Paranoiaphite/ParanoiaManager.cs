@@ -1,5 +1,7 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 
 public class ParanoiaManager : MonoBehaviour
 {
@@ -12,7 +14,12 @@ public class ParanoiaManager : MonoBehaviour
 
     public Material cameraLines;
 
-    private void Awake()
+    [SerializeField] private TextMeshProUGUI paranoiaName;
+    [SerializeField] private TextMeshProUGUI paranoiaText;
+    private Color colorNormal = new Color32(104, 38, 25, 255);
+    private Color colorParanoia = Color.white;
+
+private void Awake()
     {
         // Singleton
         if (Instance != null && Instance != this)
@@ -25,8 +32,7 @@ public class ParanoiaManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         paranoiaLevel = 0f;
-        vignette.SetFloat("_vig_amount", paranoiaLevel);
-        dayNightShader.SetFloat("dayNight", paranoiaLevel);
+        SetThings();
 
         paranoiaObjects = FindObjectsOfType<ParanoiaObject>();
 
@@ -61,9 +67,8 @@ public class ParanoiaManager : MonoBehaviour
             obj.SetParanoia(paranoiaLevel);
         }
 
-        vignette.SetFloat("_vig_amount", paranoiaLevel);
-        dayNightShader.SetFloat("dayNight", paranoiaLevel);
 
+        SetThings();
 
 
         if (DialogueManager.Instance != null)
@@ -86,6 +91,18 @@ public class ParanoiaManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
         {
             SetParanoiaValue(1f);
+        }
+    }
+
+    public void SetThings()
+    {
+        vignette.SetFloat("_vig_amount", paranoiaLevel);
+        dayNightShader.SetFloat("dayNight", paranoiaLevel);
+
+        if (paranoiaText != null)
+        {
+            Color colorInterpolado = Color.Lerp(colorNormal, colorParanoia, paranoiaLevel);
+            paranoiaText.color = colorInterpolado;
         }
     }
 }
