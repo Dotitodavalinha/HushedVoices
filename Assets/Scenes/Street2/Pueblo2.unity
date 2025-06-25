@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.54470253, g: 0.31144893, b: 0.21923636, a: 1}
+  m_FogColor: {r: 0.45332602, g: 0.26836094, b: 0.21574056, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.04
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.9740887, g: 0.80725473, b: 0.7823027, a: 1}
+  m_AmbientSkyColor: {r: 0.89589584, g: 0.72241116, b: 0.7384227, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.7
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.8850528, g: 0.5923531, b: 0.40319297, a: 1}
+  m_IndirectSpecularColor: {r: 0.86920136, g: 0.56963384, b: 0.39496714, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8668,7 +8668,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730473041}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.036614668, y: 0.9040219, z: -0.41850728, w: 0.07909172}
+  m_LocalRotation: {x: 0.08446141, y: 0.24578688, z: -0.9653977, w: 0.02150358}
   m_LocalPosition: {x: 58.24, y: 7.95, z: 34.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8709,7 +8709,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.82671875, g: 0.82671875, b: 0.82671875, a: 1}
+  m_Color: {r: 0.7363441, g: 0.7363441, b: 0.7363441, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -16810,7 +16810,7 @@ MonoBehaviour:
   Sky: {fileID: 2100000, guid: e08215bfe2cec9348882e00d895fe970, type: 2}
   DirectionalLight: {fileID: 730473044}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 9.31217
+  TimeOfDay: 16.095488
   DaySpeed: 10
 --- !u!1 &1332766091
 GameObject:
@@ -19254,6 +19254,7 @@ GameObject:
   - component: {fileID: 1459070942}
   - component: {fileID: 1459070941}
   - component: {fileID: 1459070944}
+  - component: {fileID: 1459070945}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -19368,6 +19369,18 @@ MonoBehaviour:
   PolicezntUI: {fileID: 1368629096}
   GotCoffe: {fileID: 1244975186}
   LostCoffe: {fileID: 1905750568}
+--- !u!114 &1459070945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459070939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d2cc09400d6d4642973f61ddb6ab08a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1459577345
 GameObject:
   m_ObjectHideFlags: 0
@@ -23878,16 +23891,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1259540450}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: QuitGame
-        m_Mode: 1
+      - m_Target: {fileID: 1459070945}
+        m_TargetAssemblyTypeName: FinalDayBackToMenu, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Menu
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1738854151

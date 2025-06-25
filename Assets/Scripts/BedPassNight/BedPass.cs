@@ -31,7 +31,7 @@ public class BedPass : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-
+              
                 int currentIndex = SceneManager.GetActiveScene().buildIndex;
                 int nextIndex = currentIndex + 4;
 
@@ -39,6 +39,8 @@ public class BedPass : MonoBehaviour
                 {
                     SceneManager.LoadScene(nextIndex);
                 }
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
             }
         }
         else
