@@ -15,6 +15,7 @@ public class LightingManager : MonoBehaviour
     private void Start()
     {
         RenderSettings.skybox = Sky;
+        TimeOfDay = 8;
 
         if (PlayerPrefs.HasKey("SavedTimeOfDay"))
             TimeOfDay = PlayerPrefs.GetFloat("SavedTimeOfDay");
