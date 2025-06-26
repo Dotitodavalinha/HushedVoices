@@ -1,18 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ImportantClue : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static ImportantClue Instance;
+
+    [SerializeField] private GameObject clueAlertPrefab;
+    [SerializeField] private Transform canvasTransform;
+
+    void Awake()
     {
-        
+        Instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ShowClueAlert()
     {
-        
+        Debug.LogWarning("ALERTA PISTA IMPORTANTE");
+        GameObject alert = Instantiate(clueAlertPrefab, canvasTransform);
+        alert.transform.SetAsLastSibling();
     }
 }
+

@@ -7,7 +7,7 @@ public class NoteInteract : MonoBehaviour
 {
     public GameObject NoteImage;
 
-    [SerializeField]private PlayerMovementLocker playerLocker;
+    [SerializeField] private PlayerMovementLocker playerLocker;
 
     private bool InRange = false;
     private bool NoteIsOpen = false;
@@ -16,13 +16,14 @@ public class NoteInteract : MonoBehaviour
 
     [SerializeField] public GameObject text;
     [SerializeField] public NOTEInteractionZone zonaInteraccion;
+    [SerializeField] private bool IsImportantClue = false;
     void Start()
     {
         text.SetActive(false);
 
         NoteImage.SetActive(false);
         Player = GameObject.FindWithTag("Player");
-       
+
 
     }
 
@@ -32,7 +33,7 @@ public class NoteInteract : MonoBehaviour
 
         if (zonaInteraccion.jugadorDentro)
         {
-           
+
             InRange = true;
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -41,13 +42,13 @@ public class NoteInteract : MonoBehaviour
         }
         else if (!zonaInteraccion.jugadorDentro)
         {
-           
+
             InRange = false;
         }
         if (InRange && NoteIsOpen == false)
         {
             text.SetActive(true);
-         
+
         }
         if (!InRange)
         {
@@ -62,6 +63,7 @@ public class NoteInteract : MonoBehaviour
         if (!NoteIsOpen)
         {
             NoteImage.SetActive(false);
+
         }
 
     }
@@ -75,8 +77,15 @@ public class NoteInteract : MonoBehaviour
         if (NoteIsOpen)
             playerLocker.LockMovement();
         else
+        {
             playerLocker.UnlockMovement();
-    
+            if (IsImportantClue)
+            {
+                ImportantClue.Instance.ShowClueAlert(); // si es una pista importante popeamos la alerta
+
+            }
+        }
+
     }
 }
 
