@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.0999911, g: 0.10391572, b: 0.1981132, a: 1}
+  m_FogColor: {r: 0.39139488, g: 0.23935522, b: 0.21299678, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.04
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.13305447, g: 0.13737027, b: 0.24528301, a: 1}
+  m_AmbientSkyColor: {r: 0.76261616, g: 0.57972354, b: 0.66472685, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.7
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.14110559, g: 0.16873321, b: 0.3252221, a: 1}
+  m_IndirectSpecularColor: {r: 0.82290965, g: 0.49900794, b: 0.37417543, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -685,7 +685,7 @@ Transform:
   - {fileID: 1617149331}
   - {fileID: 1330924916}
   - {fileID: 312648100}
-  - {fileID: 1610469695}
+  - {fileID: 459728430}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &58433738
@@ -5898,6 +5898,65 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 458557538}
   m_Mesh: {fileID: 1980745992293898690, guid: 504e2ed3dbf002d45b53895b382a09b4, type: 3}
+--- !u!1 &459728429
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 459728430}
+  - component: {fileID: 459728432}
+  - component: {fileID: 459728431}
+  m_Layer: 0
+  m_Name: ImportanClueManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &459728430
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459728429}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 39369767}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &459728431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459728429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e3a9a51e5e1aca4fae7962faaa6ade6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clueAlertPrefab: {fileID: 1377202112723401628, guid: 7d08bc30c1c80fc439e702390b7f470a, type: 3}
+  canvasTransform: {fileID: 1459070940}
+--- !u!114 &459728432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459728429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9300d6362c72d2c459d42855d349701e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &478297718
 GameObject:
   m_ObjectHideFlags: 0
@@ -8906,7 +8965,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730473041}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.054389358, y: 0.77841306, z: 0.6216728, w: 0.06810236}
+  m_LocalRotation: {x: 0.08648988, y: 0.12291194, z: -0.98858315, w: 0.010753408}
   m_LocalPosition: {x: 58.24, y: 7.95, z: 34.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8947,7 +9006,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.281319, g: 0.281319, b: 0.281319, a: 1}
+  m_Color: {r: 0.67456883, g: 0.67456883, b: 0.67456883, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -10588,7 +10647,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 858947800}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.059671603, y: 0.6269591, z: -0.048256718, w: 0.77526313}
+  m_LocalRotation: {x: 0.05967162, y: 0.62695915, z: -0.04825673, w: 0.77526313}
   m_LocalPosition: {x: -2.16, y: 5.078, z: 26.196}
   m_LocalScale: {x: 1, y: 1, z: 0.86969453}
   m_ConstrainProportionsScale: 0
@@ -17251,7 +17310,7 @@ MonoBehaviour:
   Sky: {fileID: 2100000, guid: e08215bfe2cec9348882e00d895fe970, type: 2}
   DirectionalLight: {fileID: 730473044}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 0.85169274
+  TimeOfDay: 17.055027
   DaySpeed: 10
 --- !u!1 &1332766091
 GameObject:
@@ -22906,52 +22965,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1610225049}
   m_Mesh: {fileID: -4587341187696593279, guid: 504e2ed3dbf002d45b53895b382a09b4, type: 3}
---- !u!1 &1610469694
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1610469695}
-  - component: {fileID: 1610469696}
-  m_Layer: 0
-  m_Name: ImportanClueManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1610469695
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1610469694}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 39369767}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1610469696
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1610469694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e3a9a51e5e1aca4fae7962faaa6ade6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clueAlertPrefab: {fileID: 1377202112723401628, guid: 7d08bc30c1c80fc439e702390b7f470a, type: 3}
-  canvasTransform: {fileID: 1459070940}
 --- !u!1 &1617149329
 GameObject:
   m_ObjectHideFlags: 0

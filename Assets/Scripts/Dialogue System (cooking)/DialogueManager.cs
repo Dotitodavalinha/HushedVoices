@@ -108,17 +108,22 @@ public class DialogueManager : MonoBehaviour
         // Crear botones de respuesta
         foreach (var response in node.responses)
         {
-            GameObject prefab = (ModoParanoia && response.paranoiaAffected) ? ButtonPrefabParanoia : responseButtonPrefab; // si hay paranoia y el boton esta afectado usa otro prefab
+            // Si la respuesta requiere una pista y no la tenemos, no se muestra :p
+            if (!string.IsNullOrEmpty(response.requiredClue) &&
+                !PlayerClueTracker.Instance.HasClue(response.requiredClue))
+            {
+                continue;
+            }
+
+            GameObject prefab = (ModoParanoia && response.paranoiaAffected) ? ButtonPrefabParanoia : responseButtonPrefab;
 
             GameObject btn = Instantiate(prefab, responseContainer);
 
             btn.GetComponentInChildren<TextMeshProUGUI>().text = response.responseText;
             btn.GetComponent<Button>().onClick.AddListener(() => OnResponseSelected(response));
-
         }
-
-
     }
+
 
     private void OnResponseSelected(PlayerResponseSO response)
     {
