@@ -9,20 +9,31 @@ public class NightManager : MonoBehaviour
     public JailManager JailManager;
     public LightingManager DayManager;
     public bool IsNight;
+    public GameObject ClockNit;
+    public GameObject ClockDay;
+
 
     private void Start()
     {
         JailManager = GameObject.Find("JailManager")?.GetComponent<JailManager>();
+        ClockDay = GameObject.Find("Dia");
+        ClockNit = GameObject.Find("Noche");
+        ClockNit.SetActive(false);
     }
     private void Update()
     {
-        if(DayManager.TimeOfDay > 20 || DayManager.TimeOfDay < 4)
+        if (DayManager.TimeOfDay > 20 || DayManager.TimeOfDay < 6)
         {
             IsNight = true;
+            ClockDay.SetActive(false);
+            ClockNit.SetActive(true); 
+
         }
         else
         {
             IsNight = false;
+            ClockDay.SetActive(true);
+            ClockNit.SetActive(false);
         }
     }
     public void TalkingToPolice()

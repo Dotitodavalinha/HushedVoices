@@ -11,15 +11,24 @@ public class LightingManager : MonoBehaviour
     [SerializeField] private LightingPreset preset;
     [SerializeField, Range(0, 24)] public float TimeOfDay;
 
-    [SerializeField] public float DaySpeed; 
+    [SerializeField] public float DaySpeed;
     private void Start()
     {
         RenderSettings.skybox = Sky;
-        TimeOfDay = 8;
 
-        if (PlayerPrefs.HasKey("SavedTimeOfDay"))
-            TimeOfDay = PlayerPrefs.GetFloat("SavedTimeOfDay");
-
+        if (!PlayerPrefs.HasKey("HasStartedBefore"))
+        {
+            // Es la primera vez: arrancamos a las 8 y lo marcamos
+            TimeOfDay = 8f;
+            PlayerPrefs.SetFloat("SavedTimeOfDay", TimeOfDay);
+            PlayerPrefs.SetInt("HasStartedBefore", 1);
+        }
+        else
+        {
+            // Ya se jugó antes, cargamos el tiempo guardado
+            if (PlayerPrefs.HasKey("SavedTimeOfDay"))
+                TimeOfDay = PlayerPrefs.GetFloat("SavedTimeOfDay");
+        }
     }
     private void Update()
     {
@@ -38,8 +47,8 @@ public class LightingManager : MonoBehaviour
             UpdateLighting(TimeOfDay / 24);
         }
         Sky.SetFloat("_TimeOfDay", TimeOfDay);
-
-        PlayerPrefs.SetFloat("SavedTimeOfDay", TimeOfDay); //guardo el tiempo en cada frame 
+     
+       PlayerPrefs.SetFloat("SavedTimeOfDay", TimeOfDay); //guardo el tiempo en cada frame 
 
     }
 
