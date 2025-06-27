@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.39139488, g: 0.23935522, b: 0.21299678, a: 1}
+  m_FogColor: {r: 0.19415188, g: 0.14697559, b: 0.20425817, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.04
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.76261616, g: 0.57972354, b: 0.66472685, a: 1}
+  m_AmbientSkyColor: {r: 0.33933124, g: 0.2621513, b: 0.38979757, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.7
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.82290965, g: 0.49900794, b: 0.37417543, a: 1}
+  m_IndirectSpecularColor: {r: 0.57189304, g: 0.22904956, b: 0.32253286, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1335,6 +1335,7 @@ GameObject:
   - component: {fileID: 75662876}
   - component: {fileID: 75662878}
   - component: {fileID: 75662877}
+  - component: {fileID: 75662879}
   m_Layer: 5
   m_Name: Inventory_Tab
   m_TagString: Untagged
@@ -1376,7 +1377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 1d0b5040dae74ee4fb3fff892a240336, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -1402,6 +1403,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 75662875}
   m_CullTransparentMesh: 1
+--- !u!114 &75662879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 75662875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3000980b720c4244ae55183f77bf99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _material: {fileID: 2100000, guid: 1d0b5040dae74ee4fb3fff892a240336, type: 2}
 --- !u!1 &75990524
 GameObject:
   m_ObjectHideFlags: 0
@@ -8965,7 +8979,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730473041}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.08648988, y: 0.12291194, z: -0.98858315, w: 0.010753408}
+  m_LocalRotation: {x: 0.083849266, y: -0.27179348, z: -0.95840085, w: -0.023778865}
   m_LocalPosition: {x: 58.24, y: 7.95, z: 34.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9006,7 +9020,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.67456883, g: 0.67456883, b: 0.67456883, a: 1}
+  m_Color: {r: 0.47782212, g: 0.47782212, b: 0.47782212, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -10647,7 +10661,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 858947800}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.05967162, y: 0.62695915, z: -0.04825673, w: 0.77526313}
+  m_LocalRotation: {x: 0.059671603, y: 0.6269591, z: -0.048256718, w: 0.77526313}
   m_LocalPosition: {x: -2.16, y: 5.078, z: 26.196}
   m_LocalScale: {x: 1, y: 1, z: 0.86969453}
   m_ConstrainProportionsScale: 0
@@ -11174,8 +11188,8 @@ MonoBehaviour:
   vignette: {fileID: 2100000, guid: 6bcf68bea07fcf1439bfd3142bba3172, type: 2}
   dayNightShader: {fileID: 2100000, guid: 47b8e24a855c61d40b5a1935c33c5de5, type: 2}
   cameraLines: {fileID: 2100000, guid: c06dc6719fdc7af44bfe6d6911029197, type: 2}
-  paranoiaName: {fileID: 0}
-  paranoiaText: {fileID: 0}
+  paranoiaName: {fileID: 1399515246}
+  paranoiaText: {fileID: 1796337778}
 --- !u!1001 &900636898
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17310,7 +17324,7 @@ MonoBehaviour:
   Sky: {fileID: 2100000, guid: e08215bfe2cec9348882e00d895fe970, type: 2}
   DirectionalLight: {fileID: 730473044}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 17.055027
+  TimeOfDay: 20.111046
   DaySpeed: 10
 --- !u!1 &1332766091
 GameObject:
@@ -19275,6 +19289,7 @@ GameObject:
   - component: {fileID: 1424031159}
   - component: {fileID: 1424031158}
   - component: {fileID: 1424031157}
+  - component: {fileID: 1424031160}
   m_Layer: 5
   m_Name: Map_Tab
   m_TagString: Untagged
@@ -19294,7 +19309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: ece6e71083016b74a80a7edcd9c59fcd, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -19340,6 +19355,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1424031160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1424031156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3000980b720c4244ae55183f77bf99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _material: {fileID: 2100000, guid: ece6e71083016b74a80a7edcd9c59fcd, type: 2}
 --- !u!1 &1429378278
 GameObject:
   m_ObjectHideFlags: 0
@@ -26557,6 +26585,7 @@ GameObject:
   - component: {fileID: 1853086334}
   - component: {fileID: 1853086333}
   - component: {fileID: 1853086332}
+  - component: {fileID: 1853086335}
   m_Layer: 5
   m_Name: Notes_Tab
   m_TagString: Untagged
@@ -26576,7 +26605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 421d790a418a7e7489beab99846c6043, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -26626,6 +26655,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1853086335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853086331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3000980b720c4244ae55183f77bf99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _material: {fileID: 2100000, guid: 421d790a418a7e7489beab99846c6043, type: 2}
 --- !u!1001 &1863776337
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31107,6 +31149,7 @@ GameObject:
   - component: {fileID: 2130387144}
   - component: {fileID: 2130387143}
   - component: {fileID: 2130387142}
+  - component: {fileID: 2130387145}
   m_Layer: 5
   m_Name: Settings_Tab
   m_TagString: Untagged
@@ -31126,7 +31169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 6a2d9faaac0dcdf42ba8d1edaee6f521, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -31173,6 +31216,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2130387145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130387141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3000980b720c4244ae55183f77bf99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _material: {fileID: 2100000, guid: 6a2d9faaac0dcdf42ba8d1edaee6f521, type: 2}
 --- !u!1 &2134239991 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: df2c4080db88b6d45b6f95e3f6e73532, type: 3}

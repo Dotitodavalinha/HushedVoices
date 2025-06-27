@@ -101,8 +101,19 @@ private void Awake()
 
         if (paranoiaText != null)
         {
-            Color colorInterpolado = Color.Lerp(colorNormal, colorParanoia, paranoiaLevel);
-            paranoiaText.color = colorInterpolado;
+            if (paranoiaLevel <= 0.5f)
+            {
+                Color colorInterpolado = Color.Lerp(colorNormal, colorParanoia, paranoiaLevel * 0.5f);
+                paranoiaText.color = colorInterpolado;
+                paranoiaName.color = colorInterpolado;
+            }
+            else
+            {
+                Color colorInterpolado = Color.Lerp(colorNormal, colorParanoia, paranoiaLevel);
+                paranoiaText.color = colorInterpolado;
+                paranoiaName.color = colorInterpolado;
+            }
+
         }
     }
 }
