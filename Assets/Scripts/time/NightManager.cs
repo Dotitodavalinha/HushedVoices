@@ -13,6 +13,9 @@ public class NightManager : MonoBehaviour
     public GameObject ClockDay;
 
     public GameObject IsNightAlert;
+    [SerializeField] private Transform canvasTransform;
+    private bool hasInstantiatedAlert = false;
+
 
 
     private void Start()
@@ -51,13 +54,17 @@ public class NightManager : MonoBehaviour
         IsNight = false;
         ClockDay.SetActive(true);
         ClockNit.SetActive(false);
+
+        hasInstantiatedAlert = false;
     }
 
     public void ClockNIghtTrue()
     {
-       
-        Instantiate(IsNightAlert); //hacer q no se llame a clocknight en el update y q esto se instancie done el canvas, igual q en ImportantClue
-
+        if (!hasInstantiatedAlert)
+        {
+            Instantiate(IsNightAlert, canvasTransform);
+            hasInstantiatedAlert = true;
+        }
         IsNight = true;
         ClockDay.SetActive(false);
         ClockNit.SetActive(true);

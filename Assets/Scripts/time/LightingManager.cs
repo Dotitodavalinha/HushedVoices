@@ -5,13 +5,14 @@ using UnityEngine;
 [ExecuteAlways]
 public class LightingManager : MonoBehaviour
 {
-    [SerializeField] private Material Sky;
+    [SerializeField] private Material Sky; 
 
     [SerializeField] private Light DirectionalLight;
     [SerializeField] private LightingPreset preset;
     [SerializeField, Range(0, 24)] public float TimeOfDay;
 
     [SerializeField] public float DaySpeed;
+    
     private void Start()
     {
         RenderSettings.skybox = Sky;
@@ -50,6 +51,8 @@ public class LightingManager : MonoBehaviour
      
        PlayerPrefs.SetFloat("SavedTimeOfDay", TimeOfDay); //guardo el tiempo en cada frame 
 
+
+      
     }
 
     private void UpdateLighting(float timePercent)
