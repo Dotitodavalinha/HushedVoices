@@ -12,6 +12,8 @@ public class NightManager : MonoBehaviour
     public GameObject ClockNit;
     public GameObject ClockDay;
 
+    public GameObject IsNightAlert;
+
 
     private void Start()
     {
@@ -24,16 +26,14 @@ public class NightManager : MonoBehaviour
     {
         if (DayManager.TimeOfDay > 20 || DayManager.TimeOfDay < 6)
         {
-            IsNight = true;
-            ClockDay.SetActive(false);
-            ClockNit.SetActive(true); 
+            
+            ClockNIghtTrue();
 
         }
         else
         {
-            IsNight = false;
-            ClockDay.SetActive(true);
-            ClockNit.SetActive(false);
+            
+            ClockDayTrue();
         }
     }
     public void TalkingToPolice()
@@ -45,4 +45,22 @@ public class NightManager : MonoBehaviour
           //  JailManager.SetMaxValue();
         }
     }
+
+    public void ClockDayTrue()
+    {
+        IsNight = false;
+        ClockDay.SetActive(true);
+        ClockNit.SetActive(false);
+    }
+
+    public void ClockNIghtTrue()
+    {
+       
+        Instantiate(IsNightAlert); //hacer q no se llame a clocknight en el update y q esto se instancie done el canvas, igual q en ImportantClue
+
+        IsNight = true;
+        ClockDay.SetActive(false);
+        ClockNit.SetActive(true);
+    }
+
 }
