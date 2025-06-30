@@ -77,17 +77,17 @@ public class DialogueManager : MonoBehaviour
         camManager.CambiarLookAt(npc.transform);
 
         //npc mira a luke y luke a npc
+        if (npc.noRotateToLook)
+        {
+            Vector3 targetPosition = movementLocker.transform.position;
+            targetPosition.y = npc.transform.position.y;
+            npc.transform.LookAt(targetPosition);
+        }
 
-        Vector3 targetPosition = movementLocker.transform.position;
-        targetPosition.y = npc.transform.position.y;
-        npc.transform.LookAt(targetPosition);
-
-        Vector3 npcPos = npc.transform.position;
-        npcPos.y = movementLocker.transform.position.y;
-        movementLocker.transform.LookAt(npcPos);
-
-
-
+            Vector3 npcPos = npc.transform.position;
+            npcPos.y = movementLocker.transform.position.y;
+            movementLocker.transform.LookAt(npcPos);
+        
     }
 
     public void SetModoParanoia(bool valor)

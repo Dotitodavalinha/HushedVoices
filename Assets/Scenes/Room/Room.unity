@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.1952464, g: 0.1474882, b: 0.20430666, a: 1}
+  m_FogColor: {r: 0.38930482, g: 0.23837633, b: 0.21290419, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.38192025, g: 0.3044749, b: 0.45075226, a: 1}
+  m_AmbientSkyColor: {r: 0.75811815, g: 0.5749081, b: 0.6622398, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.5746688, g: 0.22962487, b: 0.3224739, a: 1}
+  m_IndirectSpecularColor: {r: 0.8212759, g: 0.49639297, b: 0.37343955, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -14084,7 +14084,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.4789139, g: 0.4789139, b: 0.4789139, a: 1}
+  m_Color: {r: 0.672484, g: 0.672484, b: 0.672484, a: 1}
   m_Intensity: 0.8
   m_Range: 10
   m_SpotAngle: 30
@@ -14143,7 +14143,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1345100765}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.08390185, y: -0.26966527, z: -0.9590019, w: -0.02359267}
+  m_LocalRotation: {x: 0.08653468, y: 0.1187204, z: -0.9890952, w: 0.010386696}
   m_LocalPosition: {x: -47.6, y: 10.51, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -15035,7 +15035,7 @@ MonoBehaviour:
   Sky: {fileID: 2100000, guid: e08215bfe2cec9348882e00d895fe970, type: 2}
   DirectionalLight: {fileID: 1345100767}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 20.094088
+  TimeOfDay: 17.08741
   DaySpeed: 15
 --- !u!1001 &1442851651
 PrefabInstance:
@@ -21014,6 +21014,7 @@ GameObject:
   - component: {fileID: 5080861585261438565}
   - component: {fileID: 4100044582104756100}
   - component: {fileID: 7615844447992488690}
+  - component: {fileID: 7615844447992488692}
   m_Layer: 0
   m_Name: Ben'sNote
   m_TagString: Untagged
@@ -21137,6 +21138,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jugadorDentro: 0
+--- !u!114 &7615844447992488692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6601311788206978049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 267edbb57d3cb9f4a9be1be533c6c3c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clueID: BenNote
+  destroyOnPickup: 0
 --- !u!4 &7691034241162866680
 Transform:
   m_ObjectHideFlags: 0

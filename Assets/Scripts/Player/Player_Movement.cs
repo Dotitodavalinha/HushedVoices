@@ -9,6 +9,9 @@ public class Player_Movement : MonoBehaviour
     public float cameraDistance = 5f;
     public float cameraHeight = 3f;
     public float rotationSpeed = 5f;
+    float finalSpeed = 0f;
+
+
 
     private CharacterController controller;
     private Camera currentCam;
@@ -28,10 +31,12 @@ public class Player_Movement : MonoBehaviour
 
     void Update()
     {
+        float normalizedSpeed = 0f;
+
+
         Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical")).normalized;
         holdingMovementInput = input.magnitude >= 0.1f;
 
-        anim.SetFloat("Speed", input.magnitude);
 
         if (!isStreetScene && !holdingMovementInput && Camera.main != currentCam)
         {
@@ -66,15 +71,23 @@ public class Player_Movement : MonoBehaviour
 
         if (holdingMovementInput)
         {
+
             float speedMultiplier = Input.GetKey(KeyCode.LeftShift) ? RunMagnitude : 1f;
-            controller.Move(moveDir.normalized * moveSpeed * speedMultiplier * Time.deltaTime);
+            finalSpeed = moveSpeed * speedMultiplier;
+            controller.Move(moveDir.normalized * finalSpeed * Time.deltaTime);
 
             if (moveDir != Vector3.zero)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(moveDir, Vector3.up);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             }
+
+            normalizedSpeed = Input.GetKey(KeyCode.LeftShift) ? 2f : 1f;
+
         }
+
+        anim.SetFloat("Speed", normalizedSpeed);
+
 
         if (isStreetScene && currentCam != null)
         {

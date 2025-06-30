@@ -10,6 +10,7 @@ public class NPCDialogue : MonoBehaviour
 
     public NPCMoodController moodController;
     public NightManager NightManager;
+    public bool noRotateToLook = true;
 
     private void Start()
     {
