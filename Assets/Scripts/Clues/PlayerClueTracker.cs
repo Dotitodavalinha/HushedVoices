@@ -5,8 +5,8 @@ public class PlayerClueTracker : MonoBehaviour
 {
     public static PlayerClueTracker Instance;
 
-    [SerializeField] private List<string> cluesList = new List<string>();
-    private HashSet<string> clues = new HashSet<string>();
+    [SerializeField] public List<string> cluesList = new List<string>();
+    public HashSet<string> clues = new HashSet<string>();
 
     private void Awake()
     {
