@@ -31,7 +31,7 @@ public class BedPass : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-              
+                ParanoiaManager.Instance.SetParanoiaValue(-1f);
                 int currentIndex = SceneManager.GetActiveScene().buildIndex;
                 int nextIndex = currentIndex + 4;
 

@@ -19,7 +19,7 @@ public class ParanoiaManager : MonoBehaviour
     private Color colorNormal = new Color32(104, 38, 25, 255);
     private Color colorParanoia = Color.white;
 
-private void Awake()
+    private void Awake()
     {
         // Singleton
         if (Instance != null && Instance != this)
@@ -51,12 +51,12 @@ private void Awake()
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {       
+    {
         paranoiaObjects = FindObjectsOfType<ParanoiaObject>();
         //SetParanoiaValue(0);
-        
+
     }
-    
+
     public void SetParanoiaValue(float value)
     {
         Debug.LogWarning("Paranoia actualizada " + value);
@@ -65,6 +65,16 @@ private void Awake()
         foreach (var obj in paranoiaObjects)
         {
             obj.SetParanoia(paranoiaLevel);
+        }
+
+        if (paranoiaLevel < 0f)
+        {
+            paranoiaLevel = 0;
+        }
+
+        else if(paranoiaLevel > 1f) 
+        {
+            paranoiaLevel = 1;
         }
 
 
@@ -81,7 +91,7 @@ private void Awake()
         obj.SetParanoia(paranoiaLevel);
     }
 
-        void Update() // test
+    void Update() // test
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
