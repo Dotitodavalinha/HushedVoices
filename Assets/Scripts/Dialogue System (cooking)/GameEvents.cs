@@ -45,6 +45,7 @@ public class GameEvents : MonoBehaviour
                 r.onResponseChosen.AddListener(() => ProgressManager.Instance.Policeznt = true);
                 r.onResponseChosen.AddListener(() => ProgressManager.Instance.ColegioStreet = true);
                 r.onResponseChosen.AddListener(() => ColegioStreet.SetActive(ProgressManager.Instance.ColegioStreet));
+                r.onResponseChosen.AddListener(() => ColegioStreet.SetActive(false)) ;
                 r.onResponseChosen.AddListener(() => ProgressManager.Instance.LostCoffe = true);
                 r.onResponseChosen.AddListener(() => ProgressManager.Instance.GotCoffe = false);
             }
