@@ -9,38 +9,67 @@ public class PoliceBehaviour : MonoBehaviour
     [SerializeField] private float waitTime = 1f;
     [SerializeField] private DialogueTrigger DialogueTrigger;
 
+    [SerializeField] private bool patrolDuringDay = false;
+    [SerializeField] private NightManager nightManager;
+    [SerializeField] public GameObject Linterna;
+
+    [SerializeField] private float viewAngle = 45f;
+    [SerializeField] private float viewDistance = 5f;
+
     private int currentIndex = 0;
     private bool goingForward = true;
     [SerializeField] private bool isWaiting = false;
 
-    public Animator animator;
-
-    [SerializeField] private bool patrolDuringDay = false;
-
-    [SerializeField] private NightManager nightManager;
-    [SerializeField] private JailManager jailManager;
-
     private bool isChasingPlayer = false;
-    private GameObject player;
+    private bool canChase = false;
 
+    private GameObject player;
+    private Animator animator;
+    private bool wasNightLastFrame = false;
 
     private void Start()
     {
         animator = GetComponentInChildren<Animator>();
         nightManager = FindObjectOfType<NightManager>();
-        jailManager = FindObjectOfType<JailManager>();
-
+       
         player = GameObject.FindWithTag("Player");
-
     }
 
     private void Update()
     {
+        if (player == null)
+        {
+            player = GameObject.FindWithTag("Player");
+            if (player == null) return;
+        }
+
         if (!patrolDuringDay && !nightManager.IsNight)
         {
             animator.SetBool("IsWaiting", true);
+
+            // Ir hacia el waypoint 0 si no está ahí
+            Transform target = patrolPoints[0];
+            Vector3 toStart = target.position - transform.position;
+
+            if (toStart.magnitude > 0.1f)
+            {
+                Vector3 dir = toStart.normalized;
+                transform.position += dir * moveSpeed * Time.deltaTime;
+                transform.forward = dir;
+            }
+
+            canChase = false;
+            wasNightLastFrame = false;
             return;
         }
+
+        // Si acaba de hacerse de noche, esperar 2 segundos antes de permitir persecución
+        if (!wasNightLastFrame && nightManager.IsNight)
+        {
+            canChase = false;
+            Invoke(nameof(EnableChase), 2f);
+        }
+
 
         if (patrolPoints.Count < 2 || isWaiting)
         {
@@ -54,30 +83,37 @@ public class PoliceBehaviour : MonoBehaviour
             return;
         }
 
-
         animator.SetBool("IsWaiting", false);
+
+        Vector3 toPlayer = (player.transform.position - transform.position);
+        float distanceToPlayer = toPlayer.magnitude;
+        float angle = Vector3.Angle(transform.forward, toPlayer.normalized);
+
+        bool seesPlayer = canChase && nightManager.IsNight && player != null &&
+                          distanceToPlayer <= viewDistance && angle <= viewAngle / 2f;
+
+        if (seesPlayer)
+        {
+            isChasingPlayer = true;
+        }
+
         if (isChasingPlayer)
         {
-            Vector3 toPlayer = (player.transform.position - transform.position);
-            float distanceToPlayer = toPlayer.magnitude;
-            float angle = Vector3.Angle(transform.forward, toPlayer.normalized);
-
-            if (distanceToPlayer <= 5f && angle <= 22.5f)
+            if (seesPlayer)
             {
-                animator.SetBool("IsWaiting", false);
                 toPlayer.Normalize();
                 transform.position += toPlayer * moveSpeed * Time.deltaTime;
                 transform.forward = toPlayer;
 
                 if (DialogueTrigger.playerInRange)
                 {
-                    jailManager.SetMaxValue();
+                    JailManager.Instance.SetMaxValue();
                     Debug.Log("¡Jugador atrapado! Enviado a la cárcel.");
                 }
             }
             else
             {
-                // Lo perdió de vista
+                // Lo perdió de vista, vuelve al patrullaje
                 isChasingPlayer = false;
                 currentIndex = 0;
             }
@@ -85,47 +121,44 @@ public class PoliceBehaviour : MonoBehaviour
             return;
         }
 
-        else
+        // Patrullaje normal
+        Transform patrolTarget = patrolPoints[currentIndex];
+        Vector3 patrolDir = (patrolTarget.position - transform.position);
+        if (patrolDir.magnitude > 0.01f)
         {
-            // Patrullaje normal
-            Transform target = patrolPoints[currentIndex];
-            Vector3 direction = (target.position - transform.position);
-            if (direction.magnitude > 0.01f)
-            {
-                direction.Normalize();
-                transform.position += direction * moveSpeed * Time.deltaTime;
-                transform.forward = direction;
-            }
-
-            if (Vector3.Distance(transform.position, target.position) < 0.2f)
-            {
-                StartCoroutine(WaitAndMove());
-            }
-
-            // Detección de visión
-            if (nightManager.IsNight && player != null)
-            {
-                Vector3 toPlayer = (player.transform.position - transform.position);
-                float distanceToPlayer = toPlayer.magnitude;
-                float angle = Vector3.Angle(transform.forward, toPlayer.normalized);
-
-                if (distanceToPlayer <= 5f && angle <= 22.5f)
-                {
-                    Debug.Log("viendo al jugador");
-                    isChasingPlayer = true;
-                }
-            }
+            patrolDir.Normalize();
+            transform.position += patrolDir * moveSpeed * Time.deltaTime;
+            transform.forward = patrolDir;
         }
 
+        if (Vector3.Distance(transform.position, patrolTarget.position) < 0.2f)
+        {
+            StartCoroutine(WaitAndMove());
+        }
+
+        if (Linterna != null) //showeo lantern
+        {
+            Linterna.SetActive(nightManager.IsNight && canChase);
+        }
+        else
+        {
+            Debug.Log("ASIGNA LA LINTERNA CABEZON");
+        }
+
+        wasNightLastFrame = nightManager.IsNight;
 
 
     }
 
 
+    private void EnableChase()
+    {
+        canChase = true;
+    }
+
     private IEnumerator WaitAndMove()
     {
         isWaiting = true;
-
         yield return new WaitForSeconds(waitTime);
 
         if (goingForward)
@@ -148,29 +181,21 @@ public class PoliceBehaviour : MonoBehaviour
         }
 
         isWaiting = false;
-
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
 
-        // Dirección frontal del policía
         Vector3 forward = transform.forward;
-        float viewDistance = 5f;
-        float viewAngle = 45f;
 
-        // Ángulo izquierdo
         Vector3 leftDir = Quaternion.Euler(0, -viewAngle / 2f, 0) * forward;
         Gizmos.DrawRay(transform.position, leftDir * viewDistance);
 
-        // Ángulo derecho
         Vector3 rightDir = Quaternion.Euler(0, viewAngle / 2f, 0) * forward;
         Gizmos.DrawRay(transform.position, rightDir * viewDistance);
 
-        // Línea central
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, forward * viewDistance);
     }
-
 }

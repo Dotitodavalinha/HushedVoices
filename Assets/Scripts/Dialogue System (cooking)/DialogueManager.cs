@@ -134,7 +134,7 @@ public class DialogueManager : MonoBehaviour
                 currentNPC.moodController.SetMoodHappy();
                 break;
             case MoodChange.Angry:
-                currentNPC.moodController.SetMoodAngry();
+                currentNPC.moodController.SetMoodAngry(true);
                 break;
             case MoodChange.Normal:
                 currentNPC.moodController.SetMoodNormal();

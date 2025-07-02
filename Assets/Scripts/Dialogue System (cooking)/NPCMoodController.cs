@@ -59,14 +59,14 @@ public class NPCMoodController : MonoBehaviour
         spriteRenderer.sprite = normalFace;
     }
 
-    public void SetMoodAngry()
+    public void SetMoodAngry(bool IsNPC)
     {
         spriteRenderer.sprite = angryFace;
 
         ParanoiaManager.Instance.SetParanoiaValue(1f / 3f);
 
         //alambreee
-        if (JailManager.Instance != null)
+        if (JailManager.Instance != null && IsNPC == true)
         {
             JailManager.Instance.Increment();
 

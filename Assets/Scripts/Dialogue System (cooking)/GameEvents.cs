@@ -57,6 +57,7 @@ public class GameEvents : MonoBehaviour
 
             if(r.responseText.Contains("..."))
             {
+                /*
                 r.onResponseChosen.RemoveAllListeners();
                 r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("Police", "RootPolice1"));
                 r.onResponseChosen.AddListener(() => {
@@ -70,7 +71,7 @@ public class GameEvents : MonoBehaviour
                         Debug.LogWarning("No se encontró JailManager en la escena.");
                     }
                 });
-
+                */
 
             }
          
