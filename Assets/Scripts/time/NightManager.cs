@@ -27,7 +27,7 @@ public class NightManager : MonoBehaviour
     }
     private void Update()
     {
-        if (DayManager.TimeOfDay > 20 || DayManager.TimeOfDay < 6)
+        if (DayManager.TimeOfDay > 20 || DayManager.TimeOfDay < 5)
         {
             
             ClockNIghtTrue();

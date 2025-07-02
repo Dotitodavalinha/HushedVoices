@@ -15,30 +15,110 @@ public class PoliceBehaviour : MonoBehaviour
 
     public Animator animator;
 
+    [SerializeField] private bool patrolDuringDay = false;
+
+    [SerializeField] private NightManager nightManager;
+    [SerializeField] private JailManager jailManager;
+
+    private bool isChasingPlayer = false;
+    private GameObject player;
+
+
     private void Start()
     {
         animator = GetComponentInChildren<Animator>();
+        nightManager = FindObjectOfType<NightManager>();
+        jailManager = FindObjectOfType<JailManager>();
+
+        player = GameObject.FindWithTag("Player");
+
     }
 
     private void Update()
     {
-
-        if (patrolPoints.Count < 2 || isWaiting || DialogueTrigger.playerInRange)
+        if (!patrolDuringDay && !nightManager.IsNight)
         {
             animator.SetBool("IsWaiting", true);
             return;
         }
 
-        animator.SetBool("IsWaiting", false);
-        Transform target = patrolPoints[currentIndex];
-        Vector3 direction = (target.position - transform.position).normalized;
-        transform.position += direction * moveSpeed * Time.deltaTime;
-        transform.forward = direction;
-
-        if (Vector3.Distance(transform.position, target.position) < 0.1f)
+        if (patrolPoints.Count < 2 || isWaiting)
         {
-            StartCoroutine(WaitAndMove());
+            animator.SetBool("IsWaiting", true);
+            return;
         }
+
+        if (DialogueTrigger.playerInRange && !nightManager.IsNight)
+        {
+            animator.SetBool("IsWaiting", true);
+            return;
+        }
+
+
+        animator.SetBool("IsWaiting", false);
+        if (isChasingPlayer)
+        {
+            Vector3 toPlayer = (player.transform.position - transform.position);
+            float distanceToPlayer = toPlayer.magnitude;
+            float angle = Vector3.Angle(transform.forward, toPlayer.normalized);
+
+            if (distanceToPlayer <= 5f && angle <= 22.5f)
+            {
+                animator.SetBool("IsWaiting", false);
+                toPlayer.Normalize();
+                transform.position += toPlayer * moveSpeed * Time.deltaTime;
+                transform.forward = toPlayer;
+
+                if (DialogueTrigger.playerInRange)
+                {
+                    jailManager.SetMaxValue();
+                    Debug.Log("¡Jugador atrapado! Enviado a la cárcel.");
+                }
+            }
+            else
+            {
+                // Lo perdió de vista
+                isChasingPlayer = false;
+                currentIndex = 0;
+            }
+
+            return;
+        }
+
+        else
+        {
+            // Patrullaje normal
+            Transform target = patrolPoints[currentIndex];
+            Vector3 direction = (target.position - transform.position);
+            if (direction.magnitude > 0.01f)
+            {
+                direction.Normalize();
+                transform.position += direction * moveSpeed * Time.deltaTime;
+                transform.forward = direction;
+            }
+
+            if (Vector3.Distance(transform.position, target.position) < 0.2f)
+            {
+                StartCoroutine(WaitAndMove());
+            }
+
+            // Detección de visión
+            if (nightManager.IsNight && player != null)
+            {
+                Vector3 toPlayer = (player.transform.position - transform.position);
+                float distanceToPlayer = toPlayer.magnitude;
+                float angle = Vector3.Angle(transform.forward, toPlayer.normalized);
+
+                if (distanceToPlayer <= 5f && angle <= 22.5f)
+                {
+                    Debug.Log("viendo al jugador");
+                    isChasingPlayer = true;
+                }
+            }
+        }
+
+
+
     }
 
 
@@ -70,4 +150,27 @@ public class PoliceBehaviour : MonoBehaviour
         isWaiting = false;
 
     }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+
+        // Dirección frontal del policía
+        Vector3 forward = transform.forward;
+        float viewDistance = 5f;
+        float viewAngle = 45f;
+
+        // Ángulo izquierdo
+        Vector3 leftDir = Quaternion.Euler(0, -viewAngle / 2f, 0) * forward;
+        Gizmos.DrawRay(transform.position, leftDir * viewDistance);
+
+        // Ángulo derecho
+        Vector3 rightDir = Quaternion.Euler(0, viewAngle / 2f, 0) * forward;
+        Gizmos.DrawRay(transform.position, rightDir * viewDistance);
+
+        // Línea central
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, forward * viewDistance);
+    }
+
 }
