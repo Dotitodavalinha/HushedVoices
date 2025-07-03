@@ -13,8 +13,9 @@ public class FinalDayBackToMenu : MonoBehaviour
     }
     public void LoadScene(string sceneName)
     {
-        lightingManager.TimeOfDay = 5.22f;
+        if(sceneName == "Room") lightingManager.TimeOfDay = 5.22f;
         SceneManager.LoadScene(sceneName);
+        Debug.Log("yendo a la escena "+ sceneName);
     }
 
     public void NewGame(string sceneName)

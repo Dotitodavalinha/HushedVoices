@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.6561351, g: 0.36334744, b: 0.22472577, a: 1}
+  m_FogColor: {r: 0.6902579, g: 0.37932903, b: 0.22623754, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.03
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.9906562, g: 0.9404985, b: 0.84024465, a: 1}
+  m_AmbientSkyColor: {r: 0.99583954, g: 0.9693451, b: 0.852983, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.7
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.8852646, g: 0.5927565, b: 0.40259165, a: 1}
+  m_IndirectSpecularColor: {r: 0.88523144, g: 0.59269774, b: 0.40267816, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9843,8 +9843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcName: Viejo
-  roots:
-  - {fileID: 11400000, guid: 89fe625d1733941479150a69228b499d, type: 2}
+  roots: []
   currentRoot: {fileID: 11400000, guid: 89fe625d1733941479150a69228b499d, type: 2}
   moodController: {fileID: 332541000}
   NightManager: {fileID: 0}
@@ -25400,7 +25399,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730473041}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.068819225, y: 0.61127216, z: -0.78660685, w: 0.053479422}
+  m_LocalRotation: {x: 0.06495641, y: 0.6642026, z: -0.74245465, w: 0.058110233}
   m_LocalPosition: {x: 58.24, y: 7.95, z: 34.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -25441,7 +25440,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.93864274, g: 0.93864274, b: 0.93864274, a: 1}
+  m_Color: {r: 0.97267973, g: 0.97267973, b: 0.97267973, a: 1}
   m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
@@ -34410,6 +34409,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c7f5aa9fe74bd8d4180afbd12ec6fbb8, type: 2}
   - {fileID: 11400000, guid: 9c0c078021ae07044bbd1423764fb871, type: 2}
   - {fileID: 11400000, guid: 9a255ca63c8fa5a448b2a9da07f1cedd, type: 2}
+  - {fileID: 11400000, guid: 9fa1592c60383cd41b900c9f88b6bd2f, type: 2}
+  - {fileID: 11400000, guid: 11ae8c2c028b0cd4ba1ced0b7a8ae739, type: 2}
   ColegioStreet: {fileID: 0}
 --- !u!4 &1165196961
 Transform:
@@ -37303,7 +37304,7 @@ MonoBehaviour:
   Sky: {fileID: 2100000, guid: e08215bfe2cec9348882e00d895fe970, type: 2}
   DirectionalLight: {fileID: 730473044}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 12.95323
+  TimeOfDay: 12.424543
   DaySpeed: 17
 --- !u!4 &1297959098
 Transform:
@@ -47882,7 +47883,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -1820, y: -978}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1354040898
@@ -49285,6 +49286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2cc09400d6d4642973f61ddb6ab08a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightingManager: {fileID: 0}
 --- !u!1 &1459862294
 GameObject:
   m_ObjectHideFlags: 0
@@ -53693,7 +53695,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1652678400}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.27432555, y: 0.1674417, z: -0.048570912, w: 0.94570065}
+  m_LocalRotation: {x: 0.27432555, y: 0.16744165, z: -0.048570897, w: 0.94570065}
   m_LocalPosition: {x: 16.63, y: 5.5, z: 26.196}
   m_LocalScale: {x: 1.2132, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -61352,7 +61354,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2027094411}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.021123113, y: 0.8862845, z: -0.040620953, w: 0.46087265}
+  m_LocalRotation: {x: 0.021123119, y: 0.8862845, z: -0.04062095, w: 0.4608727}
   m_LocalPosition: {x: -2.49, y: 2.17, z: 50.47}
   m_LocalScale: {x: 1.2132, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

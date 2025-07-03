@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.6561351, g: 0.36334744, b: 0.22472577, a: 1}
+  m_FogColor: {r: 0.09803921, g: 0.10196081, b: 0.20000002, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.03
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.9906562, g: 0.9404985, b: 0.84024465, a: 1}
+  m_AmbientSkyColor: {r: 0.2025187, g: 0.20757172, b: 0.3490566, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.7
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.8852646, g: 0.5927565, b: 0.40259165, a: 1}
+  m_IndirectSpecularColor: {r: 0.14090109, g: 0.16818628, b: 0.32461888, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1673,8 +1673,8 @@ Transform:
   m_GameObject: {fileID: 75990524}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -13.12, y: 0.25432348, z: 0.2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -13.12, y: 0.25432348, z: 1.1279}
+  m_LocalScale: {x: 0.29699, y: 1, z: 2.3818}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 944311213}
@@ -30686,7 +30686,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730473041}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.068819225, y: 0.61127216, z: -0.78660685, w: 0.053479422}
+  m_LocalRotation: {x: 0.06937923, y: -0.60294497, z: -0.79300773, w: -0.052750885}
   m_LocalPosition: {x: 58.24, y: 7.95, z: 34.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -30727,7 +30727,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.93864274, g: 0.93864274, b: 0.93864274, a: 1}
+  m_Color: {r: 0.2940054, g: 0.2940054, b: 0.2940054, a: 1}
   m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
@@ -35974,7 +35974,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -1820, y: -978}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &988492457 stripped
@@ -41114,7 +41114,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1229151359}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.27918622, y: 0.14099045, z: -0.0414813, w: 0.94892365}
+  m_LocalRotation: {x: 0.2791862, y: 0.1409904, z: -0.041481283, w: 0.94892365}
   m_LocalPosition: {x: 14.671, y: 5.078, z: 26.196}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -43041,7 +43041,7 @@ MonoBehaviour:
   Sky: {fileID: 2100000, guid: e08215bfe2cec9348882e00d895fe970, type: 2}
   DirectionalLight: {fileID: 730473044}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 12.95323
+  TimeOfDay: 22.966227
   DaySpeed: 17
 --- !u!4 &1297959098
 Transform:
@@ -55820,6 +55820,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2cc09400d6d4642973f61ddb6ab08a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightingManager: {fileID: 0}
 --- !u!1001 &1462087857
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -60594,7 +60595,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1652678400}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.27918622, y: 0.14099045, z: -0.0414813, w: 0.94892365}
+  m_LocalRotation: {x: 0.2791862, y: 0.1409904, z: -0.041481283, w: 0.94892365}
   m_LocalPosition: {x: 14.671, y: 5.078, z: 26.196}
   m_LocalScale: {x: 1.2132, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -71661,6 +71662,7 @@ GameObject:
   - component: {fileID: 2098884880372583543}
   - component: {fileID: 7152891378408228246}
   - component: {fileID: 7152891378408228248}
+  - component: {fileID: 7152891378408228249}
   m_Layer: 0
   m_Name: Ben's Clue
   m_TagString: Untagged
@@ -73315,6 +73317,19 @@ MonoBehaviour:
   clueID: map
   destroyOnPickup: 1
   ShowAlertOnPickup: 1
+--- !u!114 &7152891378408228249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 17721945777282579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3c8d2ed72b75b7439b086044bd43621, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clueID: vanessa
 --- !u!224 &7300542878612457025
 RectTransform:
   m_ObjectHideFlags: 0

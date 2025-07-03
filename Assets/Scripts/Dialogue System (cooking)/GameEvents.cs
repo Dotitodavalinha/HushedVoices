@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 public class GameEvents : MonoBehaviour
@@ -74,8 +75,18 @@ public class GameEvents : MonoBehaviour
                 */
 
             }
-         
 
+           
+            if (r.responseText.Contains("Vanessa"))
+            {
+                // r.onResponseChosen.RemoveAllListeners();
+
+                r.onResponseChosen.AddListener(() => PlayerClueTracker.Instance.AddClue("parkGuy"));
+                Debug.Log("cojeme fede");
+
+            } 
+             
+            
 
         }
     }
