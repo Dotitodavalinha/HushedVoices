@@ -11,7 +11,7 @@ public class PoliceBehaviour : MonoBehaviour
 
     [SerializeField] private bool patrolDuringDay = false;
     [SerializeField] private NightManager nightManager;
-    [SerializeField] public GameObject Linterna;
+    
 
     [SerializeField] private float viewAngle = 45f;
     [SerializeField] private float viewDistance = 5f;
@@ -22,6 +22,8 @@ public class PoliceBehaviour : MonoBehaviour
 
     private bool isChasingPlayer = false;
     private bool canChase = false;
+    private bool hasCaughtPlayer = false;
+
 
     private GameObject player;
     private Animator animator;
@@ -31,8 +33,10 @@ public class PoliceBehaviour : MonoBehaviour
     {
         animator = GetComponentInChildren<Animator>();
         nightManager = FindObjectOfType<NightManager>();
-       
+
         player = GameObject.FindWithTag("Player");
+
+       
     }
 
     private void Update()
@@ -105,8 +109,9 @@ public class PoliceBehaviour : MonoBehaviour
                 transform.position += toPlayer * moveSpeed * Time.deltaTime;
                 transform.forward = toPlayer;
 
-                if (DialogueTrigger.playerInRange)
+                if (!hasCaughtPlayer && DialogueTrigger.playerInRange)
                 {
+                    hasCaughtPlayer = true;
                     JailManager.Instance.SetMaxValue();
                     Debug.Log("¡Jugador atrapado! Enviado a la cárcel.");
                 }
@@ -136,14 +141,8 @@ public class PoliceBehaviour : MonoBehaviour
             StartCoroutine(WaitAndMove());
         }
 
-        if (Linterna != null) //showeo lantern
-        {
-            Linterna.SetActive(nightManager.IsNight && canChase);
-        }
-        else
-        {
-            Debug.Log("ASIGNA LA LINTERNA CABEZON");
-        }
+      
+
 
         wasNightLastFrame = nightManager.IsNight;
 

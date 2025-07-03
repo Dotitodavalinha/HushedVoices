@@ -81,8 +81,7 @@ public class NoteInteract : MonoBehaviour
         {
             playerLocker.UnlockMovement();
             if (IsImportantClue)
-            {
-                ImportantClue.Instance.ShowClueAlert(); // si es una pista importante popeamos la alerta
+            {             
                 cluePickup.PickUpClue(); // agrego la nueva IDclue
 
             }

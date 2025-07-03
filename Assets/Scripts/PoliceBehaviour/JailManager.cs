@@ -39,28 +39,7 @@ public class JailManager : MonoBehaviour
         counter++;
         if (counter >= maxValue)
         {
-            triggered = true;
-            Debug.Log("a la carcelphitee");
-            if (objectToActivate != null)
-            {
-                objectToActivate.SetActive(true);
-                counter = 0;
-            }
-            else
-            {
-                Debug.Log("no se encontro el png de 'fuiste encarcelado'");
-            }
-
-           // Time.timeScale = 0f; // Pausa total
-            StartCoroutine(WaitAndGoToRoom());
-        }
-    }
-    public void SetMaxValue()
-    {
-        counter = maxValue;
-        if (counter >= maxValue)
-        {
-            triggered = true;
+            //triggered = true;
             Debug.Log("a la carcelphitee");
             if (objectToActivate != null)
             {
@@ -76,15 +55,33 @@ public class JailManager : MonoBehaviour
             StartCoroutine(WaitAndGoToRoom());
         }
     }
+    public void SetMaxValue()
+    {
+        // triggered = true;
+        Debug.Log("a la carcelphitee");
+        if (objectToActivate != null)
+        {
+            objectToActivate.SetActive(true);
+            counter = 0;
+        }
+        else
+        {
+            Debug.Log("no se encontro el png de 'fuiste encarcelado'");
+        }
+
+        // Time.timeScale = 0f; // Pausa total
+        StartCoroutine(WaitAndGoToRoom());
+
+    }
     private IEnumerator WaitAndGoToRoom()
     {
         yield return new WaitForSecondsRealtime(3f);
-        triggered = false;
+        //triggered = false;
 
         // Time.timeScale = 1f; // Reanuda por si se usa en otra escena
 
         GameManager.Instance.LoadScene("Room");
-       
+        ParanoiaManager.Instance.SetParanoiaValue(-1f);
     }
 
     private void OnEnable()
