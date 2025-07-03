@@ -82,8 +82,11 @@ public class NoteInteract : MonoBehaviour
         {
             playerLocker.UnlockMovement();
             if (IsImportantClue)
-            {             
-                cluePickup.PickUpClue(); // agrego la nueva IDclue
+            {
+                if (cluePickup != null)
+                {
+                    cluePickup.PickUpClue(); // agrego la nueva IDclue
+                }
                 cluePickupByList.PickUpClues();
 
             }
