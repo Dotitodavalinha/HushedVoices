@@ -31,6 +31,24 @@ public class PlayerClueTracker : MonoBehaviour
         }
     }
 
+    public void AddClues(List<string> clueIDs)
+    {
+        foreach (string clueID in clueIDs)
+        {
+            if (clues.Add(clueID))
+            {
+                cluesList.Add(clueID);
+            }
+        }
+    }
+    public void AddCluesByList(string clueID)
+    {
+        if (clues.Add(clueID))
+        {
+            cluesList.Add(clueID); // reflejar en la lista para ver en editor
+        }
+    }
+
     public bool HasClue(string clueID)
     {
         return clues.Contains(clueID);

@@ -30686,7 +30686,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730473041}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.06937923, y: -0.60294497, z: -0.79300773, w: -0.052750885}
+  m_LocalRotation: {x: 0.07442461, y: -0.5184141, z: -0.85067666, w: -0.045355387}
   m_LocalPosition: {x: 58.24, y: 7.95, z: 34.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -30727,7 +30727,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.2940054, g: 0.2940054, b: 0.2940054, a: 1}
+  m_Color: {r: 0.34454805, g: 0.34454805, b: 0.34454805, a: 1}
   m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
@@ -41114,7 +41114,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1229151359}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2791862, y: 0.1409904, z: -0.041481283, w: 0.94892365}
+  m_LocalRotation: {x: 0.2791862, y: 0.14099042, z: -0.04148129, w: 0.94892365}
   m_LocalPosition: {x: 14.671, y: 5.078, z: 26.196}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -43041,7 +43041,7 @@ MonoBehaviour:
   Sky: {fileID: 2100000, guid: e08215bfe2cec9348882e00d895fe970, type: 2}
   DirectionalLight: {fileID: 730473044}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 22.966227
+  TimeOfDay: 22.18116
   DaySpeed: 17
 --- !u!4 &1297959098
 Transform:
@@ -60595,7 +60595,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1652678400}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2791862, y: 0.1409904, z: -0.041481283, w: 0.94892365}
+  m_LocalRotation: {x: 0.2791862, y: 0.14099042, z: -0.04148129, w: 0.94892365}
   m_LocalPosition: {x: 14.671, y: 5.078, z: 26.196}
   m_LocalScale: {x: 1.2132, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -66116,7 +66116,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c8d2ed72b75b7439b086044bd43621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clueID: coffeeShop
 --- !u!65 &1905438731
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -71661,8 +71660,8 @@ GameObject:
   - component: {fileID: 4862776916712455827}
   - component: {fileID: 2098884880372583543}
   - component: {fileID: 7152891378408228246}
-  - component: {fileID: 7152891378408228248}
   - component: {fileID: 7152891378408228249}
+  - component: {fileID: 7152891378408228250}
   m_Layer: 0
   m_Name: Ben's Clue
   m_TagString: Untagged
@@ -73285,7 +73284,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NoteImage: {fileID: 1766874676}
   playerLocker: {fileID: 3469287837361680999}
-  cluePickup: {fileID: 7152891378408228248}
+  cluePickup: {fileID: 0}
+  cluePickupByList: {fileID: 7152891378408228250}
   text: {fileID: 1176532653}
   zonaInteraccion: {fileID: 4862776916712455827}
   IsImportantClue: 1
@@ -73302,21 +73302,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _material: {fileID: 2100000, guid: 85172d8b72af0044b8ec45b8ddaacefe, type: 2}
---- !u!114 &7152891378408228248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 17721945777282579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 267edbb57d3cb9f4a9be1be533c6c3c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clueID: map
-  destroyOnPickup: 1
-  ShowAlertOnPickup: 1
 --- !u!114 &7152891378408228249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73329,7 +73314,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c8d2ed72b75b7439b086044bd43621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clueID: vanessa
+--- !u!114 &7152891378408228250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 17721945777282579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f80d98c0526cb543a3f07678dc9e83c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clueIDs:
+  - map
+  - vanessa
+  destroyOnPickup: 1
+  showAlertOnPickup: 1
 --- !u!224 &7300542878612457025
 RectTransform:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ public class NoteInteract : MonoBehaviour
 
     [SerializeField] private PlayerMovementLocker playerLocker;
     [SerializeField] private CluePickup cluePickup;
+    [SerializeField] private CluePickupByList cluePickupByList;
 
     private bool InRange = false;
     private bool NoteIsOpen = false;
@@ -83,6 +84,7 @@ public class NoteInteract : MonoBehaviour
             if (IsImportantClue)
             {             
                 cluePickup.PickUpClue(); // agrego la nueva IDclue
+                cluePickupByList.PickUpClues();
 
             }
         }
