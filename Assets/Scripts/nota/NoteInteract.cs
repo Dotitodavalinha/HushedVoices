@@ -87,7 +87,11 @@ public class NoteInteract : MonoBehaviour
                 {
                     cluePickup.PickUpClue(); // agrego la nueva IDclue
                 }
-                cluePickupByList.PickUpClues();
+
+                if (cluePickupByList != null)
+                {
+                    cluePickupByList.PickUpClues();
+                }
 
             }
         }
