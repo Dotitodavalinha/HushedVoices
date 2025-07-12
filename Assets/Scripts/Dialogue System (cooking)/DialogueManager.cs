@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections.Generic;
 using Cinemachine;
+using System.Collections;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -99,7 +100,10 @@ public class DialogueManager : MonoBehaviour
     private void ShowNode(DialogueNodeSO node)
     {
         currentNode = node;
-        npcText.text = node.npcText;
+        if (typingCoroutine != null)
+            StopCoroutine(typingCoroutine);
+        typingCoroutine = StartCoroutine(TypeText(node.npcText));
+
 
         // Limpiar respuestas anteriores
         foreach (Transform child in responseContainer)
@@ -231,6 +235,19 @@ public class DialogueManager : MonoBehaviour
         }
 
     }
+
+    private Coroutine typingCoroutine;
+
+    private IEnumerator TypeText(string fullText, float typingSpeed = 0.03f)
+    {
+        npcText.text = "";
+        foreach (char c in fullText)
+        {
+            npcText.text += c;
+            yield return new WaitForSeconds(typingSpeed);
+        }
+    }
+
 
     private void DialoguePanelOff()
     {
