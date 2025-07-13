@@ -7,10 +7,11 @@ public class ParanoiaManager : MonoBehaviour
 {
     public static ParanoiaManager Instance { get; private set; }
 
-    [SerializeField] private float paranoiaLevel = 0f;
+    public float paranoiaLevel = 0f;
     private ParanoiaObject[] paranoiaObjects;
     public Material vignette;
     public Material dayNightShader;
+    public float lastParanoiaValue = 0f;
 
     public Material cameraLines;
 
@@ -61,7 +62,7 @@ public class ParanoiaManager : MonoBehaviour
     {
         Debug.LogWarning("Paranoia actualizada " + value);
         paranoiaLevel = Mathf.Clamp01(paranoiaLevel + value);
-
+        
         foreach (var obj in paranoiaObjects)
         {
             obj.SetParanoia(paranoiaLevel);

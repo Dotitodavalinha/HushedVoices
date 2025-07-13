@@ -5,7 +5,7 @@ using UnityEngine;
 public class NightManager : MonoBehaviour
 {
     public GameObject policias;
-
+    public ParanoiaManager ParanoiaManager;
     public JailManager JailManager;
     public LightingManager DayManager;
     public bool IsNight;
@@ -21,9 +21,11 @@ public class NightManager : MonoBehaviour
     private void Start()
     {
         JailManager = GameObject.Find("JailManager")?.GetComponent<JailManager>();
+        ParanoiaManager = GameObject.Find("ParanoiaManager")?.GetComponent<ParanoiaManager>();
         ClockDay = GameObject.Find("Dia");
         ClockNit = GameObject.Find("Noche");
         ClockNit.SetActive(false);
+        
     }
     private void Update()
     {
@@ -31,12 +33,12 @@ public class NightManager : MonoBehaviour
         {
             
             ClockNIghtTrue();
-
         }
         else
         {
             
             ClockDayTrue();
+            
         }
     }
     public void TalkingToPolice()
@@ -51,23 +53,34 @@ public class NightManager : MonoBehaviour
 
     public void ClockDayTrue()
     {
-        IsNight = false;
+        if (IsNight == true)
+        {
+            ParanoiaManager.SetParanoiaValue(-ParanoiaManager.lastParanoiaValue);
+            IsNight = false;
+        }
         ClockDay.SetActive(true);
         ClockNit.SetActive(false);
-
         hasInstantiatedAlert = false;
     }
 
     public void ClockNIghtTrue()
     {
+        if (IsNight == false)
+        {
+            ParanoiaManager.lastParanoiaValue = 1f-ParanoiaManager.paranoiaLevel;
+            ParanoiaManager.SetParanoiaValue(1);
+            IsNight = true;
+        }
         if (!hasInstantiatedAlert)
         {
             Instantiate(IsNightAlert, canvasTransform);
             hasInstantiatedAlert = true;
         }
-        IsNight = true;
         ClockDay.SetActive(false);
         ClockNit.SetActive(true);
+        
+        
+
     }
 
 }
