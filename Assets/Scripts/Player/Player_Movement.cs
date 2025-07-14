@@ -10,6 +10,8 @@ public class Player_Movement : MonoBehaviour
     public float cameraHeight = 3f;
     public float rotationSpeed = 5f;
     float finalSpeed = 0f;
+    public float footstepInterval = 0.7f;
+    private float footstepTimer = 0f;
 
 
 
@@ -74,6 +76,7 @@ public class Player_Movement : MonoBehaviour
 
             float speedMultiplier = Input.GetKey(KeyCode.LeftShift) ? RunMagnitude : 1f;
             finalSpeed = moveSpeed * speedMultiplier;
+            footstepInterval = Input.GetKey(KeyCode.LeftShift) ? 0.3f : 0.5f;
             controller.Move(moveDir.normalized * finalSpeed * Time.deltaTime);
 
             if (moveDir != Vector3.zero)
@@ -88,6 +91,20 @@ public class Player_Movement : MonoBehaviour
 
         anim.SetFloat("Speed", normalizedSpeed);
 
+        if (holdingMovementInput)
+        {
+            footstepTimer -= Time.deltaTime;
+
+            if (footstepTimer <= 0f)
+            {
+                PlayRandomFootstep();
+                footstepTimer = footstepInterval;
+            }
+        }
+        else
+        {
+            footstepTimer = 0f;
+        }
 
         if (isStreetScene && currentCam != null)
         {
@@ -95,5 +112,14 @@ public class Player_Movement : MonoBehaviour
             currentCam.transform.position = Vector3.Lerp(currentCam.transform.position, targetCamPos, cameraFollowSpeed * Time.deltaTime);
             currentCam.transform.LookAt(transform.position + Vector3.up * 1.5f);
         }
+
+ 
+
+    }
+
+    void PlayRandomFootstep()
+    {
+        SoundID StepSound = (Random.value > 0.5f) ? SoundID.Step1Sound : SoundID.Step2Sound;
+        SoundManager.instance.PlaySound(StepSound, false, Random.Range(0.95f, 1.05f));
     }
 }

@@ -64,7 +64,7 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogue(DialogueSO dialogue, NPCDialogue npc)
     {
         DialoguePanelOn();
-
+        SoundManager.instance.PlaySound(SoundID.DialogueTypingSound);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
@@ -126,6 +126,7 @@ public class DialogueManager : MonoBehaviour
 
             btn.GetComponentInChildren<TextMeshProUGUI>().text = response.responseText;
             btn.GetComponent<Button>().onClick.AddListener(() => OnResponseSelected(response));
+           btn.GetComponent<Button>().onClick.AddListener(() => SoundManager.instance.PlaySound(SoundID.DialogueOptionSound));
         }
     }
 

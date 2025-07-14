@@ -16,6 +16,7 @@ public class TabsLogic : MonoBehaviour
 
         for (int i = 0; i < sections.Length; i++)
             sections[i].SetActive(i == index);
+        SoundManager.instance.PlaySound(SoundID.PageTurnSound);
     }
 
      public void CloseAllSections()

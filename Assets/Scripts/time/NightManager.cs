@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class NightManager : MonoBehaviour
 {
     public GameObject policias;
@@ -25,7 +26,8 @@ public class NightManager : MonoBehaviour
         ClockDay = GameObject.Find("Dia");
         ClockNit = GameObject.Find("Noche");
         ClockNit.SetActive(false);
-        
+        SoundManager.instance.PlayMusic(MusicID.StaticSound, true);
+
     }
     private void Update()
     {
@@ -33,10 +35,12 @@ public class NightManager : MonoBehaviour
         {
             
             ClockNIghtTrue();
+            SoundManager.instance.ChangeMusic(MusicID.NightSound);
         }
         else
         {
-            
+            SoundManager.instance.ChangeMusic(MusicID.DaySound);
+           // SoundManager.instance.PlayMusic(MusicID.DaySound, true);
             ClockDayTrue();
             
         }

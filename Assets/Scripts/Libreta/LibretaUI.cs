@@ -30,6 +30,7 @@ public class LibretaUI : MonoBehaviour
                 playerLocker.LockMovement();
 
                 tabsLogic.OpenSection(0); // ← activa index 0
+                SoundManager.instance.PlaySound(SoundID.BookOpenSound);
             }
             else
             {

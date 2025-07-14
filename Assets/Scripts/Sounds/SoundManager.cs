@@ -15,6 +15,8 @@ public class SoundManager : MonoBehaviour
 
     public static SoundManager instance;
 
+    private MusicID currentMusic = MusicID.None;
+
     void Awake()
     {
         if (instance == null)
@@ -53,10 +55,11 @@ public class SoundManager : MonoBehaviour
 
     public void PlaySound(SoundID id, bool loop = false, float pitch = 1)
     {
-        sfxChannel[(int)id].Play();
         sfxChannel[(int)id].loop = loop;
         sfxChannel[(int)id].volume = volumeSFX;
         sfxChannel[(int)id].pitch = pitch;
+        sfxChannel[(int)id].Play();
+        
 
     }
 
@@ -126,10 +129,23 @@ public class SoundManager : MonoBehaviour
 
     public void PlayMusic(MusicID id, bool loop = false, float pitch = 1, float volumeMusic = 1)
     {
-        musicChannel[(int)id].Play();
         musicChannel[(int)id].loop = loop;
         musicChannel[(int)id].volume = volumeMusic;
         musicChannel[(int)id].pitch = pitch;
+        musicChannel[(int)id].Play();
+        
+    }
+
+    public void ChangeMusic(MusicID newMusic, bool loop = true)
+    {
+        if (currentMusic == newMusic)
+            return;
+
+        if (currentMusic != MusicID.None)
+            StopMusic(currentMusic);
+
+        PlayMusic(newMusic, loop);
+        currentMusic = newMusic;
     }
 
     public void StopAllMusic()
@@ -192,14 +208,21 @@ public class SoundManager : MonoBehaviour
 
 public enum SoundID
 {
-    ButtonClick,
-    ShootSound,
-    HitSound,
-    RewardSound,
+    Step1Sound,
+    Step2Sound,
+    PageTurnSound,
+    DialogueTypingSound,
+    DialogueOptionSound,
+    CluePickupSound,
+    BookOpenSound,
 
 }
 
 public enum MusicID
 {
-
+    None,
+    DaySound,
+    NightSound,
+    StaticSound,
+    AmbientBreathingSound,
 }

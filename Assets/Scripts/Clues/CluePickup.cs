@@ -12,9 +12,10 @@ public class CluePickup : MonoBehaviour
         {
             if (ShowAlertOnPickup)
             {
+                SoundManager.instance.PlaySound(SoundID.CluePickupSound);
                 ImportantClue.Instance.ShowClueAlert(); // si es una pista importante popeamos la alerta
             }
-
+            SoundManager.instance.PlaySound(SoundID.CluePickupSound);
             PlayerClueTracker.Instance.AddClue(clueID);
             Debug.Log("Se registró la pista: " + clueID);
         }
