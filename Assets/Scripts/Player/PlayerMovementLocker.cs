@@ -8,8 +8,9 @@ public class PlayerMovementLocker : MonoBehaviour
     
     public void LockMovement()
     {
-        
-            player.enabled = false;
+        player.anim.SetFloat("Speed", 0);
+
+        player.enabled = false;
 
         
     }

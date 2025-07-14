@@ -3,56 +3,56 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-
 public class CameraManagerZ : MonoBehaviour
 {
-    public CinemachineVirtualCamera[] cameras;
+    public CinemachineVirtualCameraBase[] cameras;
 
-
-    public CinemachineVirtualCamera startCamera;
-    private CinemachineVirtualCamera currentCam;
+    public CinemachineVirtualCameraBase startCamera;
+    private CinemachineVirtualCameraBase currentCam;
 
     private void Start()
     {
         currentCam = startCamera;
 
-        for (int i = 0; i < cameras.Length; i++)
+        foreach (var cam in cameras)
         {
-            if (cameras[i] == currentCam)
-            {
-                cameras[i].Priority = 20;
-            }
-            else
-            {
-                cameras[i].Priority = 10;
-            }
-
+            cam.Priority = (cam == currentCam) ? 20 : 10;
         }
     }
-    public void SwitchCamera(CinemachineVirtualCamera newCam)
+
+    public void SwitchCamera(CinemachineVirtualCameraBase newCam)
     {
-        currentCam.Priority = 10;
+        if (currentCam != null)
+            currentCam.Priority = 10;
 
         currentCam = newCam;
 
-        currentCam.Priority = 20;
+        if (currentCam != null)
+            currentCam.Priority = 20;
 
-        for (int i = 0; i < cameras.Length; i++)
+        foreach (var cam in cameras)
         {
-            if (cameras[i] != currentCam)
+            if (cam != currentCam)
             {
-                cameras[i].Priority = 10;
+                cam.Priority = 10;
             }
         }
     }
 
-    public CinemachineVirtualCamera GetCurrentCamera()
+    public CinemachineVirtualCameraBase GetCurrentCamera()
     {
         return currentCam;
     }
 
     public void CambiarLookAt(Transform npcCurrent)
     {
-        currentCam.LookAt = npcCurrent;
+        if (currentCam is CinemachineVirtualCamera virtualCam)
+        {
+            virtualCam.LookAt = npcCurrent;
+        }
+        else if (currentCam is CinemachineFreeLook freeLook)
+        {
+            freeLook.LookAt = npcCurrent;
+        }
     }
 }

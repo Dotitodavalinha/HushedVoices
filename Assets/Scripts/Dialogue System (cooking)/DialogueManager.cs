@@ -23,8 +23,9 @@ public class DialogueManager : MonoBehaviour
 
     [Header("CAMARA")]
     public CameraManagerZ camManager;
-    public CinemachineVirtualCamera lukeCamera;
-    private CinemachineVirtualCamera camAnterior;
+    public CinemachineFreeLook lukeCamera;
+    //public CinemachineVirtualCamera lukeCamera;
+    private CinemachineVirtualCameraBase camAnterior;
 
 
     private DialogueNodeSO currentNode;
@@ -215,13 +216,13 @@ public class DialogueManager : MonoBehaviour
             GameObject camObj = GameObject.Find("LukeCamera");
             if (camObj != null)
             {
-                lukeCamera = camObj.GetComponent<CinemachineVirtualCamera>();
+                lukeCamera = camObj.GetComponent<CinemachineFreeLook>();
             }
 
             if (lukeCamera == null)
             {
                 // Como fallback, encontrar cualquier CinemachineVirtualCamera
-                lukeCamera = FindObjectOfType<CinemachineVirtualCamera>();
+                lukeCamera = FindObjectOfType<CinemachineFreeLook>();
                 Debug.LogWarning("No se encontró la cámara de Luke por nombre. Se asignó la primera cámara encontrada en la escena.");
             }
         }
