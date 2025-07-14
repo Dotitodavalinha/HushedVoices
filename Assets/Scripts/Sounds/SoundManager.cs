@@ -124,7 +124,7 @@ public class SoundManager : MonoBehaviour
         return musicChannel[(int)id].isPlaying;
     }
 
-    public void PlayMusic(MusicID id, bool loop = false, float pitch = 1)
+    public void PlayMusic(MusicID id, bool loop = false, float pitch = 1, float volumeMusic = 1)
     {
         musicChannel[(int)id].Play();
         musicChannel[(int)id].loop = loop;
