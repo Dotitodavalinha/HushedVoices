@@ -28,9 +28,9 @@ public class NPCDialogue : MonoBehaviour
 
     public void StartDialogue(DialogueSO dialogue)
     {
-        if(npcName == "Police" || npcName == "Policez")
+        if(npcName == "Police" || npcName == "PoliceZ")
         {
-            Debug.Log("le estas hablando a un gorra ");
+            Debug.Log("le estas hablando a un gorra");
             NightManager.TalkingToPolice();
         }
         DialogueManager.Instance.StartDialogue(dialogue, this);
