@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.38189337, g: 0.23490515, b: 0.21257582, a: 1}
+  m_FogColor: {r: 0.31343555, g: 0.20352371, b: 0.2082515, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.04
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.7421683, g: 0.5578323, b: 0.65342045, a: 1}
+  m_AmbientSkyColor: {r: 0.5978382, g: 0.42106408, b: 0.5730823, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.7
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.8154651, g: 0.48700732, b: 0.3707885, a: 1}
+  m_IndirectSpecularColor: {r: 0.7552935, g: 0.37990642, b: 0.3426452, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9067,8 +9067,8 @@ GameObject:
   m_Component:
   - component: {fileID: 575229851}
   - component: {fileID: 575229853}
-  - component: {fileID: 575229855}
   - component: {fileID: 575229854}
+  - component: {fileID: 575229855}
   m_Layer: 0
   m_Name: Trigger
   m_TagString: Untagged
@@ -9148,8 +9148,8 @@ MonoBehaviour:
   pressEText: {fileID: 810640128}
   playerInRange: 0
   npcDialogue: {fileID: 1038823147}
---- !u!65 &575229855
-BoxCollider:
+--- !u!136 &575229855
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -9166,9 +9166,11 @@ BoxCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 195.58554, y: 41.546345, z: 185.66135}
-  m_Center: {x: -4.3938847, y: -72.05741, z: -2.349947e-10}
+  serializedVersion: 2
+  m_Radius: 152.41254
+  m_Height: 304.82507
+  m_Direction: 1
+  m_Center: {x: 0, y: -69.9074, z: 15.345883}
 --- !u!1 &577616838
 GameObject:
   m_ObjectHideFlags: 0
@@ -11984,7 +11986,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730473041}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.08668102, y: 0.10384023, z: -0.99076796, w: 0.00908485}
+  m_LocalRotation: {x: -0.0032202562, y: 0.9955145, z: 0.03680767, w: 0.08709629}
   m_LocalPosition: {x: 58.24, y: 7.95, z: 34.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -12025,7 +12027,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.6650912, g: 0.6650912, b: 0.6650912, a: 1}
+  m_Color: {r: 0.5950015, g: 0.5950015, b: 0.5950015, a: 1}
   m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
@@ -17706,10 +17708,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.35979727
-  m_Height: 1.5266329
+  m_Radius: 0.42750862
+  m_Height: 1.6992706
   m_Direction: 1
-  m_Center: {x: 0.013094455, y: 0.72930783, z: -0.15329723}
+  m_Center: {x: 0.013094455, y: 0.078312814, z: -0.08558586}
 --- !u!114 &1038823147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23959,7 +23961,7 @@ MonoBehaviour:
   Sky: {fileID: 2100000, guid: e08215bfe2cec9348882e00d895fe970, type: 2}
   DirectionalLight: {fileID: 730473044}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 17.20224
+  TimeOfDay: 5.717672
   DaySpeed: 17
 --- !u!1 &1332766091
 GameObject:
