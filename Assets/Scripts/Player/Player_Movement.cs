@@ -120,6 +120,6 @@ public class Player_Movement : MonoBehaviour
     void PlayRandomFootstep()
     {
         SoundID StepSound = (Random.value > 0.5f) ? SoundID.Step1Sound : SoundID.Step2Sound;
-        SoundManager.instance.PlaySound(StepSound, false, Random.Range(0.95f, 1.05f));
+        SoundManager.instance.PlaySound(StepSound, false, Random.Range(0.3f, 0.5f));
     }
 }
