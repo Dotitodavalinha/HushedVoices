@@ -212,6 +212,8 @@ public enum SoundID
     Step2Sound,
     PageTurnSound,
     DialogueTypingSound,
+    DialogueTypingHighSound,
+    DialogueTypingLowSound,
     DialogueOptionSound,
     CluePickupSound,
     BookOpenSound,

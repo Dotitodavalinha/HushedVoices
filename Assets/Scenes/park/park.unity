@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.57848334, g: 0.3272134, b: 0.2208409, a: 1}
+  m_FogColor: {r: 0.7006473, g: 0.38422358, b: 0.22664352, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.03
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.97914994, g: 0.87553465, b: 0.81167036, a: 1}
+  m_AmbientSkyColor: {r: 0.99745303, g: 0.9782113, b: 0.85691196, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.7
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.88508373, g: 0.59240955, b: 0.4031093, a: 1}
+  m_IndirectSpecularColor: {r: 0.8851959, g: 0.5926217, b: 0.40279216, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9926,6 +9926,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcName: Viejo
+  npcVoiceType: 1
   roots: []
   currentRoot: {fileID: 11400000, guid: 89fe625d1733941479150a69228b499d, type: 2}
   moodController: {fileID: 332541000}
@@ -25793,7 +25794,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730473041}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.041959748, y: 0.87314725, z: -0.47960177, w: 0.076390535}
+  m_LocalRotation: {x: 0.05946204, y: 0.72833693, z: -0.67965376, w: 0.06372127}
   m_LocalPosition: {x: 58.24, y: 7.95, z: 34.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -25834,7 +25835,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.8605653, g: 0.8605653, b: 0.8605653, a: 1}
+  m_Color: {r: 0.9829671, g: 0.9829671, b: 0.9829671, a: 1}
   m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
@@ -37152,6 +37153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcName: Police
+  npcVoiceType: 0
   roots:
   - {fileID: 11400000, guid: faf47551140214a4b986860295f99b88, type: 2}
   currentRoot: {fileID: 11400000, guid: 617fcb09a02455546af6da5f91e5e8b3, type: 2}
@@ -37718,7 +37720,7 @@ MonoBehaviour:
   Sky: {fileID: 2100000, guid: e08215bfe2cec9348882e00d895fe970, type: 2}
   DirectionalLight: {fileID: 730473044}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 9.837212
+  TimeOfDay: 11.735961
   DaySpeed: 17
 --- !u!4 &1297959098
 Transform:
@@ -52994,7 +52996,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1545111598}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.10179885, y: 0.56663406, z: -0.07081238, w: 0.81458485}
+  m_LocalRotation: {x: 0.10179883, y: 0.56663406, z: -0.07081237, w: 0.81458485}
   m_LocalPosition: {x: -3.51, y: 5.98, z: 26.196}
   m_LocalScale: {x: 1, y: 1, z: 1.2132}
   m_ConstrainProportionsScale: 0
@@ -58652,6 +58654,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcName: ???
+  npcVoiceType: 2
   roots:
   - {fileID: 11400000, guid: 9777b86d11abe7e4ab131568e5233842, type: 2}
   currentRoot: {fileID: 11400000, guid: 9777b86d11abe7e4ab131568e5233842, type: 2}
@@ -59477,7 +59480,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1886889131}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.00994006, y: 0.76614255, z: -0.01185321, w: 0.64248455}
+  m_LocalRotation: {x: 0.00994006, y: 0.76614255, z: -0.011853209, w: 0.6424845}
   m_LocalPosition: {x: -16.353, y: 0.806, z: 41.235}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -64999,6 +65002,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcName: Police
+  npcVoiceType: 2
   roots:
   - {fileID: 11400000, guid: faf47551140214a4b986860295f99b88, type: 2}
   currentRoot: {fileID: 11400000, guid: 69482e65ec0e25c4c8a5f201268b35b4, type: 2}

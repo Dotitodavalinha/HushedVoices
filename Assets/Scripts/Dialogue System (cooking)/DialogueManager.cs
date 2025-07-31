@@ -71,7 +71,7 @@ public class DialogueManager : MonoBehaviour
         currentNPC = npc;
         npcNameText.text = npc.npcName;
         movementLocker.LockMovement();
-        ShowNode(dialogue.rootNode);
+        ShowNode(dialogue.rootNode, currentNPC);
 
         //la camara cambia a la de luke y mira al npc
         camAnterior = camManager.GetCurrentCamera();
@@ -98,12 +98,12 @@ public class DialogueManager : MonoBehaviour
     }
 
 
-    private void ShowNode(DialogueNodeSO node)
+    private void ShowNode(DialogueNodeSO node, NPCDialogue npc)
     {
         currentNode = node;
         if (typingCoroutine != null)
             StopCoroutine(typingCoroutine);
-        typingCoroutine = StartCoroutine(TypeText(node.npcText));
+        typingCoroutine = StartCoroutine(TypeText(node.npcText, npc));
 
 
         // Limpiar respuestas anteriores
@@ -125,13 +125,13 @@ public class DialogueManager : MonoBehaviour
             GameObject btn = Instantiate(prefab, responseContainer);
 
             btn.GetComponentInChildren<TextMeshProUGUI>().text = response.responseText;
-            btn.GetComponent<Button>().onClick.AddListener(() => OnResponseSelected(response));
+            btn.GetComponent<Button>().onClick.AddListener(() => OnResponseSelected(response, npc));
            btn.GetComponent<Button>().onClick.AddListener(() => SoundManager.instance.PlaySound(SoundID.DialogueOptionSound));
         }
     }
 
 
-    private void OnResponseSelected(PlayerResponseSO response)
+    private void OnResponseSelected(PlayerResponseSO response, NPCDialogue npc)
     {
         response.onResponseChosen?.Invoke();
         switch (response.moodChange)
@@ -149,7 +149,7 @@ public class DialogueManager : MonoBehaviour
 
 
         if (response.nextNode != null)
-            ShowNode(response.nextNode);
+            ShowNode(response.nextNode, npc );
         else
             EndDialogue();
     }
@@ -240,12 +240,25 @@ public class DialogueManager : MonoBehaviour
 
     private Coroutine typingCoroutine;
 
-    private IEnumerator TypeText(string fullText, float typingSpeed = 0.03f)
+    private IEnumerator TypeText(string fullText, NPCDialogue npc, float typingSpeed = 0.05f)
     {
         npcText.text = "";
+      
         foreach (char c in fullText)
         {
             npcText.text += c;
+            switch (npc.npcVoiceType)
+            {
+                case 0:
+                    SoundManager.instance.PlaySound(SoundID.DialogueTypingHighSound);
+                    break;
+                case 1:
+                    SoundManager.instance.PlaySound(SoundID.DialogueTypingSound);
+                    break;
+                case 2:
+                    SoundManager.instance.PlaySound(SoundID.DialogueTypingLowSound);
+                    break;
+            }
             yield return new WaitForSeconds(typingSpeed);
         }
     }
@@ -258,6 +271,9 @@ public class DialogueManager : MonoBehaviour
         cg.alpha = 0;
         cg.interactable = false;
         cg.blocksRaycasts = false;
+        SoundManager.instance.StopSound(SoundID.DialogueTypingLowSound);
+        SoundManager.instance.StopSound(SoundID.DialogueTypingHighSound);
+        SoundManager.instance.StopSound(SoundID.DialogueTypingSound);
     }
 
     private void DialoguePanelOn()

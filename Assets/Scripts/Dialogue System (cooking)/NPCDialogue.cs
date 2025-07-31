@@ -5,6 +5,7 @@ public class NPCDialogue : MonoBehaviour
 {
    
     public string npcName;
+    public int npcVoiceType;
     public List<DialogueSO> roots; // aca pasas todos los dialogos posibles q va a tener(roots) dsp llamas a ProgressManager.Instance.CambiarRootNPC("npcname", "RootName"); y cambiara de dialogo !
     [SerializeField]public DialogueSO currentRoot;
 
