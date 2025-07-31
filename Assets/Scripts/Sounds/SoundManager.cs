@@ -202,6 +202,22 @@ public class SoundManager : MonoBehaviour
 
        
     }
+    public void ChangeVolumeOneMusic(MusicID id, float volume)
+    {
+        volumeMusic += volume;
+        if (volumeMusic < 0f)
+        {
+            volumeMusic = 0;
+        }
+
+        else if (volumeMusic > 1f)
+        {
+            volumeMusic = 1;
+        }
+        musicChannel[(int)id].volume = volumeMusic;
+
+
+    }
 
     #endregion
 }
@@ -217,7 +233,8 @@ public enum SoundID
     DialogueOptionSound,
     CluePickupSound,
     BookOpenSound,
-
+    alarm,
+    camChange,
 }
 
 public enum MusicID

@@ -43,7 +43,8 @@ public class NPCMoodController : MonoBehaviour
     {
 
         spriteRenderer.sprite = happyFace;
-        ParanoiaManager.Instance.SetParanoiaValue(-1f / 3f); 
+        ParanoiaManager.Instance.SetParanoiaValue(-1f / 3f);
+        SoundManager.instance.ChangeVolumeOneMusic(MusicID.StaticSound, -1f / 3f);
         //alambreee
 
         //paranoia.SetInt("_vig_amount", 0);
@@ -64,6 +65,7 @@ public class NPCMoodController : MonoBehaviour
         spriteRenderer.sprite = angryFace;
 
         ParanoiaManager.Instance.SetParanoiaValue(1f / 3f);
+        SoundManager.instance.ChangeVolumeOneMusic(MusicID.StaticSound, 1f / 3f);
 
         //alambreee
         if (JailManager.Instance != null && IsNPC == true)

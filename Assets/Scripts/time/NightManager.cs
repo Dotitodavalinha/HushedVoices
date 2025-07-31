@@ -27,6 +27,7 @@ public class NightManager : MonoBehaviour
         ClockNit = GameObject.Find("Noche");
         ClockNit.SetActive(false);
         SoundManager.instance.PlayMusic(MusicID.StaticSound, true);
+        SoundManager.instance.ChangeVolumeOneMusic(MusicID.StaticSound, 0f);
 
     }
     private void Update()
@@ -71,12 +72,14 @@ public class NightManager : MonoBehaviour
     {
         if (IsNight == false)
         {
+            SoundManager.instance.ChangeVolumeOneMusic(MusicID.StaticSound, 1f);
             ParanoiaManager.lastParanoiaValue = 1f-ParanoiaManager.paranoiaLevel;
             ParanoiaManager.SetParanoiaValue(1);
             IsNight = true;
         }
         if (!hasInstantiatedAlert)
         {
+            SoundManager.instance.PlaySound(SoundID.alarm, false, 0.15f);
             Instantiate(IsNightAlert, canvasTransform);
             hasInstantiatedAlert = true;
         }

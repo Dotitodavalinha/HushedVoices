@@ -16,7 +16,7 @@ public class CameraTriggerZone : MonoBehaviour
 
         Static.SetInt("_Turn", 1);
         StartCoroutine(Wait());
-
+        SoundManager.instance.PlaySound(SoundID.camChange);
         manager.SwitchCamera(targetCamera);
     }
 

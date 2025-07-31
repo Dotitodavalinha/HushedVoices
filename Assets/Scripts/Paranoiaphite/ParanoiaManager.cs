@@ -107,8 +107,10 @@ public class ParanoiaManager : MonoBehaviour
 
     public void SetThings()
     {
+       
         vignette.SetFloat("_vig_amount", paranoiaLevel);
         dayNightShader.SetFloat("dayNight", paranoiaLevel);
+  
 
         if (paranoiaText != null)
         {
