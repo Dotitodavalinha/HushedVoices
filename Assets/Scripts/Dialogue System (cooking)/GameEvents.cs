@@ -82,7 +82,7 @@ public class GameEvents : MonoBehaviour
                 // r.onResponseChosen.RemoveAllListeners();
 
                 r.onResponseChosen.AddListener(() => PlayerClueTracker.Instance.AddClue("parkGuy"));
-                Debug.Log("cojeme fede");
+                //Debug.Log("cojeme fede");
 
             } 
              
