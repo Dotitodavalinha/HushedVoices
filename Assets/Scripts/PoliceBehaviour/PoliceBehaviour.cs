@@ -29,6 +29,8 @@ public class PoliceBehaviour : MonoBehaviour
     private Animator animator;
     private bool wasNightLastFrame = false;
 
+    private LayerMask wallLayer = LayerMask.GetMask("Wall");
+
     private void Start()
     {
         animator = GetComponentInChildren<Animator>();
@@ -101,7 +103,7 @@ public class PoliceBehaviour : MonoBehaviour
             isChasingPlayer = true;
         }
 
-        if (isChasingPlayer)
+        if (isChasingPlayer && IsLeaderInLineOfSight())
         {
             if (seesPlayer)
             {
@@ -197,4 +199,25 @@ public class PoliceBehaviour : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, forward * viewDistance);
     }
+
+    private bool IsLeaderInLineOfSight()
+    {
+        Vector3 from = transform.position + Vector3.up * 0.5f;
+        Vector3 to = player.transform.position + Vector3.up * 0.5f;
+        Vector3 dir = to - from;
+        float dist = dir.magnitude;
+        float npcRadius = 0.5f;
+
+        if (Physics.SphereCast(from, npcRadius, dir.normalized, out RaycastHit hit, dist, wallLayer))
+        {
+            Debug.DrawRay(from, dir.normalized * hit.distance, Color.red);
+            return false;
+        }
+        else
+        {
+            Debug.DrawRay(from, dir.normalized * dist, Color.green);
+            return true;
+        }
+    }
+
 }
