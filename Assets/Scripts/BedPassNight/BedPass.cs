@@ -9,21 +9,38 @@ public class BedPass : MonoBehaviour
     public string escenaFinalDelDia = "FinalScene";
     public float horaDormir = 22f;
 
-    public LightingManager lightingManager;
+    public LightingManager timeManager;
     private bool jugadorCerca;
     private bool puedeDormir;
+
+    [SerializeField] private GameObject objectToActivateAtNight;
+
+
     void Start()
     {
         dormirUI.SetActive(false);
-        lightingManager = GameObject.Find("TimeManager")?.GetComponent<LightingManager>();
+        timeManager = GameObject.Find("TimeManager")?.GetComponent<LightingManager>();
     }
 
     void Update()
     {
-        if (lightingManager != null)
+        if (timeManager != null)
         {
-            puedeDormir = lightingManager.TimeOfDay >= horaDormir || lightingManager.TimeOfDay < 4;
+            puedeDormir = timeManager.TimeOfDay >= horaDormir || timeManager.TimeOfDay < 4;
         }
+
+        if (timeManager != null && objectToActivateAtNight != null)
+        {
+            if (timeManager.TimeOfDay >= 20f || timeManager.TimeOfDay < 5f)
+            {
+                objectToActivateAtNight.SetActive(true);
+            }
+            else
+            {
+                objectToActivateAtNight.SetActive(false);
+            }
+        }
+
 
         if (jugadorCerca && puedeDormir)
         {
@@ -32,6 +49,8 @@ public class BedPass : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 ParanoiaManager.Instance.SetParanoiaValue(-1f);
+                timeManager.tiempoPausado = false;
+                timeManager.TimeOfDay = 6f;
                 int currentIndex = SceneManager.GetActiveScene().buildIndex;
                 int nextIndex = currentIndex + 4;
 

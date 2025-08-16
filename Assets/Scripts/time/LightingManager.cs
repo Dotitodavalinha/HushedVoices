@@ -12,7 +12,10 @@ public class LightingManager : MonoBehaviour
     [SerializeField, Range(0, 24)] public float TimeOfDay;
 
     [SerializeField] public float DaySpeed;
-    
+
+    public float horaLimiteNoche = 22f;
+    public bool tiempoPausado = false;
+
     private void Start()
     {
         RenderSettings.skybox = Sky;
@@ -39,10 +42,26 @@ public class LightingManager : MonoBehaviour
         }
         if (Application.isPlaying)
         {
-            TimeOfDay += Time.deltaTime/DaySpeed;
-            TimeOfDay %= 24;
+            if (TimeOfDay >= 5f && tiempoPausado)
+            {
+                tiempoPausado = false;
+            }
+
+            if (!tiempoPausado)
+            {
+                TimeOfDay += Time.deltaTime / DaySpeed;
+                if (TimeOfDay >= horaLimiteNoche && TimeOfDay < 24f)
+                {
+                    tiempoPausado = true;
+                    TimeOfDay = horaLimiteNoche; 
+                }
+
+                TimeOfDay %= 24;
+            }
+
             UpdateLighting(TimeOfDay / 24);
         }
+
         else
         {
             UpdateLighting(TimeOfDay / 24);
