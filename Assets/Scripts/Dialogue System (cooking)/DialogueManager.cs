@@ -161,6 +161,7 @@ public class DialogueManager : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
+        GameManager.Instance.UnlockUI(); // aviso q puedo abrir otra ui
         movementLocker.UnlockMovement();
         currentNode = null;
 
@@ -170,8 +171,8 @@ public class DialogueManager : MonoBehaviour
             camManager.SwitchCamera(camAnterior);
         }
         camManager.CambiarLookAt(player.transform);
-
     }
+
 
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

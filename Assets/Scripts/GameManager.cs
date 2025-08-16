@@ -5,18 +5,18 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
 
-   
+    [SerializeField] private int uiLockCount = 0;
+    public bool IsAnyUIOpen => uiLockCount > 0;
+
+    [SerializeField] private PlayerMovementLocker playerLocker;
+
     public static GameManager Instance
     {
         get
         {
-           
             if (_instance != null)
-            {
                 return _instance;
-            }
 
-           
             _instance = FindObjectOfType<GameManager>();
 
             if (_instance == null)
@@ -32,23 +32,54 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-      
         if (_instance != null && _instance != this)
         {
             Destroy(gameObject);
             Debug.LogWarning("Se intentó crear una segunda instancia de GameManager. Destruyendo duplicado.");
+            return;
+        }
+
+        _instance = this;
+        DontDestroyOnLoad(gameObject);
+
+       
+
+        Debug.Log("GameManager inicializado correctamente.");
+    }
+
+    private void Update()
+    {
+        if (playerLocker != null)
+        {
+            return;
         }
         else
         {
-           
-            _instance = this;
-            
-            DontDestroyOnLoad(gameObject);
-            Debug.Log("GameManager inicializado correctamente.");
+            // Buscar PlayerMovementLocker en el Player
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+                playerLocker = playerObj.GetComponent<PlayerMovementLocker>();
         }
     }
 
-   
+    public bool TryLockUI()
+    {
+        if (uiLockCount > 0)
+            return false; // si ya a hay algo abierto no abrir
+
+        uiLockCount = 1;
+        if (playerLocker != null)
+            playerLocker.LockMovement();
+        return true;
+    }
+
+    public void UnlockUI()
+    {
+        uiLockCount = 0;
+        if (playerLocker != null)
+            playerLocker.UnlockMovement();
+    }
+
 
     public void LoadScene(string sceneName)
     {

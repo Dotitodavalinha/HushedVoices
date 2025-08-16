@@ -29,25 +29,35 @@ public class CorchoInteract : MonoBehaviour
 
                 if (UI_Activa)
                 {
+                     
+                    if (!GameManager.Instance.TryLockUI())
+                    {
+                        UI_Activa = false; // cancela apertura
+                        return;
+                    }
+
                     PressE.SetActive(false);
-                    playerLocker.LockMovement();
-                    corchoManager.AbrirCorcho(); // mostramos UI
+
+                    //mostramos cursor y abrimos corcho
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
+                    corchoManager.AbrirCorcho();
                 }
                 else
                 {
+                    GameManager.Instance.UnlockUI();
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
                     PressE.SetActive(true);
-                    playerLocker.UnlockMovement();
-                    corchoManager.CerrarCorcho(); // ocultamos UI
+                    corchoManager.CerrarCorcho();
                 }
             }
-
         }
         else
         {
             PressE.SetActive(false);
         }
-
-
     }
+
 
 }

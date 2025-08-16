@@ -8,11 +8,7 @@ public class DialogueTrigger : MonoBehaviour
 
     [SerializeField] public bool playerInRange = false;
 
- 
-
     [SerializeField] private NPCDialogue npcDialogue;
-
-
 
     private void Start()
     {
@@ -29,10 +25,11 @@ public class DialogueTrigger : MonoBehaviour
             }
             else
             {
+                // evitar abrir si hay otra UI en uso
+                if (!GameManager.Instance.TryLockUI())
+                    return;
+
                 npcDialogue.StartDialogue(npcDialogue.currentRoot);
-           
-
-
                 pressEText.SetActive(false);
             }
         }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class LibretaUI : MonoBehaviour
 {
-    [SerializeField] private PlayerMovementLocker playerLocker;
     [SerializeField] private TabsLogic tabsLogic;
 
     [SerializeField] private GameObject notaBenUI;
@@ -24,35 +23,44 @@ public class LibretaUI : MonoBehaviour
 
             if (libretaAbierta)
             {
+                if (!GameManager.Instance.TryLockUI())
+                {
+                    libretaAbierta = false; // Cancela apertura
+                    return;
+                }
+
+                // Ahora que sabemos que sí se abre, mostramos cursor
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
-                ActualizarUI();
-                playerLocker.LockMovement();
 
-                tabsLogic.OpenSection(0); // ← activa index 0
+                ActualizarUI();
+                tabsLogic.OpenSection(0);
                 SoundManager.instance.PlaySound(SoundID.BookOpenSound);
             }
             else
             {
+                GameManager.Instance.UnlockUI();
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
-                playerLocker.UnlockMovement();
-
-                tabsLogic.CloseAllSections(); // ← desactiva todas las pestañas
+                tabsLogic.CloseAllSections();
             }
         }
+
     }
 
     public void AbrirLibretaDesdeBoton()
     {
         if (!libretaAbierta)
         {
+            if (!GameManager.Instance.TryLockUI())
+                return;
+
             libretaAbierta = true;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             ActualizarUI();
-            playerLocker.LockMovement();
         }
+
     }
 
     void ActualizarUI()

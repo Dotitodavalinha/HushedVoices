@@ -7,7 +7,6 @@ public class NoteInteract : MonoBehaviour
 {
     public GameObject NoteImage;
 
-    [SerializeField] private PlayerMovementLocker playerLocker;
     [SerializeField] private CluePickup cluePickup;
     [SerializeField] private CluePickupByList cluePickupByList;
 
@@ -77,10 +76,16 @@ public class NoteInteract : MonoBehaviour
         transform.Find("OutlinerCube").gameObject.SetActive(false);
 
         if (NoteIsOpen)
-            playerLocker.LockMovement();
+        {
+            if (!GameManager.Instance.TryLockUI())
+            {
+                NoteIsOpen = false; // cancela apertura
+                return;
+            }
+        }
         else
         {
-            playerLocker.UnlockMovement();
+            GameManager.Instance.UnlockUI();
             if (IsImportantClue)
             {
                 if (cluePickup != null)
