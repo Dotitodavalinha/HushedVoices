@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ChloeSkin
+  m_Name: desk
   m_Shader: {fileID: -6465566751694194690, guid: be9a33141588d6d42b4d884fdec3c898, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -24,15 +24,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 5095669d81218094cba8f253f8b50ff5, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Base_Color:
-        m_Texture: {fileID: 2800000, guid: 5095669d81218094cba8f253f8b50ff5, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Base_Color_Paranoia:
-        m_Texture: {fileID: 2800000, guid: 3c4654929d65fcd4b879ca4e92984327, type: 3}
+        m_Texture: {fileID: 2800000, guid: d65e6e3800993e646bcdfa5a5531ea98, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -56,7 +52,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 5095669d81218094cba8f253f8b50ff5, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -79,8 +75,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _albedo:
+        m_Texture: {fileID: 2800000, guid: d57badcdcb11ce54d95a1dbb31e0b6c4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _base_color_paranoia:
-        m_Texture: {fileID: 2800000, guid: 3c4654929d65fcd4b879ca4e92984327, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -132,6 +132,7 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
+    - _light_str: 0.6
     - _paranoia: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
@@ -139,9 +140,13 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _RimLight_Color: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-    - _TInt: {r: 0.2830189, g: 0.12066753, b: 0.08677466, a: 0}
+    - _TInt: {r: 0, g: 0, b: 0, a: 0}
+    - _cutout_threshold: {r: 0, g: 0, b: 0, a: 0}
+    - _light_color: {r: 1, g: 0.9923392, b: 0.7028302, a: 0}
+    - _rimlight_color: {r: 0.8490566, g: 0.61408633, b: 0.020024916, a: 0}
+    - _tint: {r: 0.99814034, g: 1, b: 0.8349056, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &7426468927168923481
+--- !u!114 &6374297544234041106
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
