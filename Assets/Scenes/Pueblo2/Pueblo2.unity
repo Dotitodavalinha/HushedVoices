@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.5393915, g: 0.30867007, b: 0.21955359, a: 1}
+  m_FogColor: {r: 0.24566995, g: 0.17189959, b: 0.20503274, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.04
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.97292256, g: 0.8418062, b: 0.7966634, a: 1}
+  m_AmbientSkyColor: {r: 0.47277525, g: 0.35336947, b: 0.50194556, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.7
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.88536835, g: 0.5929504, b: 0.40229288, a: 1}
+  m_IndirectSpecularColor: {r: 0.68476164, g: 0.25360927, b: 0.3177464, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -613,7 +613,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 33923412}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.1712556, y: 0.47674438, z: -0.09527766, w: 0.85691804}
+  m_LocalRotation: {x: 0.17125563, y: 0.47674438, z: -0.09527766, w: 0.85691804}
   m_LocalPosition: {x: 13.03, y: 5.078, z: 26.196}
   m_LocalScale: {x: 1.2132, y: 1, z: 0.71686}
   m_ConstrainProportionsScale: 0
@@ -12721,7 +12721,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730473041}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.079443544, y: 0.40970892, z: -0.9080432, w: 0.03584491}
+  m_LocalRotation: {x: -0.015159734, y: 0.98100924, z: 0.17327644, w: 0.08582725}
   m_LocalPosition: {x: 58.24, y: 7.95, z: 34.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -12762,7 +12762,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.82219297, g: 0.82219297, b: 0.82219297, a: 1}
+  m_Color: {r: 0.527104, g: 0.527104, b: 0.527104, a: 1}
   m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
@@ -24905,7 +24905,7 @@ MonoBehaviour:
   Sky: {fileID: 2100000, guid: e08215bfe2cec9348882e00d895fe970, type: 2}
   DirectionalLight: {fileID: 730473044}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 14.762015
+  TimeOfDay: 4.664416
   DaySpeed: 17
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -28264,7 +28264,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1459577345}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.1712556, y: 0.47674438, z: -0.09527766, w: 0.85691804}
+  m_LocalRotation: {x: 0.17125563, y: 0.47674438, z: -0.09527766, w: 0.85691804}
   m_LocalPosition: {x: 13.029999, y: 5.078, z: 26.196}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -35189,7 +35189,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 31.25
+  m_fontSize: 18
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -36483,13 +36483,42 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0fe15e39bdc5e1a4d989557035bd99f2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1837777889}
   m_SourcePrefab: {fileID: 100100000, guid: 0fe15e39bdc5e1a4d989557035bd99f2, type: 3}
 --- !u!4 &1837777887 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0fe15e39bdc5e1a4d989557035bd99f2, type: 3}
   m_PrefabInstance: {fileID: 1837777886}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1837777888 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0fe15e39bdc5e1a4d989557035bd99f2, type: 3}
+  m_PrefabInstance: {fileID: 1837777886}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1837777889
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1837777888}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 0fe15e39bdc5e1a4d989557035bd99f2, type: 3}
+  m_Controller: {fileID: 9100000, guid: 4ac5af414bb8ea94cae33a122f9f31d5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1843136847
 PrefabInstance:
   m_ObjectHideFlags: 0
