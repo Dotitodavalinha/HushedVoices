@@ -12,6 +12,8 @@ public class LightingManager : MonoBehaviour
     [SerializeField, Range(0, 24)] public float TimeOfDay;
 
     [SerializeField] public float DaySpeed;
+    [SerializeField] public bool IsNight => (TimeOfDay >= 20f || TimeOfDay < 5f);
+
 
     public float horaLimiteNoche = 22f;
     public bool tiempoPausado = false;

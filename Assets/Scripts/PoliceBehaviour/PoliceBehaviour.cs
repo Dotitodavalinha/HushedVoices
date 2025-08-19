@@ -11,7 +11,7 @@ public class PoliceBehaviour : MonoBehaviour
 
     [SerializeField] private bool patrolDuringDay = false;
     [SerializeField] private NightManager nightManager;
-    
+
 
     [SerializeField] private float viewAngle = 45f;
     [SerializeField] private float viewDistance = 5f;
@@ -24,10 +24,12 @@ public class PoliceBehaviour : MonoBehaviour
     private bool canChase = false;
     private bool hasCaughtPlayer = false;
 
-
     private GameObject player;
     private Animator animator;
     private bool wasNightLastFrame = false;
+
+    private float initialY;
+    private Quaternion initialRotation;
 
 
 
@@ -38,7 +40,8 @@ public class PoliceBehaviour : MonoBehaviour
 
         player = GameObject.FindWithTag("Player");
 
-       
+        initialY = transform.position.y;
+        initialRotation = transform.rotation;
     }
 
     private void Update()
@@ -53,7 +56,6 @@ public class PoliceBehaviour : MonoBehaviour
         {
             animator.SetBool("IsWaiting", true);
 
-            // Ir hacia el waypoint 0 si no está ahí
             Transform target = patrolPoints[0];
             Vector3 toStart = target.position - transform.position;
 
@@ -66,10 +68,17 @@ public class PoliceBehaviour : MonoBehaviour
 
             canChase = false;
             wasNightLastFrame = false;
+
+            Vector3 posFixed = transform.position;
+            posFixed.y = initialY;
+            transform.position = posFixed;
+
+            Quaternion rot = transform.rotation;
+            transform.rotation = Quaternion.Euler(0, rot.eulerAngles.y, 0);
+
             return;
         }
 
-        // Si acaba de hacerse de noche, esperar 2 segundos antes de permitir persecución
         if (!wasNightLastFrame && nightManager.IsNight)
         {
             canChase = false;
@@ -79,12 +88,28 @@ public class PoliceBehaviour : MonoBehaviour
         if (patrolPoints.Count < 2 || isWaiting)
         {
             animator.SetBool("IsWaiting", true);
+
+            Vector3 posFixed = transform.position;
+            posFixed.y = initialY;
+            transform.position = posFixed;
+
+            Quaternion rot = transform.rotation;
+            transform.rotation = Quaternion.Euler(0, rot.eulerAngles.y, 0);
+
             return;
         }
 
         if (DialogueTrigger.playerInRange && !nightManager.IsNight)
         {
             animator.SetBool("IsWaiting", true);
+
+            Vector3 posFixed = transform.position;
+            posFixed.y = initialY;
+            transform.position = posFixed;
+
+            Quaternion rot = transform.rotation;
+            transform.rotation = Quaternion.Euler(0, rot.eulerAngles.y, 0);
+
             return;
         }
 
@@ -96,7 +121,6 @@ public class PoliceBehaviour : MonoBehaviour
 
         bool seesPlayer = false;
 
-        // chequeo de ángulo, distancia y raycast
         if (canChase && nightManager.IsNight && player != null &&
             distanceToPlayer <= viewDistance && angle <= viewAngle / 2f)
         {
@@ -132,15 +156,20 @@ public class PoliceBehaviour : MonoBehaviour
             }
             else
             {
-                // Lo perdió de vista, vuelve al patrullaje
                 isChasingPlayer = false;
                 currentIndex = 0;
             }
 
+            Vector3 posFixed = transform.position;
+            posFixed.y = initialY;
+            transform.position = posFixed;
+
+            Quaternion rot = transform.rotation;
+            transform.rotation = Quaternion.Euler(0, rot.eulerAngles.y, 0);
+
             return;
         }
 
-        // Patrullaje normal
         Transform patrolTarget = patrolPoints[currentIndex];
         Vector3 patrolDir = (patrolTarget.position - transform.position);
         if (patrolDir.magnitude > 0.01f)
@@ -156,6 +185,13 @@ public class PoliceBehaviour : MonoBehaviour
         }
 
         wasNightLastFrame = nightManager.IsNight;
+
+        Vector3 posFinal = transform.position;
+        posFinal.y = initialY;
+        transform.position = posFinal;
+
+        Quaternion rotFinal = transform.rotation;
+        transform.rotation = Quaternion.Euler(0, rotFinal.eulerAngles.y, 0);
     }
 
 
@@ -207,7 +243,4 @@ public class PoliceBehaviour : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, forward * viewDistance);
     }
-
-    
-
 }

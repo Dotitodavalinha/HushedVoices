@@ -12,6 +12,8 @@ public class JailManager : MonoBehaviour
 
     private bool triggered = false;
 
+    [SerializeField] private bool CheatInmortal;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -57,21 +59,27 @@ public class JailManager : MonoBehaviour
     }
     public void SetMaxValue()
     {
-        // triggered = true;
-        Debug.Log("a la carcelphitee");
-        if (objectToActivate != null)
+        if (CheatInmortal) // si activamos un bool no podemos caer presos, basicamente. Es para debug.
         {
-            objectToActivate.SetActive(true);
-            counter = 0;
+            return;
         }
         else
         {
-            Debug.Log("no se encontro el png de 'fuiste encarcelado'");
+            // triggered = true;
+            Debug.Log("a la carcelphitee");
+            if (objectToActivate != null)
+            {
+                objectToActivate.SetActive(true);
+                counter = 0;
+            }
+            else
+            {
+                Debug.Log("no se encontro el png de 'fuiste encarcelado'");
+            }
+
+            // Time.timeScale = 0f; // Pausa total
+            StartCoroutine(WaitAndGoToRoom());
         }
-
-        // Time.timeScale = 0f; // Pausa total
-        StartCoroutine(WaitAndGoToRoom());
-
     }
     private IEnumerator WaitAndGoToRoom()
     {

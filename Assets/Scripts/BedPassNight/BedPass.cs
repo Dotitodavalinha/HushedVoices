@@ -13,7 +13,6 @@ public class BedPass : MonoBehaviour
     private bool jugadorCerca;
     private bool puedeDormir;
 
-    [SerializeField] private GameObject objectToActivateAtNight;
 
 
     void Start()
@@ -27,18 +26,6 @@ public class BedPass : MonoBehaviour
         if (timeManager != null)
         {
             puedeDormir = timeManager.TimeOfDay >= horaDormir || timeManager.TimeOfDay < 4;
-        }
-
-        if (timeManager != null && objectToActivateAtNight != null)
-        {
-            if (timeManager.TimeOfDay >= 20f || timeManager.TimeOfDay < 5f)
-            {
-                objectToActivateAtNight.SetActive(true);
-            }
-            else
-            {
-                objectToActivateAtNight.SetActive(false);
-            }
         }
 
 
