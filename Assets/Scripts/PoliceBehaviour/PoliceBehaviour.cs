@@ -76,7 +76,6 @@ public class PoliceBehaviour : MonoBehaviour
             Invoke(nameof(EnableChase), 2f);
         }
 
-
         if (patrolPoints.Count < 2 || isWaiting)
         {
             animator.SetBool("IsWaiting", true);
@@ -95,8 +94,21 @@ public class PoliceBehaviour : MonoBehaviour
         float distanceToPlayer = toPlayer.magnitude;
         float angle = Vector3.Angle(transform.forward, toPlayer.normalized);
 
-        bool seesPlayer = canChase && nightManager.IsNight && player != null &&
-                          distanceToPlayer <= viewDistance && angle <= viewAngle / 2f;
+        bool seesPlayer = false;
+
+        // chequeo de ángulo, distancia y raycast
+        if (canChase && nightManager.IsNight && player != null &&
+            distanceToPlayer <= viewDistance && angle <= viewAngle / 2f)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position + Vector3.up * 0.5f, toPlayer.normalized, out hit, viewDistance))
+            {
+                if (hit.collider.CompareTag("Player"))
+                {
+                    seesPlayer = true;
+                }
+            }
+        }
 
         if (seesPlayer)
         {
@@ -143,13 +155,9 @@ public class PoliceBehaviour : MonoBehaviour
             StartCoroutine(WaitAndMove());
         }
 
-      
-
-
         wasNightLastFrame = nightManager.IsNight;
-
-
     }
+
 
 
     private void EnableChase()
