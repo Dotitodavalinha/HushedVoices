@@ -6,20 +6,32 @@ public class TabsLogic : MonoBehaviour
 {
     public GameObject[] sections;
     public LibretaUI libretaUI; // ← arrastralo en el inspector
-    
+    public PageAnimation animationController;
+    private int currentSectionIndex = -1;
 
     public void OpenSection(int index)
     {
-        Debug.Log("abriendo el index numero " + index);
+        if (index < 0 || index >= sections.Length)
+        {
+            Debug.LogWarning("Índice de sección inválido: " + index);
+            return;
+        }
 
-        libretaUI.AbrirLibretaDesdeBoton(); // ← asegurate que la libreta esté abierta
+        libretaUI.AbrirLibretaDesdeBoton();
+
+        if (index != currentSectionIndex)
+        {
+            animationController?.PlayAnimation();
+            currentSectionIndex = index;
+        }
 
         for (int i = 0; i < sections.Length; i++)
             sections[i].SetActive(i == index);
+
         SoundManager.instance.PlaySound(SoundID.PageTurnSound);
     }
 
-     public void CloseAllSections()
+    public void CloseAllSections()
     {
         foreach (GameObject section in sections)
         {

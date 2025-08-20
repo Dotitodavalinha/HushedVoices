@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LibretaUI : MonoBehaviour
@@ -15,53 +13,66 @@ public class LibretaUI : MonoBehaviour
 
     private bool libretaAbierta = false;
 
+
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            libretaAbierta = !libretaAbierta;
-
             if (libretaAbierta)
             {
-                if (!GameManager.Instance.TryLockUI())
-                {
-                    libretaAbierta = false; // Cancela apertura
-                    return;
-                }
-
-                // Ahora que sabemos que sí se abre, mostramos cursor
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-
-                ActualizarUI();
-                tabsLogic.OpenSection(0);
-                SoundManager.instance.PlaySound(SoundID.BookOpenSound);
+                CerrarLibreta();
             }
             else
             {
-                GameManager.Instance.UnlockUI();
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
-                tabsLogic.CloseAllSections();
+                AbrirLibreta(0);
+                SoundManager.instance.PlaySound(SoundID.BookOpenSound);
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!libretaAbierta)
+            {
+                AbrirLibreta(3);
+            }
+            else
+            {
+                CerrarLibreta();
+            }
+        }
+    }
+
+    void AbrirLibreta(int seccionInicial)
+    {
+        if (!GameManager.Instance.TryLockUI())
+            return;
+
+        libretaAbierta = true;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        ActualizarUI();
+        tabsLogic.OpenSection(seccionInicial);
+    }
+
+    void CerrarLibreta()
+    {
+        GameManager.Instance.UnlockUI();
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        libretaAbierta = false;
+        tabsLogic.CloseAllSections();
+
+        tabsLogic.animationController?.StopAndHide();
     }
 
     public void AbrirLibretaDesdeBoton()
     {
         if (!libretaAbierta)
-        {
-            if (!GameManager.Instance.TryLockUI())
-                return;
-
-            libretaAbierta = true;
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-            ActualizarUI();
-        }
-
+            AbrirLibreta(0);
     }
+
 
     void ActualizarUI()
     {
