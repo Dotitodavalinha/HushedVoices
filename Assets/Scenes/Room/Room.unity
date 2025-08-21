@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.26726115, g: 0.18197554, b: 0.2060583, a: 1}
+  m_FogColor: {r: 0.09803921, g: 0.10196081, b: 0.20000002, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.5126223, g: 0.37493804, b: 0.5246109, a: 1}
+  m_AmbientSkyColor: {r: 0.2025187, g: 0.20757172, b: 0.3490566, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.7142693, g: 0.28963533, b: 0.32269585, a: 1}
+  m_IndirectSpecularColor: {r: 0.14090109, g: 0.16818628, b: 0.32461888, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4170,14 +4170,14 @@ MonoBehaviour:
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
   m_Cameras: []
-  m_RendererIndex: -1
+  m_RendererIndex: 0
   m_VolumeLayerMask:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
-  m_Antialiasing: 0
+  m_RenderPostProcessing: 1
+  m_Antialiasing: 2
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
@@ -5707,8 +5707,8 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
-  m_Antialiasing: 0
+  m_RenderPostProcessing: 1
+  m_Antialiasing: 2
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
@@ -11749,8 +11749,8 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
-  m_Antialiasing: 0
+  m_RenderPostProcessing: 1
+  m_Antialiasing: 2
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
@@ -13060,7 +13060,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Version: 3
   m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 1
+  m_AdditionalLightsShadowResolutionTier: 2
   m_LightLayerMask: 1
   m_RenderingLayers: 1
   m_CustomShadowLayers: 0
@@ -13091,9 +13091,9 @@ Light:
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_Bias: 1.17
+    m_NormalBias: 0
+    m_NearPlane: 0.1
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -15251,6 +15251,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7585403248777474355, guid: 9e953ac88b662114e92077e8dd85d633, type: 3}
+      propertyPath: m_StopNaN
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7585403248777474355, guid: 9e953ac88b662114e92077e8dd85d633, type: 3}
+      propertyPath: m_Antialiasing
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7585403248777474355, guid: 9e953ac88b662114e92077e8dd85d633, type: 3}
+      propertyPath: m_RendererIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7585403248777474355, guid: 9e953ac88b662114e92077e8dd85d633, type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7585403248777474355, guid: 9e953ac88b662114e92077e8dd85d633, type: 3}
+      propertyPath: m_RequiresOpaqueTextureOption
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16625,6 +16645,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 05ec5617730f5f647b86f66ba100ef30, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 05ec5617730f5f647b86f66ba100ef30, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: e0b7f18d88f66f44397f5132a1e8d09c, type: 2}
@@ -17094,7 +17118,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.5487372, g: 0.5487372, b: 0.5487372, a: 1}
+  m_Color: {r: 0.35621107, g: 0.35621107, b: 0.35621107, a: 1}
   m_Intensity: 0.8
   m_Range: 10
   m_SpotAngle: 30
@@ -17153,7 +17177,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1345100765}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.011376117, y: 0.98767215, z: 0.13002953, w: 0.08641018}
+  m_LocalRotation: {x: 0.07547914, y: -0.49809742, z: -0.8627299, w: -0.043577906}
   m_LocalPosition: {x: -47.6, y: 10.51, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -18222,7 +18246,7 @@ MonoBehaviour:
   Sky: {fileID: 2100000, guid: e08215bfe2cec9348882e00d895fe970, type: 2}
   DirectionalLight: {fileID: 1345100767}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 5
+  TimeOfDay: 22
   DaySpeed: 20
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -18542,6 +18566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2cc09400d6d4642973f61ddb6ab08a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
   lightingManager: {fileID: 0}
 --- !u!1 &1462013696
 GameObject:
@@ -24377,7 +24402,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Version: 3
   m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 1
+  m_AdditionalLightsShadowResolutionTier: 2
   m_LightLayerMask: 1
   m_RenderingLayers: 1
   m_CustomShadowLayers: 0
