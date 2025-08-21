@@ -5,7 +5,7 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
 
-    [SerializeField] private int uiLockCount = 0;
+    public int uiLockCount = 0;
     public bool IsAnyUIOpen => uiLockCount > 0;
 
     [SerializeField] private PlayerMovementLocker playerLocker;

@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.29099387, g: 0.19305086, b: 0.20718557, a: 1}
+  m_FogColor: {r: 0.09803921, g: 0.10196081, b: 0.20000002, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.5564215, g: 0.3986459, b: 0.5495242, a: 1}
+  m_AmbientSkyColor: {r: 0.2025187, g: 0.20757172, b: 0.3490566, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.7358059, g: 0.33966735, b: 0.33321363, a: 1}
+  m_IndirectSpecularColor: {r: 0.14090109, g: 0.16818628, b: 0.32461888, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -238,6 +238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2cc09400d6d4642973f61ddb6ab08a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 2070649811}
   lightingManager: {fileID: 0}
 --- !u!1 &537627706
 GameObject:
@@ -268,7 +269,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.57251614, g: 0.57251614, b: 0.57251614, a: 1}
+  m_Color: {r: 0.35621107, g: 0.35621107, b: 0.35621107, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -327,7 +328,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 537627706}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.0071921796, y: 0.992797, z: 0.082206935, w: 0.08685854}
+  m_LocalRotation: {x: 0.07547914, y: -0.49809742, z: -0.8627299, w: -0.043577906}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -457,8 +458,10 @@ MonoBehaviour:
   Sky: {fileID: 2100000, guid: e08215bfe2cec9348882e00d895fe970, type: 2}
   DirectionalLight: {fileID: 537627707}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 5.368869
+  TimeOfDay: 22
   DaySpeed: 20
+  horaLimiteNoche: 22
+  tiempoPausado: 0
 --- !u!4 &1102195526
 Transform:
   m_ObjectHideFlags: 0
@@ -947,7 +950,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 240771586}
         m_TargetAssemblyTypeName: FinalDayBackToMenu, Assembly-CSharp
-        m_MethodName: LoadScene
+        m_MethodName: NewGame
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1204,6 +1207,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f7e62575cfc5554c99451c65976c8c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiLockCount: 0
+  playerLocker: {fileID: 0}
 --- !u!4 &2070649812
 Transform:
   m_ObjectHideFlags: 0
