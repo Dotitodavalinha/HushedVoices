@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
+    public Slider volumeSFXSlider;
+    public Slider volumeMusicSlider;
     public AudioClip[] sounds;
     public AudioClip[] music;
 
@@ -45,7 +48,37 @@ public class SoundManager : MonoBehaviour
 
       
     }
+    void Start()
+    {
+        if (PlayerPrefs.HasKey("volumeMusic"))
+        LoadVolume();
+        else
+        {
+            PlayerPrefs.SetFloat("volumeMusic", 1);
+            PlayerPrefs.SetFloat("volumeSFX", 1);
+            LoadVolume();
+        }
+    }
 
+
+    public void SetVolume()
+    {
+        SoundManager.instance.ChangeVolumeMusic(volumeMusicSlider.value);
+        SoundManager.instance.ChangeVolumeSound(volumeSFXSlider.value);
+        SaveVolume();
+    }
+
+    public void SaveVolume()
+    {
+        PlayerPrefs.SetFloat("volumeSFX", volumeSFXSlider.value);
+        PlayerPrefs.SetFloat("volumeMusic", volumeMusicSlider.value);
+    }
+
+    public void LoadVolume()
+    {
+        volumeSFXSlider.value = PlayerPrefs.GetFloat("volumeSFX");
+        volumeMusicSlider.value = PlayerPrefs.GetFloat("volumeMusic");
+    }
     #region SFX
 
     public bool isSoundPlaying(SoundID id)

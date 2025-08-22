@@ -1,16 +1,21 @@
-using System.Collections;
 using UnityEngine;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class FinalDayBackToMenu : MonoBehaviour
 {
     public GameManager gameManager;
+    public ProgressManager progressManager;
     [SerializeField] private LightingManager lightingManager;
 
     private void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
         lightingManager = FindObjectOfType<LightingManager>();
+        progressManager = FindObjectOfType<ProgressManager>();
     }
 
     public void LoadScene(string sceneName)
@@ -29,7 +34,8 @@ public class FinalDayBackToMenu : MonoBehaviour
 
     public void QuitGame()
     {
-        gameManager.uiLockCount = 0; // Aseguramos que el contador de UI se reinicie
+        progressManager.ResetAllBools();
+        gameManager.uiLockCount = 0; 
         Application.Quit();
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;

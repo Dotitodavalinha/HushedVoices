@@ -2,6 +2,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 public class ProgressManager : MonoBehaviour
 {
@@ -30,6 +31,21 @@ public class ProgressManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void ResetAllBools()
+    {
+        var campos = this.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
+        foreach (var campo in campos)
+        {
+            if (campo.FieldType == typeof(bool))
+            {
+                campo.SetValue(this, false);
+                Debug.Log($"Se apaga {campo.Name}");
+            }
+        }
+
+        Debug.Log("Todos los bools del ProgressManager fueron reseteados a false.");
     }
 
     public void CambiarRootNPC(string npcID, string rootName)
