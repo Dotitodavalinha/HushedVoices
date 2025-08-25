@@ -24,22 +24,37 @@ public class FinalDayBackToMenu : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
-
-
     public void NewGame(string sceneName)
     {
+        ResetAllManagers();
+
         SceneManager.LoadScene(sceneName);
-       
     }
 
     public void QuitGame()
     {
-        progressManager.ResetAllBools();
-        gameManager.uiLockCount = 0; 
+        ResetAllManagers();
         Application.Quit();
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
+    }
+
+
+    private void ResetAllManagers()
+    {
+        if (progressManager != null)
+            progressManager.ResetAllBools();
+
+        if (gameManager != null)
+        {
+            gameManager.uiLockCount = 0;
+        }
+
+        if (lightingManager != null)
+        {
+            lightingManager.ResetTime();
+        }
     }
 }
 

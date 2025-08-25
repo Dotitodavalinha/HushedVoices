@@ -24,8 +24,8 @@ public class LightingManager : MonoBehaviour
 
         if (!PlayerPrefs.HasKey("HasStartedBefore"))
         {
-            // Es la primera vez: arrancamos a las 8 y lo marcamos
-            TimeOfDay = 8f;
+            // Es la primera vez: arrancamos a las 5 y lo marcamos
+            TimeOfDay = 5f;
             PlayerPrefs.SetFloat("SavedTimeOfDay", TimeOfDay);
             PlayerPrefs.SetInt("HasStartedBefore", 1);
         }
@@ -71,9 +71,15 @@ public class LightingManager : MonoBehaviour
         Sky.SetFloat("_TimeOfDay", TimeOfDay);
      
        PlayerPrefs.SetFloat("SavedTimeOfDay", TimeOfDay); //guardo el tiempo en cada frame 
+    }
 
+    public void ResetTime()
+    {
+        TimeOfDay = 5f;
+        tiempoPausado = false;
 
-      
+        PlayerPrefs.DeleteKey("SavedTimeOfDay");
+        PlayerPrefs.DeleteKey("HasStartedBefore");
     }
 
     private void UpdateLighting(float timePercent)
