@@ -32,7 +32,7 @@ public class GameEvents : MonoBehaviour
             if (r.responseText.Contains("Thanks Chloe")) 
             {
                 //r.onResponseChosen.RemoveAllListeners(); 
-                r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("PoliceZ", "RootPoliceZ1"));
+                r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("PolicemanZ", "RootPoliceZ1"));
                 r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("Chloe", "Root2"));
                 r.onResponseChosen.AddListener(() => ProgressManager.Instance.GotCoffe = true);
             }
@@ -42,7 +42,7 @@ public class GameEvents : MonoBehaviour
             {
                 r.onResponseChosen.RemoveAllListeners(); 
 
-                r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("PoliceZ", "RootPoliceZ2"));
+                r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("PolicemanZ", "RootPoliceZ2"));
                 r.onResponseChosen.AddListener(() => ProgressManager.Instance.Policeznt = true);
                 r.onResponseChosen.AddListener(() => ProgressManager.Instance.ColegioStreet = true);
                 r.onResponseChosen.AddListener(() => ColegioStreet.SetActive(ProgressManager.Instance.ColegioStreet));
