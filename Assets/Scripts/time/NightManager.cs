@@ -45,6 +45,10 @@ public class NightManager : MonoBehaviour
             ClockDayTrue();
             
         }
+        if(DayManager.TimeOfDay >= 19 && DayManager.TimeOfDay <= 19.1)
+        {
+            Instantiate(IsNightAlert, canvasTransform);
+        }
     }
     public void TalkingToPolice()
     {
