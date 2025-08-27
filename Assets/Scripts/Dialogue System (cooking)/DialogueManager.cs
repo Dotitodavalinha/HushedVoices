@@ -35,6 +35,9 @@ public class DialogueManager : MonoBehaviour
 
     public static DialogueManager Instance { get; private set; }
 
+    private bool isTyping = false;
+    public bool IsTyping => isTyping;
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -243,8 +246,9 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator TypeText(string fullText, NPCDialogue npc, float typingSpeed = 0.05f)
     {
+        isTyping = true;
         npcText.text = "";
-      
+
         foreach (char c in fullText)
         {
             npcText.text += c;
@@ -262,7 +266,10 @@ public class DialogueManager : MonoBehaviour
             }
             yield return new WaitForSeconds(typingSpeed);
         }
+
+        isTyping = false;
     }
+
 
 
     private void DialoguePanelOff()
@@ -284,6 +291,18 @@ public class DialogueManager : MonoBehaviour
         cg.alpha = 1;
         cg.interactable = true;
         cg.blocksRaycasts = true;
+    }
+
+    public void FinishTypingCurrentText()
+    {
+        if (currentNode != null)
+        {
+            if (typingCoroutine != null)
+                StopCoroutine(typingCoroutine);
+
+            npcText.text = currentNode.npcText;
+            isTyping = false;
+        }
     }
 
 }

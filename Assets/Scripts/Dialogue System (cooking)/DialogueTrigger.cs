@@ -21,11 +21,17 @@ public class DialogueTrigger : MonoBehaviour
         {
             if (DialogueManager.Instance.IsOpen)
             {
-                DialogueManager.Instance.EndDialogue();
+                if (DialogueManager.Instance.IsTyping) // si está escribiendo
+                {
+                    DialogueManager.Instance.FinishTypingCurrentText();
+                }
+                else
+                {
+                    DialogueManager.Instance.EndDialogue();
+                }
             }
             else
             {
-                // evitar abrir si hay otra UI en uso
                 if (!GameManager.Instance.TryLockUI())
                     return;
 
@@ -34,6 +40,7 @@ public class DialogueTrigger : MonoBehaviour
             }
         }
     }
+
 
 
     private void OnTriggerEnter(Collider other)
