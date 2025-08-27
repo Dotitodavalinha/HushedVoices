@@ -13,8 +13,6 @@ public class LibretaUI : MonoBehaviour
 
     private bool libretaAbierta = false;
 
-
-
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.F))
@@ -62,7 +60,9 @@ public class LibretaUI : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         libretaAbierta = false;
+
         tabsLogic.CloseAllSections();
+        tabsLogic.ResetCurrentSection();
 
         tabsLogic.animationController?.StopAndHide();
     }
@@ -72,7 +72,6 @@ public class LibretaUI : MonoBehaviour
         if (!libretaAbierta)
             AbrirLibreta(0);
     }
-
 
     void ActualizarUI()
     {
