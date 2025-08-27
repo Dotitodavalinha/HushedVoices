@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteAlways]
 public class LightingManager : MonoBehaviour
 {
-    [SerializeField] private Material Sky; 
+    [SerializeField] private Material Sky;
+    [SerializeField] private Material ambientShader;
+
 
     [SerializeField] private Light DirectionalLight;
     [SerializeField] private LightingPreset preset;
@@ -55,7 +55,7 @@ public class LightingManager : MonoBehaviour
                 if (TimeOfDay >= horaLimiteNoche && TimeOfDay < 24f)
                 {
                     tiempoPausado = true;
-                    TimeOfDay = horaLimiteNoche; 
+                    TimeOfDay = horaLimiteNoche;
                 }
 
                 TimeOfDay %= 24;
@@ -69,8 +69,12 @@ public class LightingManager : MonoBehaviour
             UpdateLighting(TimeOfDay / 24);
         }
         Sky.SetFloat("_TimeOfDay", TimeOfDay);
-     
-       PlayerPrefs.SetFloat("SavedTimeOfDay", TimeOfDay); //guardo el tiempo en cada frame 
+
+        UpdateAmbientLight();
+        UpdateSunLight();
+
+
+        PlayerPrefs.SetFloat("SavedTimeOfDay", TimeOfDay); //guardo el tiempo en cada frame 
     }
 
     public void ResetTime()
@@ -104,12 +108,45 @@ public class LightingManager : MonoBehaviour
             Light[] lights = GameObject.FindObjectsOfType<Light>();
             foreach (Light light in lights)
             {
-                if (light.type== LightType.Directional)
+                if (light.type == LightType.Directional)
                 {
                     DirectionalLight = light;
                     return;
                 }
             }
+        }
+    }
+
+    public void UpdateAmbientLight()
+    {
+        if (ambientShader != null)
+        {
+            float dayNight;
+
+            if (TimeOfDay <= 5f)
+                dayNight = 1f;
+            else if (TimeOfDay >= 21f)
+                dayNight = 0f;
+            else
+                dayNight = Mathf.InverseLerp(21f, 5f, TimeOfDay);
+
+            ambientShader.SetFloat("_dayNight", dayNight);
+        }
+    }
+
+    public void UpdateSunLight()
+    {
+        if (DirectionalLight != null)
+        {
+            float sunIntensity;
+            if (TimeOfDay <= 14f)
+                sunIntensity = 0.4f;
+            else if (TimeOfDay >= 21f)
+                sunIntensity = 0f;
+            else
+                sunIntensity = Mathf.Lerp(0.4f, 0f, Mathf.InverseLerp(14f, 21f, TimeOfDay));
+
+            DirectionalLight.intensity = sunIntensity;
         }
     }
 }

@@ -73,9 +73,9 @@ public class ParanoiaManager : MonoBehaviour
             paranoiaLevel = 0;
         }
 
-        else if(paranoiaLevel > 1f) 
+        else if(paranoiaLevel > 0.5f) 
         {
-            paranoiaLevel = 1;
+            paranoiaLevel = 0.5f;
         }
 
 
