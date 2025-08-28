@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.BoolParameter;
 
 
 public class NightManager : MonoBehaviour
@@ -18,6 +19,7 @@ public class NightManager : MonoBehaviour
 
     [SerializeField] private Transform canvasTransform;
     private bool hasInstantiatedAlert = false;
+    [SerializeField] public bool InstantiatedPreNightAlert = false;
 
 
 
@@ -36,20 +38,24 @@ public class NightManager : MonoBehaviour
     {
         if (DayManager.TimeOfDay > 20 || DayManager.TimeOfDay < 5)
         {
-            
+
             ClockNIghtTrue();
             SoundManager.instance.ChangeMusic(MusicID.NightSound);
         }
         else
         {
             SoundManager.instance.ChangeMusic(MusicID.DaySound);
-           // SoundManager.instance.PlayMusic(MusicID.DaySound, true);
+            // SoundManager.instance.PlayMusic(MusicID.DaySound, true);
             ClockDayTrue();
-            
+
         }
-        if(DayManager.TimeOfDay >= 19 && DayManager.TimeOfDay <= 19.1)
+        if (DayManager.TimeOfDay >= 19 && DayManager.TimeOfDay <= 19.1) //si pongo 19 exacto no lo detecta. idk
         {
-            Instantiate(IsPreNightAlert, canvasTransform);
+            AlmostNight();
+        }
+        else
+        {
+            InstantiatedPreNightAlert = false;
         }
     }
     public void TalkingToPolice()
@@ -79,7 +85,7 @@ public class NightManager : MonoBehaviour
         if (IsNight == false)
         {
             SoundManager.instance.ChangeVolumeOneMusic(MusicID.StaticSound, 1f);
-            ParanoiaManager.lastParanoiaValue = 1f-ParanoiaManager.paranoiaLevel;
+            ParanoiaManager.lastParanoiaValue = 1f - ParanoiaManager.paranoiaLevel;
             ParanoiaManager.SetParanoiaValue(1);
             IsNight = true;
         }
@@ -91,9 +97,18 @@ public class NightManager : MonoBehaviour
         }
         ClockDay.SetActive(false);
         ClockNit.SetActive(true);
-        
-        
 
     }
+
+    private void AlmostNight()
+    {
+        if (!InstantiatedPreNightAlert)
+        {
+            Instantiate(IsPreNightAlert, canvasTransform);
+            InstantiatedPreNightAlert = true;
+        }
+       
+    }
+
 
 }
