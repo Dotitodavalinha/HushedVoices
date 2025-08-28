@@ -14,6 +14,8 @@ public class NightManager : MonoBehaviour
     public GameObject ClockDay;
 
     public GameObject IsNightAlert;
+    public GameObject IsPreNightAlert;
+
     [SerializeField] private Transform canvasTransform;
     private bool hasInstantiatedAlert = false;
 
@@ -47,7 +49,7 @@ public class NightManager : MonoBehaviour
         }
         if(DayManager.TimeOfDay >= 19 && DayManager.TimeOfDay <= 19.1)
         {
-            Instantiate(IsNightAlert, canvasTransform);
+            Instantiate(IsPreNightAlert, canvasTransform);
         }
     }
     public void TalkingToPolice()
