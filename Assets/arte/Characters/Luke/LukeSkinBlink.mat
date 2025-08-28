@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2406443937473057159
+--- !u!114 &-238082968933505512
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,13 +20,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_SkyBox
-  m_Shader: {fileID: -6465566751694194690, guid: 22729553a06832c4da84cb9b674e0a16, type: 3}
+  m_Name: LukeSkinBlink
+  m_Shader: {fileID: -6465566751694194690, guid: 0842c06b59dae1c42943295ed8439e4e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -36,12 +36,20 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _moon_tex:
-        m_Texture: {fileID: 2800000, guid: 98618f435966ea84699384a0661b7c58, type: 3}
+    - _BaseColorBlinking:
+        m_Texture: {fileID: 2800000, guid: 60fa6148f84f3a14ca33ccd902524d15, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _stars_tex:
-        m_Texture: {fileID: 2800000, guid: 4a807a3495676594da9d9a0aff4256c5, type: 3}
+    - _Base_Color:
+        m_Texture: {fileID: 2800000, guid: fe39553c881b78a4abc3250cdd9e356f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_db6237d1fbc341cdb4b8928b693940bb_Out_0_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _base_color_paranoia:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -58,16 +66,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _GroundBlendPower: 0.95
+    - _Offset: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SkyBlendPower: 0.76
-    - _StarsAmount: 1.16
-    - _TimeOfDay: 22
+    - _RimLightBrightness: 5
+    - _RimLight_Power: 2
+    - _Smoothness_of_Shadow: 0
+    - _paranoia: 0
     m_Colors:
-    - _GroundColor: {r: 1, g: 0.7723065, b: 0.5529412, a: 1}
-    - _HorizonColor: {r: 0.4716981, g: 0.26477394, b: 0.35111535, a: 1}
-    - _SkyColor: {r: 0.10399609, g: 0.110557385, b: 0.1792453, a: 1}
-    - _StarsColor: {r: 1, g: 0.9910006, b: 0.25943398, a: 0}
-    - _Test: {r: 1, g: 1, b: 0, a: 0}
+    - _Color: {r: 0.8, g: 0.7764706, b: 0.67058825, a: 0}
+    - _RimLight_Color: {r: 0, g: 0, b: 0, a: 0}
+    - _TInt: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
