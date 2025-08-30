@@ -27,6 +27,14 @@ public class FinalDayBackToMenu : MonoBehaviour
     public void NewGame(string sceneName)
     {
         ResetAllManagers();
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save();
+
+        if (PlayerClueTracker.Instance != null)
+        {
+            PlayerClueTracker.Instance.clues.Clear();
+            PlayerClueTracker.Instance.cluesList.Clear();
+        }
 
         SceneManager.LoadScene(sceneName);
     }
@@ -45,6 +53,7 @@ public class FinalDayBackToMenu : MonoBehaviour
     {
         if (progressManager != null)
             progressManager.ResetAllBools();
+
 
         if (gameManager != null)
         {
