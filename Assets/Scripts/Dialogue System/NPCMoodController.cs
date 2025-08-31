@@ -1,21 +1,16 @@
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
-using UnityEngine.Rendering.Universal;
 
 public class NPCMoodController : MonoBehaviour
 {
+    [Header("ID único para este NPC")]
+    public string npcId;
+
     public SpriteRenderer spriteRenderer;
     public Sprite normalFace;
     public Sprite happyFace;
     public Sprite angryFace;
 
-
     [SerializeField] private Transform moodIconTransform;
-
-    //asigno policias y materiales
-    //public GameObject policias;
-    //public Material paranoia;
-    //public Material ambient;
 
     void Update()
     {
@@ -26,57 +21,47 @@ public class NPCMoodController : MonoBehaviour
             moodIconTransform.forward = toCam.normalized;
         }
     }
+
     void Start()
     {
-
-        SetMoodNormal();
-
-        //alambreee
-
-        //paranoia.SetInt("_vig_amount", 0);
-        //ambient.SetFloat("dayNight", 1f);
-
-        //policias.SetActive(false);
+        // Recupera el mood guardado o arranca en Normal
+        MoodType savedMood = NPCMoodManager.Instance.GetMood(npcId);
+        switch (savedMood)
+        {
+            case MoodType.Happy: SetMoodHappy(); break;
+            case MoodType.Angry: SetMoodAngry(true); break; // por default false
+            default: SetMoodNormal(); break;
+        }
     }
 
     public void SetMoodHappy()
     {
-
         spriteRenderer.sprite = happyFace;
         ParanoiaManager.Instance.SetParanoiaValue(-1f / 3f);
         SoundManager.instance.ChangeVolumeOneMusic(MusicID.StaticSound, -1f / 3f);
-        //alambreee
 
-        //paranoia.SetInt("_vig_amount", 0);
-        //ambient.SetFloat("dayNight", 1f);
-
-        //policias.SetActive(false);
-
-
+        NPCMoodManager.Instance.SetMood(npcId, MoodType.Happy);
     }
 
     public void SetMoodNormal()
     {
         spriteRenderer.sprite = normalFace;
+        NPCMoodManager.Instance.SetMood(npcId, MoodType.Normal);
     }
 
-    public void SetMoodAngry(bool IsNPC)
+    // Puede llamarse de dos formas: true o false
+    public void SetMoodAngry(bool IsNotPolice)
     {
         spriteRenderer.sprite = angryFace;
 
         ParanoiaManager.Instance.SetParanoiaValue(1f / 3f);
         SoundManager.instance.ChangeVolumeOneMusic(MusicID.StaticSound, 1f / 3f);
 
-        //alambreee
-        if (JailManager.Instance != null && IsNPC == true)
+        if (JailManager.Instance != null && IsNotPolice == true)
         {
             JailManager.Instance.Increment();
-
         }
 
-        //paranoia.SetInt("_vig_amount", 1);
-        //ambient.SetFloat("dayNight", 0f);
-        //policias.SetActive(true);
-
+        NPCMoodManager.Instance.SetMood(npcId, MoodType.Angry);
     }
 }

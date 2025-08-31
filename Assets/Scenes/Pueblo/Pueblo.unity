@@ -2124,13 +2124,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 122089556}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.43217912, z: -0, w: 0.9017878}
-  m_LocalPosition: {x: -5.89, y: 0, z: 3.53}
+  m_LocalRotation: {x: -0, y: 0.4654675, z: -0, w: 0.88506496}
+  m_LocalPosition: {x: -5.890232, y: 0.81, z: 3.5299392}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1122603741}
-  m_LocalEulerAnglesHint: {x: 0, y: -51.212, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 55.481, z: 0}
 --- !u!1001 &123003992
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10835,13 +10835,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 279416405}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.43217912, z: -0, w: 0.9017878}
-  m_LocalPosition: {x: -1.89, y: 0, z: 5.5}
+  m_LocalRotation: {x: -0, y: -0.9953159, z: -0, w: -0.09667585}
+  m_LocalPosition: {x: -1.8900001, y: 0.81, z: 5.500001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1122603741}
-  m_LocalEulerAnglesHint: {x: 0, y: -51.212, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -191.096, z: 0}
 --- !u!1 &280329814
 GameObject:
   m_ObjectHideFlags: 0
@@ -38041,6 +38041,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a307bc2741e1f7645b947e2453a22474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  npcId: Police2
   spriteRenderer: {fileID: 739872301}
   normalFace: {fileID: 21300000, guid: 58790cb5481739644a05c3d813dfa38c, type: 3}
   happyFace: {fileID: 21300000, guid: 798e39607d62a4949a087f87ee676dc8, type: 3}
@@ -42270,7 +42271,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1229151359}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.27918622, y: 0.14099045, z: -0.0414813, w: 0.94892365}
+  m_LocalRotation: {x: 0.2791862, y: 0.14099042, z: -0.04148129, w: 0.94892365}
   m_LocalPosition: {x: 14.671, y: 5.078, z: 26.196}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -58546,6 +58547,7 @@ MonoBehaviour:
   IsNightAlert: {fileID: 1377202112723401628, guid: 73e6dd44e91d859478fa342f4363af82, type: 3}
   IsPreNightAlert: {fileID: 6705052938929811925, guid: 28217850016c33341ad53b4c7549c2d9, type: 3}
   canvasTransform: {fileID: 1459070940}
+  InstantiatedPreNightAlert: 0
 --- !u!1 &1494097681
 GameObject:
   m_ObjectHideFlags: 0
@@ -62682,7 +62684,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1652678400}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.27918622, y: 0.14099045, z: -0.0414813, w: 0.94892365}
+  m_LocalRotation: {x: 0.2791862, y: 0.14099042, z: -0.04148129, w: 0.94892365}
   m_LocalPosition: {x: 14.671, y: 5.078, z: 26.196}
   m_LocalScale: {x: 1.2132, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -63876,7 +63878,7 @@ Transform:
   m_GameObject: {fileID: 1706536850}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -2.48, y: 0, z: 19.05}
+  m_LocalPosition: {x: -2.29, y: 0, z: 19.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -63919,6 +63921,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a307bc2741e1f7645b947e2453a22474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  npcId: Police1
   spriteRenderer: {fileID: 2062969875}
   normalFace: {fileID: 21300000, guid: 58790cb5481739644a05c3d813dfa38c, type: 3}
   happyFace: {fileID: 21300000, guid: 798e39607d62a4949a087f87ee676dc8, type: 3}
@@ -63941,7 +63944,7 @@ MonoBehaviour:
   - {fileID: 122089557}
   - {fileID: 279416406}
   moveSpeed: 2
-  waitTime: 1
+  waitTime: 0.5
   DialogueTrigger: {fileID: 1403097132}
   patrolDuringDay: 0
   nightManager: {fileID: 0}
@@ -68696,7 +68699,7 @@ Transform:
   m_GameObject: {fileID: 1929245568}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.43217912, z: -0, w: 0.9017878}
-  m_LocalPosition: {x: 0.00007214638, y: 0, z: -0.00012605537}
+  m_LocalPosition: {x: 0.00007214638, y: 0.81, z: -0.00012605537}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -72626,7 +72629,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2061776780}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.07314198, y: 0.59932417, z: -0.055121996, w: 0.79524994}
+  m_LocalRotation: {x: 0.073141985, y: 0.5993242, z: -0.055122003, w: 0.7952498}
   m_LocalPosition: {x: -11.521, y: 5.078, z: 26.196}
   m_LocalScale: {x: 1, y: 1, z: 1.2132}
   m_ConstrainProportionsScale: 0
@@ -74241,6 +74244,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 68.7
       objectReference: {fileID: 0}
+    - target: {fileID: 4338570034002924183, guid: 92f53774d2e95f945a17111a322ab682, type: 3}
+      propertyPath: npcId
+      value: Marina
+      objectReference: {fileID: 0}
     - target: {fileID: 4572734033961727143, guid: 92f53774d2e95f945a17111a322ab682, type: 3}
       propertyPath: m_Name
       value: Marina
@@ -74416,6 +74423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a307bc2741e1f7645b947e2453a22474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  npcId: Chloe
   spriteRenderer: {fileID: 1494097683}
   normalFace: {fileID: 21300000, guid: 58790cb5481739644a05c3d813dfa38c, type: 3}
   happyFace: {fileID: 21300000, guid: 798e39607d62a4949a087f87ee676dc8, type: 3}
