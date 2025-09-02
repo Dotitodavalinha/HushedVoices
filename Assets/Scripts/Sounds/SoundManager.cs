@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
-    public Slider volumeSFXSlider;
-    public Slider volumeMusicSlider;
     public AudioClip[] sounds;
     public AudioClip[] music;
 
@@ -50,34 +48,30 @@ public class SoundManager : MonoBehaviour
     }
     void Start()
     {
-        if (PlayerPrefs.HasKey("volumeMusic"))
-        LoadVolume();
-        else
+        if (!PlayerPrefs.HasKey("volumeMusic"))
         {
-            PlayerPrefs.SetFloat("volumeMusic", 1);
-            PlayerPrefs.SetFloat("volumeSFX", 1);
-            LoadVolume();
+            PlayerPrefs.SetFloat("volumeMusic", 1f);
+            PlayerPrefs.SetFloat("volumeSFX", 1f);
+            PlayerPrefs.Save();
         }
-    }
-
-
-    public void SetVolume()
-    {
-        SoundManager.instance.ChangeVolumeMusic(volumeMusicSlider.value);
-        SoundManager.instance.ChangeVolumeSound(volumeSFXSlider.value);
-        SaveVolume();
+        LoadVolume();
     }
 
     public void SaveVolume()
     {
-        PlayerPrefs.SetFloat("volumeSFX", volumeSFXSlider.value);
-        PlayerPrefs.SetFloat("volumeMusic", volumeMusicSlider.value);
+        PlayerPrefs.SetFloat("volumeSFX", volumeSFX);
+        PlayerPrefs.SetFloat("volumeMusic", volumeMusic);
+        PlayerPrefs.Save();
     }
 
     public void LoadVolume()
     {
-        volumeSFXSlider.value = PlayerPrefs.GetFloat("volumeSFX");
-        volumeMusicSlider.value = PlayerPrefs.GetFloat("volumeMusic");
+        volumeSFX = PlayerPrefs.GetFloat("volumeSFX", 1f);
+        volumeMusic = PlayerPrefs.GetFloat("volumeMusic", 1f);
+
+        // Aplicar a los canales existentes
+        ChangeVolumeSound(volumeSFX);
+        ChangeVolumeMusic(volumeMusic);
     }
     #region SFX
 
@@ -160,13 +154,14 @@ public class SoundManager : MonoBehaviour
         return musicChannel[(int)id].isPlaying;
     }
 
-    public void PlayMusic(MusicID id, bool loop = false, float pitch = 1, float volumeMusic = 1)
+
+    // Cambiá la firma para no depender de un parámetro de volumen externo
+    public void PlayMusic(MusicID id, bool loop = false, float pitch = 1f)
     {
         musicChannel[(int)id].loop = loop;
-        musicChannel[(int)id].volume = volumeMusic;
+        musicChannel[(int)id].volume = volumeMusic; // usar el volumen global actual
         musicChannel[(int)id].pitch = pitch;
         musicChannel[(int)id].Play();
-        
     }
 
     public void ChangeMusic(MusicID newMusic, bool loop = true)
@@ -235,22 +230,17 @@ public class SoundManager : MonoBehaviour
 
        
     }
-    public void ChangeVolumeOneMusic(MusicID id, float volume)
+    public void ChangeVolumeOneMusic(MusicID id, float delta)
     {
-        volumeMusic += volume;
-        if (volumeMusic < 0f)
-        {
-            volumeMusic = 0;
-        }
+        var channel = musicChannel[(int)id];
 
-        else if (volumeMusic > 1f)
-        {
-            volumeMusic = 1;
-        }
-        musicChannel[(int)id].volume = volumeMusic;
+        // agarramos el volumen actual de ese canal y le sumamos/restamos
+        float newVolume = Mathf.Clamp(channel.volume + delta, 0f, 1f);
 
-
+        channel.volume = newVolume;
     }
+
+
 
     #endregion
 }

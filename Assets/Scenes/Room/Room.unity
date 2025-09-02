@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.29141653, g: 0.1932481, b: 0.20720564, a: 1}
+  m_FogColor: {r: 0.69271755, g: 0.38048103, b: 0.22634651, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.5572015, g: 0.39906812, b: 0.5499679, a: 1}
+  m_AmbientSkyColor: {r: 0.99621314, g: 0.97142446, b: 0.8539012, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.7361826, g: 0.34047517, b: 0.3333948, a: 1}
+  m_IndirectSpecularColor: {r: 0.88522977, g: 0.59269327, b: 0.40268517, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -14617,7 +14617,6 @@ MonoBehaviour:
   paranoiaLevel: 0
   vignette: {fileID: 2100000, guid: 6bcf68bea07fcf1439bfd3142bba3172, type: 2}
   dayNightShader: {fileID: 2100000, guid: 47b8e24a855c61d40b5a1935c33c5de5, type: 2}
-  lastParanoiaValue: 0
   cameraLines: {fileID: 2100000, guid: c06dc6719fdc7af44bfe6d6911029197, type: 2}
   paranoiaName: {fileID: 0}
   paranoiaText: {fileID: 0}
@@ -20364,7 +20363,7 @@ MonoBehaviour:
   ambientShader: {fileID: 2100000, guid: 47b8e24a855c61d40b5a1935c33c5de5, type: 2}
   DirectionalLight: {fileID: 1724289880}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 5.3754377
+  TimeOfDay: 12.386433
   DaySpeed: 20
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -23226,7 +23225,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1724289877}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00711749, y: 0.99286735, z: 0.081353225, w: 0.086864695}
+  m_LocalRotation: {x: 0.06466572, y: 0.66789806, z: -0.739132, w: 0.058433548}
   m_LocalPosition: {x: -6.174999, y: 3.2090003, z: -3.6359997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -23267,7 +23266,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.57293963, g: 0.57293963, b: 0.57293963, a: 1}
+  m_Color: {r: 0.97513324, g: 0.97513324, b: 0.97513324, a: 1}
   m_Intensity: 0.4
   m_Range: 10
   m_SpotAngle: 30
@@ -23893,6 +23892,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1774815831}
   - component: {fileID: 1774815830}
+  - component: {fileID: 1774815832}
   m_Layer: 5
   m_Name: SFXs
   m_TagString: Untagged
@@ -23985,6 +23985,19 @@ RectTransform:
   m_AnchoredPosition: {x: 8.7, y: -16}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1774815832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1774815829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea18ff910f566fc42b87d21bc19f2b57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
 --- !u!4 &1783598662 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 883377611693762632, guid: 4eb9c0804386a1f4a910d3cffe32cb63, type: 3}
@@ -25649,6 +25662,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1927737990}
   - component: {fileID: 1927737991}
+  - component: {fileID: 1927737992}
   m_Layer: 5
   m_Name: Volume
   m_TagString: Untagged
@@ -25741,6 +25755,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1927737992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927737989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea18ff910f566fc42b87d21bc19f2b57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
 --- !u!1 &1936862382
 GameObject:
   m_ObjectHideFlags: 0

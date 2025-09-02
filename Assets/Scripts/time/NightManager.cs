@@ -28,7 +28,7 @@ public class NightManager : MonoBehaviour
         ClockNit = GameObject.Find("Noche");
         ClockNit.SetActive(false);
         SoundManager.instance.PlayMusic(MusicID.StaticSound, true);
-        SoundManager.instance.ChangeVolumeOneMusic(MusicID.StaticSound, 0f);
+        SoundManager.instance.ChangeVolumeOneMusic(MusicID.StaticSound, -1f); //arranca en 0
     }
 
     private void Update()
