@@ -48,9 +48,5 @@ public class PageAnimation : MonoBehaviour
         pageChanged = false;
     }
 
-    public void StopAndHide()
-    {
-        animator.Rebind();
-        gameObject.SetActive(false);
-    }
+   
 }

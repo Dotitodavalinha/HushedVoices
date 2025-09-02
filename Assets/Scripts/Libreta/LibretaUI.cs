@@ -64,7 +64,6 @@ public class LibretaUI : MonoBehaviour
         tabsLogic.CloseAllSections();
         tabsLogic.ResetCurrentSection();
 
-        tabsLogic.animationController?.StopAndHide();
     }
 
     public void AbrirLibretaDesdeBoton()
