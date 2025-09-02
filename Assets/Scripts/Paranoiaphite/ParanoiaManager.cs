@@ -2,19 +2,20 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
 public class ParanoiaManager : MonoBehaviour
 {
     public static ParanoiaManager Instance { get; private set; }
 
+    [Range(0f, 1f)]
     public float paranoiaLevel = 0f;
     private ParanoiaObject[] paranoiaObjects;
+
+    [Header("Shaders/Materials")]
     public Material vignette;
     public Material dayNightShader;
-    public float lastParanoiaValue = 0f;
-
     public Material cameraLines;
 
+    [Header("UI")]
     [SerializeField] private TextMeshProUGUI paranoiaName;
     [SerializeField] private TextMeshProUGUI paranoiaText;
     private Color colorNormal = new Color32(104, 38, 25, 255);
@@ -22,111 +23,89 @@ public class ParanoiaManager : MonoBehaviour
 
     private void Awake()
     {
-        // Singleton
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
-
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        paranoiaLevel = 0f;
-        SetThings();
-
-        paranoiaObjects = FindObjectsOfType<ParanoiaObject>();
-
-        // Suscribirse al evento de cambio de escena
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-
     private void OnDestroy()
     {
-        // Evita fugas de memoria al desuscribirse
         if (Instance == this)
-        {
             SceneManager.sceneLoaded -= OnSceneLoaded;
-        }
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         paranoiaObjects = FindObjectsOfType<ParanoiaObject>();
-        //SetParanoiaValue(0);
 
+        GameObject postProcessingObj = GameObject.Find("PostProcessing");
+        if (postProcessingObj != null)
+        {
+            Renderer renderer = postProcessingObj.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                vignette = renderer.sharedMaterial;
+                dayNightShader = renderer.sharedMaterial;
+                cameraLines = renderer.sharedMaterial;
+            }
+        }
+
+        ApplyParanoia();
     }
 
-    public void SetParanoiaValue(float value)
+    public void ResetManager()
     {
-        Debug.LogWarning("Paranoia actualizada " + value);
-        paranoiaLevel = Mathf.Clamp01(paranoiaLevel + value);
-        
-        foreach (var obj in paranoiaObjects)
+        paranoiaLevel = 0f;
+        ApplyParanoia();
+    }
+
+    public void ModifyParanoia(float delta)
+    {
+        paranoiaLevel = Mathf.Clamp01(paranoiaLevel + delta);
+        ApplyParanoia();
+    }
+
+    public void SetParanoiaValueDirect(float value)
+    {
+        paranoiaLevel = Mathf.Clamp01(value);
+        ApplyParanoia();
+    }
+
+    private void ApplyParanoia()
+    {
+        // Shaders
+        if (vignette != null) vignette.SetFloat("_vig_amount", paranoiaLevel * 0.5f);
+        if (dayNightShader != null) dayNightShader.SetFloat("dayNight", paranoiaLevel);
+        if (cameraLines != null) cameraLines.SetFloat("_Paranoia", paranoiaLevel);
+
+        // UI
+        if (paranoiaText != null && paranoiaName != null)
         {
-            obj.SetParanoia(paranoiaLevel);
+            Color colorInterpolado = Color.Lerp(colorNormal, colorParanoia, paranoiaLevel);
+            paranoiaText.color = colorInterpolado;
+            paranoiaName.color = colorInterpolado;
         }
 
-        if (paranoiaLevel < 0f)
+        // Objetos
+        if (paranoiaObjects != null)
         {
-            paranoiaLevel = 0;
+            foreach (var obj in paranoiaObjects)
+                obj.SetParanoia(paranoiaLevel);
         }
 
-        else if(paranoiaLevel > 0.5f) 
-        {
-            paranoiaLevel = 0.5f;
-        }
-
-
-        SetThings();
-
-
+        // DialogueManager botones
         if (DialogueManager.Instance != null)
-            DialogueManager.Instance.SetModoParanoia(paranoiaLevel >= 1f); //entrara como true cuando la paranioa este al max es para los botones nomas
-
+            DialogueManager.Instance.SetModoParanoia(paranoiaLevel >= 1f);
     }
 
     public void RegisterParanoiaObject(ParanoiaObject obj)
     {
-        obj.SetParanoia(paranoiaLevel);
-    }
-
-    void Update() // test
-    {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            SetParanoiaValue(-1f);
-
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            SetParanoiaValue(1f);
-        }
-    }
-
-    public void SetThings()
-    {
-       
-        vignette.SetFloat("_vig_amount", paranoiaLevel);
-        dayNightShader.SetFloat("dayNight", paranoiaLevel);
-  
-
-        if (paranoiaText != null)
-        {
-            if (paranoiaLevel <= 0.5f)
-            {
-                Color colorInterpolado = Color.Lerp(colorNormal, colorParanoia, paranoiaLevel * 0.5f);
-                paranoiaText.color = colorInterpolado;
-                paranoiaName.color = colorInterpolado;
-            }
-            else
-            {
-                Color colorInterpolado = Color.Lerp(colorNormal, colorParanoia, paranoiaLevel);
-                paranoiaText.color = colorInterpolado;
-                paranoiaName.color = colorInterpolado;
-            }
-
-        }
+        obj?.SetParanoia(paranoiaLevel);
     }
 }

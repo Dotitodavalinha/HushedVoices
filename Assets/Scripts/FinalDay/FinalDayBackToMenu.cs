@@ -51,18 +51,42 @@ public class FinalDayBackToMenu : MonoBehaviour
 
     private void ResetAllManagers()
     {
+        // Resetea progreso
         if (progressManager != null)
             progressManager.ResetAllBools();
 
-
+        // UI Lock
         if (gameManager != null)
-        {
             gameManager.uiLockCount = 0;
+
+        // Ciclo día/noche
+        if (lightingManager != null)
+            lightingManager.ResetTime();
+
+        // Paranoia
+        ParanoiaManager paranoiaManager = FindObjectOfType<ParanoiaManager>();
+        if (paranoiaManager != null)
+            paranoiaManager.ResetManager();
+
+        // NightManager
+        NightManager nightManager = FindObjectOfType<NightManager>();
+        if (nightManager != null)
+            nightManager.ResetManager();
+
+        // JailManager
+        JailManager jailManager = FindObjectOfType<JailManager>();
+        if (jailManager != null)
+        {
+            jailManager.counter = 0;
+            if (jailManager.objectToActivate != null)
+                jailManager.objectToActivate.SetActive(false);
         }
 
-        if (lightingManager != null)
+        // Clues
+        if (PlayerClueTracker.Instance != null)
         {
-            lightingManager.ResetTime();
+            PlayerClueTracker.Instance.clues.Clear();
+            PlayerClueTracker.Instance.cluesList.Clear();
         }
     }
 }

@@ -89,7 +89,8 @@ public class JailManager : MonoBehaviour
         // Time.timeScale = 1f; // Reanuda por si se usa en otra escena
 
         GameManager.Instance.LoadScene("Room");
-        ParanoiaManager.Instance.SetParanoiaValue(-1f);
+        // Usa el nuevo método directo para resetear a 0
+        ParanoiaManager.Instance.SetParanoiaValueDirect(0f);
     }
 
     private void OnEnable()
@@ -119,7 +120,5 @@ public class JailManager : MonoBehaviour
         {
             Debug.LogWarning("No se encontró el contenedor CarcelContainer");
         }
-
     }
-
 }

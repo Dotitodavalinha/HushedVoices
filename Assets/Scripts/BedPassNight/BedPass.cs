@@ -13,8 +13,6 @@ public class BedPass : MonoBehaviour
     private bool jugadorCerca;
     private bool puedeDormir;
 
-
-
     void Start()
     {
         dormirUI.SetActive(false);
@@ -28,14 +26,14 @@ public class BedPass : MonoBehaviour
             puedeDormir = timeManager.TimeOfDay >= horaDormir || timeManager.TimeOfDay < 4;
         }
 
-
         if (jugadorCerca && puedeDormir)
         {
             dormirUI.SetActive(true);
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                ParanoiaManager.Instance.SetParanoiaValue(-1f);
+                // Usa el nuevo método directo para resetear a 0
+                ParanoiaManager.Instance.SetParanoiaValueDirect(0f);
                 timeManager.tiempoPausado = false;
                 timeManager.TimeOfDay = 6f;
                 int currentIndex = SceneManager.GetActiveScene().buildIndex;
@@ -71,5 +69,3 @@ public class BedPass : MonoBehaviour
         }
     }
 }
-
-

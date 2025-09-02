@@ -8,17 +8,12 @@ public class ParanoiaObject : MonoBehaviour
 
     void OnEnable()
     {
-    
-
+        // Se registra en el manager para ser actualizado
         ParanoiaManager.Instance?.RegisterParanoiaObject(this);
     }
-
 
     public void SetParanoia(float value)
     {
         _material.SetFloat(ParanoiaProperty, value);
     }
-
-   
-
 }
