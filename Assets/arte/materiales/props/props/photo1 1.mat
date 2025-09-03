@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: photo1 1
-  m_Shader: {fileID: -6465566751694194690, guid: 8d4572455790f0448b664b92056ee2d4, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: e6b1aa307b6f07b4f8da3c21505e9e10, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -16,9 +16,8 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -28,12 +27,16 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _BaseMat:
+        m_Texture: {fileID: 2800000, guid: a0fc22b90679ae54ca2ad4f8daef2ca5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Base_Color:
-        m_Texture: {fileID: 2800000, guid: bd1dd307a779f2b4dbddb6e5ea5cafe0, type: 3}
+        m_Texture: {fileID: 2800000, guid: a0fc22b90679ae54ca2ad4f8daef2ca5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Base_Color_Paranoia:
-        m_Texture: {fileID: 2800000, guid: d6984553110a566449aca5da7535865a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9b2df4dfa88b4f0429f67dd08bbe2b92, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -70,6 +73,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParanoiaMat:
+        m_Texture: {fileID: 2800000, guid: 9b2df4dfa88b4f0429f67dd08bbe2b92, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
