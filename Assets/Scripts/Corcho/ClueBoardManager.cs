@@ -6,6 +6,7 @@ public class ClueBoardManager : MonoBehaviour
     [SerializeField] private List<ClueData> allClues;
     [SerializeField] private ClueNode cluePrefab;
     [SerializeField] private RectTransform boardParent;
+    [SerializeField] private GameObject Corchoculpable;
 
     private List<GameObject> nodosInstanciados = new();
 
@@ -39,6 +40,20 @@ public class ClueBoardManager : MonoBehaviour
         LimpiarBoard();
     }
 
+    public void OpenCulpables()
+    {
+        Corchoculpable.gameObject.SetActive(true);
+        boardParent.gameObject.SetActive(false);
+
+    }
+
+
+    public void ClosedCulpables()
+    {
+        Corchoculpable.gameObject.SetActive(false);
+        boardParent.gameObject.SetActive(true);
+        RegenerarBoard();
+    }
 
     private void RegenerarBoard()
     {
@@ -140,6 +155,8 @@ public class ClueBoardManager : MonoBehaviour
             RecalcularLineas();
         }
     }
+
+
 
 
     public void RecalcularLineas()
