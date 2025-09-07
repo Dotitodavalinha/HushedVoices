@@ -28,4 +28,8 @@ public class NPCMoodManager : MonoBehaviour
         if (npcMoods.TryGetValue(npcId, out var mood)) return mood;
         return MoodType.Normal; // default
     }
+    public void ResetAllMoods()
+    {
+        npcMoods.Clear();
+    }
 }

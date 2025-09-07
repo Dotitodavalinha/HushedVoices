@@ -87,6 +87,16 @@ public class JailManager : MonoBehaviour
         //triggered = false;
 
         // Time.timeScale = 1f; // Reanuda por si se usa en otra escena
+        var resetter = FindObjectOfType<FinalDayBackToMenu>();
+        if (resetter != null)
+        {
+            resetter.ResetAllManagers();
+            Debug.Log("Se llamo a ResetAllManagers desde JailManager");
+        }
+        else
+        {
+            Debug.LogWarning("No se encontro FinalDayBackToMenu en la escena!");
+        }
 
         GameManager.Instance.LoadScene("Room");
         // Usa el nuevo método directo para resetear a 0

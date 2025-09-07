@@ -49,7 +49,7 @@ public class FinalDayBackToMenu : MonoBehaviour
     }
 
 
-    private void ResetAllManagers()
+    public void ResetAllManagers()
     {
         // Resetea progreso
         if (progressManager != null)
@@ -88,6 +88,8 @@ public class FinalDayBackToMenu : MonoBehaviour
             PlayerClueTracker.Instance.clues.Clear();
             PlayerClueTracker.Instance.cluesList.Clear();
         }
+
+        NPCMoodManager.Instance.ResetAllMoods();
     }
 }
 

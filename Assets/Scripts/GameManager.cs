@@ -83,11 +83,13 @@ public class GameManager : MonoBehaviour
 
     public void LoadScene(string sceneName)
     {
+        UnlockUI();
         SceneManager.LoadScene(sceneName);
     }
 
     public void ReloadCurrentScene()
     {
+        UnlockUI();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -110,5 +112,10 @@ public class GameManager : MonoBehaviour
     {
         int currentIndex = SceneManager.GetActiveScene().buildIndex;
         int nextIndex = currentIndex + 4;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        UnlockUI();
     }
 }
