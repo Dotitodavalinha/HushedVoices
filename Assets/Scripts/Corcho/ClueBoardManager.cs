@@ -14,19 +14,45 @@ public class ClueBoardManager : MonoBehaviour
     [SerializeField] private float lineYOffset = 10f;
     [SerializeField] private float lineThickness = 3f;
 
-
     private Dictionary<string, ClueNode> spawnedNodes = new();
     private List<GameObject> lineasInstanciadas = new();
 
     [SerializeField] private RectTransform playArea;
 
+    // Conexiones dinámicas runtime (se suman a las de ClueData.connectedClues)
     private Dictionary<string, List<string>> dynamicConnections = new Dictionary<string, List<string>>();
-    public ClueNode selectedNode;
 
+    // ---- NUEVO: preview de conexión (drag derecho) ----
+    private GameObject previewLineGO;
+    private RectTransform previewLineRect;
+    private bool previewVisible;
+
+    // ---- NUEVO: hold para desconectar todo con Q ----
+    private float qHeldTime = 0f;
+    [SerializeField] private float disconnectHoldSeconds = 2f;
+
+    // (Deprecado, pero lo dejo por compatibilidad si lo llamabas en otros lados)
     public enum ClueMode { Normal, Connect, DeleteConnections }
     public ClueMode currentMode = ClueMode.Normal;
+    public ClueNode selectedNode; // ya no se usa
 
-
+    private void Update()
+    {
+        // Hold Q ~2s => desconectar todo
+        if (Input.GetKey(KeyCode.Q))
+        {
+            qHeldTime += Time.unscaledDeltaTime;
+            if (qHeldTime >= disconnectHoldSeconds)
+            {
+                DesconectarTodasLasConexiones();
+                qHeldTime = 0f; // evitar repetir
+            }
+        }
+        else if (Input.GetKeyUp(KeyCode.Q))
+        {
+            qHeldTime = 0f;
+        }
+    }
 
     public void AbrirCorcho()
     {
@@ -44,9 +70,7 @@ public class ClueBoardManager : MonoBehaviour
     {
         Corchoculpable.gameObject.SetActive(true);
         boardParent.gameObject.SetActive(false);
-
     }
-
 
     public void ClosedCulpables()
     {
@@ -72,7 +96,6 @@ public class ClueBoardManager : MonoBehaviour
                 break;
             }
         }
-
         if (!hayPistas) return;
 
         spawnedNodes.Clear();
@@ -87,136 +110,128 @@ public class ClueBoardManager : MonoBehaviour
 
             var node = Instantiate(cluePrefab, boardParent);
             node.Init(clue, isFound, playArea, startPos);
+            node.BindBoard(this); // NUEVO: para acceso directo
 
             spawnedNodes[clue.clueID] = node;
             nodosInstanciados.Add(node.gameObject);
         }
 
-
-
-        foreach (var clue in allClues)
-        {
-            if (!spawnedNodes.ContainsKey(clue.clueID)) continue;
-
-            var fromNode = spawnedNodes[clue.clueID];
-
-            List<string> targets;
-            if (dynamicConnections.ContainsKey(clue.clueID))
-                targets = dynamicConnections[clue.clueID];
-            else
-                targets = clue.connectedClues;
-
-            foreach (var targetID in targets)
-            {
-                if (!spawnedNodes.ContainsKey(targetID)) continue;
-
-                var toNode = spawnedNodes[targetID];
-
-                GameObject linea = Instantiate(lineUIPrefab, boardParent);
-                RectTransform lineRect = linea.GetComponent<RectTransform>();
-                Vector2 start = fromNode.RectTransform.anchoredPosition;
-                Vector2 end = toNode.RectTransform.anchoredPosition;
-
-                start.y += lineYOffset;
-                end.y += lineYOffset;
-
-                Vector2 direction = end - start;
-                float distance = direction.magnitude;
-
-                lineRect.sizeDelta = new Vector2(distance, lineThickness);
-                lineRect.anchoredPosition = start + direction / 2f;
-                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                lineRect.rotation = Quaternion.Euler(0, 0, angle);
-
-                lineRect.SetAsFirstSibling();
-                lineasInstanciadas.Add(linea);
-            }
-        }
-
-
+        RecalcularLineas(); // ya pinta todo combinando conexiones
     }
 
     public void AddConnection(string fromID, string toID)
     {
+        if (string.IsNullOrEmpty(fromID) || string.IsNullOrEmpty(toID) || fromID == toID)
+            return;
+
+        // Agrego en dynamic (no piso las de data)
         if (!dynamicConnections.ContainsKey(fromID))
             dynamicConnections[fromID] = new List<string>();
-
         if (!dynamicConnections[fromID].Contains(toID))
             dynamicConnections[fromID].Add(toID);
+
+        if (!dynamicConnections.ContainsKey(toID))
+            dynamicConnections[toID] = new List<string>();
+        if (!dynamicConnections[toID].Contains(fromID))
+            dynamicConnections[toID].Add(fromID);
 
         RecalcularLineas();
     }
 
     public void RemoveConnection(string fromID, string toID)
     {
-        if (dynamicConnections.ContainsKey(fromID) && dynamicConnections[fromID].Contains(toID))
-        {
-            dynamicConnections[fromID].Remove(toID);
-            RecalcularLineas();
-        }
+        bool changed = false;
+
+        // dynamic
+        if (dynamicConnections.ContainsKey(fromID) && dynamicConnections[fromID].Remove(toID)) changed = true;
+        if (dynamicConnections.ContainsKey(toID) && dynamicConnections[toID].Remove(fromID)) changed = true;
+
+        // data.connectedClues (por si querés también remover ahí)
+        if (spawnedNodes.TryGetValue(fromID, out var fromNode) &&
+            fromNode.data.connectedClues.Remove(toID)) changed = true;
+
+        if (spawnedNodes.TryGetValue(toID, out var toNode) &&
+            toNode.data.connectedClues.Remove(fromID)) changed = true;
+
+        if (changed) RecalcularLineas();
     }
-
-
-
 
     public void RecalcularLineas()
     {
-        foreach (var linea in lineasInstanciadas)
-        {
-            Destroy(linea);
-        }
+        // Limpio actuales
+        foreach (var linea in lineasInstanciadas) Destroy(linea);
         lineasInstanciadas.Clear();
 
+        // Vuelvo a dibujar combinando: data.connectedClues + dynamicConnections
         foreach (var clue in allClues)
         {
             if (!spawnedNodes.ContainsKey(clue.clueID)) continue;
 
             var fromNode = spawnedNodes[clue.clueID];
 
-            foreach (var targetID in clue.connectedClues)
+            // Conexiones de data
+            if (clue.connectedClues != null)
             {
-                if (!spawnedNodes.ContainsKey(targetID)) continue;
+                foreach (var targetID in clue.connectedClues)
+                {
+                    TryDrawConnection(fromNode, targetID);
+                }
+            }
 
-                var toNode = spawnedNodes[targetID];
-
-                GameObject linea = Instantiate(lineUIPrefab, boardParent);
-                RectTransform lineRect = linea.GetComponent<RectTransform>();
-                Vector2 start = fromNode.RectTransform.anchoredPosition;
-                Vector2 end = toNode.RectTransform.anchoredPosition;
-
-                start.y += lineYOffset;
-                end.y += lineYOffset;
-
-                Vector2 direction = end - start;
-                float distance = direction.magnitude;
-
-                lineRect.sizeDelta = new Vector2(distance, lineThickness);
-                lineRect.anchoredPosition = start + direction / 2f;
-                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                lineRect.rotation = Quaternion.Euler(0, 0, angle);
-
-                lineRect.SetAsFirstSibling();
-
-                lineasInstanciadas.Add(linea);
+            // Conexiones dinámicas
+            if (dynamicConnections.TryGetValue(clue.clueID, out var dynTargets))
+            {
+                foreach (var targetID in dynTargets)
+                {
+                    TryDrawConnection(fromNode, targetID);
+                }
             }
         }
     }
 
+    private void TryDrawConnection(ClueNode fromNode, string targetID)
+    {
+        if (!spawnedNodes.ContainsKey(targetID)) return;
+        var toNode = spawnedNodes[targetID];
+
+        // Evito duplicados: solo dibujo si el ID de origen es "menor" que el destino
+        if (string.CompareOrdinal(fromNode.data.clueID, targetID) > 0) return;
+
+        GameObject linea = Instantiate(lineUIPrefab, boardParent);
+        RectTransform lineRect = linea.GetComponent<RectTransform>();
+
+        Vector2 start = fromNode.RectTransform.anchoredPosition;
+        Vector2 end = toNode.RectTransform.anchoredPosition;
+
+        start.y += lineYOffset;
+        end.y += lineYOffset;
+
+        ApplyLineGeometry(lineRect, start, end);
+        lineRect.SetAsFirstSibling();
+        lineasInstanciadas.Add(linea);
+    }
+
+    private void ApplyLineGeometry(RectTransform lineRect, Vector2 start, Vector2 end)
+    {
+        Vector2 direction = end - start;
+        float distance = direction.magnitude;
+
+        lineRect.sizeDelta = new Vector2(distance, lineThickness);
+        lineRect.anchoredPosition = start + direction / 2f;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        lineRect.rotation = Quaternion.Euler(0, 0, angle);
+    }
 
     private void LimpiarBoard()
     {
-        foreach (var obj in nodosInstanciados)
-        {
-            Destroy(obj);
-        }
+        foreach (var obj in nodosInstanciados) Destroy(obj);
         nodosInstanciados.Clear();
 
-        foreach (var linea in lineasInstanciadas)
-        {
-            Destroy(linea);
-        }
+        foreach (var linea in lineasInstanciadas) Destroy(linea);
         lineasInstanciadas.Clear();
 
+        // oculto preview si quedó viva
+        HidePreviewLine();
     }
 
     public ClueNode GetNodeByID(string clueID)
@@ -225,8 +240,57 @@ public class ClueBoardManager : MonoBehaviour
         return node;
     }
 
-    public void SetModeConnect() => currentMode = ClueMode.Connect;
-    public void SetModeDeleteConnections() => currentMode = ClueMode.DeleteConnections;
-    public void SetModeNormal() => currentMode = ClueMode.Normal;
+    // ---------- NUEVO: helpers de conexión en drag derecho ----------
 
+    public void ShowPreviewFromNodeToScreen(ClueNode fromNode, Vector2 screenPos, Camera uiCam)
+    {
+        if (previewLineGO == null)
+        {
+            previewLineGO = Instantiate(lineUIPrefab, boardParent);
+            previewLineRect = previewLineGO.GetComponent<RectTransform>();
+            previewVisible = true;
+        }
+
+        Vector2 localPoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(boardParent, screenPos, uiCam, out localPoint);
+
+        Vector2 start = fromNode.RectTransform.anchoredPosition;
+        Vector2 end = localPoint;
+
+        start.y += lineYOffset;
+        end.y += lineYOffset;
+
+        ApplyLineGeometry(previewLineRect, start, end);
+        previewLineRect.SetAsFirstSibling();
+    }
+
+    public void HidePreviewLine()
+    {
+        previewVisible = false;
+        if (previewLineGO != null)
+        {
+            Destroy(previewLineGO);
+            previewLineGO = null;
+            previewLineRect = null;
+        }
+    }
+
+    private void DesconectarTodasLasConexiones()
+    {
+        // Limpio dynamic
+        dynamicConnections.Clear();
+
+        // Limpio de los datos de cada pista
+        foreach (var kv in spawnedNodes)
+        {
+            kv.Value.data.connectedClues.Clear();
+        }
+
+        RecalcularLineas();
+    }
+
+    // Métodos “modo” mantenidos por compatibilidad (ya no hacen falta)
+    public void SetModeConnect() => currentMode = ClueMode.Normal;
+    public void SetModeDeleteConnections() => currentMode = ClueMode.Normal;
+    public void SetModeNormal() => currentMode = ClueMode.Normal;
 }
