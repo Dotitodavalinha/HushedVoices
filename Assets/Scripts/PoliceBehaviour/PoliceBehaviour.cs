@@ -23,7 +23,9 @@ public class PoliceBehaviour : MonoBehaviour
     private bool isChasingPlayer = false;
     private bool canChase = false;
     private bool hasCaughtPlayer = false;
-
+    public Color defaultColor;
+    public Color angryColor;
+    public Light flashLight;
     private GameObject player;
     private Animator animator;
     private bool wasNightLastFrame = false;
@@ -35,11 +37,12 @@ public class PoliceBehaviour : MonoBehaviour
 
     private void Start()
     {
+        
         animator = GetComponentInChildren<Animator>();
         nightManager = FindObjectOfType<NightManager>();
 
         player = GameObject.FindWithTag("Player");
-
+        flashLight.color = defaultColor;
         initialY = transform.position.y;
         initialRotation = transform.rotation;
     }
@@ -137,10 +140,12 @@ public class PoliceBehaviour : MonoBehaviour
         if (seesPlayer)
         {
             isChasingPlayer = true;
+
         }
 
         if (isChasingPlayer)
         {
+            flashLight.color = angryColor;
             if (seesPlayer)
             {
                 toPlayer.Normalize();
@@ -157,6 +162,7 @@ public class PoliceBehaviour : MonoBehaviour
             else
             {
                 isChasingPlayer = false;
+                flashLight.color = defaultColor;
                 currentIndex = 0;
             }
 

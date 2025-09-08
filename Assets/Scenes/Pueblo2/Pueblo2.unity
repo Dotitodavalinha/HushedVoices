@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.38779262, g: 0.23766808, b: 0.21283719, a: 1}
+  m_FogColor: {r: 0.16637331, g: 0.13396537, b: 0.20302747, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.04
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.75486386, g: 0.571424, b: 0.6604403, a: 1}
+  m_AmbientSkyColor: {r: 0.32863337, g: 0.27569214, b: 0.420546, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.7
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.82010186, g: 0.49449807, b: 0.37285602, a: 1}
+  m_IndirectSpecularColor: {r: 0.4947096, g: 0.21374875, b: 0.3237443, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -13767,7 +13767,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730473041}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.08656613, y: 0.11568627, z: -0.9894547, w: 0.010121244}
+  m_LocalRotation: {x: 0.08237729, y: -0.32532817, z: -0.94157606, w: -0.028462546}
   m_LocalPosition: {x: 58.24, y: 7.95, z: 34.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -13808,8 +13808,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.6709756, g: 0.6709756, b: 0.6709756, a: 1}
-  m_Intensity: 0.22223772
+  m_Color: {r: 0.45011353, g: 0.45011353, b: 0.45011353, a: 1}
+  m_Intensity: 0.026203586
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -24249,6 +24249,8 @@ GameObject:
   - component: {fileID: 1243016992}
   - component: {fileID: 1243016994}
   - component: {fileID: 1243016993}
+  - component: {fileID: 1243016996}
+  - component: {fileID: 1243016995}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -24313,6 +24315,40 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1243016991}
   m_CullTransparentMesh: 1
+--- !u!114 &1243016995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243016991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fbeba7df86d8824dba1d1bee9376d8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inJail: {fileID: 294836498}
+--- !u!95 &1243016996
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243016991}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 943622af6b305ad4dad184423049099e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1243584789 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 53acc510274b8df41850b2f39def1877, type: 3}
@@ -26490,7 +26526,7 @@ MonoBehaviour:
   ambientShader: {fileID: 2100000, guid: 47b8e24a855c61d40b5a1935c33c5de5, type: 2}
   DirectionalLight: {fileID: 730473044}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 17.11084
+  TimeOfDay: 20.541437
   DaySpeed: 17
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -33771,6 +33807,7 @@ MonoBehaviour:
   ColegioStreet: 0
   GotCoffe: 0
   LostCoffe: 0
+  PolicemanZDialogueRoot: RootPoliceZ1
 --- !u!4 &1617149331
 Transform:
   m_ObjectHideFlags: 0
