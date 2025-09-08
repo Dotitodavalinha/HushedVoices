@@ -65,7 +65,8 @@ public class DialogueManager : MonoBehaviour
 
     }
     public void StartDialogue(DialogueSO dialogue, NPCDialogue npc)
-    {
+    { 
+
         DialoguePanelOn();
         SoundManager.instance.PlaySound(SoundID.DialogueTypingSound);
         Cursor.visible = true;

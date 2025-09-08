@@ -12,19 +12,68 @@ public class NPCDialogue : MonoBehaviour
     public NPCMoodController moodController;
     public NightManager NightManager;
     public bool noRotateToLook = true;
-
+    private bool isChangingRoot = false;
     private void Start()
     {
         NightManager = GameObject.Find("NightManager")?.GetComponent<NightManager>();
+        string savedRoot = ProgressManager.Instance.GetCurrentRoot(npcName, currentRoot != null ? currentRoot.name : "");
+        if (!string.IsNullOrEmpty(savedRoot))
+        {
+            SetRoot(savedRoot, false); // false = no llamar a ProgressManager otra vez
+        }
 
     }
+    public void SetRoot(string rootName, bool updateProgressManager = true)
+    {
+        if (isChangingRoot) return; // evita recursión
 
-    public void GoToRoot(string rootName)
+        var root = roots.Find(r => r.name == rootName);
+        if (root == null)
+        {
+            Debug.LogWarning($"No se encontró root '{rootName}' en {npcName}");
+            return;
+        }
+
+        if (currentRoot != null && currentRoot.name == rootName)
+        {
+            // Ya es el root actual, nada que hacer
+            return;
+        }
+
+        isChangingRoot = true;
+        currentRoot = root;
+
+        if (updateProgressManager)
+        {
+            ProgressManager.Instance.CambiarRootNPC(npcName, rootName);
+        }
+
+        isChangingRoot = false;
+
+        Debug.Log($"Se cambió el root de {npcName} a {rootName}");
+    }
+    public void GoToRoot(string rootName, bool updateProgressManager = true)
     {
         var root = roots.Find(r => r.name == rootName);
-        if (root != null)
-            currentRoot = root; Debug.Log("Se cambio el root excitosamente");
+        if (root == null)
+        {
+            Debug.LogWarning($"No se encontró root '{rootName}' en {npcName}");
+            return;
+        }
+
+        if (currentRoot != null && currentRoot.name == rootName)
+            return; // ya es el root actual
+
+        currentRoot = root;
+
+        Debug.Log($"Se cambió el root de {npcName} a {rootName}");
+
+        if (updateProgressManager)
+        {
+            ProgressManager.Instance.CambiarRootNPC(npcName, rootName);
+        }
     }
+
 
 
     public void StartDialogue(DialogueSO dialogue)

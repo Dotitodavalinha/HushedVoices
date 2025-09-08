@@ -1,3 +1,4 @@
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +10,10 @@ public class GameManager : MonoBehaviour
     public bool IsAnyUIOpen => uiLockCount > 0;
 
     [SerializeField] private PlayerMovementLocker playerLocker;
+
+    // 📌 Diccionarios para estados persistentes
+    private Dictionary<string, bool> unlockedObjects = new Dictionary<string, bool>();
+    private Dictionary<string, bool> completedDialogues = new Dictionary<string, bool>();
 
     public static GameManager Instance
     {
@@ -35,37 +40,35 @@ public class GameManager : MonoBehaviour
         if (_instance != null && _instance != this)
         {
             Destroy(gameObject);
-            Debug.LogWarning("Se intent� crear una segunda instancia de GameManager. Destruyendo duplicado.");
+            Debug.LogWarning("Se intentó crear una segunda instancia de GameManager. Destruyendo duplicado.");
             return;
         }
 
         _instance = this;
         DontDestroyOnLoad(gameObject);
 
-       
-
         Debug.Log("GameManager inicializado correctamente.");
     }
 
     private void Update()
     {
-        if (playerLocker != null)
+        /*if (playerLocker != null)
         {
             return;
         }
         else
         {
-            // Buscar PlayerMovementLocker en el Player
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
             if (playerObj != null)
                 playerLocker = playerObj.GetComponent<PlayerMovementLocker>();
-        }
+        }*/
     }
 
+    #region UI Lock
     public bool TryLockUI()
     {
         if (uiLockCount > 0)
-            return false; // si ya a hay algo abierto no abrir
+            return false;
 
         uiLockCount = 1;
         if (playerLocker != null)
@@ -79,8 +82,9 @@ public class GameManager : MonoBehaviour
         if (playerLocker != null)
             playerLocker.UnlockMovement();
     }
+    #endregion
 
-
+    #region Scene Management
     public void LoadScene(string sceneName)
     {
         UnlockUI();
@@ -93,6 +97,13 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    public void LoadNextScene()
+    {
+        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
+            SceneManager.LoadScene(nextSceneIndex);
+    }
+
     public void QuitGame()
     {
         Application.Quit();
@@ -101,21 +112,42 @@ public class GameManager : MonoBehaviour
 #endif
     }
 
-    public void LoadNextScene()
-    {
-        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
-        if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
-            SceneManager.LoadScene(nextSceneIndex);
-    }
-
-    public void FinalScene()
-    {
-        int currentIndex = SceneManager.GetActiveScene().buildIndex;
-        int nextIndex = currentIndex + 4;
-    }
-
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         UnlockUI();
+    GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+    if (playerObj != null)
+        playerLocker = playerObj.GetComponent<PlayerMovementLocker>();
     }
+    #endregion
+
+    #region Unlockable Objects
+    public void UnlockObject(string objectID)
+    {
+        unlockedObjects[objectID] = true;
+    }
+
+    public bool IsObjectUnlocked(string objectID)
+    {
+        return unlockedObjects.ContainsKey(objectID) && unlockedObjects[objectID];
+    }
+
+    public void ResetProgress()
+    {
+        unlockedObjects.Clear();
+        completedDialogues.Clear();
+    }
+    #endregion
+
+    #region Dialogues
+    public void CompleteDialogue(string dialogueID)
+    {
+        completedDialogues[dialogueID] = true;
+    }
+
+    public bool IsDialogueCompleted(string dialogueID)
+    {
+        return completedDialogues.ContainsKey(dialogueID) && completedDialogues[dialogueID];
+    }
+    #endregion
 }

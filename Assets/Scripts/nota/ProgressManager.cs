@@ -16,6 +16,8 @@ public class ProgressManager : MonoBehaviour
     public bool ColegioStreet;
     public bool GotCoffe;
     public bool LostCoffe;
+    public string PolicemanZDialogueRoot = "RootPoliceZ1";
+    private Dictionary<string, string> npcRoots = new Dictionary<string, string>();
 
 
 
@@ -33,6 +35,13 @@ public class ProgressManager : MonoBehaviour
         }
     }
 
+    public string GetCurrentRoot(string npcName, string defaultRoot)
+    {
+        if (npcRoots.ContainsKey(npcName))
+            return npcRoots[npcName];
+        return defaultRoot; // si nunca se cambió, devolvemos el inicial
+    }
+
     public void ResetAllBools()
     {
         var campos = this.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
@@ -47,6 +56,20 @@ public class ProgressManager : MonoBehaviour
 
         Debug.Log("Todos los bools del ProgressManager fueron reseteados a false.");
     }
+    public void ResetNPCRoots()
+    {
+        var npcList = FindObjectsOfType<NPCDialogue>();
+        foreach (var npc in npcList)
+        {
+            if (npc.roots.Count > 0)
+            {
+                string defaultRootName = npc.roots[0].name; // asumimos que el primer root es el inicial
+                npc.GoToRoot(defaultRootName, false); // false para no volver a llamar al ProgressManager
+                npcRoots[npc.npcName] = defaultRootName; // actualizar diccionario
+                Debug.Log($"Se reinició el root de {npc.npcName} a {defaultRootName}");
+            }
+        }
+    }
 
     public void CambiarRootNPC(string npcID, string rootName)
     {
@@ -56,10 +79,13 @@ public class ProgressManager : MonoBehaviour
             if (npc.npcName == npcID)
             {
                 Debug.Log("cambia el root de " + npcID + " a " + rootName);
-                npc.GoToRoot(rootName);
+                npc.GoToRoot(rootName, false); // <--- NO llamamos otra vez al ProgressManager
                 break;
             }
         }
+
+        // Guardamos en diccionario para persistencia
+        npcRoots[npcID] = rootName;
     }
 
 }

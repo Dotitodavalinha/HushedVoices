@@ -51,8 +51,11 @@ public class FinalDayBackToMenu : MonoBehaviour
 
     public void ResetAllManagers()
     {
+
         // Resetea progreso
         if (progressManager != null)
+            ProgressManager.Instance.CambiarRootNPC("PolicemanZ", "RootPoliceZ0");
+        progressManager.ResetNPCRoots();
             progressManager.ResetAllBools();
 
         // UI Lock
@@ -81,14 +84,14 @@ public class FinalDayBackToMenu : MonoBehaviour
             if (jailManager.objectToActivate != null)
                 jailManager.objectToActivate.SetActive(false);
         }
-
+      
         // Clues
         if (PlayerClueTracker.Instance != null)
         {
             PlayerClueTracker.Instance.clues.Clear();
             PlayerClueTracker.Instance.cluesList.Clear();
         }
-
+       
         NPCMoodManager.Instance.ResetAllMoods();
     }
 }

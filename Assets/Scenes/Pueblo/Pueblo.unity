@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.6035194, g: 0.33870468, b: 0.22239469, a: 1}
+  m_FogColor: {r: 0.24674463, g: 0.17160764, b: 0.20658822, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.03
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.98266375, g: 0.8960184, b: 0.82060283, a: 1}
+  m_AmbientSkyColor: {r: 0.47696334, g: 0.35581207, b: 0.5046284, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.7
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.88531417, g: 0.59284174, b: 0.4024566, a: 1}
+  m_IndirectSpecularColor: {r: 0.6897567, g: 0.25496498, b: 0.31855538, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -30109,7 +30109,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 31.25
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -31453,7 +31453,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730473041}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.07412377, y: 0.52401495, z: -0.847238, w: 0.0458454}
+  m_LocalRotation: {x: 0.085904285, y: -0.1682154, z: -0.9818898, w: -0.01471695}
   m_LocalPosition: {x: 58.24, y: 7.95, z: 34.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -31494,8 +31494,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.88615954, g: 0.88615954, b: 0.88615954, a: 1}
-  m_Intensity: 0.4
+  m_Color: {r: 0.53028256, g: 0.53028256, b: 0.53028256, a: 1}
+  m_Intensity: 0.097360566
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -42594,7 +42594,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1229151359}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2791862, y: 0.1409904, z: -0.041481283, w: 0.94892365}
+  m_LocalRotation: {x: 0.27918622, y: 0.14099045, z: -0.0414813, w: 0.94892365}
   m_LocalPosition: {x: 14.671, y: 5.078, z: 26.196}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -44657,7 +44657,7 @@ MonoBehaviour:
   ambientShader: {fileID: 2100000, guid: 47b8e24a855c61d40b5a1935c33c5de5, type: 2}
   DirectionalLight: {fileID: 730473044}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 13.768439
+  TimeOfDay: 19.29619
   DaySpeed: 17
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -63290,7 +63290,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1652678400}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2791862, y: 0.1409904, z: -0.041481283, w: 0.94892365}
+  m_LocalRotation: {x: 0.27918622, y: 0.14099045, z: -0.0414813, w: 0.94892365}
   m_LocalPosition: {x: 14.671, y: 5.078, z: 26.196}
   m_LocalScale: {x: 1.2132, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -66450,6 +66450,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1789674105}
+  - component: {fileID: 1789674106}
   m_Layer: 0
   m_Name: Desaparece
   m_TagString: Untagged
@@ -66473,6 +66474,19 @@ Transform:
   - {fileID: 8476425491894419489}
   m_Father: {fileID: 1875679574}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1789674106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789674104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b7ebfd9248c2947936d21318e26d99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: Desaparece
 --- !u!1 &1789852207 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5116754260777331173, guid: 346aac015c43de64bbca5ef48db40b24, type: 3}
