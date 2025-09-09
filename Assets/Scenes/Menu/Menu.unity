@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.3984443, g: 0.24265684, b: 0.2133091, a: 1}
+  m_FogColor: {r: 0.26726115, g: 0.18197554, b: 0.2060583, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.7777869, g: 0.5959652, b: 0.67311543, a: 1}
+  m_AmbientSkyColor: {r: 0.5126223, g: 0.37493804, b: 0.5246109, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.8283705, g: 0.50767744, b: 0.3766515, a: 1}
+  m_IndirectSpecularColor: {r: 0.7142693, g: 0.28963533, b: 0.32269585, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -270,8 +270,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.68160045, g: 0.68160045, b: 0.68160045, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 0.5487372, g: 0.5487372, b: 0.5487372, a: 1}
+  m_Intensity: 0.4
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -329,7 +329,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 537627706}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0863273, y: 0.13703269, z: -0.98672485, w: 0.011988814}
+  m_LocalRotation: {x: -0.011376117, y: 0.98767215, z: 0.13002953, w: 0.08641018}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -457,9 +457,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sky: {fileID: 2100000, guid: e08215bfe2cec9348882e00d895fe970, type: 2}
+  ambientShader: {fileID: 0}
   DirectionalLight: {fileID: 537627707}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 16.945807
+  TimeOfDay: 5
   DaySpeed: 20
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -478,6 +479,59 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 5.472}
+--- !u!1 &1304198039
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1304198041}
+  - component: {fileID: 1304198040}
+  m_Layer: 0
+  m_Name: ProgressManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1304198040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304198039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42475355a5d255b45b8ec5d00e29fa99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BensNoteUnlocked: 0
+  CoffeeShopUnlocked: 0
+  Policez: 0
+  ChangeDialoguePolicez: 0
+  Policeznt: 0
+  ColegioStreet: 0
+  GotCoffe: 0
+  LostCoffe: 0
+  PolicemanZDialogueRoot: RootPoliceZ1
+--- !u!4 &1304198041
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304198039}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -20.490993, y: 0.12069321, z: -11.405799}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1441703958
 GameObject:
   m_ObjectHideFlags: 0
@@ -999,6 +1053,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1608010728}
   m_CullTransparentMesh: 1
+--- !u!1 &1707244082
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1707244084}
+  - component: {fileID: 1707244083}
+  m_Layer: 0
+  m_Name: NPCManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1707244083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707244082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ccea08c2ae392c44b04b2e64f21d0a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1707244084
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707244082}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -20.490993, y: 0.12069321, z: -11.405799}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1735355391
 GameObject:
   m_ObjectHideFlags: 0
@@ -1235,3 +1333,5 @@ SceneRoots:
   - {fileID: 580013964}
   - {fileID: 2070649812}
   - {fileID: 1102195526}
+  - {fileID: 1707244084}
+  - {fileID: 1304198041}

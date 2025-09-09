@@ -101,7 +101,7 @@ public class ParanoiaManager : MonoBehaviour
             foreach (var obj in paranoiaObjects)
                 obj.SetParanoia(paranoiaLevel);
         }
-        ojito.setSprite(paranoiaLevel);
+        //ojito.setSprite(paranoiaLevel);
         // DialogueManager botones
         if (DialogueManager.Instance != null)
             DialogueManager.Instance.SetModoParanoia(paranoiaLevel >= 1f);

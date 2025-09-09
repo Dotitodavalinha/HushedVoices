@@ -90,7 +90,9 @@ public class JailManager : MonoBehaviour
         var resetter = FindObjectOfType<FinalDayBackToMenu>();
         if (resetter != null)
         {
+          
             resetter.ResetAllManagers();
+            ProgressManager.Instance.CambiarRootNPC("PolicemanZ", "RootPoliceZ0");
             Debug.Log("Se llamo a ResetAllManagers desde JailManager");
         }
         else
