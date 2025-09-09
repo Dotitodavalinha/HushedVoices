@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class PoliceBehaviour : MonoBehaviour
@@ -33,7 +34,8 @@ public class PoliceBehaviour : MonoBehaviour
     private float initialY;
     private Quaternion initialRotation;
 
-
+    public CameraManagerZ camManager;
+    public CinemachineFreeLook lukeCamera;
 
     private void Start()
     {
@@ -155,6 +157,9 @@ public class PoliceBehaviour : MonoBehaviour
 
                 if (!hasCaughtPlayer && DialogueTrigger.playerInRange)
                 {
+                    //camManager.SwitchCamera(lukeCamera);
+                    //camManager.CambiarLookAt(transform);
+
                     hasCaughtPlayer = true;
                     JailManager.Instance.SetMaxValue();
                     Debug.Log("¡Jugador atrapado! Enviado a la cárcel.");
