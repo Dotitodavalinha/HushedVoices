@@ -36,6 +36,7 @@ public class PoliceBehaviour : MonoBehaviour
 
     public CameraManagerZ camManager;
     public CinemachineFreeLook lukeCamera;
+    private bool isTransitioning = false;
 
     private void Start()
     {
@@ -51,6 +52,9 @@ public class PoliceBehaviour : MonoBehaviour
 
     private void Update()
     {
+        if (isTransitioning)
+            return;
+
         if (player == null)
         {
             player = GameObject.FindWithTag("Player");
@@ -157,12 +161,7 @@ public class PoliceBehaviour : MonoBehaviour
 
                 if (!hasCaughtPlayer && DialogueTrigger.playerInRange)
                 {
-                    //camManager.SwitchCamera(lukeCamera);
-                    //camManager.CambiarLookAt(transform);
-
-                    hasCaughtPlayer = true;
-                    JailManager.Instance.SetMaxValue();
-                    Debug.Log("¡Jugador atrapado! Enviado a la cárcel.");
+                    StartCoroutine(CambiarCamaraYLuegoAtrapar());
                 }
             }
             else
@@ -255,5 +254,24 @@ public class PoliceBehaviour : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, forward * viewDistance);
+    }
+
+    private IEnumerator CambiarCamaraYLuegoAtrapar()
+    {
+        animator.SetBool("IsWaiting", true);
+        animator.SetBool("IsChasing", false);
+
+
+        isTransitioning = true;
+
+
+        camManager.SwitchCamera(lukeCamera);
+        camManager.CambiarLookAt(transform);
+
+        yield return new WaitForSeconds(1.5f);
+
+        hasCaughtPlayer = true;
+        JailManager.Instance.SetMaxValue();
+        Debug.Log("¡Jugador atrapado! Enviado a la cárcel.");
     }
 }
