@@ -140,6 +140,7 @@ public class PoliceBehaviour : MonoBehaviour
         if (seesPlayer)
         {
             isChasingPlayer = true;
+            animator.SetBool("IsChasing", isChasingPlayer);
 
         }
 
@@ -162,6 +163,7 @@ public class PoliceBehaviour : MonoBehaviour
             else
             {
                 isChasingPlayer = false;
+                animator.SetBool("IsChasing", isChasingPlayer);
                 flashLight.color = defaultColor;
                 currentIndex = 0;
             }
