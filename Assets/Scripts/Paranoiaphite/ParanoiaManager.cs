@@ -9,6 +9,7 @@ public class ParanoiaManager : MonoBehaviour
     [Range(0f, 1f)]
     public float paranoiaLevel = 0f;
     private ParanoiaObject[] paranoiaObjects;
+   
 
     [Header("Shaders/Materials")]
     public Material vignette;
@@ -16,6 +17,7 @@ public class ParanoiaManager : MonoBehaviour
     public Material cameraLines;
 
     [Header("UI")]
+    public ojoParanoia ojito;
     [SerializeField] private TextMeshProUGUI paranoiaName;
     [SerializeField] private TextMeshProUGUI paranoiaText;
     private Color colorNormal = new Color32(104, 38, 25, 255);
@@ -43,6 +45,7 @@ public class ParanoiaManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         paranoiaObjects = FindObjectsOfType<ParanoiaObject>();
+        ojito=FindObjectOfType<ojoParanoia>();
 
         GameObject postProcessingObj = GameObject.Find("PostProcessing");
         if (postProcessingObj != null)
@@ -98,7 +101,7 @@ public class ParanoiaManager : MonoBehaviour
             foreach (var obj in paranoiaObjects)
                 obj.SetParanoia(paranoiaLevel);
         }
-
+        ojito.setSprite(paranoiaLevel);
         // DialogueManager botones
         if (DialogueManager.Instance != null)
             DialogueManager.Instance.SetModoParanoia(paranoiaLevel >= 1f);
