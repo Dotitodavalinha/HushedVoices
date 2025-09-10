@@ -50,11 +50,11 @@ public class ProgressManager : MonoBehaviour
             if (campo.FieldType == typeof(bool))
             {
                 campo.SetValue(this, false);
-                Debug.Log($"Se apaga {campo.Name}");
+                //Debug.Log($"Se apaga {campo.Name}");
             }
         }
 
-        Debug.Log("Todos los bools del ProgressManager fueron reseteados a false.");
+        //Debug.Log("Todos los bools del ProgressManager fueron reseteados a false.");
     }
     public void ResetNPCRoots()
     {

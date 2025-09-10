@@ -38,7 +38,7 @@ public class CorchoInteract : MonoBehaviour
                     //mostramos cursor y abrimos corcho
                     Cursor.visible = true;
                     Cursor.lockState = CursorLockMode.None;
-                    corchoManager.AbrirCorcho();
+                    corchoManager.OpenBoard();
 
                     // Avisamos que el corcho fue usado
                     FindObjectOfType<ExitUnlocker>()?.MarcarCorchoUsado();
@@ -50,7 +50,7 @@ public class CorchoInteract : MonoBehaviour
                     Cursor.visible = false;
                     Cursor.lockState = CursorLockMode.Locked;
                     PressE.SetActive(true);
-                    corchoManager.CerrarCorcho();
+                    corchoManager.CloseBoard();
                 }
             }
         }

@@ -29,16 +29,20 @@ public class ClueZoomUI : MonoBehaviour
     {
         panel.SetActive(true);
         clueImage.sprite = clue.clueSprite;
+        clueImage.preserveAspect = true;
         clueInfo.text = $"Pista: {clue.clueID}";
-        culpableButton.gameObject.SetActive(false); // se oculta  
+        culpableButton.gameObject.SetActive(false);
     }
+
     public void ShowImage(Sprite sprite)
     {
         panel.SetActive(true);
         clueImage.sprite = sprite;
-        clueInfo.text = "Imagen sin ID"; // opcional, podés dejarlo vacío
+        clueImage.preserveAspect = true;
+        clueInfo.text = "Imagen sin ID";
         culpableButton.gameObject.SetActive(true);
     }
+
 
     public void CloseClue()
     {
