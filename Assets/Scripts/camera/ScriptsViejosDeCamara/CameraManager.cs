@@ -39,10 +39,10 @@ public class CameraManager : MonoBehaviour
 
         if (initialCamera != null)
         {
-            Debug.Log($"Initial camera: {initialCamera}, Behaviour: {initialCameraBehaviour}");
+            //Debug.Log($"Initial camera: {initialCamera}, Behaviour: {initialCameraBehaviour}");
             
             SwitchToCamera(initialCamera);
-            Debug.LogWarning("Cámara inicial es " + initialCamera);
+            //Debug.LogWarning("Cámara inicial es " + initialCamera);
         }
         else
         {

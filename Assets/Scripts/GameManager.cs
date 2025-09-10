@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
         _instance = this;
         DontDestroyOnLoad(gameObject);
 
-        Debug.Log("GameManager inicializado correctamente.");
+        //Debug.Log("GameManager inicializado correctamente.");
     }
 
     private void Update()

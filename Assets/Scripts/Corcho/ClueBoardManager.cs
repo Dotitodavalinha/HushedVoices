@@ -19,33 +19,27 @@ public class ClueBoardManager : MonoBehaviour
 
     [SerializeField] private RectTransform playArea;
 
-    // Conexiones dinámicas runtime (se suman a las de ClueData.connectedClues)
     private Dictionary<string, List<string>> dynamicConnections = new Dictionary<string, List<string>>();
 
-    // ---- NUEVO: preview de conexión (drag derecho) ----
     private GameObject previewLineGO;
     private RectTransform previewLineRect;
-    private bool previewVisible;
 
-    // ---- NUEVO: hold para desconectar todo con Q ----
     private float qHeldTime = 0f;
     [SerializeField] private float disconnectHoldSeconds = 2f;
 
-    // (Deprecado, pero lo dejo por compatibilidad si lo llamabas en otros lados)
     public enum ClueMode { Normal, Connect, DeleteConnections }
     public ClueMode currentMode = ClueMode.Normal;
     public ClueNode selectedNode; // ya no se usa
 
     private void Update()
     {
-        // Hold Q ~2s => desconectar todo
         if (Input.GetKey(KeyCode.Q))
         {
             qHeldTime += Time.unscaledDeltaTime;
             if (qHeldTime >= disconnectHoldSeconds)
             {
                 DesconectarTodasLasConexiones();
-                qHeldTime = 0f; // evitar repetir
+                qHeldTime = 0f;
             }
         }
         else if (Input.GetKeyUp(KeyCode.Q))
@@ -81,7 +75,6 @@ public class ClueBoardManager : MonoBehaviour
 
     private void RegenerarBoard()
     {
-        Debug.Log("Regenerando Board Corcho");
 
         LimpiarBoard();
 
@@ -110,13 +103,13 @@ public class ClueBoardManager : MonoBehaviour
 
             var node = Instantiate(cluePrefab, boardParent);
             node.Init(clue, isFound, playArea, startPos);
-            node.BindBoard(this); // NUEVO: para acceso directo
+            node.BindBoard(this);
 
             spawnedNodes[clue.clueID] = node;
             nodosInstanciados.Add(node.gameObject);
         }
 
-        RecalcularLineas(); // ya pinta todo combinando conexiones
+        RecalcularLineas();
     }
 
     public void AddConnection(string fromID, string toID)
@@ -124,7 +117,6 @@ public class ClueBoardManager : MonoBehaviour
         if (string.IsNullOrEmpty(fromID) || string.IsNullOrEmpty(toID) || fromID == toID)
             return;
 
-        // Agrego en dynamic (no piso las de data)
         if (!dynamicConnections.ContainsKey(fromID))
             dynamicConnections[fromID] = new List<string>();
         if (!dynamicConnections[fromID].Contains(toID))
@@ -142,11 +134,9 @@ public class ClueBoardManager : MonoBehaviour
     {
         bool changed = false;
 
-        // dynamic
         if (dynamicConnections.ContainsKey(fromID) && dynamicConnections[fromID].Remove(toID)) changed = true;
         if (dynamicConnections.ContainsKey(toID) && dynamicConnections[toID].Remove(fromID)) changed = true;
 
-        // data.connectedClues (por si querés también remover ahí)
         if (spawnedNodes.TryGetValue(fromID, out var fromNode) &&
             fromNode.data.connectedClues.Remove(toID)) changed = true;
 
@@ -158,18 +148,15 @@ public class ClueBoardManager : MonoBehaviour
 
     public void RecalcularLineas()
     {
-        // Limpio actuales
         foreach (var linea in lineasInstanciadas) Destroy(linea);
         lineasInstanciadas.Clear();
 
-        // Vuelvo a dibujar combinando: data.connectedClues + dynamicConnections
         foreach (var clue in allClues)
         {
             if (!spawnedNodes.ContainsKey(clue.clueID)) continue;
 
             var fromNode = spawnedNodes[clue.clueID];
 
-            // Conexiones de data
             if (clue.connectedClues != null)
             {
                 foreach (var targetID in clue.connectedClues)
@@ -178,7 +165,6 @@ public class ClueBoardManager : MonoBehaviour
                 }
             }
 
-            // Conexiones dinámicas
             if (dynamicConnections.TryGetValue(clue.clueID, out var dynTargets))
             {
                 foreach (var targetID in dynTargets)
@@ -240,7 +226,6 @@ public class ClueBoardManager : MonoBehaviour
         return node;
     }
 
-    // ---------- NUEVO: helpers de conexión en drag derecho ----------
 
     public void ShowPreviewFromNodeToScreen(ClueNode fromNode, Vector2 screenPos, Camera uiCam)
     {
@@ -248,7 +233,7 @@ public class ClueBoardManager : MonoBehaviour
         {
             previewLineGO = Instantiate(lineUIPrefab, boardParent);
             previewLineRect = previewLineGO.GetComponent<RectTransform>();
-            previewVisible = true;
+            //previewVisible = true;
         }
 
         Vector2 localPoint;
@@ -266,7 +251,7 @@ public class ClueBoardManager : MonoBehaviour
 
     public void HidePreviewLine()
     {
-        previewVisible = false;
+        //previewVisible = false;
         if (previewLineGO != null)
         {
             Destroy(previewLineGO);
@@ -277,10 +262,8 @@ public class ClueBoardManager : MonoBehaviour
 
     private void DesconectarTodasLasConexiones()
     {
-        // Limpio dynamic
         dynamicConnections.Clear();
 
-        // Limpio de los datos de cada pista
         foreach (var kv in spawnedNodes)
         {
             kv.Value.data.connectedClues.Clear();
@@ -288,9 +271,4 @@ public class ClueBoardManager : MonoBehaviour
 
         RecalcularLineas();
     }
-
-    // Métodos “modo” mantenidos por compatibilidad (ya no hacen falta)
-    public void SetModeConnect() => currentMode = ClueMode.Normal;
-    public void SetModeDeleteConnections() => currentMode = ClueMode.Normal;
-    public void SetModeNormal() => currentMode = ClueMode.Normal;
 }

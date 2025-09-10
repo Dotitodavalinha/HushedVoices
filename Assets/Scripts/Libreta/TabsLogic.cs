@@ -10,7 +10,7 @@ public class TabsLogic : MonoBehaviour
 
     private int currentSectionIndex = -1;
     private int nextSectionIndex = -1;
-    private bool firstOpen = true;
+    //private bool firstOpen = true;
 
     public void OpenSection(int index)
     {
@@ -58,7 +58,7 @@ public class TabsLogic : MonoBehaviour
         foreach (GameObject section in sections)
             section.SetActive(false);
 
-        firstOpen = true;
+        //firstOpen = true;
     }
 
     public void ResetCurrentSection()

@@ -24,8 +24,7 @@ public class LightingManager : MonoBehaviour
 
         if (!PlayerPrefs.HasKey("HasStartedBefore"))
         {
-            // Es la primera vez: arrancamos a las 5 y lo marcamos
-            TimeOfDay = 5f;
+            TimeOfDay = 22f;
             PlayerPrefs.SetFloat("SavedTimeOfDay", TimeOfDay);
             PlayerPrefs.SetInt("HasStartedBefore", 1);
         }

@@ -50,8 +50,8 @@ public class SoundManager : MonoBehaviour
     {
         if (!PlayerPrefs.HasKey("volumeMusic"))
         {
-            PlayerPrefs.SetFloat("volumeMusic", 1f);
-            PlayerPrefs.SetFloat("volumeSFX", 1f);
+            PlayerPrefs.SetFloat("volumeMusic", 0.4f);
+            PlayerPrefs.SetFloat("volumeSFX", 0.4f);
             PlayerPrefs.Save();
         }
         LoadVolume();

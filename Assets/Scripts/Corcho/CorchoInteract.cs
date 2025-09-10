@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CorchoInteract : MonoBehaviour
 {
-    [SerializeField] private PlayerMovementLocker playerLocker;
     [SerializeField] public NOTEInteractionZone zonaInteraccion;
     [SerializeField] private ClueBoardManager corchoManager;
 
@@ -29,20 +28,22 @@ public class CorchoInteract : MonoBehaviour
 
                 if (UI_Activa)
                 {
-                     
                     if (!GameManager.Instance.TryLockUI())
                     {
                         UI_Activa = false; // cancela apertura
                         return;
                     }
-
                     PressE.SetActive(false);
 
                     //mostramos cursor y abrimos corcho
                     Cursor.visible = true;
                     Cursor.lockState = CursorLockMode.None;
                     corchoManager.AbrirCorcho();
+
+                    // Avisamos que el corcho fue usado
+                    FindObjectOfType<ExitUnlocker>()?.MarcarCorchoUsado();
                 }
+
                 else
                 {
                     GameManager.Instance.UnlockUI();
