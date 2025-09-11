@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.1813389, g: 0.14097458, b: 0.20369051, a: 1}
+  m_FogColor: {r: 0.34209648, g: 0.21689889, b: 0.20961286, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.3562533, g: 0.29061097, b: 0.43620265, a: 1}
+  m_AmbientSkyColor: {r: 0.65405965, g: 0.46357912, b: 0.60474414, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.53803515, g: 0.22215587, b: 0.32315558, a: 1}
+  m_IndirectSpecularColor: {r: 0.77910787, g: 0.42469415, b: 0.35406795, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -16861,6 +16861,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a9a53529dc1402d4f8fe1c0b220fac94, type: 3}
   m_PrefabInstance: {fileID: 1141308787}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1134763469
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1134763471}
+  - component: {fileID: 1134763470}
+  m_Layer: 0
+  m_Name: cursorManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1134763470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1134763469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e660f5d0316af1458b19c45d3c981d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1134763471
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1134763469}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1137587670 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3098799102358715699, guid: 4afa55ad114c05e4c88fd90870fe83d3, type: 3}
@@ -20231,6 +20275,12 @@ MonoBehaviour:
   lineYOffset: 10
   lineThickness: 8
   disconnectHoldSeconds: 2
+  cursor: {fileID: 1134763470}
+  defaultCursor: {fileID: 2800000, guid: 41c2fe587f56b784bbaacd7a919b8975, type: 3}
+  grab: {fileID: 2800000, guid: 891feb1eb5b1c1c44b6044b2a1a17da6, type: 3}
+  hover: {fileID: 2800000, guid: c230e9673f5e4d14d8eb839ab1ea37d3, type: 3}
+  connect: {fileID: 2800000, guid: 2562487fdc5527949b2f4b75793c3d69, type: 3}
+  disconnect: {fileID: 2800000, guid: 8d3e4a93562464c42b354a82f33dc86c, type: 3}
   culpablesPanel: {fileID: 1034471197}
 --- !u!4 &1305852065
 Transform:
@@ -22026,7 +22076,7 @@ MonoBehaviour:
   ambientShader: {fileID: 2100000, guid: 47b8e24a855c61d40b5a1935c33c5de5, type: 2}
   DirectionalLight: {fileID: 1724289880}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 20.309565
+  TimeOfDay: 6.1631374
   DaySpeed: 20
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -25595,7 +25645,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1724289877}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.08320311, y: -0.29660413, z: -0.9510152, w: -0.025949515}
+  m_LocalRotation: {x: 0.0018610422, y: 0.9959676, z: -0.021271795, w: 0.08713593}
   m_LocalPosition: {x: -6.174999, y: 3.2090003, z: -3.6359997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -25636,8 +25686,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.46504146, g: 0.46504146, b: 0.46504146, a: 1}
-  m_Intensity: 0.039453458
+  m_Color: {r: 0.62371826, g: 0.62371826, b: 0.62371826, a: 1}
+  m_Intensity: 0.4
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -32041,6 +32091,7 @@ SceneRoots:
   - {fileID: 1429102742}
   - {fileID: 1920791908}
   - {fileID: 1169516959}
+  - {fileID: 1134763471}
   - {fileID: 1046023548}
   - {fileID: 56789381}
   - {fileID: 1193342920}

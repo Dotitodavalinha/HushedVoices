@@ -3200,6 +3200,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 207219360}
   m_CullTransparentMesh: 1
+--- !u!1 &207300018
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 207300020}
+  - component: {fileID: 207300019}
+  m_Layer: 0
+  m_Name: CursorManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &207300019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207300018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e660f5d0316af1458b19c45d3c981d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &207300020
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207300018}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &211499981
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20774,6 +20818,12 @@ MonoBehaviour:
   lineYOffset: 10
   lineThickness: 8
   disconnectHoldSeconds: 2
+  cursor: {fileID: 207300019}
+  defaultCursor: {fileID: 2800000, guid: 41c2fe587f56b784bbaacd7a919b8975, type: 3}
+  grab: {fileID: 2800000, guid: 891feb1eb5b1c1c44b6044b2a1a17da6, type: 3}
+  hover: {fileID: 2800000, guid: c230e9673f5e4d14d8eb839ab1ea37d3, type: 3}
+  connect: {fileID: 2800000, guid: 2562487fdc5527949b2f4b75793c3d69, type: 3}
+  disconnect: {fileID: 2800000, guid: 8d3e4a93562464c42b354a82f33dc86c, type: 3}
   culpablesPanel: {fileID: 1034471197}
 --- !u!4 &1305852065
 Transform:
@@ -32788,3 +32838,4 @@ SceneRoots:
   - {fileID: 1698595088}
   - {fileID: 979191765}
   - {fileID: 1880014779}
+  - {fileID: 207300020}

@@ -7,7 +7,7 @@ public class ClueBoardManager : MonoBehaviour
     [Header("Nodes")]
     [SerializeField] private List<ClueNode> clueNodes;   // nodos ya puestos en el editor
     [SerializeField] private GameObject clueBoard;
-
+    
     [Header("Lines")]
     [SerializeField] private GameObject lineUIPrefab;
     [SerializeField] private float lineYOffset = 10f;
@@ -22,10 +22,18 @@ public class ClueBoardManager : MonoBehaviour
     [SerializeField] private float disconnectHoldSeconds = 2f;
     private float qHeldTime = 0f;
 
+    [Header("Cursor")]
+    [SerializeField] private CursorChange cursor;
+    [SerializeField] private Texture2D defaultCursor;
+    [SerializeField] private Texture2D grab;
+    [SerializeField] private Texture2D hover;
+    [SerializeField] private Texture2D connect;
+    [SerializeField] private Texture2D disconnect;
     [SerializeField] private GameObject culpablesPanel;
 
     private void Awake()
     {
+        Cursor.visible=false;
         foreach (var node in clueNodes)
         {
             node.BindBoard(this, clueBoard.GetComponent<RectTransform>());
@@ -37,33 +45,39 @@ public class ClueBoardManager : MonoBehaviour
     private void Update()
     {
         HandleDisconnectHold();
+       
     }
 
     private void HandleDisconnectHold()
     {
         if (Input.GetKey(KeyCode.Q))
         {
+            cursor.CursorSpriteChange(disconnect,new Vector2 (32,32));
             qHeldTime += Time.unscaledDeltaTime;
             if (qHeldTime >= disconnectHoldSeconds)
             {
+                cursor.CursorSpriteChange(hover, new Vector2(32, 32));
                 DisconnectAll();
                 qHeldTime = 0f;
             }
         }
         else if (Input.GetKeyUp(KeyCode.Q))
         {
+            cursor.CursorSpriteChange(hover, new Vector2(32, 32));
             qHeldTime = 0f;
         }
     }
 
     public void OpenBoard()
     {
+        cursor.CursorSpriteChange(hover, new Vector2(32, 32));
         clueBoard.SetActive(true);
         RefreshBoard();
     }
 
     public void CloseBoard()
     {
+        cursor.CursorSpriteChange(defaultCursor, new Vector2(1,1));
         clueBoard.SetActive(false);
     }
 
@@ -155,6 +169,7 @@ public class ClueBoardManager : MonoBehaviour
 
     private void ApplyLineGeometry(RectTransform lineRect, Vector2 start, Vector2 end)
     {
+        
         Vector2 dir = end - start;
         float dist = dir.magnitude;
         lineRect.sizeDelta = new Vector2(dist, lineThickness);
@@ -165,6 +180,7 @@ public class ClueBoardManager : MonoBehaviour
 
     public void ShowPreviewFromNodeToScreen(ClueNode fromNode, Vector2 screenPos, Camera uiCam)
     {
+        cursor.CursorSpriteChange(connect, new Vector2(1, 1));
         if (previewLineGO == null)
         {
             previewLineGO = Instantiate(lineUIPrefab, clueBoard.transform);
@@ -182,11 +198,13 @@ public class ClueBoardManager : MonoBehaviour
         end.y += lineYOffset; // el punto de destino queda con offset solo
 
         ApplyLineGeometry(previewLineRect, start, end);
+
         previewLineRect.SetAsFirstSibling();
     }
 
     public void HidePreviewLine()
     {
+        cursor.CursorSpriteChange(hover, new Vector2(32, 32));
         if (previewLineGO != null)
         {
             Destroy(previewLineGO);
