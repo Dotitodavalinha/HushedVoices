@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
+public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
+
 {
     public ClueData data;
 
@@ -43,6 +44,16 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         if (clueVisual != null)
             clueVisual.SetActive(found);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        board?.ChangeCursor(board.zoomIn);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        board?.ChangeCursor(board.hover);
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -105,6 +116,7 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             isLeftDragging = true;
             originalPosition = RectTransform.anchoredPosition;
             canvasGroup.blocksRaycasts = false;
+            
         }
     }
 
@@ -135,6 +147,7 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             }
 
             board?.RecalculateLines();
+            board?.ChangeCursor(board.grab);
         }
 
         if (eventData.button == PointerEventData.InputButton.Right && isRightDragging)
@@ -156,6 +169,7 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             PlayerPrefs.Save();
 
             board?.RecalculateLines();
+            board?.ChangeCursor(board.hover);
         }
     }
 

@@ -22,7 +22,7 @@ public class ExitUnlocker : MonoBehaviour
             if (exitCollider != null)
             {
                 exitCollider.SetActive(true);
-                Debug.Log(" Salida desbloqueada");
+                //Debug.Log(" Salida desbloqueada");
             }
         }
     }
@@ -36,6 +36,6 @@ public class ExitUnlocker : MonoBehaviour
     public void MarcarCorchoUsado()
     {
         corchoUsado = true;
-        Debug.Log("Corcho utilizado");
+        //Debug.Log("Corcho utilizado");
     }
 }

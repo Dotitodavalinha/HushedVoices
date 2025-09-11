@@ -23,14 +23,14 @@ public class ClueBoardManager : MonoBehaviour
     private float qHeldTime = 0f;
 
     [Header("Cursor")]
-    [SerializeField] private CursorChange cursor;
-    [SerializeField] private Texture2D defaultCursor;
-    [SerializeField] private Texture2D grab;
-    [SerializeField] private Texture2D hover;
-    [SerializeField] private Texture2D connect;
-    [SerializeField] private Texture2D disconnect;
-    [SerializeField] private Texture2D zoomIn;
-    [SerializeField] private GameObject culpablesPanel;
+    public CursorChange cursor;
+    public Texture2D defaultCursor;
+    public Texture2D grab;
+    public Texture2D hover;
+    public Texture2D connect;
+    public Texture2D disconnect;
+    public Texture2D zoomIn;
+    public GameObject culpablesPanel;
 
     private void Awake()
     {
@@ -46,32 +46,31 @@ public class ClueBoardManager : MonoBehaviour
     private void Update()
     {
         HandleDisconnectHold();
-       
     }
 
     private void HandleDisconnectHold()
     {
         if (Input.GetKey(KeyCode.Q))
         {
-            cursor.CursorSpriteChange(disconnect,new Vector2 (32,32));
+            ChangeCursor(disconnect);
             qHeldTime += Time.unscaledDeltaTime;
             if (qHeldTime >= disconnectHoldSeconds)
             {
-                cursor.CursorSpriteChange(hover, new Vector2(32, 32));
+                ChangeCursor(hover);
                 DisconnectAll();
                 qHeldTime = 0f;
             }
         }
         else if (Input.GetKeyUp(KeyCode.Q))
         {
-            cursor.CursorSpriteChange(hover, new Vector2(32, 32));
+            ChangeCursor(hover);
             qHeldTime = 0f;
         }
     }
 
     public void OpenBoard()
     {
-        cursor.CursorSpriteChange(hover, new Vector2(32, 32));
+        ChangeCursor(hover);
         clueBoard.SetActive(true);
         RefreshBoard();
     }
@@ -230,5 +229,10 @@ public class ClueBoardManager : MonoBehaviour
     {
         culpablesPanel.SetActive(false);
         clueBoard.SetActive(true);
+    }
+
+    public void ChangeCursor(Texture2D texture)
+    {
+        cursor.CursorSpriteChange(texture, new Vector2(32, 32));
     }
 }
