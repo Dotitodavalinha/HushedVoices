@@ -29,6 +29,7 @@ public class ClueBoardManager : MonoBehaviour
     [SerializeField] private Texture2D hover;
     [SerializeField] private Texture2D connect;
     [SerializeField] private Texture2D disconnect;
+    [SerializeField] private Texture2D zoomIn;
     [SerializeField] private GameObject culpablesPanel;
 
     private void Awake()
