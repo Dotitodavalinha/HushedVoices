@@ -1,30 +1,26 @@
-using UnityEngine;
-using UnityEngine.UI;
+using System.Collections;
 using System.Collections.Generic;
-using TMPro;
+using UnityEngine;
 
-public class NoteInteract : MonoBehaviour
+public class FadeInteract : MonoBehaviour //script similar al NoteInteract pero para q se auto desvanezca 
 {
-    public GameObject NoteImage;
+    public GameObject ShowThisObject;
 
     [SerializeField] private List<GameObject> outlinerCubes = new List<GameObject>(); //una lista de Outliners en caso de hacer falta 
-
-    [SerializeField] private CluePickup cluePickup;
-    [SerializeField] private CluePickupByList cluePickupByList;
 
     private bool InRange = false;
     private bool NoteIsOpen = false;
 
     private GameObject Player;
 
-    [SerializeField] public GameObject text;
+    [SerializeField] public GameObject PressE;
     [SerializeField] public NOTEInteractionZone zonaInteraccion;
-    [SerializeField] private bool IsImportantClue = false;
+    
     void Start()
     {
-        text.SetActive(false);
+        PressE.SetActive(false);
 
-        NoteImage.SetActive(false);
+        ShowThisObject.SetActive(false);
         Player = GameObject.FindWithTag("Player");
 
 
@@ -50,22 +46,22 @@ public class NoteInteract : MonoBehaviour
         }
         if (InRange && NoteIsOpen == false)
         {
-            text.SetActive(true);
+            PressE.SetActive(true);
 
         }
         if (!InRange)
         {
-            text.SetActive(false);
+            PressE.SetActive(false);
         }
 
         if (NoteIsOpen)
         {
-            NoteImage.SetActive(true);
-            text.SetActive(false);
+            ShowThisObject.SetActive(true);
+            PressE.SetActive(false);
         }
         if (!NoteIsOpen)
         {
-            NoteImage.SetActive(false);
+            ShowThisObject.SetActive(false);
 
         }
 
@@ -102,21 +98,8 @@ public class NoteInteract : MonoBehaviour
         else
         {
             GameManager.Instance.UnlockUI();
-            if (IsImportantClue)
-            {
-                if (cluePickup != null)
-                {
-                    cluePickup.PickUpClue(); // agrego la nueva IDclue
-                }
-
-                if (cluePickupByList != null)
-                {
-                    cluePickupByList.PickUpClues();
-                }
-
-            }
+            
         }
 
     }
 }
-

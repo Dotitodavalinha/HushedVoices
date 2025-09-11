@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.09803921, g: 0.10196081, b: 0.20000002, a: 1}
+  m_FogColor: {r: 0.1813389, g: 0.14097458, b: 0.20369051, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.2025187, g: 0.20757172, b: 0.3490566, a: 1}
+  m_AmbientSkyColor: {r: 0.3562533, g: 0.29061097, b: 0.43620265, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.14090109, g: 0.16818628, b: 0.32461888, a: 1}
+  m_IndirectSpecularColor: {r: 0.53803515, g: 0.22215587, b: 0.32315558, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -746,6 +746,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &61795147 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1459350699504863454, guid: f00a0c3f52d174f448466dd2e7faff86, type: 3}
+  m_PrefabInstance: {fileID: 240242843}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &70203160
 GameObject:
   m_ObjectHideFlags: 0
@@ -1284,7 +1289,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 112565789}
   m_Father: {fileID: 1459070940}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1577,6 +1583,140 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 570.0814, y: 431.91943, z: 92.66224}
   m_Center: {x: -28.876638, y: 11.395383, z: 17.719555}
+--- !u!1 &112565788
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 112565789}
+  - component: {fileID: 112565791}
+  - component: {fileID: 112565790}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &112565789
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112565788}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 99309304}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.042433012, y: 0}
+  m_AnchorMax: {x: 1, y: 0.056}
+  m_AnchoredPosition: {x: -54, y: 1}
+  m_SizeDelta: {x: -442, y: -5}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &112565790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112565788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: He was always a big fan of coffee...
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: -148.81631, y: 0, z: -241.77579, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &112565791
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112565788}
+  m_CullTransparentMesh: 1
 --- !u!1001 &115806674
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3209,7 +3349,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1459350699504863454, guid: f00a0c3f52d174f448466dd2e7faff86, type: 3}
       propertyPath: m_Name
-      value: OutlinerCube (3)
+      value: OutlinerCube
       objectReference: {fileID: 0}
     - target: {fileID: 2237012577165300324, guid: f00a0c3f52d174f448466dd2e7faff86, type: 3}
       propertyPath: m_LocalScale.x
@@ -3344,7 +3484,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1459350699504863454, guid: f00a0c3f52d174f448466dd2e7faff86, type: 3}
       propertyPath: m_Name
-      value: OutlinerCube (4)
+      value: OutlinerCube
       objectReference: {fileID: 0}
     - target: {fileID: 2237012577165300324, guid: f00a0c3f52d174f448466dd2e7faff86, type: 3}
       propertyPath: m_LocalScale.x
@@ -3360,15 +3500,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2237012577165300324, guid: f00a0c3f52d174f448466dd2e7faff86, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.16718927
+      value: -0.158
       objectReference: {fileID: 0}
     - target: {fileID: 2237012577165300324, guid: f00a0c3f52d174f448466dd2e7faff86, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0032
+      value: -0.003
       objectReference: {fileID: 0}
     - target: {fileID: 2237012577165300324, guid: f00a0c3f52d174f448466dd2e7faff86, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.06435
+      value: 0.064
       objectReference: {fileID: 0}
     - target: {fileID: 2237012577165300324, guid: f00a0c3f52d174f448466dd2e7faff86, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4910,6 +5050,11 @@ RectTransform:
   m_AnchoredPosition: {x: 8.900001, y: -45}
   m_SizeDelta: {x: 57.02887, y: 12.542603}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &356353894 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1459350699504863454, guid: f00a0c3f52d174f448466dd2e7faff86, type: 3}
+  m_PrefabInstance: {fileID: 1716776472}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &356628714
 GameObject:
   m_ObjectHideFlags: 0
@@ -5870,6 +6015,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NoteImage: {fileID: 1319517885}
+  outlinerCubes: []
   cluePickup: {fileID: 411903433}
   cluePickupByList: {fileID: 0}
   text: {fileID: 460308050}
@@ -16083,6 +16229,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4eb9c0804386a1f4a910d3cffe32cb63, type: 3}
+--- !u!1 &1072816830 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1459350699504863454, guid: f00a0c3f52d174f448466dd2e7faff86, type: 3}
+  m_PrefabInstance: {fileID: 224821615}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1085024608
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17169,7 +17320,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1459350699504863454, guid: f00a0c3f52d174f448466dd2e7faff86, type: 3}
       propertyPath: m_Name
-      value: OutlinerCube (1)
+      value: OutlinerCube
       objectReference: {fileID: 0}
     - target: {fileID: 2237012577165300324, guid: f00a0c3f52d174f448466dd2e7faff86, type: 3}
       propertyPath: m_LocalScale.x
@@ -21875,7 +22026,7 @@ MonoBehaviour:
   ambientShader: {fileID: 2100000, guid: 47b8e24a855c61d40b5a1935c33c5de5, type: 2}
   DirectionalLight: {fileID: 1724289880}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 22
+  TimeOfDay: 20.309565
   DaySpeed: 20
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -23770,6 +23921,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43f151ecabef2584d90343da09a5e4fc, type: 3}
+--- !u!1 &1578375600 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1459350699504863454, guid: f00a0c3f52d174f448466dd2e7faff86, type: 3}
+  m_PrefabInstance: {fileID: 1161152868}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1590814911 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5967212308066981033, guid: e200d027bcd6fae4d8a111dfdd39d2ce, type: 3}
@@ -25354,7 +25510,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1459350699504863454, guid: f00a0c3f52d174f448466dd2e7faff86, type: 3}
       propertyPath: m_Name
-      value: OutlinerCube (2)
+      value: OutlinerCube
       objectReference: {fileID: 0}
     - target: {fileID: 2237012577165300324, guid: f00a0c3f52d174f448466dd2e7faff86, type: 3}
       propertyPath: m_LocalScale.x
@@ -25439,7 +25595,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1724289877}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.07547914, y: -0.49809742, z: -0.8627299, w: -0.043577906}
+  m_LocalRotation: {x: 0.08320311, y: -0.29660413, z: -0.9510152, w: -0.025949515}
   m_LocalPosition: {x: -6.174999, y: 3.2090003, z: -3.6359997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -25480,8 +25636,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.35621107, g: 0.35621107, b: 0.35621107, a: 1}
-  m_Intensity: 0
+  m_Color: {r: 0.46504146, g: 0.46504146, b: 0.46504146, a: 1}
+  m_Intensity: 0.039453458
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -26443,7 +26599,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1785421238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26457,11 +26613,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NoteImage: {fileID: 99309303}
-  cluePickup: {fileID: 1785421244}
+  outlinerCubes:
+  - {fileID: 1578375600}
+  - {fileID: 1072816830}
+  - {fileID: 356353894}
+  - {fileID: 61795147}
+  cluePickup: {fileID: 0}
   cluePickupByList: {fileID: 0}
   text: {fileID: 283093012}
   zonaInteraccion: {fileID: 1785421240}
-  IsImportantClue: 1
+  IsImportantClue: 0
 --- !u!65 &1785421239
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26575,12 +26736,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1785421235}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 267edbb57d3cb9f4a9be1be533c6c3c5, type: 3}
+  m_Script: {fileID: 11500000, guid: d528915b76dbb7f49b02bfa9574f9cfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clueID: OldCoffees
-  destroyOnPickup: 0
-  ShowAlertOnPickup: 0
 --- !u!4 &1793569044 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5142314813679161161, guid: e1cd1109298223d419390b433393a8f5, type: 3}
@@ -31431,6 +31589,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NoteImage: {fileID: 755507019}
+  outlinerCubes: []
   cluePickup: {fileID: 7615844447992488692}
   cluePickupByList: {fileID: 0}
   text: {fileID: 908362107}

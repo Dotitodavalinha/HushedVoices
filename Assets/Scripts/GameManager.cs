@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private PlayerMovementLocker playerLocker;
 
-    // 📌 Diccionarios para estados persistentes
+    // Diccionarios para estados persistentes
     private Dictionary<string, bool> unlockedObjects = new Dictionary<string, bool>();
     private Dictionary<string, bool> completedDialogues = new Dictionary<string, bool>();
 
