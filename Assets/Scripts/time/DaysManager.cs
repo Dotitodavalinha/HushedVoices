@@ -7,12 +7,12 @@ public class DaysManager : MonoBehaviour
 {
     public static DaysManager Instance { get; private set; }
 
-    public int CurrentDay { get; private set; } = 0; // Día 0 = prólogo
+    public int CurrentDay { get; private set; } = 0; // dia 0 = prólogo
     public event Action<int> OnDayChanged;           // int = nuevo día
-    public event Action OnDayEnd;                   // trigger fin de día
-    public event Action OnDayStart;                 // trigger inicio de día
+    public event Action OnDayEnd;                    // trigger fin de día
+    public event Action OnDayStart;                  // trigger inicio de día
 
-    //[SerializeField] private TimeSystem timeSystem; // tu script de reloj (24h)
+    [SerializeField] private LightingManager timeSystem; // script de reloj (24h)
 
     private void Awake()
     {
@@ -23,15 +23,15 @@ public class DaysManager : MonoBehaviour
 
     private void OnEnable()
     {
-       // if (timeSystem != null)
-          //  timeSystem.OnDayFinished += HandleDayFinished;
-        // asumiendo que tu TimeSystem tiene un evento OnDayFinished
+        if (timeSystem != null)
+            timeSystem.OnDayFinished += HandleDayFinished;
+     
     }
 
     private void OnDisable()
     {
-       // if (timeSystem != null)
-         //   timeSystem.OnDayFinished -= HandleDayFinished;
+        if (timeSystem != null)
+            timeSystem.OnDayFinished -= HandleDayFinished;
     }
 
     private void HandleDayFinished()

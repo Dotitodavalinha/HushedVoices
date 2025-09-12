@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [ExecuteAlways]
@@ -17,6 +18,8 @@ public class LightingManager : MonoBehaviour
 
     public float horaLimiteNoche = 22f;
     public bool tiempoPausado = false;
+
+    public event Action OnDayFinished;
 
     private void Start()
     {
@@ -148,4 +151,5 @@ public class LightingManager : MonoBehaviour
             DirectionalLight.intensity = sunIntensity;
         }
     }
+
 }
