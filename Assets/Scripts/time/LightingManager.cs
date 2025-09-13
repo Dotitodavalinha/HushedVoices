@@ -4,7 +4,7 @@ using UnityEngine;
 [ExecuteAlways]
 public class LightingManager : MonoBehaviour
 {
-    [SerializeField] private Material Sky;
+    [SerializeField] private Material Sky; 
     [SerializeField] private Material ambientShader;
 
 
@@ -54,14 +54,27 @@ public class LightingManager : MonoBehaviour
             if (!tiempoPausado)
             {
                 TimeOfDay += Time.deltaTime / DaySpeed;
+
+                // si llego a la hora limite deja de avanzar el clockPhite
                 if (TimeOfDay >= horaLimiteNoche && TimeOfDay < 24f)
                 {
                     tiempoPausado = true;
                     TimeOfDay = horaLimiteNoche;
                 }
 
+                /* 
+                // FUTURO: cuando se habilite el juego nocturno,
+                // este bloque permitirá invocar el fin de día automático a las 00
+                if (TimeOfDay >= 24f)
+                {
+                    TimeOfDay = 0f;
+                    OnDayFinished?.Invoke();
+                }
+                */
+
                 TimeOfDay %= 24;
             }
+
 
             UpdateLighting(TimeOfDay / 24);
         }

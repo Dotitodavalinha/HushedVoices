@@ -32,20 +32,19 @@ public class BedPass : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                // Usa el nuevo método directo para resetear a 0
                 ParanoiaManager.Instance.SetParanoiaValueDirect(0f);
-                timeManager.tiempoPausado = false;
-                timeManager.TimeOfDay = 6f;
-                int currentIndex = SceneManager.GetActiveScene().buildIndex;
-                int nextIndex = currentIndex + 4;
 
-                if (nextIndex < SceneManager.sceneCountInBuildSettings)
-                {
-                    SceneManager.LoadScene(nextIndex);
-                }
+                // pasamos al siguiente día
+                DaysManager.Instance.NextDay();
+
+                //reseteamos el tiempo para la mañana
+                timeManager.TimeOfDay = 6f;
+                timeManager.tiempoPausado = false;
+
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
             }
+
         }
         else
         {

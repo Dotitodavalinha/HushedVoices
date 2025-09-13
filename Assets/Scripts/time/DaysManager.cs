@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using System;
 using UnityEngine;
 
@@ -7,12 +8,14 @@ public class DaysManager : MonoBehaviour
 {
     public static DaysManager Instance { get; private set; }
 
-    public int CurrentDay { get; private set; } = 0; // dia 0 = prólogo
+    [SerializeField] private int currentDay = 0; // dia 0 = prólogo, visible en editor
+    public int CurrentDay => currentDay;         // solo lectura desde afuera
+
     public event Action<int> OnDayChanged;           // int = nuevo día
     public event Action OnDayEnd;                    // trigger fin de día
     public event Action OnDayStart;                  // trigger inicio de día
 
-    [SerializeField] private LightingManager timeSystem; // script de reloj (24h)
+    [SerializeField] private LightingManager timeSystem; // script de reloj
 
     private void Awake()
     {
@@ -23,36 +26,55 @@ public class DaysManager : MonoBehaviour
 
     private void OnEnable()
     {
-        if (timeSystem != null)
-            timeSystem.OnDayFinished += HandleDayFinished;
-     
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        TryHookTimeSystem();
     }
 
     private void OnDisable()
     {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         if (timeSystem != null)
             timeSystem.OnDayFinished -= HandleDayFinished;
     }
 
     private void HandleDayFinished()
     {
-        OnDayEnd?.Invoke();   // dispara eventos de fin de día (guardar, cerrar NPCs, etc.)
+        OnDayEnd?.Invoke();
         NextDay();
     }
 
     public void NextDay()
     {
-        CurrentDay++;
-        OnDayChanged?.Invoke(CurrentDay);
+        currentDay++;
+        OnDayChanged?.Invoke(currentDay);
+        Debug.LogWarning("Day Finished. Current day: " + currentDay);
         OnDayStart?.Invoke();
-
-        // Si ya usás un EventManager global, acá podés loguear:
-        // EventManager.Instance.LogEvent("DayStarted", CurrentDay);
     }
 
-    public void ForceSetDay(int day) // útil para debug / cargar partidas
+    public void ForceSetDay(int day)
     {
-        CurrentDay = Mathf.Max(0, day);
-        OnDayChanged?.Invoke(CurrentDay);
+        currentDay = Mathf.Max(0, day);
+        OnDayChanged?.Invoke(currentDay);
     }
+
+
+    // esta wea de abajo es para suscribirse al TimeSystem cuando cambio de escena
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        TryHookTimeSystem();
+    }
+
+    private void TryHookTimeSystem()
+    {
+        var found = GameObject.Find("TimeManager")?.GetComponent<LightingManager>();
+        if (found != null && found != timeSystem)
+        {
+            if (timeSystem != null)
+                timeSystem.OnDayFinished -= HandleDayFinished; // me desuscribo del viejo
+
+            timeSystem = found;
+            timeSystem.OnDayFinished += HandleDayFinished; // me suscribo al nuevo
+        }
+    }
+
 }
