@@ -155,11 +155,11 @@ public class LightingManager : MonoBehaviour
         {
             float sunIntensity;
             if (TimeOfDay <= 14f)
-                sunIntensity = 0.4f;
-            else if (TimeOfDay >= 21f)
-                sunIntensity = 0f;
+                sunIntensity = 1f;
+            else if (TimeOfDay >= 22f)
+                sunIntensity = 0.1f;
             else
-                sunIntensity = Mathf.Lerp(0.4f, 0f, Mathf.InverseLerp(14f, 21f, TimeOfDay));
+                sunIntensity = Mathf.Lerp(1f, 0.1f, Mathf.InverseLerp(14f, 22f, TimeOfDay));
 
             DirectionalLight.intensity = sunIntensity;
         }
