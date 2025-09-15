@@ -10,8 +10,7 @@ public class NightManager : MonoBehaviour
     public JailManager JailManager;
     public LightingManager DayManager;
     public bool IsNight;
-    public GameObject ClockNit;
-    public GameObject ClockDay;
+
 
     public GameObject IsNightAlert;
     public GameObject IsPreNightAlert;
@@ -24,9 +23,7 @@ public class NightManager : MonoBehaviour
     {
         JailManager = GameObject.Find("JailManager")?.GetComponent<JailManager>();
         ParanoiaManager = GameObject.Find("ParanoiaManager")?.GetComponent<ParanoiaManager>();
-        ClockDay = GameObject.Find("Dia");
-        ClockNit = GameObject.Find("Noche");
-        ClockNit.SetActive(false);
+
         SoundManager.instance.PlayMusic(MusicID.StaticSound, true);
         SoundManager.instance.ChangeVolumeOneMusic(MusicID.StaticSound, -1f); //arranca en 0
     }
@@ -71,8 +68,6 @@ public class NightManager : MonoBehaviour
             ParanoiaManager.SetParanoiaValueDirect(0f);
             IsNight = false;
         }
-        ClockDay.SetActive(true);
-        ClockNit.SetActive(false);
         hasInstantiatedAlert = false;
     }
 
@@ -91,8 +86,7 @@ public class NightManager : MonoBehaviour
             Instantiate(IsNightAlert, canvasTransform);
             hasInstantiatedAlert = true;
         }
-        ClockDay.SetActive(false);
-        ClockNit.SetActive(true);
+
     }
 
     private void AlmostNight()
@@ -109,13 +103,6 @@ public class NightManager : MonoBehaviour
         IsNight = false;
         hasInstantiatedAlert = false;
         InstantiatedPreNightAlert = false;
-        if (ClockDay != null)
-        {
-            ClockDay.SetActive(true);
-        }
-        if (ClockNit != null)
-        {
-            ClockNit.SetActive(false);
-        }
+    
     }
 }

@@ -1,0 +1,105 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CleanItem : MonoBehaviour
+{
+    [SerializeField] private List<GameObject> outlinerCubes = new List<GameObject>();
+
+    private bool InRange = false;
+    private bool NoteIsOpen = false;
+
+    private GameObject Player;
+
+    [SerializeField] public GameObject PressE_UI;
+    [SerializeField] public NOTEInteractionZone zonaInteraccion;
+    [SerializeField] private bool IsImportantClue = false;
+
+    [SerializeField] private float destroyAfterSeconds = 1f; // configurable desde el editor
+
+    void Start()
+    {
+        PressE_UI.SetActive(false);
+
+        Player = GameObject.FindWithTag("Player");
+    }
+
+    void Update()
+    {
+        float distancia = Vector3.Distance(Player.transform.position, transform.position);
+
+        if (zonaInteraccion.jugadorDentro)
+        {
+
+            InRange = true;
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                ShowNote();
+            }
+        }
+        else if (!zonaInteraccion.jugadorDentro)
+        {
+
+            InRange = false;
+        }
+        if (InRange && NoteIsOpen == false)
+        {
+            PressE_UI.SetActive(true);
+
+        }
+        if (!InRange)
+        {
+            PressE_UI.SetActive(false);
+        }
+
+        if (NoteIsOpen)
+        {        
+            PressE_UI.SetActive(false);
+        }
+
+
+    }
+
+    void ShowNote()
+    {
+        NoteIsOpen = !NoteIsOpen;
+
+        if (outlinerCubes != null && outlinerCubes.Count > 0)
+        {
+            foreach (var cube in outlinerCubes)
+            {
+                if (cube != null)
+                    cube.SetActive(false);
+            }
+        }
+        else
+        {
+            Transform singleOutliner = transform.Find("OutlinerCube");
+            if (singleOutliner != null)
+                singleOutliner.gameObject.SetActive(false);
+        }
+
+
+        if (NoteIsOpen)
+        {
+            if (!GameManager.Instance.TryLockUI())
+            {
+                NoteIsOpen = false; // cancela apertura
+                return;
+            }
+
+            StartCoroutine(DestroyAfterDelay());
+        }
+        else
+        {
+            GameManager.Instance.UnlockUI();
+        }
+
+    }
+    private IEnumerator DestroyAfterDelay()
+    {
+        yield return new WaitForSeconds(destroyAfterSeconds);
+        Destroy(gameObject);
+    }
+
+}
