@@ -7,7 +7,7 @@ public class LightingManager : MonoBehaviour
     [SerializeField] private Material Sky; 
     [SerializeField] private Material ambientShader;
 
-
+    [SerializeField] private float maxSunIntensity;
     [SerializeField] private Light DirectionalLight;
     [SerializeField] private LightingPreset preset;
     [SerializeField, Range(0, 24)] public float TimeOfDay;
@@ -138,12 +138,12 @@ public class LightingManager : MonoBehaviour
         {
             float dayNight;
 
-            if (TimeOfDay <= 5f)
+            if (TimeOfDay <= 15f)
                 dayNight = 1f;
             else if (TimeOfDay >= 21f)
                 dayNight = 0f;
             else
-                dayNight = Mathf.InverseLerp(21f, 5f, TimeOfDay);
+                dayNight = Mathf.InverseLerp(21f, 15f, TimeOfDay);
 
             ambientShader.SetFloat("_dayNight", dayNight);
         }
@@ -153,13 +153,13 @@ public class LightingManager : MonoBehaviour
     {
         if (DirectionalLight != null)
         {
-            float sunIntensity;
+            float sunIntensity = maxSunIntensity;
             if (TimeOfDay <= 14f)
-                sunIntensity = 1f;
+                sunIntensity = maxSunIntensity;
             else if (TimeOfDay >= 22f)
                 sunIntensity = 0.1f;
             else
-                sunIntensity = Mathf.Lerp(1f, 0.1f, Mathf.InverseLerp(14f, 22f, TimeOfDay));
+                sunIntensity = Mathf.Lerp(maxSunIntensity, 0.1f, Mathf.InverseLerp(14f, 22f, TimeOfDay));
 
             DirectionalLight.intensity = sunIntensity;
         }
