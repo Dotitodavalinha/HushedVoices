@@ -72,7 +72,30 @@ public class GameManager : MonoBehaviour
 
         uiLockCount = 1;
         if (playerLocker != null)
+        {
             playerLocker.LockMovement();
+        }
+        else 
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+            {
+                playerLocker = playerObj.GetComponent<PlayerMovementLocker>();
+                if (playerLocker != null)
+                {
+                    playerLocker.LockMovement();
+                }
+                else
+                {
+                    Debug.LogWarning("PlayerMovementLocker no se encontró en el objeto Player.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("No se encontró ningún objeto con el tag 'Player'.");
+            }
+        } //buscamos el script dentro del player.
+
         return true;
     }
 
