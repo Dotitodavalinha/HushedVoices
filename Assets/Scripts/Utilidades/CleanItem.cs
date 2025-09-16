@@ -13,12 +13,21 @@ public class CleanItem : MonoBehaviour
 
     [SerializeField] public GameObject PressE_UI;
     [SerializeField] public NOTEInteractionZone zonaInteraccion;
+    [SerializeField] public GameObject ObjectToDestroy;
+
+    public GameObject NoteImage;
+
 
     [SerializeField] private float destroyAfterSeconds = 1f; // configurable desde el editor
 
     void Start()
     {
         PressE_UI.SetActive(false);
+        if (NoteImage != null)
+        {
+            NoteImage.SetActive(false);
+
+        }
 
         Player = GameObject.FindWithTag("Player");
     }
@@ -52,8 +61,20 @@ public class CleanItem : MonoBehaviour
         }
 
         if (NoteIsOpen)
-        {        
+        {
+            if (NoteImage != null)
+            {
+                NoteImage.SetActive(true);
+            }
+
             PressE_UI.SetActive(false);
+        }
+        if (!NoteIsOpen)
+        {
+            if (NoteImage != null)
+            {
+                NoteImage.SetActive(false);
+            }
         }
 
 
@@ -81,10 +102,13 @@ public class CleanItem : MonoBehaviour
 
         if (NoteIsOpen)
         {
-            if (!GameManager.Instance.TryLockUI())
+            if (NoteImage != null)
             {
-                NoteIsOpen = false; // cancela apertura
-                return;
+                if (!GameManager.Instance.TryLockUI())
+                {
+                    NoteIsOpen = false; // cancela apertura
+                    return;
+                }
             }
 
             StartCoroutine(DestroyAfterDelay());
@@ -98,7 +122,8 @@ public class CleanItem : MonoBehaviour
     private IEnumerator DestroyAfterDelay()
     {
         yield return new WaitForSeconds(destroyAfterSeconds);
-        Destroy(gameObject);
+        Destroy(ObjectToDestroy);
+
     }
 
 }
