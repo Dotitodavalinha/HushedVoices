@@ -13,7 +13,6 @@ public class CleanItem : MonoBehaviour
 
     [SerializeField] public GameObject PressE_UI;
     [SerializeField] public NOTEInteractionZone zonaInteraccion;
-    [SerializeField] private bool IsImportantClue = false;
 
     [SerializeField] private float destroyAfterSeconds = 1f; // configurable desde el editor
 
