@@ -7,6 +7,7 @@ public class ActivateLights : MonoBehaviour
     public LightingManager lightingManager;
     public GameObject dayLights;
     public GameObject nightLights;
+    
     public GameObject activeLights;
     public GameObject pastLights;
     public float timer;
@@ -20,7 +21,7 @@ public class ActivateLights : MonoBehaviour
     }
     private void Update()
     {
-        if(lightingManager.TimeOfDay > 18|| lightingManager.TimeOfDay < 5)
+        if(lightingManager.TimeOfDay > 21|| lightingManager.TimeOfDay < 5)
         {
             dayLights.SetActive(false);
             nightLights.SetActive(true);
