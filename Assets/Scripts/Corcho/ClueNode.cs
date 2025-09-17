@@ -126,7 +126,6 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         {
             RectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
 
-            // Clamp dentro del playArea
             if (playArea != null)
             {
                 Vector3[] areaCorners = new Vector3[4];
@@ -136,7 +135,6 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                 RectTransform.GetWorldCorners(nodeCorners);
 
                 Vector3 pos = RectTransform.position;
-
                 float nodeWidth = nodeCorners[2].x - nodeCorners[0].x;
                 float nodeHeight = nodeCorners[2].y - nodeCorners[0].y;
 
@@ -162,15 +160,51 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         {
             isLeftDragging = false;
             canvasGroup.blocksRaycasts = true;
-            data.boardPosition = RectTransform.anchoredPosition;
 
-            PlayerPrefs.SetFloat(data.clueID + "_x", RectTransform.anchoredPosition.x);
-            PlayerPrefs.SetFloat(data.clueID + "_y", RectTransform.anchoredPosition.y);
-            PlayerPrefs.Save();
+            bool isColliding = false;
+            Rect currentRect = GetRectFromRectTransform();
+
+            foreach (var otherNode in board.clueNodes)
+            {
+                if (otherNode != this && otherNode.clueVisual.activeSelf)
+                {
+                    Rect otherRect = otherNode.GetRectFromRectTransform();
+
+                    if (currentRect.Overlaps(otherRect))
+                    {
+                        isColliding = true;
+                        break;
+                    }
+                }
+            }
+
+            if (isColliding)
+            {
+                RectTransform.anchoredPosition = originalPosition;
+            }
+            else
+            {
+                data.boardPosition = RectTransform.anchoredPosition;
+                PlayerPrefs.SetFloat(data.clueID + "_x", RectTransform.anchoredPosition.x);
+                PlayerPrefs.SetFloat(data.clueID + "_y", RectTransform.anchoredPosition.y);
+                PlayerPrefs.Save();
+            }
 
             board?.RecalculateLines();
             board?.ChangeCursor(board.hover);
         }
+    }
+
+    private Rect GetRectFromRectTransform()
+    {
+        Vector2 anchoredPos = RectTransform.anchoredPosition;
+        Vector2 size = RectTransform.sizeDelta;
+        Vector2 pivot = RectTransform.pivot;
+
+        float x = anchoredPos.x - size.x * pivot.x;
+        float y = anchoredPos.y - size.y * pivot.y;
+
+        return new Rect(x, y, size.x, size.y);
     }
 
     public void OnPointerClick(PointerEventData eventData) { /* vacio, todo se maneja en Up y Drag */ }

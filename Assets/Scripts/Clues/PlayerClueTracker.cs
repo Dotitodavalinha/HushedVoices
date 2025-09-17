@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 
 public class PlayerClueTracker : MonoBehaviour
 {
@@ -7,6 +9,8 @@ public class PlayerClueTracker : MonoBehaviour
 
     [SerializeField] public List<string> cluesList = new List<string>();
     public HashSet<string> clues = new HashSet<string>();
+
+    public static event Action OnClueAdded;
 
     private void Awake()
     {
@@ -27,7 +31,8 @@ public class PlayerClueTracker : MonoBehaviour
     {
         if (clues.Add(clueID))
         {
-            cluesList.Add(clueID); // reflejar en la lista para ver en editor
+            cluesList.Add(clueID);
+            OnClueAdded?.Invoke();
         }
     }
 
@@ -40,12 +45,18 @@ public class PlayerClueTracker : MonoBehaviour
                 cluesList.Add(clueID);
             }
         }
+
+        if (clueIDs.Count > 0)
+        {
+            OnClueAdded?.Invoke();
+        }
     }
     public void AddCluesByList(string clueID)
     {
         if (clues.Add(clueID))
         {
-            cluesList.Add(clueID); // reflejar en la lista para ver en editor
+            cluesList.Add(clueID);
+            OnClueAdded?.Invoke();
         }
     }
 

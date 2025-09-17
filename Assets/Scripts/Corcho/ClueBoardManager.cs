@@ -5,9 +5,10 @@ using UnityEngine.EventSystems;
 public class ClueBoardManager : MonoBehaviour
 {
     [Header("Nodes")]
-    [SerializeField] private List<ClueNode> clueNodes;   // nodos ya puestos en el editor
+    public List<ClueNode> clueNodes;
     [SerializeField] private GameObject clueBoard;
-    
+    [SerializeField] private RectTransform playAreaObject;
+
     [Header("Lines")]
     [SerializeField] private GameObject lineUIPrefab;
     [SerializeField] private float lineYOffset = 10f;
@@ -32,12 +33,15 @@ public class ClueBoardManager : MonoBehaviour
     public Texture2D zoomIn;
     public GameObject culpablesPanel;
 
+
+
     private void Awake()
     {
         Cursor.visible=false;
+
         foreach (var node in clueNodes)
         {
-            node.BindBoard(this, clueBoard.GetComponent<RectTransform>());
+            node.BindBoard(this, playAreaObject);
             node.SetFound(PlayerClueTracker.Instance.HasClue(node.data.clueID));
         }
 

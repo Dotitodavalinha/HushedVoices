@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,8 @@ public class BedPass : MonoBehaviour
     public LightingManager timeManager;
     private bool jugadorCerca;
     private bool puedeDormir;
+
+    public static event Action OnPlayerSlept;
 
     void Start()
     {
@@ -33,18 +36,15 @@ public class BedPass : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 ParanoiaManager.Instance.SetParanoiaValueDirect(0f);
-
-                // pasamos al siguiente día
                 DaysManager.Instance.NextDay();
-
-                //reseteamos el tiempo para la mañana
                 timeManager.TimeOfDay = 6f;
                 timeManager.tiempoPausado = false;
+
+                OnPlayerSlept?.Invoke();
 
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
             }
-
         }
         else
         {

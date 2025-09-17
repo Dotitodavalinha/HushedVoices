@@ -39,6 +39,17 @@ public class DialogueTrigger : MonoBehaviour
                 pressEText.SetActive(false);
             }
         }
+
+        if (playerInRange && Input.GetMouseButton(0))
+        {
+            if (DialogueManager.Instance.IsOpen)
+            {
+                if (DialogueManager.Instance.IsTyping)
+                {
+                    DialogueManager.Instance.FinishTypingCurrentText();
+                }
+            }
+        }
     }
 
 

@@ -20,6 +20,7 @@ public class CleanItem : MonoBehaviour
 
     [SerializeField] private float destroyAfterSeconds = 1f; // configurable desde el editor
 
+
     void Start()
     {
         PressE_UI.SetActive(false);
@@ -122,8 +123,13 @@ public class CleanItem : MonoBehaviour
     private IEnumerator DestroyAfterDelay()
     {
         yield return new WaitForSeconds(destroyAfterSeconds);
-        Destroy(ObjectToDestroy);
 
+        if (CleanManager.Instance != null)
+        {
+            CleanManager.Instance.RegisterCleanedItem();
+        }
+
+        Destroy(ObjectToDestroy);
     }
 
 }

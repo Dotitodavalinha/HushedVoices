@@ -7,23 +7,57 @@ public class ExitUnlocker : MonoBehaviour
     [Header("Collider de salida (puerta, trigger, etc.)")]
     [SerializeField] private GameObject exitCollider;
 
-    private bool corchoUsado = false;
+    public bool boardUsed = false;
+    public bool hasSlept = false;
+    public bool houseCleaned = false;
+    public bool tvSeen = false;
+
 
     private void Start()
     {
+        if (CleanManager.Instance != null)
+        {
+            CleanManager.Instance.OnHouseCleaned += MarcarCasaLimpia;
+        }
+        BedPass.OnPlayerSlept += MarcarComoDormido;
+
+        if (PlayerClueTracker.Instance != null)
+        {
+            PlayerClueTracker.OnClueAdded += CheckAndUnlockExit;
+            Debug.Log(" ExitUnlocker se suscribió al evento de pistas.");
+        }
+        else
+        {
+            Debug.LogError(" No se encontró la instancia de PlayerClueTracker.");
+        }
+
         if (exitCollider != null)
             exitCollider.SetActive(false);
     }
 
-    private void Update()
+    private void CheckAndUnlockExit()
     {
-        if (HasClues() && corchoUsado)
+        if (HasClues() && boardUsed && hasSlept && houseCleaned && tvSeen)
         {
             if (exitCollider != null)
             {
                 exitCollider.SetActive(true);
-                //Debug.Log(" Salida desbloqueada");
             }
+        }
+    }
+
+    private void OnDisable()
+    {
+        BedPass.OnPlayerSlept -= MarcarComoDormido;
+
+        if (CleanManager.Instance != null)
+        {
+            CleanManager.Instance.OnHouseCleaned -= MarcarCasaLimpia;
+        }
+
+        if (PlayerClueTracker.Instance != null)
+        {
+            PlayerClueTracker.OnClueAdded -= CheckAndUnlockExit;
         }
     }
 
@@ -33,9 +67,29 @@ public class ExitUnlocker : MonoBehaviour
                PlayerClueTracker.Instance.HasClue("bensNote");
     }
 
+    private void MarcarComoDormido()
+    {
+        hasSlept = true;
+        //Debug.Log("El jugador ha dormido.");
+        CheckAndUnlockExit();
+    }
+
     public void MarcarCorchoUsado()
     {
-        corchoUsado = true;
-        //Debug.Log("Corcho utilizado");
+        boardUsed = true;
+        //Debug.Log("Corcho utilizado.");
+        CheckAndUnlockExit();
+    }
+    private void MarcarCasaLimpia()
+    {
+        houseCleaned = true;
+        //Debug.Log(" El jugador limpio");
+        CheckAndUnlockExit();
+    }
+    public void MarcarTVLeida()
+    {
+        tvSeen = true;
+        //Debug.Log("Viste la tv");
+        CheckAndUnlockExit();
     }
 }

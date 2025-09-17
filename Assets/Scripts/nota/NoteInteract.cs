@@ -20,6 +20,9 @@ public class NoteInteract : MonoBehaviour
     [SerializeField] public GameObject text;
     [SerializeField] public NOTEInteractionZone zonaInteraccion;
     [SerializeField] private bool IsImportantClue = false;
+
+    [SerializeField] private bool isTV = false;
+
     void Start()
     {
         text.SetActive(false);
@@ -102,8 +105,17 @@ public class NoteInteract : MonoBehaviour
         else
         {
             GameManager.Instance.UnlockUI();
-            if (IsImportantClue)
+            if (isTV)
             {
+                ExitUnlocker exitUnlocker = FindObjectOfType<ExitUnlocker>();
+                if (exitUnlocker != null)
+                {
+                    exitUnlocker.MarcarTVLeida();
+                }
+            }
+            else if (IsImportantClue)
+            {
+
                 if (cluePickup != null)
                 {
                     cluePickup.PickUpClue(); // agrego la nueva IDclue
