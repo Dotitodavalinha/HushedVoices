@@ -10,6 +10,8 @@ public class CleanItem : MonoBehaviour
     private bool NoteIsOpen = false;
 
     private GameObject Player;
+    PlayerMovementLocker playerMovementLocker;
+    Animator playerAnimator;
 
     [SerializeField] public GameObject PressE_UI;
     [SerializeField] public NOTEInteractionZone zonaInteraccion;
@@ -31,6 +33,10 @@ public class CleanItem : MonoBehaviour
         }
 
         Player = GameObject.FindWithTag("Player");
+
+        playerMovementLocker = Player.GetComponent<PlayerMovementLocker>();
+        playerAnimator = Player.GetComponentInChildren<Animator>();
+
     }
 
     void Update()
@@ -112,6 +118,10 @@ public class CleanItem : MonoBehaviour
                 }
             }
 
+            if (playerMovementLocker != null) playerMovementLocker.LockMovement();
+            if (playerAnimator != null) playerAnimator.SetBool("IsInteracting", true);
+
+
             StartCoroutine(DestroyAfterDelay());
         }
         else
@@ -128,6 +138,10 @@ public class CleanItem : MonoBehaviour
         {
             CleanManager.Instance.RegisterCleanedItem();
         }
+
+        if (playerMovementLocker != null) playerMovementLocker.UnlockMovement();
+        if (playerAnimator != null) playerAnimator.SetBool("IsInteracting", false);
+
 
         Destroy(ObjectToDestroy);
     }
