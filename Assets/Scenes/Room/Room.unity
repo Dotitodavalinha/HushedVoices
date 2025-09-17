@@ -1079,6 +1079,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exitCollider: {fileID: 1277641233}
+  boardUsed: 0
+  hasSlept: 0
+  houseCleaned: 0
+  tvSeen: 0
 --- !u!4 &92443578
 Transform:
   m_ObjectHideFlags: 0
@@ -6215,6 +6219,7 @@ MonoBehaviour:
   text: {fileID: 460308050}
   zonaInteraccion: {fileID: 411903429}
   IsImportantClue: 1
+  isTV: 0
 --- !u!65 &411903428
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21330,6 +21335,7 @@ MonoBehaviour:
   - {fileID: 790234796}
   - {fileID: 978943200}
   clueBoard: {fileID: 1701039771}
+  playAreaObject: {fileID: 0}
   lineUIPrefab: {fileID: 3165587751219877297, guid: 7731deb976a6283489f77a324ad0dfb8, type: 3}
   lineYOffset: 10
   lineThickness: 8
@@ -27985,6 +27991,7 @@ MonoBehaviour:
   text: {fileID: 283093012}
   zonaInteraccion: {fileID: 1785421240}
   IsImportantClue: 0
+  isTV: 0
 --- !u!65 &1785421239
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33364,6 +33371,7 @@ MonoBehaviour:
   text: {fileID: 908362107}
   zonaInteraccion: {fileID: 7615844447992488691}
   IsImportantClue: 1
+  isTV: 0
 --- !u!1 &4807597018253496175
 GameObject:
   m_ObjectHideFlags: 0

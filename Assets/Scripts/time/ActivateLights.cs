@@ -21,7 +21,7 @@ public class ActivateLights : MonoBehaviour
     }
     private void Update()
     {
-        if(lightingManager.TimeOfDay > 21|| lightingManager.TimeOfDay < 5)
+        if(lightingManager.TimeOfDay > 20|| lightingManager.TimeOfDay < 5)
         {
             dayLights.SetActive(false);
             nightLights.SetActive(true);

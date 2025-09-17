@@ -77,7 +77,8 @@ public class NightManager : MonoBehaviour
         {
             SoundManager.instance.ChangeVolumeOneMusic(MusicID.StaticSound, 1f);
             // Usa el nuevo método directo para establecer a 1
-            ParanoiaManager.SetParanoiaValueDirect(1f);
+            ParanoiaUp();
+            //ParanoiaManager.SetParanoiaValueDirect(1f);
             IsNight = true;
         }
         if (!hasInstantiatedAlert)
@@ -87,6 +88,14 @@ public class NightManager : MonoBehaviour
             hasInstantiatedAlert = true;
         }
 
+    }
+    void ParanoiaUp ()
+    {
+        //save me
+        for(float i=ParanoiaManager.paranoiaLevel; i <1f; i++)
+        {
+            ParanoiaManager.SetParanoiaValueDirect(Mathf.Lerp(i, 1f, i));
+        }
     }
 
     private void AlmostNight()
