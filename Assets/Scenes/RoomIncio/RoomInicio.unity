@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.6785024, g: 0.37388924, b: 0.22559166, a: 1}
+  m_FogColor: {r: 0.0999911, g: 0.10391572, b: 0.1981132, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 1, g: 0.9727904, b: 0.90055543, a: 1}
+  m_AmbientSkyColor: {r: 0.20392159, g: 0.20784315, b: 0.34901962, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.8851718, g: 0.59258586, b: 0.4028502, a: 1}
+  m_IndirectSpecularColor: {r: 0.14110559, g: 0.16873321, b: 0.3252221, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7237,7 +7237,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &411903427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7351,7 +7351,7 @@ Transform:
   m_GameObject: {fileID: 411903426}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.69160277, z: -0, w: 0.7222781}
-  m_LocalPosition: {x: -22.547157, y: 0.6, z: 5.4632463}
+  m_LocalPosition: {x: -24.697, y: -0.024, z: 7.03}
   m_LocalScale: {x: 2.4429097, y: 2.4429092, z: 2.4429097}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7590,8 +7590,11 @@ MonoBehaviour:
   PressE_UI: {fileID: 222835678}
   zonaInteraccion: {fileID: 1869395346}
   ObjectToDestroy: {fileID: 418983709}
+  NoteBen: {fileID: 6601311788206978049}
+  BensReport: {fileID: 411903426}
   NoteImage: {fileID: 0}
   destroyAfterSeconds: 0.5
+  reward: 1
 --- !u!1 &420175288
 GameObject:
   m_ObjectHideFlags: 0
@@ -9039,13 +9042,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 460308050}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.8934224, z: -0, w: -0.4492176}
-  m_LocalPosition: {x: -0.149, y: 0.163, z: 0.003}
+  m_LocalRotation: {x: -0, y: 0.9612981, z: -0, w: 0.27551058}
+  m_LocalPosition: {x: 0.191, y: 0.163, z: -0.201}
   m_LocalScale: {x: 0.29651347, y: 0.29651353, z: 0.29651347}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 411903432}
-  m_LocalEulerAnglesHint: {x: 0, y: 233.387, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 148.015, z: 0}
 --- !u!212 &460308052
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -16770,8 +16773,11 @@ MonoBehaviour:
   PressE_UI: {fileID: 395732910}
   zonaInteraccion: {fileID: 829552957}
   ObjectToDestroy: {fileID: 856228411}
+  NoteBen: {fileID: 6601311788206978049}
+  BensReport: {fileID: 411903426}
   NoteImage: {fileID: 0}
   destroyAfterSeconds: 0.5
+  reward: 0
 --- !u!1001 &865075830
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17443,13 +17449,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 908362107}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.30418178, y: 0.6383364, z: -0.6383364, w: -0.30418178}
-  m_LocalPosition: {x: -0.171, y: 0.091, z: 0.031}
+  m_LocalRotation: {x: 0.13652782, y: 0.98138463, z: -0.13378347, w: -0.018611759}
+  m_LocalPosition: {x: 0.039, y: 0.127, z: -0.209}
   m_LocalScale: {x: 0.25535184, y: 0.2553518, z: 0.2553518}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1800999712238647786}
-  m_LocalEulerAnglesHint: {x: 140.95801, y: 90, z: -90}
+  m_LocalEulerAnglesHint: {x: 165.078, y: 4.3359985, z: -163.592}
 --- !u!212 &908362109
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -25153,8 +25159,11 @@ MonoBehaviour:
   PressE_UI: {fileID: 1322261432}
   zonaInteraccion: {fileID: 1234861341}
   ObjectToDestroy: {fileID: 1198256328}
+  NoteBen: {fileID: 0}
+  BensReport: {fileID: 0}
   NoteImage: {fileID: 55398192}
   destroyAfterSeconds: 0.5
+  reward: 0
 --- !u!1 &1235088216
 GameObject:
   m_ObjectHideFlags: 0
@@ -29591,7 +29600,7 @@ MonoBehaviour:
   maxSunIntensity: 0.4
   DirectionalLight: {fileID: 1724289880}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 11.391771
+  TimeOfDay: 0.2
   DaySpeed: 20
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -33651,8 +33660,11 @@ MonoBehaviour:
   PressE_UI: {fileID: 599447164}
   zonaInteraccion: {fileID: 1112550904}
   ObjectToDestroy: {fileID: 1615231099}
+  NoteBen: {fileID: 6601311788206978049}
+  BensReport: {fileID: 411903426}
   NoteImage: {fileID: 0}
   destroyAfterSeconds: 0.5
+  reward: 2
 --- !u!1 &1617760074
 GameObject:
   m_ObjectHideFlags: 0
@@ -35240,7 +35252,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1724289877}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.06633471, y: -0.64616054, z: 0.75820875, w: -0.05653176}
+  m_LocalRotation: {x: -0.06322058, y: 0.6857352, z: 0.7226141, w: 0.059994098}
   m_LocalPosition: {x: -6.174999, y: 3.2090003, z: -3.6359997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -35281,7 +35293,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.9846814, b: 0.9200525, a: 1}
+  m_Color: {r: 0.24547465, g: 0.24344826, b: 0.23489892, a: 1}
   m_Intensity: 0.4
   m_Range: 10
   m_SpotAngle: 30
@@ -43108,8 +43120,11 @@ MonoBehaviour:
   PressE_UI: {fileID: 1967485742}
   zonaInteraccion: {fileID: 1442775961}
   ObjectToDestroy: {fileID: 2132351827}
+  NoteBen: {fileID: 6601311788206978049}
+  BensReport: {fileID: 411903426}
   NoteImage: {fileID: 0}
   destroyAfterSeconds: 0.5
+  reward: 0
 --- !u!1 &2135783208
 GameObject:
   m_ObjectHideFlags: 0
@@ -43747,8 +43762,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6601311788206978049}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: -33.737, y: 1.6620001, z: 9.72}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: -32.051, y: 0.012, z: 4.118}
   m_LocalScale: {x: 2.4429097, y: 2.4429092, z: 2.4429097}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -43756,7 +43771,7 @@ Transform:
   - {fileID: 206675039}
   - {fileID: 1643696861}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 90, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
 --- !u!4 &2029525369714133785
 Transform:
   m_ObjectHideFlags: 0
@@ -44740,7 +44755,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1001 &6761814593595984658
 PrefabInstance:
   m_ObjectHideFlags: 0

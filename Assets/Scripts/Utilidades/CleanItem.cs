@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,11 +16,19 @@ public class CleanItem : MonoBehaviour
     [SerializeField] public GameObject PressE_UI;
     [SerializeField] public NOTEInteractionZone zonaInteraccion;
     [SerializeField] public GameObject ObjectToDestroy;
-
+    public GameObject NoteBen;
+    public GameObject BensReport;
     public GameObject NoteImage;
 
+    [SerializeField] private float destroyAfterSeconds = 1f;
+    public enum CleanReward
+    {
+        None,
+        NoteBen,
+        BensReport
+    }
 
-    [SerializeField] private float destroyAfterSeconds = 1f; // configurable desde el editor
+    [SerializeField] private CleanReward reward = CleanReward.None;
 
 
     void Start()
@@ -29,62 +37,47 @@ public class CleanItem : MonoBehaviour
         if (NoteImage != null)
         {
             NoteImage.SetActive(false);
-
         }
 
         Player = GameObject.FindWithTag("Player");
 
         playerMovementLocker = Player.GetComponent<PlayerMovementLocker>();
         playerAnimator = Player.GetComponentInChildren<Animator>();
-
     }
 
     void Update()
     {
-        float distancia = Vector3.Distance(Player.transform.position, transform.position);
-
         if (zonaInteraccion.jugadorDentro)
         {
-
             InRange = true;
             if (Input.GetKeyDown(KeyCode.E))
             {
                 ShowNote();
             }
         }
-        else if (!zonaInteraccion.jugadorDentro)
+        else
         {
-
             InRange = false;
         }
+
         if (InRange && NoteIsOpen == false)
         {
             PressE_UI.SetActive(true);
-
         }
-        if (!InRange)
+        else if (!InRange)
         {
             PressE_UI.SetActive(false);
         }
 
         if (NoteIsOpen)
         {
-            if (NoteImage != null)
-            {
-                NoteImage.SetActive(true);
-            }
-
+            if (NoteImage != null) NoteImage.SetActive(true);
             PressE_UI.SetActive(false);
         }
-        if (!NoteIsOpen)
+        else
         {
-            if (NoteImage != null)
-            {
-                NoteImage.SetActive(false);
-            }
+            if (NoteImage != null) NoteImage.SetActive(false);
         }
-
-
     }
 
     void ShowNote()
@@ -106,7 +99,6 @@ public class CleanItem : MonoBehaviour
                 singleOutliner.gameObject.SetActive(false);
         }
 
-
         if (NoteIsOpen)
         {
             if (NoteImage != null)
@@ -121,15 +113,14 @@ public class CleanItem : MonoBehaviour
             if (playerMovementLocker != null) playerMovementLocker.LockMovement();
             if (playerAnimator != null) playerAnimator.SetBool("IsInteracting", true);
 
-
             StartCoroutine(DestroyAfterDelay());
         }
         else
         {
             GameManager.Instance.UnlockUI();
         }
-
     }
+
     private IEnumerator DestroyAfterDelay()
     {
         yield return new WaitForSeconds(destroyAfterSeconds);
@@ -139,11 +130,24 @@ public class CleanItem : MonoBehaviour
             CleanManager.Instance.RegisterCleanedItem();
         }
 
+        switch (reward)
+        {
+            case CleanReward.NoteBen:
+                if (NoteBen != null) NoteBen.SetActive(true);
+                break;
+
+            case CleanReward.BensReport:
+                if (BensReport != null) BensReport.SetActive(true);
+                break;
+
+            case CleanReward.None:
+            default:
+                break;
+        }
+
         if (playerMovementLocker != null) playerMovementLocker.UnlockMovement();
         if (playerAnimator != null) playerAnimator.SetBool("IsInteracting", false);
 
-
         Destroy(ObjectToDestroy);
     }
-
 }
