@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class BedPass : MonoBehaviour
 {
     public GameObject dormirUI;
+    public GameObject Outline;
     public string escenaFinalDelDia = "FinalScene";
     public float horaDormir = 22f;
 
@@ -49,6 +50,15 @@ public class BedPass : MonoBehaviour
         else
         {
             dormirUI.SetActive(false);
+        }
+        if (puedeDormir)
+        {
+            Outline.SetActive(true);
+        }
+        else
+        {
+            Outline.SetActive(false);
+
         }
     }
 

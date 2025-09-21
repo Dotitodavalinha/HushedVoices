@@ -6,6 +6,18 @@ public class CluePickup : MonoBehaviour
     [SerializeField] private bool destroyOnPickup;
     [SerializeField] private bool ShowAlertOnPickup;
 
+    private void Start()
+    {
+        if (destroyOnPickup)
+        {
+            if (PlayerClueTracker.Instance != null && PlayerClueTracker.Instance.HasClue(clueID))
+            {
+                Destroy(gameObject); // o gameObject.SetActive(false) 
+            }
+        }
+
+    }
+
     public void PickUpClue()
     {
         if (!PlayerClueTracker.Instance.HasClue(clueID))
