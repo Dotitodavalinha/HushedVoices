@@ -149,7 +149,6 @@ public class ClueBoardManager : MonoBehaviour
 
     private void DrawLine(ClueNode from, ClueNode to)
     {
-        // Evito duplicados
         if (string.CompareOrdinal(from.data.clueID, to.data.clueID) > 0) return;
 
         GameObject line = Instantiate(lineUIPrefab, clueBoard.transform);
@@ -158,7 +157,6 @@ public class ClueBoardManager : MonoBehaviour
         Vector2 start = from.RectTransform.anchoredPosition;
         Vector2 end = to.RectTransform.anchoredPosition;
 
-        // mover al pin de arriba de cada nodo
         float fromHeight = from.RectTransform.rect.height;
         float toHeight = to.RectTransform.rect.height;
 
@@ -168,6 +166,9 @@ public class ClueBoardManager : MonoBehaviour
         ApplyLineGeometry(rect, start, end);
         rect.SetAsFirstSibling();
         lines.Add(line);
+
+        var clueLine = line.AddComponent<ClueLine>();
+        clueLine.Setup(this, from.data.clueID, to.data.clueID);
     }
 
 

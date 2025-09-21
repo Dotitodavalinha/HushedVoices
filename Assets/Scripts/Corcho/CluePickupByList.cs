@@ -29,4 +29,23 @@ public class CluePickupByList : MonoBehaviour
         if (destroyOnPickup)
             Destroy(gameObject);
     }
+    void Start()
+    {
+        bool alreadyPicked = true;
+
+        foreach (var clueID in clueIDs)
+        {
+            if (!PlayerClueTracker.Instance.HasClue(clueID))
+            {
+                alreadyPicked = false;
+                break;
+            }
+        }
+
+        if (alreadyPicked)
+        {
+            Destroy(gameObject);
+        }
+    }
+
 }

@@ -206,6 +206,11 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         return new Rect(x, y, size.x, size.y);
     }
+    public void MoveToCorcho(RectTransform newParent)
+    {
+        transform.SetParent(newParent, true);
+        BindBoard(newParent.GetComponentInParent<ClueBoardManager>(), newParent);
+    }
 
     public void OnPointerClick(PointerEventData eventData) { /* vacio, todo se maneja en Up y Drag */ }
 }
