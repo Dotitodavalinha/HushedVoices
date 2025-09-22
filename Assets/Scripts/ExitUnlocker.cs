@@ -7,6 +7,8 @@ public class ExitUnlocker : MonoBehaviour
     [Header("Collider de salida (puerta, trigger, etc.)")]
     [SerializeField] private GameObject exitCollider;
 
+    [SerializeField] private GameObject OulinePuerta;
+
     public bool boardUsed = false;
     public bool hasSlept = false;
     public bool houseCleaned = false;
@@ -33,6 +35,9 @@ public class ExitUnlocker : MonoBehaviour
 
         if (exitCollider != null)
             exitCollider.SetActive(false);
+
+        if (OulinePuerta != null)
+            OulinePuerta.SetActive(false);
     }
 
     private void CheckAndUnlockExit()
@@ -42,6 +47,10 @@ public class ExitUnlocker : MonoBehaviour
             if (exitCollider != null)
             {
                 exitCollider.SetActive(true);
+            }
+            if (OulinePuerta != null)
+            {
+                OulinePuerta.SetActive(true);
             }
         }
     }

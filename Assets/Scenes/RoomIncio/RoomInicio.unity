@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.09803921, g: 0.10196081, b: 0.20000002, a: 1}
+  m_FogColor: {r: 0.5824486, g: 0.32906386, b: 0.22102925, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.2025187, g: 0.20757172, b: 0.3490566, a: 1}
+  m_AmbientSkyColor: {r: 1, g: 0.9185848, b: 0.7024466, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.14090109, g: 0.16818628, b: 0.32461888, a: 1}
+  m_IndirectSpecularColor: {r: 0.88508654, g: 0.5924196, b: 0.403098, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1469,6 +1469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exitCollider: {fileID: 1277641233}
+  OulinePuerta: {fileID: 2055646274}
   boardUsed: 0
   hasSlept: 0
   houseCleaned: 0
@@ -7351,7 +7352,7 @@ Transform:
   m_GameObject: {fileID: 411903426}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.69160277, z: -0, w: 0.7222781}
-  m_LocalPosition: {x: -24.697, y: -0.024, z: 7.03}
+  m_LocalPosition: {x: -24.759, y: -0.024, z: 5.611}
   m_LocalScale: {x: 2.4429097, y: 2.4429092, z: 2.4429097}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7373,7 +7374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clueID: list
-  destroyOnPickup: 0
+  destroyOnPickup: 1
   ShowAlertOnPickup: 0
 --- !u!1001 &415484860
 PrefabInstance:
@@ -17450,7 +17451,7 @@ Transform:
   m_GameObject: {fileID: 908362107}
   serializedVersion: 2
   m_LocalRotation: {x: 0.13652782, y: 0.98138463, z: -0.13378347, w: -0.018611759}
-  m_LocalPosition: {x: 0.039, y: 0.127, z: -0.209}
+  m_LocalPosition: {x: -0.138, y: 0.128, z: -0.017}
   m_LocalScale: {x: 0.25535184, y: 0.2553518, z: 0.2553518}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -29606,7 +29607,7 @@ MonoBehaviour:
   maxSunIntensity: 0.4
   DirectionalLight: {fileID: 1724289880}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 22
+  TimeOfDay: 9.898843
   DaySpeed: 20
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -35258,7 +35259,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1724289877}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.043577906, y: -0.8627299, z: -0.4980974, w: -0.07547914}
+  m_LocalRotation: {x: -0.076049544, y: -0.48663023, z: 0.86924964, w: -0.042574655}
   m_LocalPosition: {x: -6.174999, y: 3.2090003, z: -3.6359997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -35299,8 +35300,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.37294975, g: 0.37422884, b: 0.36609012, a: 1}
-  m_Intensity: 0.1
+  m_Color: {r: 1, g: 0.9541645, b: 0.7607848, a: 1}
+  m_Intensity: 0.4
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -44460,8 +44461,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.27390456, y: 0.2525316, z: 0.33237216}
-  m_Center: {x: -0.025165161, y: 0.1286437, z: 0.09618571}
+  m_Size: {x: 0.27390456, y: 0.10376601, z: 0.4067642}
+  m_Center: {x: -0.025165167, y: 0.054260887, z: 0.0022050873}
 --- !u!4 &5220279180461583903
 Transform:
   m_ObjectHideFlags: 0
@@ -44975,7 +44976,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clueID: bensNote
-  destroyOnPickup: 0
+  destroyOnPickup: 1
   ShowAlertOnPickup: 0
 --- !u!4 &7691034241162866680
 Transform:
