@@ -10,6 +10,7 @@ public class CleanItem : MonoBehaviour
     private bool NoteIsOpen = false;
 
     private GameObject Player;
+    private Transform feetPoint;
     PlayerMovementLocker playerMovementLocker;
     Animator playerAnimator;
 
@@ -19,6 +20,9 @@ public class CleanItem : MonoBehaviour
     public GameObject NoteBen;
     public GameObject BensReport;
     public GameObject NoteImage;
+
+    [SerializeField] private GameObject particlePrefab;
+
 
     [SerializeField] private float destroyAfterSeconds = 1f;
     public enum CleanReward
@@ -40,6 +44,13 @@ public class CleanItem : MonoBehaviour
         }
 
         Player = GameObject.FindWithTag("Player");
+
+        feetPoint = Player.transform.Find("FeetPoint");
+
+        if (feetPoint == null)
+        {
+            Debug.LogWarning("No FeetPoint");
+        }
 
         playerMovementLocker = Player.GetComponent<PlayerMovementLocker>();
         playerAnimator = Player.GetComponentInChildren<Animator>();
@@ -113,7 +124,14 @@ public class CleanItem : MonoBehaviour
             if (playerMovementLocker != null) playerMovementLocker.LockMovement();
             if (playerAnimator != null) playerAnimator.SetBool("IsInteracting", true);
 
-            StartCoroutine(DestroyAfterDelay());
+            if (particlePrefab != null)
+            {
+                GameObject particles = Instantiate(particlePrefab, feetPoint.transform.position, Quaternion.identity);
+                Destroy(particles, 1f);
+            }
+
+
+                StartCoroutine(DestroyAfterDelay());
         }
         else
         {
