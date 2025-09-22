@@ -11,11 +11,17 @@ public class BedPass : MonoBehaviour
     public string escenaFinalDelDia = "FinalScene";
     public float horaDormir = 22f;
 
+    [SerializeField] private float fadeDuration = 1f;
+
+
     public LightingManager timeManager;
     private bool jugadorCerca;
     private bool puedeDormir;
 
     public static event Action OnPlayerSlept;
+
+    [SerializeField] private Fade fadeScript;
+
 
     void Start()
     {
@@ -36,15 +42,7 @@ public class BedPass : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                ParanoiaManager.Instance.SetParanoiaValueDirect(0f);
-                DaysManager.Instance.NextDay();
-                timeManager.TimeOfDay = 6f;
-                timeManager.tiempoPausado = false;
-
-                OnPlayerSlept?.Invoke();
-
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
+                StartCoroutine(SleepSequence());
             }
         }
         else
@@ -76,5 +74,23 @@ public class BedPass : MonoBehaviour
         {
             jugadorCerca = false;
         }
+    }
+
+    private IEnumerator SleepSequence()
+    {
+        fadeScript.FadeIn();
+        yield return new WaitForSeconds(fadeDuration);
+
+        ParanoiaManager.Instance.SetParanoiaValueDirect(0f);
+        DaysManager.Instance.NextDay();
+        timeManager.TimeOfDay = 6f;
+        timeManager.tiempoPausado = false;
+
+        OnPlayerSlept?.Invoke();
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        fadeScript.FadeOut();
     }
 }
