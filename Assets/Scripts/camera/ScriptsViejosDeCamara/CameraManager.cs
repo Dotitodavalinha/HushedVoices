@@ -12,55 +12,54 @@ public class CameraManager : MonoBehaviour
 
     private bool isInitialized = false;
 
+    // === NUEVO ===
+    private List<CameraTriggerZoneOld> activeZones = new List<CameraTriggerZoneOld>();
+    private Transform player;
+
     private void Awake()
-    { 
+    {
         initialCamera = initialCameraBehaviour as ICameraController;
-        
-        SwitchToCamera(initialCamera); // otra vez pq esta medio bug
 
-        //apagamos todas las camaras
-        foreach (var cam in FindObjectsOfType<Camera>())
-        {
-            //if (cam != (initialCameraBehaviour as MonoBehaviour).GetComponent<Camera>())
-               // cam.gameObject.SetActive(false);
-        }
-
+        // todavía no se hace Switch real, se hace en InitCamera
+        player = GameObject.FindGameObjectWithTag("Player")?.transform;
     }
 
     private void Start()
-    {      
+    {
         StartCoroutine(InitCamera());
-       
     }
 
     private IEnumerator InitCamera()
     {
-        yield return null; // espera un frame 
+        yield return null; // espera un frame
 
         if (initialCamera != null)
-        {
-            //Debug.Log($"Initial camera: {initialCamera}, Behaviour: {initialCameraBehaviour}");
-            
             SwitchToCamera(initialCamera);
-            //Debug.LogWarning("Cámara inicial es " + initialCamera);
-        }
         else
-        {
             Debug.LogWarning("Cámara inicial no válida.");
-        }
-        
+
         isInitialized = true;
     }
 
-    public void SwitchToCamera(ICameraController newCamera)
+    public void SwitchToCamera(ICameraController newCamera, GameObject newLights = null)
     {
         if (!isInitialized) return;
 
         if (currentCamera != null)
             currentCamera.Deactivate();
 
+        // Apagar TODAS las luces antes de prender la nueva
+        foreach (var zone in FindObjectsOfType<CameraTriggerZoneOld>())
+        {
+            if (zone.roomLights != null)
+                zone.roomLights.SetActive(false);
+        }
+
         currentCamera = newCamera;
         currentCamera.Activate();
+
+        if (newLights != null)
+            newLights.SetActive(true);
     }
 
     public bool IsInitialized() => isInitialized;
@@ -71,6 +70,41 @@ public class CameraManager : MonoBehaviour
         return currentCamera as MonoBehaviour;
     }
 
+    // === NUEVO ===
+    public void RegisterZone(CameraTriggerZoneOld zone)
+    {
+        if (!isInitialized) return;
+        if (!activeZones.Contains(zone))
+            activeZones.Add(zone);
+        UpdateBestZone();
+    }
+
+    public void UnregisterZone(CameraTriggerZoneOld zone)
+    {
+        if (!isInitialized) return;
+        if (activeZones.Contains(zone))
+            activeZones.Remove(zone);
+        UpdateBestZone();
+    }
+
+    private void UpdateBestZone()
+    {
+        if (activeZones.Count == 0 || player == null) return;
+
+        CameraTriggerZoneOld bestZone = null;
+        float bestDist = float.MaxValue;
+
+        foreach (var zone in activeZones)
+        {
+            float dist = Vector3.Distance(player.position, zone.GetCenter());
+            if (dist < bestDist)
+            {
+                bestDist = dist;
+                bestZone = zone;
+            }
+        }
+
+        if (bestZone != null)
+            SwitchToCamera(bestZone.roomCamera, bestZone.roomLights);
+    }
 }
-
-

@@ -6,12 +6,16 @@ using UnityEngine.SceneManagement;
 
 public class BedPass : MonoBehaviour
 {
-    public GameObject dormirUI;
+    public GameObject PressE_UI;
     public GameObject Outline;
     public string escenaFinalDelDia = "FinalScene";
     public float horaDormir = 22f;
 
     [SerializeField] private float fadeDuration = 1f;
+
+    [SerializeField] private GameObject CantSleepYetUI; 
+    private bool infoOpen = false;
+    [SerializeField] private GameObject cleaningObject; // referencia al objeto que debe limpiarse antes de usar la cama
 
 
     public LightingManager timeManager;
@@ -25,12 +29,20 @@ public class BedPass : MonoBehaviour
 
     void Start()
     {
-        dormirUI.SetActive(false);
+        PressE_UI.SetActive(false);
         timeManager = GameObject.Find("TimeManager")?.GetComponent<LightingManager>();
     }
 
     void Update()
     {
+        //si el objeto de limpieza aun existe, no permitir interaccion con la cama
+        if (cleaningObject != null)
+        {
+            PressE_UI.SetActive(false);
+            Outline.SetActive(false);
+            return;
+        }
+
         if (timeManager != null)
         {
             puedeDormir = timeManager.TimeOfDay >= horaDormir || timeManager.TimeOfDay < 4;
@@ -38,7 +50,7 @@ public class BedPass : MonoBehaviour
 
         if (jugadorCerca && puedeDormir)
         {
-            dormirUI.SetActive(true);
+            PressE_UI.SetActive(true);
 
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -47,7 +59,7 @@ public class BedPass : MonoBehaviour
         }
         else
         {
-            dormirUI.SetActive(false);
+            PressE_UI.SetActive(false);
         }
         if (puedeDormir)
         {
@@ -57,6 +69,28 @@ public class BedPass : MonoBehaviour
         {
             Outline.SetActive(false);
 
+        }
+        //si queres dormir de dia
+        if (jugadorCerca && !puedeDormir)
+        {
+            PressE_UI.SetActive(true);
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if (!infoOpen)
+                {
+                    if (!GameManager.Instance.TryLockUI()) return;
+
+                    CantSleepYetUI.SetActive(true);
+                    infoOpen = true;
+                }
+                else
+                {
+                    GameManager.Instance.UnlockUI();
+                    CantSleepYetUI.SetActive(false);
+                    infoOpen = false;
+                }
+            }
         }
     }
 
