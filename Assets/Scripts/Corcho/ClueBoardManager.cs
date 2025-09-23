@@ -89,12 +89,34 @@ public class ClueBoardManager : MonoBehaviour
     {
         foreach (var node in clueNodes)
         {
-            bool found = PlayerClueTracker.Instance.HasClue(node.data.clueID);
-            node.SetFound(found);
+            if (PlayerPrefs.HasKey(node.data.clueID + "_parent"))
+            {
+                string parentName = PlayerPrefs.GetString(node.data.clueID + "_parent");
+                Transform parent = GameObject.Find(parentName)?.transform;
+                if (parent != null)
+                    node.MoveToCorcho(parent as RectTransform);
+            }
+
+            if (PlayerPrefs.HasKey(node.data.clueID + "_x"))
+            {
+                float x = PlayerPrefs.GetFloat(node.data.clueID + "_x");
+                float y = PlayerPrefs.GetFloat(node.data.clueID + "_y");
+                node.RectTransform.anchoredPosition = new Vector2(x, y);
+            }
+
+            string key = "dyn_" + node.data.clueID;
+            if (PlayerPrefs.HasKey(key))
+            {
+                string val = PlayerPrefs.GetString(key);
+                node.data.connectedClues = new List<string>(val.Split(',', System.StringSplitOptions.RemoveEmptyEntries));
+            }
+
+            node.SetFound(PlayerClueTracker.Instance.HasClue(node.data.clueID));
         }
 
         RecalculateLines();
     }
+
 
     public void AddConnection(string fromID, string toID)
     {
@@ -111,6 +133,7 @@ public class ClueBoardManager : MonoBehaviour
             dynamicConnections[toID].Add(fromID);
 
         RecalculateLines();
+        SaveDynamicConnections();
     }
 
     public void RemoveConnection(string fromID, string toID)
@@ -121,7 +144,19 @@ public class ClueBoardManager : MonoBehaviour
         if (dynamicConnections.ContainsKey(toID) && dynamicConnections[toID].Remove(fromID)) changed = true;
 
         if (changed) RecalculateLines();
+        SaveDynamicConnections();
     }
+    private void SaveDynamicConnections()
+    {
+        foreach (var kvp in dynamicConnections)
+        {
+            string key = "dyn_" + kvp.Key;
+            string val = string.Join(",", kvp.Value);
+            PlayerPrefs.SetString(key, val);
+        }
+        PlayerPrefs.Save();
+    }
+
 
     public void RecalculateLines()
     {

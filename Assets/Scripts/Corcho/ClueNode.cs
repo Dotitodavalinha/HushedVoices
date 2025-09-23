@@ -185,15 +185,29 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             else
             {
                 data.boardPosition = RectTransform.anchoredPosition;
-                PlayerPrefs.SetFloat(data.clueID + "_x", RectTransform.anchoredPosition.x);
-                PlayerPrefs.SetFloat(data.clueID + "_y", RectTransform.anchoredPosition.y);
-                PlayerPrefs.Save();
+                SaveState();
             }
 
             board?.RecalculateLines();
             board?.ChangeCursor(board.hover);
         }
     }
+
+    public void SaveState()
+    {
+        Vector2 localPos = RectTransform.anchoredPosition;
+        PlayerPrefs.SetFloat(data.clueID + "_x", localPos.x);
+        PlayerPrefs.SetFloat(data.clueID + "_y", localPos.y);
+
+        string parentName = transform.parent.name;
+        PlayerPrefs.SetString(data.clueID + "_parent", parentName);
+
+        string connections = string.Join(",", data.connectedClues);
+        PlayerPrefs.SetString(data.clueID + "_connections", connections);
+
+        PlayerPrefs.Save();
+    }
+
 
     private Rect GetRectFromRectTransform()
     {
