@@ -21,16 +21,16 @@ public class ColliderSucio : MonoBehaviour
     {
         if (other.CompareTag("Player")) // solo el player lo activa
         {
-            //if (!GameManager.Instance.TryLockUI())
-             //   return;
-            //if (playerMovementLocker != null) playerMovementLocker.LockMovement();
+            if (!GameManager.Instance.TryLockUI())
+                return;
+            if (playerMovementLocker != null) playerMovementLocker.LockMovement();
             Dialogo.SetActive(true);
 
             if (Input.GetKeyDown(KeyCode.E))
             {
                 Dialogo.SetActive(false);
 
-                //GameManager.Instance.UnlockUI();
+                GameManager.Instance.UnlockUI();
                 Destroy(this);
 
             }
