@@ -6,6 +6,7 @@ public class CorchoInteract : MonoBehaviour
 {
     [SerializeField] public NOTEInteractionZone zonaInteraccion;
     [SerializeField] private ClueBoardManager corchoManager;
+    [SerializeField] private FolioAnimation folio;
 
 
     [SerializeField] public GameObject PressE;
@@ -39,7 +40,7 @@ public class CorchoInteract : MonoBehaviour
                     Cursor.visible = true;
                     Cursor.lockState = CursorLockMode.None;
                     corchoManager.OpenBoard();
-
+                    folio.OnUIReopened();
                     // Avisamos que el corcho fue usado
                     FindObjectOfType<ExitUnlocker>()?.MarcarCorchoUsado();
                 }
