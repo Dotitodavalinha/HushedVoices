@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,13 +15,20 @@ public class CorchoInteract : MonoBehaviour
     private void Start()
     {
         PressE.SetActive(false);
-    }
 
+    }
+    public void SetUIState(bool active)
+    {
+        UI_Activa = active;
+    }
     private void Update()
     {
+
         if (zonaInteraccion.jugadorDentro)
         {
             if (!UI_Activa) PressE.SetActive(true);
+            if (GameManager.Instance.BlockEInput)
+                return;
 
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -31,20 +38,17 @@ public class CorchoInteract : MonoBehaviour
                 {
                     if (!GameManager.Instance.TryLockUI())
                     {
-                        UI_Activa = false; // cancela apertura
+                        UI_Activa = false;
                         return;
                     }
                     PressE.SetActive(false);
 
-                    //mostramos cursor y abrimos corcho
                     Cursor.visible = true;
                     Cursor.lockState = CursorLockMode.None;
                     corchoManager.OpenBoard();
                     folio.OnUIReopened();
-                    // Avisamos que el corcho fue usado
                     FindObjectOfType<ExitUnlocker>()?.MarcarCorchoUsado();
                 }
-
                 else
                 {
                     GameManager.Instance.UnlockUI();
@@ -61,5 +65,10 @@ public class CorchoInteract : MonoBehaviour
         }
     }
 
+
+    public void ForceUIState(bool active)
+    {
+        UI_Activa = active;
+    }
 
 }

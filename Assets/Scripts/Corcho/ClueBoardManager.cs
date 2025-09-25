@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 
@@ -230,7 +230,7 @@ public class ClueBoardManager : MonoBehaviour
         Vector2 localPoint;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(clueBoard.GetComponent<RectTransform>(), screenPos, uiCam, out localPoint);
 
-        // La l�nea empieza desde la parte superior central del nodo
+        // La línea empieza desde la parte superior central del nodo
         Vector2 start = fromNode.RectTransform.anchoredPosition;
         Vector2 end = localPoint;
 
@@ -263,13 +263,18 @@ public class ClueBoardManager : MonoBehaviour
     {
         culpablesPanel.SetActive(true);
         clueBoard.SetActive(false);
+        GameManager.Instance.TryLockUI();
+        GameManager.Instance.SetBlockEInput(true);
+        FindObjectOfType<CorchoInteract>()?.SetUIState(true);
     }
 
     public void CloseCulpables()
     {
         culpablesPanel.SetActive(false);
         clueBoard.SetActive(true);
+        GameManager.Instance.SetBlockEInput(false);
     }
+
 
     public void ChangeCursor(Texture2D texture)
     {

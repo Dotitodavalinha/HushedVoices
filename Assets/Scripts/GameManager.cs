@@ -173,4 +173,13 @@ public class GameManager : MonoBehaviour
         return completedDialogues.ContainsKey(dialogueID) && completedDialogues[dialogueID];
     }
     #endregion
+    
+    #region Elock
+    public bool BlockEInput { get; private set; }
+
+    public void SetBlockEInput(bool value)
+    {
+        BlockEInput = value;
+    }
+    #endregion
 }

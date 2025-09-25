@@ -32,6 +32,7 @@ public class ClueZoomUI : MonoBehaviour
         clueImage.preserveAspect = true;
         clueInfo.text = $"Pista: {clue.clueID}";
         culpableButton.gameObject.SetActive(false);
+        GameManager.Instance.SetBlockEInput(true);
     }
 
     public void ShowImage(Sprite sprite)
@@ -41,12 +42,14 @@ public class ClueZoomUI : MonoBehaviour
         clueImage.preserveAspect = true;
         clueInfo.text = "Imagen sin ID";
         culpableButton.gameObject.SetActive(true);
+        GameManager.Instance.SetBlockEInput(true);
     }
 
 
     public void CloseClue()
     {
         panel.SetActive(false);
+        GameManager.Instance.SetBlockEInput(false);
     }
     public void DeclareCulpable()
     {
