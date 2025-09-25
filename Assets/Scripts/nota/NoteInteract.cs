@@ -26,8 +26,10 @@ public class NoteInteract : MonoBehaviour
     void Start()
     {
         text.SetActive(false);
-
-        NoteImage.SetActive(false);
+        if (NoteImage != null)
+        {
+            NoteImage.SetActive(false);
+        }
         Player = GameObject.FindWithTag("Player");
 
 
@@ -63,13 +65,19 @@ public class NoteInteract : MonoBehaviour
 
         if (NoteIsOpen)
         {
-            NoteImage.SetActive(true);
+            if (NoteImage != null)
+            {
+                Debug.LogWarning("no hay ningun game object asignado a NoteInteract(no tiene pq estar mal)");
+                NoteImage.SetActive(true);
+            }
             text.SetActive(false);
         }
         if (!NoteIsOpen)
         {
-            NoteImage.SetActive(false);
-
+            if (NoteImage != null)
+            {
+                NoteImage.SetActive(false);
+            }
         }
 
     }

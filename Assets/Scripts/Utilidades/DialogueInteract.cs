@@ -28,56 +28,73 @@ public class DialogueInteract : MonoBehaviour
             PressE_UI.SetActive(false);
     }
 
+    private bool justStarted = false;
+
     private void Update()
     {
-        if (NeedInteract)
+        if (zonaInteraccion != null && zonaInteraccion.jugadorDentro)
         {
-            // Icono "E"
-            if (zonaInteraccion != null && zonaInteraccion.jugadorDentro && !dialogueActive)
-            {
-                inRange = true;
-                if (PressE_UI != null) PressE_UI.SetActive(true);
+            inRange = true;
 
-                if (Input.GetKeyDown(KeyCode.E))
+            if (NeedInteract)
+            {
+                if (PressE_UI != null)
+                    PressE_UI.SetActive(!dialogueActive);
+
+                if (!dialogueActive && Input.GetKeyDown(KeyCode.E))
+                {
                     TryStartDialogue();
+                    justStarted = true; //  evitar que avance en el mismo frame
+                }
             }
             else
             {
-                inRange = false;
-                if (PressE_UI != null) PressE_UI.SetActive(false);
+                if (!dialogueActive)
+                {
+                    TryStartDialogue();
+                    justStarted = true;
+                }
             }
         }
         else
         {
-            // Trigger automático
-            if (zonaInteraccion != null && zonaInteraccion.jugadorDentro && !dialogueActive)
-            {
-                TryStartDialogue();
-            }
+            inRange = false;
+
+            if (PressE_UI != null)
+                PressE_UI.SetActive(false);
         }
 
-        // Avanzar diálogo con E
-        if (dialogueActive && Input.GetKeyDown(KeyCode.E))
+        //avanzar diálogo con E (solo si no acaba de empezar)
+        if (dialogueActive && !justStarted && Input.GetKeyDown(KeyCode.E))
             NextDialogue();
+
+        //reset del flag al final del frame
+        justStarted = false;
     }
+
+
 
     private void TryStartDialogue()
     {
-        if (!GameManager.Instance.TryLockUI()) return;
+        bool locked = GameManager.Instance.TryLockUI();
+        Debug.Log("TryLockUI() devolvió: " + locked);
+        if (!locked) return;
 
         dialogueActive = true;
         currentIndex = 0;
         ShowDialogue(currentIndex);
     }
 
+
     private void ShowDialogue(int index)
     {
         if (index < 0 || index >= dialoguePrefabs.Count) return;
-
+        
         if (currentDialogueInstance != null)
             Destroy(currentDialogueInstance);
 
         currentDialogueInstance = Instantiate(dialoguePrefabs[index], canvasTransform);
+        Debug.LogWarning("instancie");
         currentDialogueInstance.transform.SetAsLastSibling();
     }
 
