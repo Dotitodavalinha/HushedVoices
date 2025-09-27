@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class UIInteractable : InteractableBase
 {
-    [Header("Prefabs de UI (nota, diálogo, etc.)")]
+    [Header("Prefabs de UI (Pista, Monologo, etc.)")]
     [SerializeField] private List<GameObject> prefabs = new List<GameObject>();
 
     private int currentIndex = 0;
