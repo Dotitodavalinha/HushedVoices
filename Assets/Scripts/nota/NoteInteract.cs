@@ -118,7 +118,7 @@ public class NoteInteract : MonoBehaviour
                 ExitUnlocker exitUnlocker = FindObjectOfType<ExitUnlocker>();
                 if (exitUnlocker != null)
                 {
-                    exitUnlocker.MarcarTVLeida();
+                  //  exitUnlocker.MarcarTVLeida();
                 }
             }
             else if (IsImportantClue)

@@ -8,6 +8,7 @@ public class CleanItem : MonoBehaviour
 
     private bool InRange = false;
     private bool NoteIsOpen = false;
+    [SerializeField] public bool LockPlayer = true;
 
     private GameObject Player;
     private Transform feetPoint;
@@ -51,8 +52,11 @@ public class CleanItem : MonoBehaviour
         {
             Debug.LogWarning("No FeetPoint");
         }
+        if (LockPlayer == true)
+        {
+            playerMovementLocker = Player.GetComponent<PlayerMovementLocker>();
+        }
 
-        playerMovementLocker = Player.GetComponent<PlayerMovementLocker>();
         playerAnimator = Player.GetComponentInChildren<Animator>();
     }
 
@@ -131,7 +135,7 @@ public class CleanItem : MonoBehaviour
             }
 
 
-                StartCoroutine(DestroyAfterDelay());
+            StartCoroutine(DestroyAfterDelay());
         }
         else
         {

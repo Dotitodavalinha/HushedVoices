@@ -12,7 +12,6 @@ public class ExitUnlocker : MonoBehaviour
     public bool boardUsed = false;
     public bool hasSlept = false;
     public bool houseCleaned = false;
-    public bool tvSeen = false;
 
 
     private void Start()
@@ -42,7 +41,7 @@ public class ExitUnlocker : MonoBehaviour
 
     private void CheckAndUnlockExit()
     {
-        if (HasClues() && boardUsed && hasSlept && houseCleaned && tvSeen)
+        if (HasClues() && boardUsed && hasSlept && houseCleaned )
         {
             if (exitCollider != null)
             {
@@ -73,7 +72,8 @@ public class ExitUnlocker : MonoBehaviour
     private bool HasClues()
     {
         return PlayerClueTracker.Instance.HasClue("list") &&
-               PlayerClueTracker.Instance.HasClue("bensNote");
+               PlayerClueTracker.Instance.HasClue("bensNote") &&
+               PlayerClueTracker.Instance.HasClue("Tv");
     }
 
     private void MarcarComoDormido()
@@ -95,10 +95,5 @@ public class ExitUnlocker : MonoBehaviour
         //Debug.Log(" El jugador limpio");
         CheckAndUnlockExit();
     }
-    public void MarcarTVLeida()
-    {
-        tvSeen = true;
-        //Debug.Log("Viste la tv");
-        CheckAndUnlockExit();
-    }
+
 }

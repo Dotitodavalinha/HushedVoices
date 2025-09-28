@@ -10,6 +10,9 @@ public abstract class InteractableBase : MonoBehaviour
     [SerializeField] protected NOTEInteractionZone zonaInteraccion;
     [SerializeField] protected GameObject pressE_UI;
 
+    [Header("Outlines (opcional)")]
+    [SerializeField] protected List<GameObject> outlinerCubes = new List<GameObject>();
+
     protected bool inRange = false;
     protected bool active = false;
     protected Transform canvasTransform;
@@ -68,6 +71,10 @@ public abstract class InteractableBase : MonoBehaviour
 
         active = true;
         OnActivate();
+
+        // apagar outlines al interactuar
+        DisableOutlines();
+
         return true;
     }
 
@@ -95,5 +102,23 @@ public abstract class InteractableBase : MonoBehaviour
             canvasTransform = canvasObj.transform;
         else
             Debug.LogWarning("No se encontró un objeto llamado 'Canvas' en la escena.");
+    }
+
+    private void DisableOutlines()
+    {
+        if (outlinerCubes != null && outlinerCubes.Count > 0)
+        {
+            foreach (var cube in outlinerCubes)
+            {
+                if (cube != null)
+                    cube.SetActive(false);
+            }
+        }
+        else
+        {
+            Transform singleOutliner = transform.Find("OutlinerCube");
+            if (singleOutliner != null)
+                singleOutliner.gameObject.SetActive(false);
+        }
     }
 }

@@ -4,16 +4,19 @@ public class ClueInteractable : UIInteractable
 {
     [Header("Configuración de pista")]
     [SerializeField] private string clueID;
-    [SerializeField] private bool isImportant = false;
+    [SerializeField] private bool isImportant_ShowAlert = false;
 
     protected override void OnActivate()
     {
-        // Si ya la tiene, no mostramos nada
-        if (PlayerClueTracker.Instance != null && PlayerClueTracker.Instance.HasClue(clueID))
+        if (destroyAfterUse == true)
         {
-            Deactivate();
-            return;
+            if (PlayerClueTracker.Instance != null && PlayerClueTracker.Instance.HasClue(clueID))  // Si ya la tiene, no mostramos nada
+            {
+                Deactivate();
+                return;
+            }
         }
+
 
         base.OnActivate();
     }
@@ -21,14 +24,15 @@ public class ClueInteractable : UIInteractable
     protected override void OnDeactivate()
     {
         base.OnDeactivate();
+        SoundManager.instance.PlaySound(SoundID.CluePickupSound);
 
         if (!string.IsNullOrEmpty(clueID) && PlayerClueTracker.Instance != null)
         {
             PlayerClueTracker.Instance.AddClue(clueID);
 
-            if (isImportant)
+            if (isImportant_ShowAlert)
             {
-                // Acá podés disparar efectos extra (sonido, alerta en pantalla, etc.)
+                // alerta en pantalla
                 Debug.Log($"Se registró pista IMPORTANTE: {clueID}");
             }
             else
