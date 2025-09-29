@@ -31,6 +31,7 @@ public class ClueBoardManager : MonoBehaviour
     public Texture2D connect;
     public Texture2D disconnect;
     public Texture2D zoomIn;
+    public Texture2D deleteClues;
     public GameObject culpablesPanel;
 
 
