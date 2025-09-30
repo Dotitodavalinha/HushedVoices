@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ExitUnlocker : MonoBehaviour
 {
-    [Header("Collider de salida (puerta, trigger, etc.)")]
+    [Header("Collider de salida (puerta, trigger, etc.)")] 
     [SerializeField] private GameObject exitCollider;
 
     [SerializeField] private GameObject OulinePuerta;
