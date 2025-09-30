@@ -11,6 +11,7 @@ public class ClueZoomUI : MonoBehaviour
     [SerializeField] private GameObject panel;
     [SerializeField] private Image clueImage;
     [SerializeField] private TextMeshProUGUI clueInfo;
+    public GameObject culpablesPanel;
 
 
     [Header("Botones de interacción")]
@@ -49,7 +50,15 @@ public class ClueZoomUI : MonoBehaviour
     public void CloseClue()
     {
         panel.SetActive(false);
-        GameManager.Instance.SetBlockEInput(false);
+
+        if (culpablesPanel != null && culpablesPanel.activeSelf)
+        {
+            GameManager.Instance.SetBlockEInput(true);
+        }
+        else
+        {
+            GameManager.Instance.SetBlockEInput(false);
+        }
     }
     public void DeclareCulpable()
     {
