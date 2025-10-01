@@ -8,9 +8,9 @@ public class BeforeGoToStreet : MonoBehaviour
     public ExitUnlocker exitUnlocker;
 
     [Header("Mensajes faltantes")]
-    public GameObject Board;   // Mensaje de que falta usar el corcho
-    public GameObject Sleep;   // Mensaje de que falta dormir
-    public GameObject Clues;   // Mensaje de que faltan pistas
+    public GameObject Board;    // Mensaje de que falta usar el corcho
+    public GameObject Sleep;    // Mensaje de que falta dormir
+    public GameObject Clues;    // Mensaje de que faltan pistas
     public GameObject Cleaning; // Mensaje de que falta limpiar
 
     private void Start()
@@ -18,32 +18,59 @@ public class BeforeGoToStreet : MonoBehaviour
         DesactivarTodos();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            RevisarEstado();
+        }
+    }
+
     public void RevisarEstado()
     {
-        // Siempre apagamos todo antes de activar uno solo
         DesactivarTodos();
 
+        bool tieneBoard = exitUnlocker.boardUsed;
+        bool tieneSleep = exitUnlocker.hasSlept;
+        bool tieneCleaning = exitUnlocker.houseCleaned;
+        bool tieneClues = TieneClues();
+
         // Si ya completó todo, no hay nada que mostrar
-        if (exitUnlocker.boardUsed && exitUnlocker.hasSlept &&
-            exitUnlocker.houseCleaned && TieneClues())
+        if (tieneBoard && tieneSleep && tieneCleaning && tieneClues)
         {
+            Debug.Log("El jugador completó todas las tareas, puede salir.");
             return;
         }
 
-        // Caso en que aún falte algo
-        if (!exitUnlocker.boardUsed)
+       
+        // Si NO completó nada, no mostrar nada
+        int tareasCompletadas = 0;
+        if (tieneBoard) tareasCompletadas++;
+        if (tieneSleep) tareasCompletadas++;
+        if (tieneCleaning) tareasCompletadas++;
+        if (tieneClues) tareasCompletadas++;
+
+        if (tareasCompletadas == 0)
+        {
+            Debug.Log("El jugador no hizo ninguna tarea aún, no mostrar mensajes.");
+            return;
+        }
+        // ---------------------------
+
+        // Caso en que haya hecho algo pero le falte otra cosa
+        if (!tieneBoard)
         {
             Board.SetActive(true);
         }
-        else if (!exitUnlocker.hasSlept)
+        else if (!tieneSleep)
         {
             Sleep.SetActive(true);
         }
-        else if (!exitUnlocker.houseCleaned)
+        else if (!tieneCleaning)
         {
             Cleaning.SetActive(true);
         }
-        else if (!TieneClues())
+        else if (!tieneClues)
         {
             Clues.SetActive(true);
         }
