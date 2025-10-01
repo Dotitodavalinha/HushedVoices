@@ -46,6 +46,10 @@ public class CameraManagerZ : MonoBehaviour
 
     public void CambiarLookAt(Transform npcCurrent)
     {
+
+        if (currentCam != null && currentCam.name == "Cafeteria")
+            return;
+
         if (currentCam is CinemachineVirtualCamera virtualCam)
         {
             virtualCam.LookAt = npcCurrent;
