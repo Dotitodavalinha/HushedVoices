@@ -13,7 +13,7 @@ public class BrokenClueCleaner : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     void Update()
     {
-        if (isHovering && Input.GetKeyDown(KeyCode.B))
+        if (isHovering && Input.GetMouseButtonDown(0))
         {
             Destroy(gameObject);
             if (board != null) board.ChangeCursor(board.hover);

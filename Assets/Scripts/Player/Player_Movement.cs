@@ -20,6 +20,8 @@ public class Player_Movement : MonoBehaviour
     private Camera lastCam;
     private bool holdingMovementInput;
     private bool isStreetScene;
+    private bool isRoomInicioScene;
+    private bool isRoomScene;
     public Animator anim;
 
     void Start()
@@ -28,7 +30,8 @@ public class Player_Movement : MonoBehaviour
         Cursor.visible = false;
         controller = GetComponent<CharacterController>();
         currentCam = Camera.main;
-        isStreetScene = SceneManager.GetActiveScene().name == "Street";
+        isRoomScene = SceneManager.GetActiveScene().name == "Room";
+        isRoomInicioScene = SceneManager.GetActiveScene().name == "RoomInicio";
     }
 
     void Update()
@@ -52,13 +55,18 @@ public class Player_Movement : MonoBehaviour
 
         Vector3 moveDir = Vector3.zero;
 
-        if (isStreetScene)
+        if (isRoomScene || isRoomInicioScene)
         {
-            moveDir = transform.forward * input.z + transform.right * input.x;
+            //moveDir = transform.forward * input.z + transform.right * input.x;
+            moveDir = Vector3.forward * -input.x + Vector3.right * input.z;
+            
+            Debug.Log("is Street scene");
         }
         
         else
         {
+            moveDir = Vector3.forward * input.z + Vector3.right * input.x;
+            /*
             Camera camToUse = lastCam != null ? lastCam : currentCam;
             Vector3 camForward = camToUse.transform.forward;
             Vector3 camRight = camToUse.transform.right;
@@ -68,7 +76,7 @@ public class Player_Movement : MonoBehaviour
             camForward.Normalize();
             camRight.Normalize();
 
-            moveDir = camForward * input.z + camRight * input.x;
+            moveDir = camForward * input.z + camRight * input.x;*/
         }
 
         if (holdingMovementInput)
