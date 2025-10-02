@@ -24,6 +24,8 @@ public class Player_Movement : MonoBehaviour
     private bool isRoomScene;
     public Animator anim;
 
+
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -36,6 +38,7 @@ public class Player_Movement : MonoBehaviour
 
     void Update()
     {
+
         float normalizedSpeed = 0f;
 
 
@@ -130,4 +133,6 @@ public class Player_Movement : MonoBehaviour
         SoundID StepSound = (Random.value > 0.5f) ? SoundID.Step1Sound : SoundID.Step2Sound;
         SoundManager.instance.PlaySound(StepSound, false, Random.Range(0.3f, 0.5f));
     }
+
+
 }
