@@ -21,6 +21,7 @@ public class CleanItem : MonoBehaviour
     public GameObject NoteBen;
     public GameObject BensReport;
     public GameObject NoteImage;
+    public GameObject KidsDrawing;
 
     [SerializeField] private GameObject particlePrefab;
 
@@ -30,7 +31,8 @@ public class CleanItem : MonoBehaviour
     {
         None,
         NoteBen,
-        BensReport
+        BensReport,
+        KidsDrawing
     }
 
     [SerializeField] private CleanReward reward = CleanReward.None;
@@ -160,6 +162,10 @@ public class CleanItem : MonoBehaviour
 
             case CleanReward.BensReport:
                 if (BensReport != null) BensReport.SetActive(true);
+                break;
+
+            case CleanReward.KidsDrawing:
+                if (KidsDrawing != null) KidsDrawing.SetActive(true);
                 break;
 
             case CleanReward.None:
