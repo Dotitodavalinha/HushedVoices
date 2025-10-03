@@ -52,16 +52,11 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        /*if (playerLocker != null)
+        if (Input.GetKeyUp(KeyCode.R))
         {
-            return;
+            Scene currentScene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(currentScene.buildIndex);
         }
-        else
-        {
-            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-            if (playerObj != null)
-                playerLocker = playerObj.GetComponent<PlayerMovementLocker>();
-        }*/
     }
 
     #region UI Lock
@@ -75,7 +70,7 @@ public class GameManager : MonoBehaviour
         {
             playerLocker.LockMovement();
         }
-        else 
+        else
         {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
             if (playerObj != null)
@@ -138,9 +133,9 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         UnlockUI();
-    GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-    if (playerObj != null)
-        playerLocker = playerObj.GetComponent<PlayerMovementLocker>();
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+            playerLocker = playerObj.GetComponent<PlayerMovementLocker>();
     }
     #endregion
 
@@ -173,7 +168,7 @@ public class GameManager : MonoBehaviour
         return completedDialogues.ContainsKey(dialogueID) && completedDialogues[dialogueID];
     }
     #endregion
-    
+
     #region Elock
     public bool BlockEInput { get; private set; }
 

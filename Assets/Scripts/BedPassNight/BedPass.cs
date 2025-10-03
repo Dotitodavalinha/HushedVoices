@@ -122,8 +122,7 @@ public class BedPass : MonoBehaviour
 
         OnPlayerSlept?.Invoke();
 
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+      
 
         fadeScript.FadeOut();
     }

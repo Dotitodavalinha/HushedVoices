@@ -63,7 +63,7 @@ public class Player_Movement : MonoBehaviour
             //moveDir = transform.forward * input.z + transform.right * input.x;
             moveDir = Vector3.forward * -input.x + Vector3.right * input.z;
             
-            Debug.Log("is Street scene");
+            //Debug.Log("is Street scene");
         }
         
         else
