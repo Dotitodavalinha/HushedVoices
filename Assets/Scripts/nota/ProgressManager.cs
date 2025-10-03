@@ -61,12 +61,27 @@ public class ProgressManager : MonoBehaviour
         var npcList = FindObjectsOfType<NPCDialogue>();
         foreach (var npc in npcList)
         {
-            if (npc.roots.Count > 0)
+            if (npc.roots != null && npc.roots.Count > 0)
             {
-                string defaultRootName = npc.roots[0].name; // asumimos que el primer root es el inicial
-                npc.GoToRoot(defaultRootName, false); // false para no volver a llamar al ProgressManager
-                npcRoots[npc.npcName] = defaultRootName; // actualizar diccionario
-                Debug.Log($"Se reinició el root de {npc.npcName} a {defaultRootName}");
+                var firstRoot = npc.roots[0];
+
+                // Verificar que el primer elemento de la lista no sea nulo
+                if (firstRoot != null)
+                {
+                    string defaultRootName = firstRoot.name;
+
+                    npc.GoToRoot(defaultRootName, false);
+                    npcRoots[npc.npcName] = defaultRootName;
+                    Debug.Log($"Se reinició el root de {npc.npcName} a {defaultRootName}");
+                }
+                else
+                {
+                    Debug.LogWarning($"El primer root de NPC '{npc.npcName}' es nulo en la escena actual.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"El NPC '{npc.npcName}' no tiene raíces (roots) asignadas en el Inspector de esta escena.");
             }
         }
     }

@@ -79,13 +79,15 @@ public class JailManager : MonoBehaviour
 
             // Time.timeScale = 0f; // Pausa total
             StartCoroutine(WaitAndGoToRoom());
+            Debug.Log("go to room corrutina");
         }
     }
     private IEnumerator WaitAndGoToRoom()
     {
+        Debug.Log("va a esperar 3 segundos");
         yield return new WaitForSecondsRealtime(3f);
         //triggered = false;
-
+        Debug.Log("ya pasaron 3 segundos");
         // Time.timeScale = 1f; // Reanuda por si se usa en otra escena
         var resetter = FindObjectOfType<FinalDayBackToMenu>();
         if (resetter != null)

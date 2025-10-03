@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
         if (_instance != null && _instance != this)
         {
             Destroy(gameObject);
-            Debug.LogWarning("Se intentó crear una segunda instancia de GameManager. Destruyendo duplicado.");
+            //Debug.LogWarning("Se intentó crear una segunda instancia de GameManager. Destruyendo duplicado.");
             return;
         }
 
