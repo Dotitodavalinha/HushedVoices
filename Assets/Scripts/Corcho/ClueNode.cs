@@ -36,7 +36,10 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void BindBoard(ClueBoardManager b, RectTransform area)
     {
-        board = b;
+        if (b != null)
+        {
+            board = b;
+        }
         playArea = area;
     }
 
@@ -117,6 +120,7 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             originalPosition = RectTransform.anchoredPosition;
             canvasGroup.blocksRaycasts = false;
             
+            //Debug.Log("ESTOY ARRASTRANDO");
         }
     }
 
@@ -125,6 +129,10 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         if (eventData.button == PointerEventData.InputButton.Left && isLeftDragging)
         {
             RectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+            LayoutRebuilder.ForceRebuildLayoutImmediate(RectTransform);
+
+            board.RecalculateLines();
+            board?.ChangeCursor(board.grab);
 
             if (playArea != null)
             {
@@ -143,9 +151,7 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
                 RectTransform.position = pos;
             }
-
-            board?.RecalculateLines();
-            board?.ChangeCursor(board.grab);
+           
         }
 
         if (eventData.button == PointerEventData.InputButton.Right && isRightDragging)
@@ -220,10 +226,11 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         return new Rect(x, y, size.x, size.y);
     }
-    public void MoveToCorcho(RectTransform newParent)
+    public void MoveToCorcho(RectTransform newParent, ClueBoardManager b)
     {
         transform.SetParent(newParent, true);
-        BindBoard(newParent.GetComponentInParent<ClueBoardManager>(), newParent);
+        // Usa el board que te pasó el Manager.
+        BindBoard(b, newParent);
     }
 
     public void OnPointerClick(PointerEventData eventData) { /* vacio, todo se maneja en Up y Drag */ }

@@ -75,7 +75,7 @@ public class NightManager : MonoBehaviour
     {
         if (IsNight == false)
         {
-            SoundManager.instance.ChangeVolumeOneMusic(MusicID.StaticSound, 1f);
+            SoundManager.instance.ChangeVolumeOneMusic(MusicID.StaticSound, 0.2f);
             // Usa el nuevo método directo para establecer a 1
             ParanoiaUp();
             //ParanoiaManager.SetParanoiaValueDirect(1f);

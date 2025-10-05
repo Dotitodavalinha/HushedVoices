@@ -11,6 +11,7 @@ public class ClueBoardManager : MonoBehaviour
 
     [Header("Lines")]
     [SerializeField] private GameObject lineUIPrefab;
+    [SerializeField] private Transform linesContainer;
     [SerializeField] private float lineYOffset = 10f;
     [SerializeField] private float lineThickness = 8f;
     private List<GameObject> lines = new();
@@ -38,6 +39,12 @@ public class ClueBoardManager : MonoBehaviour
 
     private void Awake()
     {
+        if (linesContainer == null)
+        {
+            var found = clueBoard.transform.Find("LinesContainer");
+            if (found != null) linesContainer = found;
+        }
+
         Cursor.visible=false;
 
         foreach (var node in clueNodes)
@@ -88,6 +95,8 @@ public class ClueBoardManager : MonoBehaviour
 
     public void RefreshBoard()
     {
+        dynamicConnections.Clear();
+
         foreach (var node in clueNodes)
         {
             if (PlayerPrefs.HasKey(node.data.clueID + "_parent"))
@@ -95,7 +104,7 @@ public class ClueBoardManager : MonoBehaviour
                 string parentName = PlayerPrefs.GetString(node.data.clueID + "_parent");
                 Transform parent = GameObject.Find(parentName)?.transform;
                 if (parent != null)
-                    node.MoveToCorcho(parent as RectTransform);
+                    node.MoveToCorcho(parent as RectTransform, this);
             }
 
             if (PlayerPrefs.HasKey(node.data.clueID + "_x"))
@@ -109,7 +118,9 @@ public class ClueBoardManager : MonoBehaviour
             if (PlayerPrefs.HasKey(key))
             {
                 string val = PlayerPrefs.GetString(key);
-                node.data.connectedClues = new List<string>(val.Split(',', System.StringSplitOptions.RemoveEmptyEntries));
+                List<string> targets = new List<string>(val.Split(',', System.StringSplitOptions.RemoveEmptyEntries));
+
+                dynamicConnections[node.data.clueID] = targets;
             }
 
             node.SetFound(PlayerClueTracker.Instance.HasClue(node.data.clueID));
@@ -161,6 +172,7 @@ public class ClueBoardManager : MonoBehaviour
 
     public void RecalculateLines()
     {
+        //Debug.Log("RECALCULANDO LINEAS");
         foreach (var l in lines) Destroy(l);
         lines.Clear();
 
@@ -187,7 +199,7 @@ public class ClueBoardManager : MonoBehaviour
     {
         if (string.CompareOrdinal(from.data.clueID, to.data.clueID) > 0) return;
 
-        GameObject line = Instantiate(lineUIPrefab, clueBoard.transform);
+        GameObject line = Instantiate(lineUIPrefab, linesContainer);
         RectTransform rect = line.GetComponent<RectTransform>();
 
         Vector2 start = from.RectTransform.anchoredPosition;
@@ -200,7 +212,7 @@ public class ClueBoardManager : MonoBehaviour
         end.y += toHeight / 2f;
 
         ApplyLineGeometry(rect, start, end);
-        rect.SetAsFirstSibling();
+        rect.SetAsLastSibling();
         lines.Add(line);
 
         var clueLine = line.AddComponent<ClueLine>();
@@ -224,7 +236,7 @@ public class ClueBoardManager : MonoBehaviour
         cursor.CursorSpriteChange(connect, new Vector2(1, 1));
         if (previewLineGO == null)
         {
-            previewLineGO = Instantiate(lineUIPrefab, clueBoard.transform);
+            previewLineGO = Instantiate(lineUIPrefab, linesContainer);
             previewLineRect = previewLineGO.GetComponent<RectTransform>();
         }
 
@@ -257,6 +269,23 @@ public class ClueBoardManager : MonoBehaviour
     private void DisconnectAll()
     {
         dynamicConnections.Clear();
+
+        // NUEVO: Limpia también las listas de conexión en los datos de los nodos.
+        foreach (var node in clueNodes)
+        {
+            // Borrar el contenido de la lista estática/por defecto.
+            // Esto asume que el jugador puede romper *todas* las conexiones.
+            node.data.connectedClues.Clear();
+
+            // Y asegurarnos de que PlayerPrefs queda limpio.
+            string key = "dyn_" + node.data.clueID;
+            if (PlayerPrefs.HasKey(key))
+            {
+                PlayerPrefs.DeleteKey(key);
+            }
+        }
+
+        PlayerPrefs.Save();
         RecalculateLines();
     }
 
