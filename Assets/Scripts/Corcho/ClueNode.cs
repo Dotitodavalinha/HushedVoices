@@ -172,8 +172,10 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
             foreach (var otherNode in board.clueNodes)
             {
-                if (otherNode != this && otherNode.clueVisual.activeSelf)
-                {
+                if (otherNode != this
+                  && otherNode.clueVisual.activeSelf
+                  && otherNode.transform.parent == this.transform.parent)
+                {
                     Rect otherRect = otherNode.GetRectFromRectTransform();
 
                     if (currentRect.Overlaps(otherRect))

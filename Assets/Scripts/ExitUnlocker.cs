@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ExitUnlocker : MonoBehaviour
 {
-    [Header("Collider de salida (puerta, trigger, etc.)")] 
+    [Header("Collider de salida (puerta, trigger, etc.)")]
     [SerializeField] private GameObject exitCollider;
 
     [SerializeField] private GameObject OulinePuerta;
@@ -12,10 +12,17 @@ public class ExitUnlocker : MonoBehaviour
     public bool boardUsed = false;
     public bool hasSlept = false;
     public bool houseCleaned = false;
+    public bool corchoEstaLimpio = false;
 
+    private void OnEnable()
+    {
+        SuscribirEventos();
+    }
 
     private void Start()
     {
+        SuscribirEventos();
+
         if (CleanManager.Instance != null)
         {
             CleanManager.Instance.OnHouseCleaned += MarcarCasaLimpia;
@@ -25,12 +32,13 @@ public class ExitUnlocker : MonoBehaviour
         if (PlayerClueTracker.Instance != null)
         {
             PlayerClueTracker.OnClueAdded += CheckAndUnlockExit;
-            Debug.Log(" ExitUnlocker se suscribió al evento de pistas.");
+            //Debug.Log(" ExitUnlocker se suscribió al evento de pistas.");
         }
         else
         {
             Debug.LogError(" No se encontró la instancia de PlayerClueTracker.");
         }
+
 
         if (exitCollider != null)
             exitCollider.SetActive(false);
@@ -39,18 +47,35 @@ public class ExitUnlocker : MonoBehaviour
             OulinePuerta.SetActive(false);
     }
 
+    private void SuscribirEventos()
+    {
+        if (CleanManager.Instance != null)
+            CleanManager.Instance.OnHouseCleaned += MarcarCasaLimpia;
+
+        BedPass.OnPlayerSlept += MarcarComoDormido;
+
+        if (PlayerClueTracker.Instance != null)
+            PlayerClueTracker.OnClueAdded += CheckAndUnlockExit;
+
+        BrokenClueCleaner.OnAllBrokenCleaned -= MarcarCorchoLimpio;
+        BrokenClueCleaner.OnAllBrokenCleaned += MarcarCorchoLimpio;
+    }
+
     private void CheckAndUnlockExit()
     {
-        if (HasClues() && boardUsed && hasSlept && houseCleaned )
+        if (HasClues() && boardUsed && hasSlept && houseCleaned && corchoEstaLimpio)
         {
+            //Debug.Log(" Todas las condiciones cumplidas — desbloqueando salida.");
+
             if (exitCollider != null)
-            {
                 exitCollider.SetActive(true);
-            }
+
             if (OulinePuerta != null)
-            {
                 OulinePuerta.SetActive(true);
-            }
+        }
+        else
+        {
+            //Debug.Log($"Clues: {HasClues()}, Board: {boardUsed}, Sleep: {hasSlept}, Clean: {houseCleaned}, Corcho limpio: {corchoEstaLimpio}");
         }
     }
 
@@ -67,6 +92,8 @@ public class ExitUnlocker : MonoBehaviour
         {
             PlayerClueTracker.OnClueAdded -= CheckAndUnlockExit;
         }
+
+        BrokenClueCleaner.OnAllBrokenCleaned -= MarcarCorchoLimpio;
     }
 
     private bool HasClues()
@@ -76,23 +103,28 @@ public class ExitUnlocker : MonoBehaviour
                PlayerClueTracker.Instance.HasClue("Tv");
     }
 
+    public void MarcarCorchoLimpio()
+    {
+        corchoEstaLimpio = true;
+        boardUsed = true;
+        Debug.Log(" -> ESTADO ACTUALIZADO: Corcho limpio y usado.");
+        CheckAndUnlockExit();
+    }
+
     private void MarcarComoDormido()
     {
         hasSlept = true;
-        //Debug.Log("El jugador ha dormido.");
         CheckAndUnlockExit();
     }
 
     public void MarcarCorchoUsado()
     {
         boardUsed = true;
-        //Debug.Log("Corcho utilizado.");
         CheckAndUnlockExit();
     }
     private void MarcarCasaLimpia()
     {
         houseCleaned = true;
-        //Debug.Log(" El jugador limpio");
         CheckAndUnlockExit();
     }
 

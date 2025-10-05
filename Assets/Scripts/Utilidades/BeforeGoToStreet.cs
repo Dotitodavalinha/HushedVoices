@@ -34,21 +34,23 @@ public class BeforeGoToStreet : MonoBehaviour
         bool tieneSleep = exitUnlocker.hasSlept;
         bool tieneCleaning = exitUnlocker.houseCleaned;
         bool tieneClues = TieneClues();
+        bool corchoLimpio = EstaCorchoLimpio();
 
         // Si ya completó todo, no hay nada que mostrar
-        if (tieneBoard && tieneSleep && tieneCleaning && tieneClues)
+        if (tieneBoard && tieneSleep && tieneCleaning && tieneClues && corchoLimpio)
         {
             Debug.Log("El jugador completó todas las tareas, puede salir.");
             return;
         }
 
-       
+
         // Si NO completó nada, no mostrar nada
         int tareasCompletadas = 0;
         if (tieneBoard) tareasCompletadas++;
         if (tieneSleep) tareasCompletadas++;
         if (tieneCleaning) tareasCompletadas++;
         if (tieneClues) tareasCompletadas++;
+        if (corchoLimpio) tareasCompletadas++;
 
         if (tareasCompletadas == 0)
         {
@@ -74,7 +76,12 @@ public class BeforeGoToStreet : MonoBehaviour
         {
             Clues.SetActive(true);
         }
+        else if (!corchoLimpio)
+        {
+            Cleaning.SetActive(true);
+        }
     }
+
 
     private void DesactivarTodos()
     {
@@ -89,5 +96,10 @@ public class BeforeGoToStreet : MonoBehaviour
         return PlayerClueTracker.Instance.HasClue("list") &&
                PlayerClueTracker.Instance.HasClue("bensNote") &&
                PlayerClueTracker.Instance.HasClue("Tv");
+    }
+    private bool EstaCorchoLimpio()
+    {
+        BrokenClueCleaner[] rotas = FindObjectsOfType<BrokenClueCleaner>(true);
+        return rotas.Length == 0;
     }
 }

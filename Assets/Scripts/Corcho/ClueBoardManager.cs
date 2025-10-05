@@ -36,7 +36,6 @@ public class ClueBoardManager : MonoBehaviour
     public GameObject culpablesPanel;
 
 
-
     private void Awake()
     {
         if (linesContainer == null)
@@ -270,14 +269,10 @@ public class ClueBoardManager : MonoBehaviour
     {
         dynamicConnections.Clear();
 
-        // NUEVO: Limpia también las listas de conexión en los datos de los nodos.
         foreach (var node in clueNodes)
         {
-            // Borrar el contenido de la lista estática/por defecto.
-            // Esto asume que el jugador puede romper *todas* las conexiones.
             node.data.connectedClues.Clear();
 
-            // Y asegurarnos de que PlayerPrefs queda limpio.
             string key = "dyn_" + node.data.clueID;
             if (PlayerPrefs.HasKey(key))
             {

@@ -1,10 +1,23 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using System.Collections.Generic;
+
 
 public class BrokenClueCleaner : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    public static event Action OnAllBrokenCleaned;
+
+    private static List<BrokenClueCleaner> allCleaners = new List<BrokenClueCleaner>();
+
     private bool isHovering = false;
     private ClueBoardManager board;
+
+    private void Awake()
+    {
+        allCleaners.Add(this);
+    }
 
     private void Start()
     {
@@ -16,21 +29,41 @@ public class BrokenClueCleaner : MonoBehaviour, IPointerEnterHandler, IPointerEx
         if (isHovering && Input.GetMouseButtonDown(0))
         {
             Destroy(gameObject);
-            if (board != null) board.ChangeCursor(board.hover);
+
+            if (board != null)
+                board.ChangeCursor(board.hover);
+        }
+    }
+    private void OnDestroy()
+    {
+        allCleaners.Remove(this);
+        CheckAllCleaned();
+    }
+
+    private static void CheckAllCleaned()
+    {
+        if (allCleaners.Count == 0)
+        {
+            OnAllBrokenCleaned?.Invoke();
+            Debug.Log(" Todas las pistas rotas fueron limpiadas.");
         }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         isHovering = true;
-        GetComponent<UnityEngine.UI.Image>().color = Color.gray;
-        if (board != null) board.ChangeCursor(board.deleteClues);
+        GetComponent<Image>().color = Color.gray;
+
+        if (board != null)
+            board.ChangeCursor(board.deleteClues);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         isHovering = false;
-        GetComponent<UnityEngine.UI.Image>().color = Color.white;
-        if (board != null) board.ChangeCursor(board.hover);
+        GetComponent<Image>().color = Color.white;
+
+        if (board != null)
+            board.ChangeCursor(board.hover);
     }
 }
