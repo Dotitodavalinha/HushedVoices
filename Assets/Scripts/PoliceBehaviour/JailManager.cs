@@ -85,25 +85,12 @@ public class JailManager : MonoBehaviour
     private IEnumerator WaitAndGoToRoom()
     {
         Debug.Log("va a esperar 3 segundos");
-        yield return new WaitForSecondsRealtime(3f);
-        //triggered = false;
+        yield return new WaitForSecondsRealtime(3f);      
         Debug.Log("ya pasaron 3 segundos");
-        // Time.timeScale = 1f; // Reanuda por si se usa en otra escena
-        var resetter = FindObjectOfType<FinalDayBackToMenu>();
-        if (resetter != null)
-        {
-          
-            resetter.ResetAllManagers();
-            ProgressManager.Instance.CambiarRootNPC("PolicemanZ", "RootPoliceZ0");
-            Debug.Log("Se llamo a ResetAllManagers desde JailManager");
-        }
-        else
-        {
-            Debug.LogWarning("No se encontro FinalDayBackToMenu en la escena!");
-        }
 
+        DaysManager.Instance.NextDay();
         GameManager.Instance.LoadScene("Room");
-        // Usa el nuevo método directo para resetear a 0
+        
         ParanoiaManager.Instance.SetParanoiaValueDirect(0f);
     }
 

@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class FinalDayBackToMenu : MonoBehaviour
 {
     public GameManager gameManager;
-    public ProgressManager progressManager;
+    public ProgressManager progressManager; 
     [SerializeField] private LightingManager lightingManager;
 
     private void Start()
