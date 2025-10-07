@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.59300137, g: 0.33398852, b: 0.22153048, a: 1}
+  m_FogColor: {r: 0.5747011, g: 0.32544833, b: 0.22066125, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.04
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 1, g: 0.92454, b: 0.72421145, a: 1}
+  m_AmbientSkyColor: {r: 1, g: 0.9142127, b: 0.6864675, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.7
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.88509476, g: 0.59243464, b: 0.40307096, a: 1}
+  m_IndirectSpecularColor: {r: 0.8850803, g: 0.5924039, b: 0.40311947, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5788,6 +5788,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Marina
       objectReference: {fileID: 0}
+    - target: {fileID: 4592975918593278015, guid: 92f53774d2e95f945a17111a322ab682, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5752105483319016201, guid: 92f53774d2e95f945a17111a322ab682, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.010000001
@@ -5834,6 +5838,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5752105483319016201, guid: 92f53774d2e95f945a17111a322ab682, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8449744166861436940, guid: 92f53774d2e95f945a17111a322ab682, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -17067,7 +17075,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 881084645}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.075118005, y: -0.50517946, z: 0.85860217, w: -0.044197507}
+  m_LocalRotation: {x: -0.076711155, y: -0.47286874, z: 0.8768119, w: -0.041370682}
   m_LocalPosition: {x: 58.24, y: 7.95, z: 24.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -17108,7 +17116,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.9575172, b: 0.77828246, a: 1}
+  m_Color: {r: 1, g: 0.9517031, b: 0.74793863, a: 1}
   m_Intensity: 1.25
   m_Range: 10
   m_SpotAngle: 30
@@ -27437,7 +27445,7 @@ MonoBehaviour:
   maxSunIntensity: 1.25
   DirectionalLight: {fileID: 881084648}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 10.0628605
+  TimeOfDay: 9.778426
   DaySpeed: 17
   horaLimiteNoche: 22
   tiempoPausado: 0

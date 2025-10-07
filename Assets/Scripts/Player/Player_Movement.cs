@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,8 +14,6 @@ public class Player_Movement : MonoBehaviour
     public float footstepInterval = 0.7f;
     private float footstepTimer = 0f;
 
-
-
     private CharacterController controller;
     private Camera currentCam;
     private Camera lastCam;
@@ -24,7 +23,8 @@ public class Player_Movement : MonoBehaviour
     private bool isRoomScene;
     public Animator anim;
 
-
+    [Header("Debug")]
+    public bool debugInputValues = false;
 
     void Start()
     {
@@ -32,19 +32,82 @@ public class Player_Movement : MonoBehaviour
         Cursor.visible = false;
         controller = GetComponent<CharacterController>();
         currentCam = Camera.main;
-        isRoomScene = SceneManager.GetActiveScene().name == "Room";
-        isRoomInicioScene = SceneManager.GetActiveScene().name == "RoomInicio";
+
+        UpdateSceneFlags(SceneManager.GetActiveScene().name);
+
+        //suscribir
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        UpdateSceneFlags(scene.name);
+
+        // actualizar referencia de cámara
+        currentCam = Camera.main;
+        lastCam = currentCam;
+
+        //si venimos por una transición con entryPoint, esperar 1 frame y resetear controller
+        if (SceneTransitionManager.Instance != null && !string.IsNullOrEmpty(SceneTransitionManager.Instance.lastEntryPointID))
+        {
+            StartCoroutine(ResetControllerNextFrame());
+        }
+    }
+
+    private void UpdateSceneFlags(string sceneName)
+    {
+        isRoomScene = sceneName == "Room";
+        isRoomInicioScene = sceneName == "RoomInicio";
+        isStreetScene = sceneName == "Street";
+    }
+
+    IEnumerator ResetControllerNextFrame()
+    {
+        // esperar un frame para que otros scripts posicionen al player
+        yield return null;
+        if (controller != null)
+        {
+            controller.enabled = false;
+            // esperar otro frame para estar seguros
+            yield return null;
+            controller.enabled = true;
+        }
+
+        // limpiar el entryPoint para que no se vuelva a aplicar
+        if (SceneTransitionManager.Instance != null)
+            SceneTransitionManager.Instance.lastEntryPointID = null;
     }
 
     void Update()
     {
-
         float normalizedSpeed = 0f;
 
+        
+        float horiz, vert;
+        bool runHeld;
 
-        Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical")).normalized;
+        if (PersistentInput.Instance != null)
+        {
+            horiz = PersistentInput.Instance.Horizontal;
+            vert = PersistentInput.Instance.Vertical;
+            runHeld = PersistentInput.Instance.Run;
+            if (debugInputValues) Debug.Log($"[Player] PersistentInput read H:{horiz} V:{vert} Run:{runHeld}");
+        }
+        else
+        {
+            horiz = Input.GetAxisRaw("Horizontal");
+            vert = Input.GetAxisRaw("Vertical");
+            runHeld = Input.GetKey(KeyCode.LeftShift);
+            if (debugInputValues) Debug.Log($"[Player] Fallback Input read H:{horiz} V:{vert} Run:{runHeld}");
+        }
+
+        Vector3 input = new Vector3(horiz, 0f, vert).normalized;
         holdingMovementInput = input.magnitude >= 0.1f;
-
 
         if (!isStreetScene && !holdingMovementInput && Camera.main != currentCam)
         {
@@ -60,34 +123,20 @@ public class Player_Movement : MonoBehaviour
 
         if (isRoomScene || isRoomInicioScene)
         {
-            //moveDir = transform.forward * input.z + transform.right * input.x;
+            // comportamiento especial en Room / RoomInicio
             moveDir = Vector3.forward * -input.x + Vector3.right * input.z;
-            
-            //Debug.Log("is Street scene");
         }
-        
         else
         {
+            // movimiento global/world axes 
             moveDir = Vector3.forward * input.z + Vector3.right * input.x;
-            /*
-            Camera camToUse = lastCam != null ? lastCam : currentCam;
-            Vector3 camForward = camToUse.transform.forward;
-            Vector3 camRight = camToUse.transform.right;
-
-            camForward.y = 0f;
-            camRight.y = 0f;
-            camForward.Normalize();
-            camRight.Normalize();
-
-            moveDir = camForward * input.z + camRight * input.x;*/
         }
 
         if (holdingMovementInput)
         {
-
-            float speedMultiplier = Input.GetKey(KeyCode.LeftShift) ? RunMagnitude : 1f;
+            float speedMultiplier = runHeld ? RunMagnitude : 1f;
             finalSpeed = moveSpeed * speedMultiplier;
-            footstepInterval = Input.GetKey(KeyCode.LeftShift) ? 0.3f : 0.5f;
+            footstepInterval = runHeld ? 0.3f : 0.5f;
             controller.Move(moveDir.normalized * finalSpeed * Time.deltaTime);
 
             if (moveDir != Vector3.zero)
@@ -96,8 +145,7 @@ public class Player_Movement : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             }
 
-            normalizedSpeed = Input.GetKey(KeyCode.LeftShift) ? 2f : 1f;
-
+            normalizedSpeed = runHeld ? 2f : 1f;
         }
 
         anim.SetFloat("Speed", normalizedSpeed);
@@ -123,9 +171,6 @@ public class Player_Movement : MonoBehaviour
             currentCam.transform.position = Vector3.Lerp(currentCam.transform.position, targetCamPos, cameraFollowSpeed * Time.deltaTime);
             currentCam.transform.LookAt(transform.position + Vector3.up * 1.5f);
         }
-
- 
-
     }
 
     void PlayRandomFootstep()
@@ -133,6 +178,4 @@ public class Player_Movement : MonoBehaviour
         SoundID StepSound = (Random.value > 0.5f) ? SoundID.Step1Sound : SoundID.Step2Sound;
         SoundManager.instance.PlaySound(StepSound, false, Random.Range(0.3f, 0.5f));
     }
-
-
 }
