@@ -84,9 +84,14 @@ public class GameEvents : MonoBehaviour
                 r.onResponseChosen.AddListener(() => PlayerClueTracker.Instance.AddClue("parkGuy"));
                 //Debug.Log("cojeme fede");
 
-            } 
-             
-            
+            }
+
+            if (string.Equals(r.name, "no ah vuelto a casa...", System.StringComparison.OrdinalIgnoreCase)) // por nombre de ScriptableObject.
+            {
+                r.onResponseChosen.RemoveAllListeners(); // evita duplicados en testing
+                r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("Marina", "RootMarina1"));
+               
+            }
 
         }
     }

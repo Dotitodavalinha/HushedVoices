@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.40821192, g: 0.24723154, b: 0.21374184, a: 1}
+  m_FogColor: {r: 0.57839817, g: 0.32717365, b: 0.22083685, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.03
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.9324335, g: 0.72554266, b: 0.3538165, a: 1}
+  m_AmbientSkyColor: {r: 1, g: 0.91629905, b: 0.6940926, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.7
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.8358477, g: 0.5193972, b: 0.38003618, a: 1}
+  m_IndirectSpecularColor: {r: 0.88508356, g: 0.59240955, b: 0.40310955, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -33266,7 +33266,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730473041}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.013696476, y: -0.98381686, z: 0.15655133, w: -0.086072885}
+  m_LocalRotation: {x: -0.0763978, y: -0.47945055, z: 0.8732302, w: -0.041946515}
   m_LocalPosition: {x: 58.24, y: 7.95, z: 34.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -33307,8 +33307,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.85551095, g: 0.79945415, b: 0.5598321, a: 1}
-  m_Intensity: 0.68562216
+  m_Color: {r: 1, g: 0.95287764, b: 0.75406873, a: 1}
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -44169,6 +44169,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c7f5aa9fe74bd8d4180afbd12ec6fbb8, type: 2}
   - {fileID: 11400000, guid: 9c0c078021ae07044bbd1423764fb871, type: 2}
   - {fileID: 11400000, guid: 9a255ca63c8fa5a448b2a9da07f1cedd, type: 2}
+  - {fileID: 11400000, guid: b594e81f935b4064eae9b86acb3c3ae1, type: 2}
   ColegioStreet: {fileID: 1789674104}
 --- !u!4 &1165196961
 Transform:
@@ -47535,7 +47536,7 @@ MonoBehaviour:
   maxSunIntensity: 1
   DirectionalLight: {fileID: 730473044}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 16.79447
+  TimeOfDay: 9.835888
   DaySpeed: 17
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -72856,7 +72857,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2061776780}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.067681104, y: 0.6074564, z: -0.052058615, w: 0.7897505}
+  m_LocalRotation: {x: 0.067681104, y: 0.6074564, z: -0.05205862, w: 0.7897506}
   m_LocalPosition: {x: -12.1, y: 4.77, z: 26.65}
   m_LocalScale: {x: 1, y: 1, z: 1.2132}
   m_ConstrainProportionsScale: 0
@@ -75084,9 +75085,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8449744166861436940, guid: 92f53774d2e95f945a17111a322ab682, type: 3}
+      propertyPath: roots.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8449744166861436940, guid: 92f53774d2e95f945a17111a322ab682, type: 3}
       propertyPath: roots.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 1ea010d75fe7d6e4f87fad9aadc9ab0b, type: 2}
+    - target: {fileID: 8449744166861436940, guid: 92f53774d2e95f945a17111a322ab682, type: 3}
+      propertyPath: roots.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 75628e56c188d2f4799fb38ff0dcb2a2, type: 2}
     - target: {fileID: 8930653289834950599, guid: 92f53774d2e95f945a17111a322ab682, type: 3}
       propertyPath: m_IsActive
       value: 0
