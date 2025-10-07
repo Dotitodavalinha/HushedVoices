@@ -17,14 +17,6 @@ public class ClueLine : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         toID = to;
     }
 
-    private void Update()
-    {
-        if (isHovering && Input.GetKeyDown(KeyCode.Q))
-        {
-            board.RemoveConnection(fromID, toID);
-        }
-    }
-
     public void OnPointerEnter(PointerEventData eventData)
     {
         isHovering = true;
