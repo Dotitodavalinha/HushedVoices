@@ -88,8 +88,7 @@ public class FinalDayBackToMenu : MonoBehaviour
         // Clues
         if (PlayerClueTracker.Instance != null)
         {
-            PlayerClueTracker.Instance.clues.Clear();
-            PlayerClueTracker.Instance.cluesList.Clear();
+            Destroy(PlayerClueTracker.Instance.gameObject);
         }
        
         NPCMoodManager.Instance.ResetAllMoods();

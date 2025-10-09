@@ -14,6 +14,8 @@ public class BrokenClueCleaner : MonoBehaviour, IPointerEnterHandler, IPointerEx
     private bool isHovering = false;
     private ClueBoardManager board;
 
+    [SerializeField] private GameObject breakAnimationPrefab;
+
     private void Awake()
     {
         allCleaners.Add(this);
@@ -28,12 +30,22 @@ public class BrokenClueCleaner : MonoBehaviour, IPointerEnterHandler, IPointerEx
     {
         if (isHovering && Input.GetMouseButtonDown(0))
         {
-            Destroy(gameObject);
-
+            PlayBreakAnimation();
             if (board != null)
                 board.ChangeCursor(board.hover);
         }
     }
+
+    private void PlayBreakAnimation()
+    {
+        if (breakAnimationPrefab != null)
+        {
+            GameObject anim = Instantiate(breakAnimationPrefab,transform.position,Quaternion.identity,transform.parent);
+        }
+
+        Destroy(gameObject);
+    }
+
     private void OnDestroy()
     {
         allCleaners.Remove(this);
@@ -45,7 +57,7 @@ public class BrokenClueCleaner : MonoBehaviour, IPointerEnterHandler, IPointerEx
         if (allCleaners.Count == 0)
         {
             OnAllBrokenCleaned?.Invoke();
-            Debug.Log(" Todas las pistas rotas fueron limpiadas.");
+            Debug.Log("Todas las pistas rotas fueron limpiadas.");
         }
     }
 

@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class SkipTime : MonoBehaviour
 {
+    public static SkipTime Instance { get; private set; }
+
     [SerializeField] private LightingManager lightingManager;
 
     private float day = 5f;
@@ -13,6 +15,14 @@ public class SkipTime : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+
         DontDestroyOnLoad(gameObject);
     }
 

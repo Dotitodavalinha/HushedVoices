@@ -33,6 +33,7 @@ public class LibretaUI : MonoBehaviour
             if (!libretaAbierta)
             {
                 AbrirLibreta(3);
+                SoundManager.instance.PlaySound(SoundID.BookOpenSound);
             }
             else
             {
@@ -52,6 +53,7 @@ public class LibretaUI : MonoBehaviour
 
         ActualizarUI();
         tabsLogic.OpenSection(seccionInicial);
+        PauseGame();
     }
 
     void CerrarLibreta()
@@ -63,9 +65,17 @@ public class LibretaUI : MonoBehaviour
 
         tabsLogic.CloseAllSections();
         tabsLogic.ResetCurrentSection();
-
+        ResumeGame();
+    }
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
     }
 
+    public void ResumeGame()
+    {
+        Time.timeScale = 1;
+    }
     public void AbrirLibretaDesdeBoton()
     {
         if (!libretaAbierta)

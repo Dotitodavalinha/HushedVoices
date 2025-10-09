@@ -25,20 +25,20 @@ public class ClueAlertFade : MonoBehaviour
         float t = 0f;
         while (t < fadeDuration)
         {
-            t += Time.deltaTime;
+            t += Time.unscaledDeltaTime;
             float a = Mathf.Lerp(0f, 1f, t / fadeDuration);
             backgroundImage.color = new Color(imgColor.r, imgColor.g, imgColor.b, a);
             clueText.color = new Color(textColor.r, textColor.g, textColor.b, a);
             yield return null;
         }
 
-        yield return new WaitForSeconds(displayTime);
+        yield return new WaitForSecondsRealtime(displayTime);
 
         // Fade Out
         t = 0f;
         while (t < fadeDuration)
         {
-            t += Time.deltaTime;
+           t += Time.unscaledDeltaTime;
             float a = Mathf.Lerp(1f, 0f, t / fadeDuration);
             backgroundImage.color = new Color(imgColor.r, imgColor.g, imgColor.b, a);
             clueText.color = new Color(textColor.r, textColor.g, textColor.b, a);
