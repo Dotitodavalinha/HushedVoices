@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ConcentrationManager : MonoBehaviour
@@ -17,6 +19,19 @@ public class ConcentrationManager : MonoBehaviour
     [SerializeField] private int usesRemaining = 0;
     [SerializeField] private bool isActive = false;
     [SerializeField] private bool inputEnabled = true;
+
+    [Header("Visual Feedback")]
+    public GameObject concentrationOverlayPrefab; // prefab con panel transparente
+    private GameObject activeOverlay;
+
+    [Header("Fatiga")]
+    [Tooltip("Cuánto más lento se mueve el jugador luego de usar Concentración (1 = sin cambio, 0.67 = 33% más lento)")]
+    [Range(0f, 1f)] public float fatigueSpeedMultiplier = 0.67f;
+    [Tooltip("Duración en segundos de la fatiga post-concentración")]
+    public float fatigueDuration = 5f;
+    private bool isFatigued = false;
+
+
 
     public event Action OnConcentrationStarted;
     public event Action OnConcentrationEnded;
@@ -71,7 +86,7 @@ public class ConcentrationManager : MonoBehaviour
         }
     }
 
-    // intenta activar: devuelve true si se activó
+    // intenta activar: devuelve true si se activo
     public bool TryActivate()
     {
         if (!inputEnabled) return false;
@@ -95,7 +110,17 @@ public class ConcentrationManager : MonoBehaviour
         // eventos para que otros subscriptores reaccionen (VFX, SFX, revealables)
         OnConcentrationStarted?.Invoke();
 
-        // ejemplo: reproducir sonido o activar shader desde quien escucha OnConcentrationStarted
+        if (concentrationOverlayPrefab != null)
+        {
+            var canvas = FindObjectOfType<Canvas>();
+            if (canvas != null)
+            {
+                activeOverlay = Instantiate(concentrationOverlayPrefab, canvas.transform);
+                activeOverlay.transform.SetAsLastSibling(); // se asegura que quede encima de todo
+            }
+        }
+
+        //reproducir sonido o activar shader desde quien escucha OnConcentrationStarted
         return true;
     }
 
@@ -105,8 +130,43 @@ public class ConcentrationManager : MonoBehaviour
 
         isActive = false;
         timer = 0f;
+       
+        if (activeOverlay != null)
+        {
+            Destroy(activeOverlay);
+            activeOverlay = null;
+        }
         OnConcentrationEnded?.Invoke();
+
+        // activa fatiga post concentracion
+        if (!isFatigued)
+            StartCoroutine(ApplyFatigue());
+
+
     }
+
+    private IEnumerator ApplyFatigue()
+    {
+        isFatigued = true;
+        inputEnabled = false; // bloquea nueva concentracion
+        var player = FindObjectOfType<Player_Movement>();
+        float originalSpeed = 0f;
+
+        if (player != null)
+        {
+            originalSpeed = player.moveSpeed;
+            player.moveSpeed *= fatigueSpeedMultiplier;
+        }
+
+        yield return new WaitForSeconds(fatigueDuration);
+
+        if (player != null)
+            player.moveSpeed = originalSpeed;
+
+        inputEnabled = true;
+        isFatigued = false;
+    }
+
 
     public void ForceEnd() => EndConcentration();
 

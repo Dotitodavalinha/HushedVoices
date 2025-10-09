@@ -18,11 +18,15 @@ public abstract class InteractableBase : MonoBehaviour
     protected Transform canvasTransform;
     private bool justStarted = false;
 
+    protected virtual void Awake()
+    {
+        if (pressE_UI != null)
+            pressE_UI.SetActive(false);
+    }
     protected virtual void Start()
     {
         AssignCanvas();
-        if (pressE_UI != null)
-            pressE_UI.SetActive(false);
+     
     }
 
     protected virtual void Update()
@@ -121,4 +125,22 @@ public abstract class InteractableBase : MonoBehaviour
                 singleOutliner.gameObject.SetActive(false);
         }
     }
+
+ 
+    public void SetOutlinesActive(bool on)
+    {
+        if (outlinerCubes != null && outlinerCubes.Count > 0)
+        {
+            foreach (var cube in outlinerCubes)
+                if (cube != null) cube.SetActive(on);
+        }
+        else
+        {
+            Transform singleOutliner = transform.Find("OutlinerCube");
+            if (singleOutliner != null)
+                singleOutliner.gameObject.SetActive(on);
+        }
+    }
+   
+
 }

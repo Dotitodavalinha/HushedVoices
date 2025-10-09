@@ -1,65 +1,123 @@
 using UnityEngine;
-using System.Collections;
 
 [RequireComponent(typeof(Collider))]
 public class RevealableByConcentration : MonoBehaviour
 {
     [Header("Reveal settings")]
-    public float revealRadius = 3f; // distancia al jugador para que se revele
+    public float revealRadius = 3f;
     public bool requireLineOfSight = false;
-    
+
     [Tooltip("Si es true, al revelarse se intenta agregar la pista automaticamente")]
     public bool AddClueOnReveal = true;
+
+    [Tooltip("ID de la pista que se añadirá al PlayerClueTracker")]
+    public string clueId;
+
+    [Header("Visuals")]
+    public GameObject Outline;           // opcional: objeto que actúa como outline
+    public bool keepRevealedAfterEnd = false; // si true, permanece marcado tras End
+
+    [Header("Interactable control")]
+    [Tooltip("Si este objeto comparte el mismo GameObject con un Interactable, arrastralo aquí para bloquear/permitir la interacción")]
+    public InteractableBase interactableToToggle;
+
 
     // runtime
     private bool highlighted = false;
     private Transform player;
+    private InteractableBase interactableComponent;
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
-        ConcentrationManager.Instance.OnConcentrationStarted += OnConcentrationStarted;
-        ConcentrationManager.Instance.OnConcentrationEnded += OnConcentrationEnded;
-    }
+        // cacheamos si este objeto también es interactuable
+        interactableComponent = GetComponent<InteractableBase>();
 
-    private void OnDestroy()
-    {
         if (ConcentrationManager.Instance != null)
         {
-            ConcentrationManager.Instance.OnConcentrationStarted -= OnConcentrationStarted;
-            ConcentrationManager.Instance.OnConcentrationEnded -= OnConcentrationEnded;
+            ConcentrationManager.Instance.OnConcentrationStarted += OnConcentrationStarted;
+            ConcentrationManager.Instance.OnConcentrationEnded += OnConcentrationEnded;
         }
+
+        // asegurarnos de que visual empieza off
+        Highlight(false);
+
+    
+        if (interactableToToggle != null)
+        {
+            interactableToToggle.enabled = false;
+        }
+        else if (interactableComponent != null)
+        {
+            // fallback: si el mismo objeto ya tiene InteractableBase, lo desactivamos
+            interactableComponent.enabled = false;
+        }
+
     }
+
 
     private void OnConcentrationStarted()
     {
         if (player == null) return;
         float d = Vector3.Distance(player.position, transform.position);
-        if (d <= revealRadius)
+        if (d > revealRadius) return;
+
+        if (requireLineOfSight && !HasLineOfSight()) return;
+
+        // mostrar outline / visual
+        Highlight(true);
+
+        // activamos la interacción solo mientras está revelado
+        if (interactableToToggle != null)
+            interactableToToggle.enabled = true;
+        else if (interactableComponent != null)
+            interactableComponent.enabled = true;
+
+
+        // registrar pista (si corresponde) - evita duplicados
+        if (AddClueOnReveal && !string.IsNullOrEmpty(clueId))
         {
-            if (requireLineOfSight)
+            if (PlayerClueTracker.Instance != null && !PlayerClueTracker.Instance.HasClue(clueId))
             {
-                if (!HasLineOfSight()) return;
-            }
-            Highlight(true);
-            if (AddClueOnReveal)
-            {
-                // registrar pista 
-              
+                PlayerClueTracker.Instance.AddClue(clueId);
+                // opcional: reproducir sonido
+                // SoundManager.instance.PlaySound(SoundID.CluePickupSound);
             }
         }
     }
 
     private void OnConcentrationEnded()
     {
-        Highlight(false);
+        if (!keepRevealedAfterEnd)
+            Highlight(false);
+
+        if (!keepRevealedAfterEnd)
+        {
+            if (interactableToToggle != null)
+                interactableToToggle.enabled = false;
+            else if (interactableComponent != null)
+                interactableComponent.enabled = false;
+        }
+
     }
 
     private void Highlight(bool on)
     {
         highlighted = on;
-        // activa outline, particle o tweak visual del objeto en si
 
+        // prioridad: si tiene InteractableBase, pedimos que active sus outlines
+        if (interactableComponent != null)
+        {
+            interactableComponent.SetOutlinesActive(on);
+        }
+        else
+        {
+            // fallback al GameObject Outline asignado manualmente
+            if (Outline != null)
+                Outline.SetActive(on);
+        }
+
+        // también podés lanzar partículas/SFX aquí si querés
     }
 
     private bool HasLineOfSight()
@@ -71,5 +129,14 @@ public class RevealableByConcentration : MonoBehaviour
             return hit.collider == GetComponent<Collider>();
         }
         return false;
+    }
+
+    private void OnDestroy()
+    {
+        if (ConcentrationManager.Instance != null)
+        {
+            ConcentrationManager.Instance.OnConcentrationStarted -= OnConcentrationStarted;
+            ConcentrationManager.Instance.OnConcentrationEnded -= OnConcentrationEnded;
+        }
     }
 }
