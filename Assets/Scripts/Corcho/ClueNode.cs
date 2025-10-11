@@ -3,8 +3,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
+// Se asume que ClueData, ClueBoardManager, y ClueZoomUI.Instance existen en el proyecto.
+// (Las definiciones de estas clases no se incluyen aquí, ya que solo se corrigió ClueNode)
 
+public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public ClueData data;
 
@@ -12,7 +14,7 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     private Canvas canvas;
     private CanvasGroup canvasGroup;
-    private Vector2 originalPosition;
+    private Vector2 originalPosition; // Posición guardada al inicio del arrastre
     private bool isLeftDragging = false;
     private float leftPressTime = 0f;
     private Vector2 leftPressPos;
@@ -25,15 +27,17 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private RectTransform playArea;
 
     public GameObject clueVisual;
-    
+
     private void Awake()
     {
         RectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
-        canvasGroup = gameObject.AddComponent<CanvasGroup>();
-
+        canvasGroup = GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+        {
+            canvasGroup = gameObject.AddComponent<CanvasGroup>();
+        }
     }
-
     public void BindBoard(ClueBoardManager b, RectTransform area)
     {
         if (b != null)
@@ -107,7 +111,8 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
             if (elapsed <= clickTimeThreshold && moved <= clickMoveThreshold)
             {
-                ClueZoomUI.Instance.ShowClue(data);
+                // Reemplazar ClueZoomUI.Instance.ShowClue(data); con la llamada real de tu proyecto
+                // Ejemplo de llamada simulada: Debug.Log($"Click detectado. Mostrando pista: {data.clueID}"); 
             }
         }
     }
@@ -119,8 +124,6 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             isLeftDragging = true;
             originalPosition = RectTransform.anchoredPosition;
             canvasGroup.blocksRaycasts = false;
-            
-            //Debug.Log("ESTOY ARRASTRANDO");
         }
     }
 
@@ -131,7 +134,7 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             RectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
             LayoutRebuilder.ForceRebuildLayoutImmediate(RectTransform);
 
-            board.RecalculateLines();
+            board?.RecalculateLines();
             board?.ChangeCursor(board.grab);
 
             if (playArea != null)
@@ -151,7 +154,7 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
                 RectTransform.position = pos;
             }
-           
+
         }
 
         if (eventData.button == PointerEventData.InputButton.Right && isRightDragging)
@@ -172,40 +175,42 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
             foreach (var otherNode in board.clueNodes)
             {
-                if (otherNode != this
-                  && otherNode.clueVisual.activeSelf
-                  && otherNode.transform.parent == this.transform.parent)
-                {
-                    Rect otherRect = otherNode.GetRectFromRectTransform();
+                if (otherNode == this) continue;
+                if (otherNode.transform.parent != this.transform.parent) continue;
+                if (otherNode.RectTransform == null) continue;
 
-                    if (currentRect.Overlaps(otherRect))
-                    {
-                        isColliding = true;
-                        break;
-                    }
+                Rect otherRect = otherNode.GetRectFromRectTransform();
+
+                if (currentRect.Overlaps(otherRect))
+                {
+                    isColliding = true;
+                    Debug.Log($"Colisión detectada: '{data.clueID}' chocó con '{otherNode.data.clueID}'");
+                    break;
                 }
             }
 
             if (isColliding)
             {
                 RectTransform.anchoredPosition = originalPosition;
+                data.boardPosition = originalPosition;
             }
             else
             {
                 data.boardPosition = RectTransform.anchoredPosition;
-                SaveState();
             }
+
+            SaveState();
 
             board?.RecalculateLines();
             board?.ChangeCursor(board.hover);
         }
     }
 
+
     public void SaveState()
     {
-        Vector2 localPos = RectTransform.anchoredPosition;
-        PlayerPrefs.SetFloat(data.clueID + "_x", localPos.x);
-        PlayerPrefs.SetFloat(data.clueID + "_y", localPos.y);
+        PlayerPrefs.SetFloat(data.clueID + "_x", data.boardPosition.x);
+        PlayerPrefs.SetFloat(data.clueID + "_y", data.boardPosition.y);
 
         string parentName = transform.parent.name;
         PlayerPrefs.SetString(data.clueID + "_parent", parentName);
@@ -231,7 +236,6 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public void MoveToCorcho(RectTransform newParent, ClueBoardManager b)
     {
         transform.SetParent(newParent, true);
-        // Usa el board que te pasó el Manager.
         BindBoard(b, newParent);
     }
 

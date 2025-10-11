@@ -30,14 +30,14 @@ public class LibretaUI : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (!libretaAbierta)
+            if (libretaAbierta)
             {
-                AbrirLibreta(3);
-                SoundManager.instance.PlaySound(SoundID.BookOpenSound);
+                CerrarLibreta();
             }
             else
             {
-                CerrarLibreta();
+                AbrirLibreta(3);
+                SoundManager.instance.PlaySound(SoundID.BookOpenSound);
             }
         }
     }
@@ -75,6 +75,7 @@ public class LibretaUI : MonoBehaviour
     public void ResumeGame()
     {
         Time.timeScale = 1;
+        Cursor.visible = false;
     }
     public void AbrirLibretaDesdeBoton()
     {
