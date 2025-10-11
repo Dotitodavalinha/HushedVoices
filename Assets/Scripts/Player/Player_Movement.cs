@@ -21,6 +21,7 @@ public class Player_Movement : MonoBehaviour
     private bool isStreetScene;
     private bool isRoomInicioScene;
     private bool isRoomScene;
+    private bool isPoliceStationScene;
     public Animator anim;
 
     [Header("Debug")]
@@ -64,6 +65,7 @@ public class Player_Movement : MonoBehaviour
         isRoomScene = sceneName == "Room";
         isRoomInicioScene = sceneName == "RoomInicio";
         isStreetScene = sceneName == "Street";
+        isPoliceStationScene = sceneName == "StationInside";
     }
 
     IEnumerator ResetControllerNextFrame()
@@ -121,14 +123,12 @@ public class Player_Movement : MonoBehaviour
 
         Vector3 moveDir = Vector3.zero;
 
-        if (isRoomScene || isRoomInicioScene)
+        if (isRoomScene || isRoomInicioScene || isPoliceStationScene)
         {
-            // comportamiento especial en Room / RoomInicio
             moveDir = Vector3.forward * -input.x + Vector3.right * input.z;
         }
         else
         {
-            // movimiento global/world axes 
             moveDir = Vector3.forward * input.z + Vector3.right * input.x;
         }
 

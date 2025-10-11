@@ -3,9 +3,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-// Se asume que ClueData, ClueBoardManager, y ClueZoomUI.Instance existen en el proyecto.
-// (Las definiciones de estas clases no se incluyen aquí, ya que solo se corrigió ClueNode)
-
 public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public ClueData data;
@@ -14,7 +11,7 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     private Canvas canvas;
     private CanvasGroup canvasGroup;
-    private Vector2 originalPosition; // Posición guardada al inicio del arrastre
+    private Vector2 originalPosition;
     private bool isLeftDragging = false;
     private float leftPressTime = 0f;
     private Vector2 leftPressPos;
@@ -109,11 +106,7 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             float elapsed = Time.unscaledTime - leftPressTime;
             float moved = (eventData.position - leftPressPos).magnitude;
 
-            if (elapsed <= clickTimeThreshold && moved <= clickMoveThreshold)
-            {
-                // Reemplazar ClueZoomUI.Instance.ShowClue(data); con la llamada real de tu proyecto
-                // Ejemplo de llamada simulada: Debug.Log($"Click detectado. Mostrando pista: {data.clueID}"); 
-            }
+            if (elapsed <= clickTimeThreshold && moved <= clickMoveThreshold) ;
         }
     }
 
