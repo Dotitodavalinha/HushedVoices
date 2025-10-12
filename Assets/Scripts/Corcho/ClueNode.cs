@@ -106,7 +106,10 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             float elapsed = Time.unscaledTime - leftPressTime;
             float moved = (eventData.position - leftPressPos).magnitude;
 
-            if (elapsed <= clickTimeThreshold && moved <= clickMoveThreshold) ;
+            if (elapsed <= clickTimeThreshold && moved <= clickMoveThreshold)
+            {
+                ClueZoomUI.Instance.ShowClue(data);
+            }
         }
     }
 
