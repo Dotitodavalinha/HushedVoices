@@ -80,7 +80,7 @@ public class Player_Movement : MonoBehaviour
             controller.enabled = true;
         }
 
-        // limpiar el entryPoint para que no se vuelva a aplicar
+        // limpiar entryPoint para que no se vuelva a aplicar
         if (SceneTransitionManager.Instance != null)
             SceneTransitionManager.Instance.lastEntryPointID = null;
     }
@@ -89,23 +89,28 @@ public class Player_Movement : MonoBehaviour
     {
         float normalizedSpeed = 0f;
 
-        
-        float horiz, vert;
-        bool runHeld;
+        float horiz = 0f, vert = 0f;
+        bool runHeld = false;
 
+        // Preferir PersistentInput (nuevo Input System)
         if (PersistentInput.Instance != null)
         {
             horiz = PersistentInput.Instance.Horizontal;
             vert = PersistentInput.Instance.Vertical;
             runHeld = PersistentInput.Instance.Run;
-            if (debugInputValues) Debug.Log($"[Player] PersistentInput read H:{horiz} V:{vert} Run:{runHeld}");
+
+            if (debugInputValues)
+                Debug.Log($"[Player] PersistentInput -> H:{horiz} V:{vert} Run:{runHeld}");
         }
         else
         {
+            // Fallback por seguridad (antiguo sistema)
             horiz = Input.GetAxisRaw("Horizontal");
             vert = Input.GetAxisRaw("Vertical");
             runHeld = Input.GetKey(KeyCode.LeftShift);
-            if (debugInputValues) Debug.Log($"[Player] Fallback Input read H:{horiz} V:{vert} Run:{runHeld}");
+
+            if (debugInputValues)
+                Debug.Log($"[Player] Fallback Input -> H:{horiz} V:{vert} Run:{runHeld}");
         }
 
         Vector3 input = new Vector3(horiz, 0f, vert).normalized;
