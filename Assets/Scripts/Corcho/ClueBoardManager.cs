@@ -56,7 +56,10 @@ public class ClueBoardManager : MonoBehaviour
 
     private void Update()
     {
-        HandleDisconnectHold();
+        if (clueBoard.activeSelf)
+        {
+            HandleDisconnectHold();
+        }
     }
 
     private void HandleDisconnectHold()

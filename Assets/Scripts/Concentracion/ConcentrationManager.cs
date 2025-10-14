@@ -109,7 +109,7 @@ public class ConcentrationManager : MonoBehaviour
 
         // eventos para que otros subscriptores reaccionen (VFX, SFX, revealables)
         OnConcentrationStarted?.Invoke();
-
+        /*
         if (concentrationOverlayPrefab != null)
         {
             var canvas = FindObjectOfType<Canvas>();
@@ -119,7 +119,7 @@ public class ConcentrationManager : MonoBehaviour
                 activeOverlay.transform.SetAsLastSibling(); // se asegura que quede encima de todo
             }
         }
-
+        */
         //reproducir sonido o activar shader desde quien escucha OnConcentrationStarted
         return true;
     }
