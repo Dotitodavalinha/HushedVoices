@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.5150782, g: 0.29728284, b: 0.21847641, a: 1}
+  m_FogColor: {r: 0.30520082, g: 0.19898584, b: 0.20917806, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.95647526, g: 0.82320106, b: 0.5837437, a: 1}
+  m_AmbientSkyColor: {r: 0.8374782, g: 0.34282568, b: 0.31282905, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.8853922, g: 0.5929971, b: 0.40223178, a: 1}
+  m_IndirectSpecularColor: {r: 0.7512066, g: 0.3721129, b: 0.3411093, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -20626,6 +20626,37 @@ RectTransform:
   m_AnchoredPosition: {x: -0.000030517578, y: 0}
   m_SizeDelta: {x: 172, y: 179}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1260162774
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1260162775}
+  m_Layer: 0
+  m_Name: DesdeJail
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1260162775
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260162774}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: -23.208, y: 0.732, z: 9.176}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!4 &1266045700 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5792971006832354535, guid: 058f2f582a21a744cbc6f7c0bbaa4744, type: 3}
@@ -23851,7 +23882,7 @@ MonoBehaviour:
   maxSunIntensity: 0.4
   DirectionalLight: {fileID: 1724289880}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 15.138719
+  TimeOfDay: 18.39049
   DaySpeed: 20
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -27882,7 +27913,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1724289877}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.031885546, y: -0.9271342, z: 0.3644532, w: -0.081113786}
+  m_LocalRotation: {x: 0.0044530192, y: -0.9948936, z: -0.050898205, w: -0.087041974}
   m_LocalPosition: {x: -6.174999, y: 3.2090003, z: -3.6359997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -27923,8 +27954,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.90692353, g: 0.8708131, b: 0.71645415, a: 1}
-  m_Intensity: 0.35729805
+  m_Color: {r: 0.7275465, g: 0.68159175, b: 0.4818279, a: 1}
+  m_Intensity: 0.23535664
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -35079,6 +35110,7 @@ SceneRoots:
   - {fileID: 53637110}
   - {fileID: 174340106}
   - {fileID: 548383889}
+  - {fileID: 1260162775}
   - {fileID: 1698595088}
   - {fileID: 979191765}
   - {fileID: 1880014779}

@@ -85,12 +85,17 @@ public class JailManager : MonoBehaviour
     private IEnumerator WaitAndGoToRoom()
     {
         Debug.Log("va a esperar 3 segundos");
-        yield return new WaitForSecondsRealtime(3f);      
+        yield return new WaitForSecondsRealtime(3f);
         Debug.Log("ya pasaron 3 segundos");
 
         DaysManager.Instance.NextDay();
-        GameManager.Instance.LoadScene("Room");
-        
+        //GameManager.Instance.LoadScene("Room");
+
+
+        SceneTransitionData data = new SceneTransitionData("Room", "DesdeJail");
+        SceneTransitionManager.Instance.TransitionToScene(data);
+
+
         ParanoiaManager.Instance.SetParanoiaValueDirect(0f);
     }
 
