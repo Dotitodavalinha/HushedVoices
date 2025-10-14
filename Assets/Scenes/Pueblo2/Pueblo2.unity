@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.18003291, g: 0.14036292, b: 0.20363265, a: 1}
+  m_FogColor: {r: 0.5150782, g: 0.29728284, b: 0.21847641, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.04
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.4589728, g: 0.22089183, b: 0.33253372, a: 1}
+  m_AmbientSkyColor: {r: 0.95647526, g: 0.82320106, b: 0.5837437, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.7
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.53443485, g: 0.22144076, b: 0.32321316, a: 1}
+  m_IndirectSpecularColor: {r: 0.8853922, g: 0.5929971, b: 0.40223178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9113,7 +9113,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 478297718}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.039430667, y: 0.6361805, z: -0.0325846, w: 0.7698428}
+  m_LocalRotation: {x: 0.039495222, y: 0.6332814, z: -0.03238861, w: 0.77223426}
   m_LocalPosition: {x: -16, y: 5, z: 26.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -16783,7 +16783,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 858947800}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0733771, y: 0.5757295, z: -0.051982764, w: 0.81268024}
+  m_LocalRotation: {x: 0.073377155, y: 0.56965613, z: -0.051162433, w: 0.8170007}
   m_LocalPosition: {x: 1, y: 5, z: 26.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -17106,7 +17106,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 881084645}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.026169807, y: -0.95022625, z: -0.29912207, w: -0.08313408}
+  m_LocalRotation: {x: -0.031885546, y: -0.9271342, z: 0.3644532, w: -0.081113786}
   m_LocalPosition: {x: 58.24, y: 7.95, z: 24.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -17147,8 +17147,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.53702956, g: 0.5164525, b: 0.41964456, a: 1}
-  m_Intensity: 0.3400913
+  m_Color: {r: 0.90692353, g: 0.8708131, b: 0.71645415, a: 1}
+  m_Intensity: 1.0863092
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -27476,7 +27476,7 @@ MonoBehaviour:
   maxSunIntensity: 1.25
   DirectionalLight: {fileID: 881084648}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 20.3298
+  TimeOfDay: 15.138719
   DaySpeed: 17
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -46768,6 +46768,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 6d721847bd15191429e0dbe27229b45f, type: 2}
+    - target: {fileID: 5147660669717706669, guid: 629362fe74a902a46893f019c2fcc0c3, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5824918174012766435, guid: 629362fe74a902a46893f019c2fcc0c3, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
