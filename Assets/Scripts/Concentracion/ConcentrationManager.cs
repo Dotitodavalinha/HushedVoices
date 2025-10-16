@@ -31,6 +31,10 @@ public class ConcentrationManager : MonoBehaviour
     public float fatigueDuration = 5f;
     private bool isFatigued = false;
 
+    //accion q pide mantener activa la concentracion
+    private int holdCounter = 0;
+    // si true, la concentración expiró en timer pero espera a que se liberen los holds
+    private bool isPendingEnd = false;
 
 
     public event Action OnConcentrationStarted;
@@ -82,8 +86,21 @@ public class ConcentrationManager : MonoBehaviour
         {
             timer -= Time.deltaTime;
             if (timer <= 0f)
-                EndConcentration();
+            {
+                if (holdCounter > 0)
+                {
+                    // hay interacciones en curso: posponemos el End hasta que se liberen
+                    isPendingEnd = true;
+                    timer = 0f; // seguro
+                                // no llamamos EndConcentration() todavía
+                }
+                else
+                {
+                    EndConcentration();
+                }
+            }
         }
+
     }
 
     // intenta activar: devuelve true si se activo
@@ -126,7 +143,15 @@ public class ConcentrationManager : MonoBehaviour
 
     public void EndConcentration()
     {
+        // si hay holds, no terminar directamente
+        if (holdCounter > 0)
+        {
+            isPendingEnd = true;
+            return;
+        }
+
         if (!isActive) return;
+        
 
         isActive = false;
         timer = 0f;
@@ -167,6 +192,26 @@ public class ConcentrationManager : MonoBehaviour
         isFatigued = false;
     }
 
+    
+    public void AddInteractionHold()
+    {
+        holdCounter = Mathf.Max(0, holdCounter) + 1;
+        
+         Debug.Log($"Concentration hold added. Count: {holdCounter}");
+    }
+
+    public void RemoveInteractionHold()
+    {
+        holdCounter = Mathf.Max(0, holdCounter - 1);
+        // si ya no quedan holds y había un End pendiente, lo ejecutamos ahora
+        if (holdCounter == 0 && isPendingEnd)
+        {
+            isPendingEnd = false;
+            
+            EndConcentration();
+        }
+        // Debug.Log($"Concentration hold removed. Count: {holdCounter}");
+    }
 
     public void ForceEnd() => EndConcentration();
 

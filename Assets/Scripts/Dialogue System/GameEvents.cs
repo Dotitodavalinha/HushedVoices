@@ -29,7 +29,7 @@ public class GameEvents : MonoBehaviour
                 r.onResponseChosen.AddListener(() => ProgressManager.Instance.Policez = true);
             }
 
-            if (r.responseText.Contains("Thanks Chloe")) 
+            if (r.responseText.Contains("Hi, can you make me a black coffee please?")) // ex thanks Chloe
             {
                 //r.onResponseChosen.RemoveAllListeners(); 
                 r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("PolicemanZ", "RootPoliceZ1"));

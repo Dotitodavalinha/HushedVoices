@@ -7,6 +7,7 @@ public abstract class InteractableBase : MonoBehaviour
     [Header("Opciones comunes")]
     [SerializeField] protected bool needInteract = true; // requiere apretar E
     [SerializeField] protected bool destroyAfterUse = false;
+    [SerializeField] protected bool holdConcentrationIfOpen = false;
     [SerializeField] protected NOTEInteractionZone zonaInteraccion;
     [SerializeField] protected GameObject pressE_UI;
 
@@ -26,7 +27,7 @@ public abstract class InteractableBase : MonoBehaviour
     protected virtual void Start()
     {
         AssignCanvas();
-     
+
     }
 
     protected virtual void Update()
@@ -75,6 +76,15 @@ public abstract class InteractableBase : MonoBehaviour
 
         active = true;
         OnActivate();
+        if (holdConcentrationIfOpen == true)
+        {
+            // si la Concentration está activa, pedir que la mantenga viva mientras dure la interacción
+            if (ConcentrationManager.Instance != null && ConcentrationManager.Instance.IsActive())
+            {
+                ConcentrationManager.Instance.AddInteractionHold();
+            }
+        }
+
 
         // apagar outlines al interactuar
         DisableOutlines();
@@ -86,6 +96,13 @@ public abstract class InteractableBase : MonoBehaviour
     {
         active = false;
         GameManager.Instance.UnlockUI();
+        if (holdConcentrationIfOpen == true)
+        {
+            if (ConcentrationManager.Instance != null)
+            {
+                ConcentrationManager.Instance.RemoveInteractionHold();
+            }
+        }
         OnDeactivate();
 
         if (pressE_UI != null)
@@ -126,7 +143,7 @@ public abstract class InteractableBase : MonoBehaviour
         }
     }
 
- 
+
     public void SetOutlinesActive(bool on)
     {
         if (outlinerCubes != null && outlinerCubes.Count > 0)
@@ -141,6 +158,7 @@ public abstract class InteractableBase : MonoBehaviour
                 singleOutliner.gameObject.SetActive(on);
         }
     }
-   
+
+    public bool IsOpen => active;
 
 }
