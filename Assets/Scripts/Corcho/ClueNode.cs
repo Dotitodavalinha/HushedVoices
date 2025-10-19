@@ -24,6 +24,8 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private RectTransform playArea;
 
     public GameObject clueVisual;
+    private Image clueVisualImage;
+    private Color originalColor;
 
     private void Awake()
     {
@@ -33,6 +35,15 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         if (canvasGroup == null)
         {
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
+        }
+
+        if (clueVisual != null)
+        {
+            clueVisualImage = clueVisual.GetComponent<Image>();
+            if (clueVisualImage != null)
+            {
+                originalColor = clueVisualImage.color;
+            }
         }
     }
     public void BindBoard(ClueBoardManager b, RectTransform area)
@@ -150,7 +161,7 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
                 RectTransform.position = pos;
             }
-
+            CheckCollisionAndSetColor();
         }
 
         if (eventData.button == PointerEventData.InputButton.Right && isRightDragging)
@@ -166,33 +177,19 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             isLeftDragging = false;
             canvasGroup.blocksRaycasts = true;
 
-            bool isColliding = false;
-            Rect currentRect = GetRectFromRectTransform();
-
-            foreach (var otherNode in board.clueNodes)
-            {
-                if (otherNode == this) continue;
-                if (otherNode.transform.parent != this.transform.parent) continue;
-                if (otherNode.RectTransform == null) continue;
-
-                Rect otherRect = otherNode.GetRectFromRectTransform();
-
-                if (currentRect.Overlaps(otherRect))
-                {
-                    isColliding = true;
-                    Debug.Log($"Colisión detectada: '{data.clueID}' chocó con '{otherNode.data.clueID}'");
-                    break;
-                }
-            }
+            bool isColliding = CheckCollisionAndSetColor();
 
             if (isColliding)
             {
                 RectTransform.anchoredPosition = originalPosition;
                 data.boardPosition = originalPosition;
+
+                SetVisualColor(originalColor);
             }
             else
             {
                 data.boardPosition = RectTransform.anchoredPosition;
+                SetVisualColor(originalColor);
             }
 
             SaveState();
@@ -202,6 +199,39 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         }
     }
 
+    private void SetVisualColor(Color color)
+    {
+        if (clueVisualImage != null)
+        {
+            clueVisualImage.color = color;
+        }
+    }
+
+    private bool CheckCollisionAndSetColor()
+    {
+        if (board == null || board.clueNodes == null || clueVisualImage == null) return false;
+
+        bool isColliding = false;
+        Rect currentRect = GetRectFromRectTransform();
+
+        foreach (var otherNode in board.clueNodes)
+        {
+            if (otherNode == this) continue;
+            if (otherNode.transform.parent != this.transform.parent) continue;
+            if (otherNode.RectTransform == null) continue;
+
+            Rect otherRect = otherNode.GetRectFromRectTransform();
+
+            if (currentRect.Overlaps(otherRect))
+            {
+                isColliding = true;
+                break;
+            }
+        }
+
+        SetVisualColor(isColliding ? Color.red : originalColor);
+        return isColliding;
+    }
 
     public void SaveState()
     {
