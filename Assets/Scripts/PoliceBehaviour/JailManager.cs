@@ -92,7 +92,7 @@ public class JailManager : MonoBehaviour
         //GameManager.Instance.LoadScene("Room");
 
 
-        SceneTransitionData data = new SceneTransitionData("Room", "DesdeJail");
+        SceneTransitionData data = new SceneTransitionData("StationInside", "DesdeJail");
         SceneTransitionManager.Instance.TransitionToScene(data);
 
 

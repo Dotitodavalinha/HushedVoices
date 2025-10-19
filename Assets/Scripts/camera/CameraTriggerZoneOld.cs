@@ -20,6 +20,12 @@ public class CameraTriggerZoneOld : MonoBehaviour
         if (manager != null && manager.IsInitialized())
             manager.RegisterZone(this);
     }
+    private void OnTriggerStay(Collider other)
+    {
+        if (!other.CompareTag("Player")) return;
+        if (manager != null && manager.IsInitialized())
+            manager.RegisterZone(this);
+    }
 
     private void OnTriggerExit(Collider other)
     {
