@@ -4,8 +4,7 @@ using System.Collections;
 public class LockInteraction : MonoBehaviour
 {
     [Header("Puzzle References")]
-    [SerializeField] private GameObject minigameRoot;
-    [SerializeField] private GameObject interactionPromptObject;
+    [SerializeField] private GameObject interactionPromptObject; // el puzzle mismo
 
     [Header("Door Movement")]
     [SerializeField] private Transform doorObject;
@@ -15,60 +14,55 @@ public class LockInteraction : MonoBehaviour
     [Header("Player References")]
     [SerializeField] private MonoBehaviour playerMovementScript;
 
-    private bool playerIsInRange = false;
-    private Collider interactionCollider;
+    private bool puzzleActive = false;
+    private bool playerNearby = false;
 
-    void Start()
+    private UIInteractable interactable;
+
+    private void Start()
     {
-        interactionCollider = GetComponent<Collider>();
-        SetPuzzleState(false);
-        if (interactionPromptObject != null) interactionPromptObject.SetActive(false);
+        interactable = GetComponent<UIInteractable>();
+        if (interactionPromptObject != null)
+            interactionPromptObject.SetActive(false);
     }
 
-    void Update()
+    private void Update()
     {
-        if (playerIsInRange && Input.GetKeyDown(KeyCode.E) && !minigameRoot.activeInHierarchy)
-        {
-            if (interactionPromptObject != null) interactionPromptObject.SetActive(false);
-            SetPuzzleState(true);
-        }
+        // Detectar si el jugador está cerca gracias al sistema de InteractableBase
+        playerNearby = interactable != null && interactable.IsOpen;
 
-        else if (minigameRoot.activeInHierarchy && Input.GetKeyDown(KeyCode.E))
+        // Si está activo, permitir cerrar con E
+        if (puzzleActive && Input.GetKeyDown(KeyCode.E))
         {
-            SetPuzzleState(false);
-            if (playerIsInRange && interactionPromptObject != null) interactionPromptObject.SetActive(true);
+            TogglePuzzle(false);
+        }
+        // Si no está activo pero el interactable fue activado por E, abrimos el puzzle
+        else if (!puzzleActive && playerNearby && Input.GetKeyDown(KeyCode.E))
+        {
+            TogglePuzzle(true);
         }
     }
 
-    private void SetPuzzleState(bool active)
+    private void TogglePuzzle(bool state)
     {
-        minigameRoot.SetActive(active);
+        puzzleActive = state;
+
+        if (interactionPromptObject != null)
+            interactionPromptObject.SetActive(state);
 
         if (playerMovementScript != null)
-        {
-            playerMovementScript.enabled = !active;
-        }
-
+            playerMovementScript.enabled = !state;
     }
 
     public void CompletePuzzleSequence()
     {
-        //Debug.Log("Puzzle COMPLETO. Desactivando interacción y abriendo puerta.");
-
-        SetPuzzleState(false);
-        playerIsInRange = false;
-        if (interactionCollider != null)
-        {
-            interactionCollider.enabled = false;
-        }
+        TogglePuzzle(false);
 
         if (doorObject != null)
-        {
             StartCoroutine(OpenDoorRotation());
-        }
     }
 
-    IEnumerator OpenDoorRotation()
+    private IEnumerator OpenDoorRotation()
     {
         Quaternion startRotation = doorObject.rotation;
         Quaternion endRotation = Quaternion.Euler(
@@ -78,7 +72,6 @@ public class LockInteraction : MonoBehaviour
         );
 
         float time = 0;
-
         while (time < 1)
         {
             doorObject.rotation = Quaternion.Slerp(startRotation, endRotation, time);
@@ -87,29 +80,5 @@ public class LockInteraction : MonoBehaviour
         }
 
         doorObject.rotation = endRotation;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerIsInRange = true;
-            if (interactionPromptObject != null && !minigameRoot.activeInHierarchy)
-            {
-                interactionPromptObject.SetActive(true);
-            }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerIsInRange = false;
-            if (interactionPromptObject != null)
-            {
-                interactionPromptObject.SetActive(false);
-            }
-        }
     }
 }

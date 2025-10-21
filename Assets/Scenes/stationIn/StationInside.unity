@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.6989514, g: 0.38343218, b: 0.22656296, a: 1}
+  m_FogColor: {r: 0.09803921, g: 0.10196081, b: 0.20000002, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 1, g: 0.98433036, b: 0.94273114, a: 1}
+  m_AmbientSkyColor: {r: 0.2025187, g: 0.20757172, b: 0.3490566, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.8851941, g: 0.59261876, b: 0.40279487, a: 1}
+  m_IndirectSpecularColor: {r: 0.14090109, g: 0.16818628, b: 0.32461888, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3828,6 +3828,8 @@ GameObject:
   - component: {fileID: 312169442}
   - component: {fileID: 312169441}
   - component: {fileID: 312169440}
+  - component: {fileID: 312169446}
+  - component: {fileID: 312169445}
   m_Layer: 0
   m_Name: ColliderPuzzle
   m_TagString: Untagged
@@ -3847,7 +3849,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b4a01a070cb7814cbfe062e073bfc24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minigameRoot: {fileID: 225019091}
   interactionPromptObject: {fileID: 1776146449}
   doorObject: {fileID: 418656683}
   targetYRotation: 350
@@ -3940,6 +3941,38 @@ Transform:
   - {fileID: 1776146452}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -0.076, y: 0.088, z: -0.024}
+--- !u!114 &312169445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 312169439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 489e2122eca06384fb12221906943316, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  needInteract: 1
+  destroyAfterUse: 0
+  holdConcentrationIfOpen: 0
+  zonaInteraccion: {fileID: 312169446}
+  pressE_UI: {fileID: 1776146449}
+  outlinerCubes: []
+  prefabs: []
+--- !u!114 &312169446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 312169439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bda4e817eb36a04e94c427b5d6f1e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jugadorDentro: 0
 --- !u!4 &325336281 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 883377611693762632, guid: 562187557512cce49878d09c41b3c88d, type: 3}
@@ -7785,7 +7818,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 636803806}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.06392604, y: -0.67713684, z: 0.7306775, w: -0.05924184}
+  m_LocalRotation: {x: 0.043577906, y: -0.8627299, z: -0.4980974, w: -0.07547914}
   m_LocalPosition: {x: -15.9, y: 4.28, z: 0.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7826,8 +7859,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.9911782, b: 0.9539592, a: 1}
-  m_Intensity: 0.5
+  m_Color: {r: 0.37294975, g: 0.37422884, b: 0.36609012, a: 1}
+  m_Intensity: 0.1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -18636,7 +18669,7 @@ MonoBehaviour:
   maxSunIntensity: 0.5
   DirectionalLight: {fileID: 636803809}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 11.709604
+  TimeOfDay: 22
   DaySpeed: 20
   horaLimiteNoche: 22
   tiempoPausado: 0
