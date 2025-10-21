@@ -5,12 +5,11 @@ using static UnityEngine.Rendering.BoolParameter;
 
 public class NightManager : MonoBehaviour
 {
-    public GameObject policias;
+    public GameObject policias; 
     public ParanoiaManager ParanoiaManager;
     public JailManager JailManager;
     public LightingManager DayManager;
     public bool IsNight;
-
 
     public GameObject IsNightAlert;
     public GameObject IsPreNightAlert;
@@ -114,4 +113,7 @@ public class NightManager : MonoBehaviour
         InstantiatedPreNightAlert = false;
     
     }
+
+
+
 }

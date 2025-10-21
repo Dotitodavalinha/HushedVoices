@@ -8,6 +8,8 @@ public class NPCMoodManager : MonoBehaviour
     public static NPCMoodManager Instance;
     private Dictionary<string, MoodType> npcMoods = new Dictionary<string, MoodType>();
 
+    private readonly System.Collections.Generic.Dictionary<string, MoodType> forcedPreviousMoods = new System.Collections.Generic.Dictionary<string, MoodType>();
+
     void Awake()
     {
         if (Instance == null)
@@ -32,4 +34,25 @@ public class NPCMoodManager : MonoBehaviour
     {
         npcMoods.Clear();
     }
+
+    public void SetForcedPreviousMood(string npcId, MoodType prev)
+    {
+        forcedPreviousMoods[npcId] = prev;
+    }
+
+    public bool TryGetForcedPreviousMood(string npcId, out MoodType prev)
+    {
+        return forcedPreviousMoods.TryGetValue(npcId, out prev);
+    }
+
+    public bool HasForcedPreviousMood(string npcId)
+    {
+        return forcedPreviousMoods.ContainsKey(npcId);
+    }
+
+    public void ClearForcedPreviousMood(string npcId)
+    {
+        forcedPreviousMoods.Remove(npcId);
+    }
+
 }
