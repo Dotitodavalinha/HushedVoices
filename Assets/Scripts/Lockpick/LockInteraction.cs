@@ -56,7 +56,7 @@ public class LockInteraction : MonoBehaviour
         //Debug.Log("Puzzle COMPLETO. Desactivando interacción y abriendo puerta.");
 
         SetPuzzleState(false);
-
+        playerIsInRange = false;
         if (interactionCollider != null)
         {
             interactionCollider.enabled = false;
