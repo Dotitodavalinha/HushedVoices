@@ -5,6 +5,7 @@ using TMPro;
 using System.Collections.Generic;
 using Cinemachine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -16,20 +17,20 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI npcNameText;
     private NPCDialogue currentNPC;
 
+    private List<Button> currentResponseButtons = new List<Button>();
+    private int selectedResponseIndex = -1;
+
     public bool ModoParanoia { get; private set; }
     [SerializeField] private GameObject ButtonPrefabParanoia;
-
-
 
     [Header("CAMARA")]
     public CameraManagerZ camManager;
     public CinemachineFreeLook lukeCamera;
-    //public CinemachineVirtualCamera lukeCamera;
     private CinemachineVirtualCameraBase camAnterior;
-
 
     private DialogueNodeSO currentNode;
     public bool IsOpen => dialoguePanel.activeSelf;
+    public bool HasResponses => currentResponseButtons.Count > 0;
 
     [SerializeField] private PlayerMovementLocker movementLocker;
 
@@ -37,6 +38,8 @@ public class DialogueManager : MonoBehaviour
 
     private bool isTyping = false;
     public bool IsTyping => isTyping;
+
+    private Coroutine typingCoroutine;
 
     private void Awake()
     {
@@ -48,25 +51,41 @@ public class DialogueManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
         Instance = this;
-
     }
 
     private void Start()
     {
-
         dialoguePanel.SetActive(false);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-
         movementLocker.UnlockMovement();
-
-
     }
+
+    private void Update()
+    {
+        if (dialoguePanel == null)
+            return;
+
+        if (!IsOpen || isTyping || !HasResponses)
+            return;
+
+        if (EventSystem.current.currentSelectedGameObject == null)
+        {
+            if (selectedResponseIndex < 0 || selectedResponseIndex >= currentResponseButtons.Count)
+            {
+                SetSelectedResponse(0);
+            }
+            else
+            {
+                SetSelectedResponse(selectedResponseIndex);
+            }
+        }
+    }
+
+
     public void StartDialogue(DialogueSO dialogue, NPCDialogue npc)
     {
-
         DialoguePanelOn();
         SoundManager.instance.PlaySound(SoundID.DialogueTypingSound);
         Cursor.visible = true;
@@ -77,23 +96,19 @@ public class DialogueManager : MonoBehaviour
         movementLocker.LockMovement();
         ShowNode(dialogue.rootNode, currentNPC);
 
-        //la camara cambia a la de luke y mira al npc
         camAnterior = camManager.GetCurrentCamera();
         camManager.SwitchCamera(lukeCamera);
         camManager.CambiarLookAt(npc.transform);
 
-        //npc mira a luke y luke a npc
         if (npc.noRotateToLook)
         {
             Vector3 targetPosition = movementLocker.transform.position;
             targetPosition.y = npc.transform.position.y;
             npc.transform.LookAt(targetPosition);
         }
-
         Vector3 npcPos = npc.transform.position;
         npcPos.y = movementLocker.transform.position.y;
         movementLocker.transform.LookAt(npcPos);
-
     }
 
     public void SetModoParanoia(bool valor)
@@ -101,42 +116,94 @@ public class DialogueManager : MonoBehaviour
         ModoParanoia = valor;
     }
 
-
     private void ShowNode(DialogueNodeSO node, NPCDialogue npc)
     {
         currentNode = node;
+
+        foreach (Transform child in responseContainer)
+            Destroy(child.gameObject);
+        currentResponseButtons.Clear();
+        selectedResponseIndex = -1;
+        EventSystem.current.SetSelectedGameObject(null);
+
         if (typingCoroutine != null)
             StopCoroutine(typingCoroutine);
         typingCoroutine = StartCoroutine(TypeText(node.npcText, npc));
+    }
 
+    private IEnumerator TypeText(string fullText, NPCDialogue npc, float typingSpeed = 0.05f)
+    {
+        isTyping = true;
+        npcText.text = "";
+        foreach (char c in fullText)
+        {
+            npcText.text += c;
+            switch (npc.npcVoiceType)
+            {
+                case 0: SoundManager.instance.PlaySound(SoundID.DialogueTypingHighSound); break;
+                case 1: SoundManager.instance.PlaySound(SoundID.DialogueTypingSound); break;
+                case 2: SoundManager.instance.PlaySound(SoundID.DialogueTypingLowSound); break;
+            }
+            yield return new WaitForSeconds(typingSpeed);
+        }
 
-        // Limpiar respuestas anteriores
-        foreach (Transform child in responseContainer)
-            Destroy(child.gameObject);
+        isTyping = false;
+        ShowResponses(currentNode, npc);
+    }
 
-        // Crear botones de respuesta
+    private void ShowResponses(DialogueNodeSO node, NPCDialogue npc)
+    {
+        if (node == null || node.responses.Count == 0)
+        {
+            currentResponseButtons.Clear();
+            selectedResponseIndex = -1;
+            return;
+        }
+
         foreach (var response in node.responses)
         {
-            // Si la respuesta requiere una pista y no la tenemos, no se muestra :p
             if (!string.IsNullOrEmpty(response.requiredClue) &&
                 !PlayerClueTracker.Instance.HasClue(response.requiredClue))
-            {
                 continue;
-            }
 
-            GameObject prefab = (ModoParanoia && response.paranoiaAffected) ? ButtonPrefabParanoia : responseButtonPrefab;
+            PlayerResponseSO capturedResponse = response;
 
-            GameObject btn = Instantiate(prefab, responseContainer);
+            GameObject prefab = (ModoParanoia && capturedResponse.paranoiaAffected) ? ButtonPrefabParanoia : responseButtonPrefab;
+            GameObject btnObject = Instantiate(prefab, responseContainer);
 
-            btn.GetComponentInChildren<TextMeshProUGUI>().text = response.responseText;
-            btn.GetComponent<Button>().onClick.AddListener(() => OnResponseSelected(response, npc));
-            btn.GetComponent<Button>().onClick.AddListener(() => SoundManager.instance.PlaySound(SoundID.DialogueOptionSound));
+            Button btn = btnObject.GetComponent<Button>();
+            btn.GetComponentInChildren<TextMeshProUGUI>().text = capturedResponse.responseText;
+
+            btn.onClick.AddListener(() => OnResponseSelected(capturedResponse, npc));
+            btn.onClick.AddListener(() => SoundManager.instance.PlaySound(SoundID.DialogueOptionSound));
+
+            currentResponseButtons.Add(btn);
+        }
+
+        if (currentResponseButtons.Count > 0)
+            SetSelectedResponse(0);
+    }
+
+    public void FinishTypingCurrentText()
+    {
+        if (currentNode != null)
+        {
+            if (typingCoroutine != null)
+                StopCoroutine(typingCoroutine);
+
+            npcText.text = currentNode.npcText;
+            isTyping = false;
+
+            ShowResponses(currentNode, currentNPC);
         }
     }
 
-
     private void OnResponseSelected(PlayerResponseSO response, NPCDialogue npc)
     {
+        currentResponseButtons.Clear();
+        selectedResponseIndex = -1;
+        EventSystem.current.SetSelectedGameObject(null);
+
         response.onResponseChosen?.Invoke();
         switch (response.moodChange)
         {
@@ -151,7 +218,6 @@ public class DialogueManager : MonoBehaviour
                 break;
         }
 
-
         if (response.nextNode != null)
             ShowNode(response.nextNode, npc);
         else
@@ -161,116 +227,86 @@ public class DialogueManager : MonoBehaviour
     public void EndDialogue()
     {
         DialoguePanelOff();
-
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        GameManager.Instance.UnlockUI(); // aviso q puedo abrir otra ui
+        currentResponseButtons.Clear();
+        selectedResponseIndex = -1;
+        EventSystem.current.SetSelectedGameObject(null);
+
+        GameManager.Instance.UnlockUI();
         movementLocker.UnlockMovement();
         currentNode = null;
 
         var player = GameObject.FindWithTag("Player").transform;
         if (camAnterior != null)
-        {
             camManager.SwitchCamera(camAnterior);
-        }
         camManager.CambiarLookAt(player.transform);
     }
 
+    public void ChangeSelectedResponse(int direction)
+    {
+        if (!HasResponses) return;
 
+        int newIndex = selectedResponseIndex + direction;
+        int maxIndex = currentResponseButtons.Count - 1;
+
+        if (newIndex < 0) newIndex = maxIndex;
+        else if (newIndex > maxIndex) newIndex = 0;
+
+        SetSelectedResponse(newIndex);
+    }
+
+    private void SetSelectedResponse(int index)
+    {
+        if (index < 0 || index >= currentResponseButtons.Count)
+            return;
+
+        selectedResponseIndex = index;
+        Button selectedButton = currentResponseButtons[selectedResponseIndex];
+
+        EventSystem.current.SetSelectedGameObject(selectedButton.gameObject);
+    }
+
+    public void SelectCurrentResponse()
+    {
+        if (selectedResponseIndex >= 0 && selectedResponseIndex < currentResponseButtons.Count)
+        {
+            currentResponseButtons[selectedResponseIndex].onClick.Invoke();
+        }
+    }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-
         if (dialoguePanel == null)
         {
-            dialoguePanel = GameObject.Find("DialogueCanvas")?.transform.Find("DialoguePanel")?.gameObject;
             GameObject dialogueCanvas = GameObject.Find("DialogueCanvas");
-
             if (dialogueCanvas != null)
             {
                 dialoguePanel = dialogueCanvas.transform.Find("DialoguePanel")?.gameObject;
                 if (dialoguePanel != null)
                 {
                     responseContainer = dialoguePanel.transform.Find("ButtonContainer");
-
-                    // Buscar dentro de DialogueBox
                     Transform dialogueBox = dialoguePanel.transform.Find("DialogueBox");
                     if (dialogueBox != null)
                     {
                         npcNameText = dialogueBox.transform.Find("NombreNPC")?.GetComponent<TextMeshProUGUI>();
                         npcText = dialogueBox.transform.Find("DialogoNPC")?.GetComponent<TextMeshProUGUI>();
                     }
-
                     dialoguePanel.SetActive(false);
                 }
-            }
-            else
-            {
-                Debug.LogWarning("No se encontró DialogueCanvas en la escena.");
             }
         }
 
         if (movementLocker == null)
-        {
             movementLocker = FindObjectOfType<PlayerMovementLocker>();
-        }
-
 
         if (lukeCamera == null)
-        {
-            GameObject camObj = GameObject.Find("LukeCamera");
-            if (camObj != null)
-            {
-                lukeCamera = camObj.GetComponent<CinemachineFreeLook>();
-            }
-
-            if (lukeCamera == null)
-            {
-                // Como fallback, encontrar cualquier CinemachineVirtualCamera
-                lukeCamera = FindObjectOfType<CinemachineFreeLook>();
-                Debug.LogWarning("No se encontró la cámara de Luke por nombre. Se asignó la primera cámara encontrada en la escena.");
-            }
-        }
-
+            lukeCamera = FindObjectOfType<CinemachineFreeLook>();
 
         if (camManager == null)
-        {
             camManager = FindObjectOfType<CameraManagerZ>();
-            if (camManager == null)
-                Debug.LogWarning("No se encontró CameraManagerZ en la escena.");
-        }
-
     }
-
-    private Coroutine typingCoroutine;
-
-    private IEnumerator TypeText(string fullText, NPCDialogue npc, float typingSpeed = 0.05f)
-    {
-        isTyping = true;
-        npcText.text = "";
-
-        foreach (char c in fullText)
-        {
-            npcText.text += c;
-            switch (npc.npcVoiceType)
-            {
-                case 0:
-                    SoundManager.instance.PlaySound(SoundID.DialogueTypingHighSound);
-                    break;
-                case 1:
-                    SoundManager.instance.PlaySound(SoundID.DialogueTypingSound);
-                    break;
-                case 2:
-                    SoundManager.instance.PlaySound(SoundID.DialogueTypingLowSound);
-                    break;
-            }
-            yield return new WaitForSeconds(typingSpeed);
-        }
-
-        isTyping = false;
-    }
-
 
 
     private void DialoguePanelOff()
@@ -293,19 +329,4 @@ public class DialogueManager : MonoBehaviour
         cg.interactable = true;
         cg.blocksRaycasts = true;
     }
-
-    public void FinishTypingCurrentText()
-    {
-        if (currentNode != null)
-        {
-            if (typingCoroutine != null)
-                StopCoroutine(typingCoroutine);
-
-            npcText.text = currentNode.npcText;
-            isTyping = false;
-        }
-    }
-
 }
-
-

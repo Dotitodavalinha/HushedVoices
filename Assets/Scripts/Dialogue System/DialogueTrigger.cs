@@ -3,11 +3,8 @@ using TMPro;
 
 public class DialogueTrigger : MonoBehaviour
 {
-    // [SerializeField] private DialogueSO dialogue;
     [SerializeField] private GameObject pressEText;
-
     [SerializeField] public bool playerInRange = false;
-
     [SerializeField] private NPCDialogue npcDialogue;
 
     private void Start()
@@ -17,20 +14,11 @@ public class DialogueTrigger : MonoBehaviour
 
     private void Update()
     {
-        if (playerInRange && Input.GetKeyDown(KeyCode.E))
+        if (!playerInRange) return;
+
+        if (!DialogueManager.Instance.IsOpen)
         {
-            if (DialogueManager.Instance.IsOpen)
-            {
-                if (DialogueManager.Instance.IsTyping) // si está escribiendo
-                {
-                    DialogueManager.Instance.FinishTypingCurrentText();
-                }
-                else
-                {
-                    DialogueManager.Instance.EndDialogue();
-                }
-            }
-            else
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 if (!GameManager.Instance.TryLockUI())
                     return;
@@ -39,19 +27,42 @@ public class DialogueTrigger : MonoBehaviour
                 pressEText.SetActive(false);
             }
         }
-
-        if (playerInRange && Input.GetMouseButton(0))
+        else
         {
-            if (DialogueManager.Instance.IsOpen)
+            if (DialogueManager.Instance.IsTyping)
             {
-                if (DialogueManager.Instance.IsTyping)
+                if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
                 {
                     DialogueManager.Instance.FinishTypingCurrentText();
                 }
             }
+            else
+            {
+                if (DialogueManager.Instance.HasResponses)
+                {
+                    if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+                    {
+                        DialogueManager.Instance.ChangeSelectedResponse(-1);
+                    }
+                    else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+                    {
+                        DialogueManager.Instance.ChangeSelectedResponse(1);
+                    }
+                    else if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        DialogueManager.Instance.SelectCurrentResponse();
+                    }
+                }
+                else
+                {
+                    if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
+                    {
+                        DialogueManager.Instance.EndDialogue();
+                    }
+                }
+            }
         }
     }
-
 
 
     private void OnTriggerEnter(Collider other)

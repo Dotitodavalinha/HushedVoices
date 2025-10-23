@@ -17,6 +17,8 @@ public class CameraConcentrationEffect : MonoBehaviour
 
     private FloatParameter originalSaturation = new FloatParameter(0f);
 
+    private Camera overlayCam;
+
     void Awake()
     {
         mainCamera = GetComponent<Camera>();
@@ -55,17 +57,28 @@ public class CameraConcentrationEffect : MonoBehaviour
         }
     }
 
+    void LateUpdate()
+    {
+        if (overlayCam != null && mainCamera != null)
+        {
+            if (overlayCam.fieldOfView != mainCamera.fieldOfView)
+            {
+                overlayCam.fieldOfView = mainCamera.fieldOfView;
+            }
+        }
+    }
+
     private void ApplyEffects()
     {
         if (overlayCameraPrefab != null && cameraData != null && instantiatedOverlayCamera == null)
         {
             instantiatedOverlayCamera = Instantiate(overlayCameraPrefab, transform);
-            Camera overlayCam = instantiatedOverlayCamera.GetComponent<Camera>();
+
+            overlayCam = instantiatedOverlayCamera.GetComponent<Camera>();
 
             if (overlayCam != null)
             {
                 overlayCam.fieldOfView = mainCamera.fieldOfView;
-
                 cameraData.cameraStack.Add(overlayCam);
             }
         }
@@ -85,13 +98,14 @@ public class CameraConcentrationEffect : MonoBehaviour
     {
         if (instantiatedOverlayCamera != null)
         {
-            Camera overlayCam = instantiatedOverlayCamera.GetComponent<Camera>();
             if (cameraData != null && overlayCam != null)
             {
                 cameraData.cameraStack.Remove(overlayCam);
             }
             Destroy(instantiatedOverlayCamera);
             instantiatedOverlayCamera = null;
+
+            overlayCam = null;
         }
 
         if (globalVolume != null)
