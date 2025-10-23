@@ -42,7 +42,7 @@ public class JailManager : MonoBehaviour
         if (counter >= maxValue)
         {
             //triggered = true;
-            Debug.Log("a la carcelphitee");
+            Debug.LogWarning("a la carcelphitee");
             if (objectToActivate != null)
             {
                 objectToActivate.SetActive(true);
@@ -66,7 +66,7 @@ public class JailManager : MonoBehaviour
         else
         {
             // triggered = true;
-            Debug.Log("a la carcelphitee");
+            Debug.LogWarning("a la carcelphitee");
             if (objectToActivate != null)
             {
                 objectToActivate.SetActive(true);
@@ -74,7 +74,7 @@ public class JailManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("no se encontro el png de 'fuiste encarcelado'");
+                Debug.LogWarning("no se encontro el png de 'fuiste encarcelado'");
             }
 
             // Time.timeScale = 0f; // Pausa total
@@ -88,15 +88,9 @@ public class JailManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(3f);
         Debug.Log("ya pasaron 3 segundos");
 
-        DaysManager.Instance.NextDay();
-        //GameManager.Instance.LoadScene("Room");
-
-
         SceneTransitionData data = new SceneTransitionData("StationInside", "DesdeJail");
         SceneTransitionManager.Instance.TransitionToScene(data);
 
-
-        ParanoiaManager.Instance.SetParanoiaValueDirect(0f);
     }
 
     private void OnEnable()
