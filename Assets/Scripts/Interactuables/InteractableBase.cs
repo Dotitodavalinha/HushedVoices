@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public abstract class InteractableBase : MonoBehaviour
+public abstract class InteractableBase : MonoBehaviour 
 {
     [Header("Opciones comunes")]
     [SerializeField] protected bool needInteract = true; // requiere apretar E
@@ -18,6 +19,13 @@ public abstract class InteractableBase : MonoBehaviour
     protected bool active = false;
     protected Transform canvasTransform;
     private bool justStarted = false;
+
+    // Nuevo: eventos para listeners explícitos (más fiable que solo SendMessage)
+    public event Action InteractableOpened;
+    public event Action InteractableClosed;
+
+    // Nuevo: control para deshabilitar permanentemente la posibilidad de activar este interactable
+    public bool CanBeInteracted { get; private set; } = true;
 
     protected virtual void Awake()
     {
@@ -39,9 +47,10 @@ public abstract class InteractableBase : MonoBehaviour
             if (needInteract)
             {
                 if (pressE_UI != null)
-                    pressE_UI.SetActive(!active);
+                    pressE_UI.SetActive(!active && CanBeInteracted);
 
-                if (!active && Input.GetKeyDown(KeyCode.E))
+                // solo permitir activar si no está activo y la interacción no ha sido deshabilitada
+                if (!active && CanBeInteracted && Input.GetKeyDown(KeyCode.E))
                 {
                     if (TryActivate())
                         justStarted = true;
@@ -72,10 +81,16 @@ public abstract class InteractableBase : MonoBehaviour
 
     protected bool TryActivate()
     {
-        if (!GameManager.Instance.TryLockUI()) return false;
+        if (!GameManager.Instance.TryLockUI()) return false; 
 
         active = true;
         OnActivate();
+
+        // compat: SendMessage para listeners antiguos
+        SendMessage("OnInteractableOpened", SendMessageOptions.DontRequireReceiver);
+        // evento moderno
+        InteractableOpened?.Invoke();
+
         if (holdConcentrationIfOpen == true)
         {
             // si la Concentration está activa, pedir que la mantenga viva mientras dure la interacción
@@ -105,11 +120,30 @@ public abstract class InteractableBase : MonoBehaviour
         }
         OnDeactivate();
 
+        // compat: SendMessage + evento
+        SendMessage("OnInteractableClosed", SendMessageOptions.DontRequireReceiver);
+        InteractableClosed?.Invoke();
+
         if (pressE_UI != null)
             pressE_UI.SetActive(false);
 
         if (destroyAfterUse)
             Destroy(gameObject);
+    }
+
+    // Exponer un cierre público seguro para que componentes externos (p. ej. puzzles) puedan cerrar el interactable
+    public void CloseInteractable()
+    {
+        Deactivate();
+    }
+
+    // Nuevo: deshabilita la posibilidad de volver a abrir este interactable
+    public void DisableInteraction()
+    {
+        CanBeInteracted = false;
+        if (pressE_UI != null)
+            pressE_UI.SetActive(false);
+        SetOutlinesActive(false);
     }
 
     protected abstract void OnActivate();

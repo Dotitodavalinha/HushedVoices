@@ -10,15 +10,14 @@ public class UIInteractable : InteractableBase
     private int currentIndex = 0;
     private GameObject currentInstance;
 
-    protected override void OnActivate()
-    {
-        currentIndex = 0;
-        Show(currentIndex);
-    }
+    // propiedad publica para que otros componentes le digan que ignore la E
+    public bool IgnoreEInput { get; set; } = false;
 
     protected override void OnActiveUpdate()
     {
-        // Avanzar con E si hay varios prefabs
+        // Si otro sistema (p.ej. un puzzle) quiere manejar la E, no procesamos la tecla aquí
+        if (IgnoreEInput) return;
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (prefabs.Count > 1)
@@ -27,6 +26,14 @@ public class UIInteractable : InteractableBase
                 Deactivate();
         }
     }
+
+
+    protected override void OnActivate()
+    {
+        currentIndex = 0;
+        Show(currentIndex);
+    }
+
 
     protected override void OnDeactivate()
     {

@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
             Scene currentScene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(currentScene.buildIndex);
         }
-    }
+    } 
 
     #region UI Lock
     public bool TryLockUI()
@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour
             return false;
 
         uiLockCount = 1;
+        Debug.Log("UI bloqueada. Conteo de locks: " + uiLockCount);
         if (playerLocker != null)
         {
             playerLocker.LockMovement();

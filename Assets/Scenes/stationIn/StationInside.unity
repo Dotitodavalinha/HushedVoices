@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.09803921, g: 0.10196081, b: 0.20000002, a: 1}
+  m_FogColor: {r: 0.60792434, g: 0.34095263, b: 0.22223932, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.2025187, g: 0.20757172, b: 0.3490566, a: 1}
+  m_AmbientSkyColor: {r: 1, g: 0.93296146, b: 0.75498986, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.14090109, g: 0.16818628, b: 0.32461888, a: 1}
+  m_IndirectSpecularColor: {r: 0.885107, g: 0.59245783, b: 0.40303108, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3829,7 +3829,6 @@ GameObject:
   - component: {fileID: 312169441}
   - component: {fileID: 312169440}
   - component: {fileID: 312169446}
-  - component: {fileID: 312169445}
   m_Layer: 0
   m_Name: ColliderPuzzle
   m_TagString: Untagged
@@ -3849,11 +3848,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b4a01a070cb7814cbfe062e073bfc24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionPromptObject: {fileID: 1776146449}
+  needInteract: 1
+  pressE_UI: {fileID: 1776146449}
+  zonaInteraccion: {fileID: 312169446}
+  maxDistanceToOpen: 0
+  PuzzleObject: {fileID: 225019091}
   doorObject: {fileID: 418656683}
   targetYRotation: 350
   rotationSpeed: 3
-  playerMovementScript: {fileID: 990374010}
 --- !u!65 &312169441
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3941,25 +3943,6 @@ Transform:
   - {fileID: 1776146452}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -0.076, y: 0.088, z: -0.024}
---- !u!114 &312169445
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 312169439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 489e2122eca06384fb12221906943316, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  needInteract: 1
-  destroyAfterUse: 0
-  holdConcentrationIfOpen: 0
-  zonaInteraccion: {fileID: 312169446}
-  pressE_UI: {fileID: 1776146449}
-  outlinerCubes: []
-  prefabs: []
 --- !u!114 &312169446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7818,7 +7801,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 636803806}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.043577906, y: -0.8627299, z: -0.4980974, w: -0.07547914}
+  m_LocalRotation: {x: -0.073741704, y: -0.53101087, z: 0.84287095, w: -0.046457462}
   m_LocalPosition: {x: -15.9, y: 4.28, z: 0.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7859,8 +7842,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.37294975, g: 0.37422884, b: 0.36609012, a: 1}
-  m_Intensity: 0.1
+  m_Color: {r: 1, g: 0.96225834, b: 0.80302644, a: 1}
+  m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -12559,17 +12542,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 983347926}
   m_CullTransparentMesh: 1
---- !u!114 &990374010 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8657582419670740642, guid: 9e953ac88b662114e92077e8dd85d633, type: 3}
-  m_PrefabInstance: {fileID: 1227866699}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 205cdaa6a2072014a84b5c31b8f01620, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &998751780
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15662,7 +15634,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4871837492482490547, guid: 9e953ac88b662114e92077e8dd85d633, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -37.631
+      value: -23.19
       objectReference: {fileID: 0}
     - target: {fileID: 4871837492482490547, guid: 9e953ac88b662114e92077e8dd85d633, type: 3}
       propertyPath: m_LocalPosition.y
@@ -15670,7 +15642,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4871837492482490547, guid: 9e953ac88b662114e92077e8dd85d633, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.686
+      value: 13.91
       objectReference: {fileID: 0}
     - target: {fileID: 4871837492482490547, guid: 9e953ac88b662114e92077e8dd85d633, type: 3}
       propertyPath: m_LocalRotation.w
@@ -18669,7 +18641,7 @@ MonoBehaviour:
   maxSunIntensity: 0.5
   DirectionalLight: {fileID: 636803809}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 22
+  TimeOfDay: 10.294804
   DaySpeed: 20
   horaLimiteNoche: 22
   tiempoPausado: 0
