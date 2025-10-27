@@ -51,22 +51,25 @@ public class ConcentrationManager : MonoBehaviour
         usesRemaining = maxUsesPerDay;
     }
 
+    private Coroutine subscribeRoutine;
+
     private void OnEnable()
     {
-        if (refillOnDayStart)
-        {
-            if (DaysManager.Instance != null)
-                DaysManager.Instance.OnDayStart += HandleDayStart;
-        }
+        if (!refillOnDayStart) return;
+        subscribeRoutine = StartCoroutine(SubscribeWhenReady());
     }
 
     private void OnDisable()
     {
-        if (refillOnDayStart)
-        {
-            if (DaysManager.Instance != null)
-                DaysManager.Instance.OnDayStart -= HandleDayStart;
-        }
+        if (subscribeRoutine != null) StopCoroutine(subscribeRoutine);
+        if (DaysManager.Instance != null)
+            DaysManager.Instance.OnDayStart -= HandleDayStart;
+    }
+    private IEnumerator SubscribeWhenReady()
+    {
+        // espera a que el singleton exista (cubre orden de carga/cambio de escena)
+        while (DaysManager.Instance == null) yield return null;
+        DaysManager.Instance.OnDayStart += HandleDayStart;
     }
 
     private void HandleDayStart()
