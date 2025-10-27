@@ -21,7 +21,7 @@ public class ConcentrationManager : MonoBehaviour
     [SerializeField] private bool inputEnabled = true;
 
     [Header("Visual Feedback")]
-    public GameObject concentrationOverlayPrefab; // prefab con panel transparente
+    //public GameObject concentrationOverlayPrefab; // prefab con panel transparente
     private GameObject activeOverlay;
 
     [Header("Fatiga")]

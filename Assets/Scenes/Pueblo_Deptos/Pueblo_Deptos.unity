@@ -38920,6 +38920,7 @@ GameObject:
   - component: {fileID: 1229151363}
   - component: {fileID: 1229151362}
   - component: {fileID: 1229151361}
+  - component: {fileID: 1229151365}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -38935,7 +38936,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1229151359}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.19873874, y: -0.29920805, z: 0.06386627, w: 0.9310739}
+  m_LocalRotation: {x: 0.19873875, y: -0.29920807, z: 0.063866295, w: 0.9310739}
   m_LocalPosition: {x: -13, y: 5, z: 26.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -39079,6 +39080,21 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1229151365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1229151359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd73c4593cd610c46ba1993d695c72c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  overlayCameraPrefab: {fileID: 280873389989313199, guid: 5c9d5575584c4a141aa58b010b92f7db, type: 3}
+  fovIncrease: -5
+  overlayMaterial: {fileID: 2100000, guid: 97e217d49e97f374db669be7f32d2457, type: 2}
 --- !u!1 &1230288046
 GameObject:
   m_ObjectHideFlags: 0
@@ -61449,7 +61465,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2061776780}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.19873874, y: -0.29920805, z: 0.06386627, w: 0.9310739}
+  m_LocalRotation: {x: 0.19873875, y: -0.29920807, z: 0.063866295, w: 0.9310739}
   m_LocalPosition: {x: -13, y: 5, z: 26.5}
   m_LocalScale: {x: 1, y: 1, z: 1.2132}
   m_ConstrainProportionsScale: 0

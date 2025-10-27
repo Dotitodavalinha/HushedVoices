@@ -7346,7 +7346,7 @@ MonoBehaviour:
   m_RendererIndex: 0
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 503
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
@@ -7409,7 +7409,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   overlayCameraPrefab: {fileID: 280873389989313199, guid: 5c9d5575584c4a141aa58b010b92f7db, type: 3}
-  concentrationVolumeProfile: {fileID: 11400000, guid: 05eb2851f700398429c7056e4094042b, type: 2}
+  fovIncrease: 20
+  overlayMaterial: {fileID: 2100000, guid: 97e217d49e97f374db669be7f32d2457, type: 2}
 --- !u!1 &360792283
 GameObject:
   m_ObjectHideFlags: 0
@@ -11036,11 +11037,11 @@ MonoBehaviour:
   m_RendererIndex: 0
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 503
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
-  m_Antialiasing: 2
+  m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
@@ -11099,7 +11100,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   overlayCameraPrefab: {fileID: 280873389989313199, guid: 5c9d5575584c4a141aa58b010b92f7db, type: 3}
-  concentrationVolumeProfile: {fileID: 11400000, guid: 05eb2851f700398429c7056e4094042b, type: 2}
+  fovIncrease: -5
+  overlayMaterial: {fileID: 2100000, guid: 97e217d49e97f374db669be7f32d2457, type: 2}
 --- !u!1001 &469761506
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21665,7 +21667,7 @@ MonoBehaviour:
   m_RendererIndex: 0
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 503
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
@@ -21728,7 +21730,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   overlayCameraPrefab: {fileID: 280873389989313199, guid: 5c9d5575584c4a141aa58b010b92f7db, type: 3}
-  concentrationVolumeProfile: {fileID: 11400000, guid: 05eb2851f700398429c7056e4094042b, type: 2}
+  fovIncrease: 20
+  overlayMaterial: {fileID: 2100000, guid: 97e217d49e97f374db669be7f32d2457, type: 2}
 --- !u!1001 &970573062
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32575,10 +32578,10 @@ MonoBehaviour:
   m_RendererIndex: 0
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 503
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -32638,7 +32641,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   overlayCameraPrefab: {fileID: 280873389989313199, guid: 5c9d5575584c4a141aa58b010b92f7db, type: 3}
-  concentrationVolumeProfile: {fileID: 11400000, guid: 05eb2851f700398429c7056e4094042b, type: 2}
+  fovIncrease: 20
+  overlayMaterial: {fileID: 2100000, guid: 97e217d49e97f374db669be7f32d2457, type: 2}
 --- !u!1 &1345100765
 GameObject:
   m_ObjectHideFlags: 0
@@ -40534,7 +40538,6 @@ MonoBehaviour:
   usesRemaining: 0
   isActive: 0
   inputEnabled: 1
-  concentrationOverlayPrefab: {fileID: 3878919194968695798, guid: f13c889d9e927f644a59ff171f5ca6c5, type: 3}
   fatigueSpeedMultiplier: 0.67
   fatigueDuration: 5
 --- !u!4 &1678662287
@@ -41278,7 +41281,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1712370120
 MonoBehaviour:
   m_ObjectHideFlags: 0

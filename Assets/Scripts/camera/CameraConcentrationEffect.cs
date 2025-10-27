@@ -2,37 +2,33 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
 using System.Linq;
+using UnityEngine.Rendering;
+using System.Linq;
 
 [RequireComponent(typeof(Camera))]
 public class CameraConcentrationEffect : MonoBehaviour
 {
     [Header("Config")]
     public GameObject overlayCameraPrefab;
-    public VolumeProfile concentrationVolumeProfile;
+
+    [Tooltip("Cuánto FOV se sumará a la cámara principal durante el efecto.")]
+    public float fovIncrease = -5f;
 
     private Camera mainCamera;
     private UniversalAdditionalCameraData cameraData;
     private GameObject instantiatedOverlayCamera;
-    private Volume globalVolume;
 
-    private FloatParameter originalSaturation = new FloatParameter(0f);
+    private float originalFOV;
 
     private Camera overlayCam;
+    public Material overlayMaterial;
 
     void Awake()
     {
         mainCamera = GetComponent<Camera>();
         cameraData = GetComponent<UniversalAdditionalCameraData>();
-        globalVolume = FindObjectsOfType<Volume>().FirstOrDefault(v => v.isGlobal);
 
-        if (globalVolume != null)
-        {
-            ColorAdjustments colorAdjustments;
-            if (globalVolume.profile.TryGet(out colorAdjustments))
-            {
-                originalSaturation.value = colorAdjustments.saturation.value;
-            }
-        }
+        originalFOV = mainCamera.fieldOfView;
     }
 
     void OnEnable()
@@ -41,10 +37,6 @@ public class CameraConcentrationEffect : MonoBehaviour
         {
             ConcentrationManager.Instance.OnConcentrationStarted += ApplyEffects;
             ConcentrationManager.Instance.OnConcentrationEnded += RemoveEffects;
-        }
-        else
-        {
-            //Debug.LogError("ConcentrationManager.Instance es NULL en OnEnable");
         }
     }
 
@@ -70,26 +62,36 @@ public class CameraConcentrationEffect : MonoBehaviour
 
     private void ApplyEffects()
     {
-        if (overlayCameraPrefab != null && cameraData != null && instantiatedOverlayCamera == null)
+        if (overlayCameraPrefab != null && cameraData != null)
         {
-            instantiatedOverlayCamera = Instantiate(overlayCameraPrefab, transform);
+            overlayMaterial.SetFloat("_onOff", 1);
+            // Si ya hay una subcamara, no agregamos otra
+            if (instantiatedOverlayCamera != null)
+            {
+                Debug.LogWarning("Overlay camera ya existe, no se crea otra.");
+                return;
+            }
 
+            // Guardamos FOV original
+            originalFOV = mainCamera.fieldOfView;
+            mainCamera.fieldOfView += fovIncrease;
+
+            // Instanciamos
+            instantiatedOverlayCamera = Instantiate(overlayCameraPrefab, transform);
             overlayCam = instantiatedOverlayCamera.GetComponent<Camera>();
 
             if (overlayCam != null)
             {
+                overlayCam.clearFlags = CameraClearFlags.Depth;
                 overlayCam.fieldOfView = mainCamera.fieldOfView;
-                cameraData.cameraStack.Add(overlayCam);
-            }
-        }
 
-        if (globalVolume != null)
-        {
-            ColorAdjustments colorAdjustments;
-            if (globalVolume.profile.TryGet(out colorAdjustments))
+                // Añadimos a la pila SOLO si no está ya agregado
+                if (!cameraData.cameraStack.Contains(overlayCam))
+                    cameraData.cameraStack.Add(overlayCam);
+            }
+            else
             {
-                colorAdjustments.saturation.overrideState = true;
-                colorAdjustments.saturation.value = -100f;
+                Debug.LogError("El prefab overlayCameraPrefab no tiene Camera!");
             }
         }
     }
@@ -98,23 +100,18 @@ public class CameraConcentrationEffect : MonoBehaviour
     {
         if (instantiatedOverlayCamera != null)
         {
-            if (cameraData != null && overlayCam != null)
-            {
+            overlayMaterial.SetFloat("_onOff", 0);
+
+            mainCamera.fieldOfView = originalFOV;
+
+
+            if (cameraData != null && overlayCam != null && cameraData.cameraStack.Contains(overlayCam))
                 cameraData.cameraStack.Remove(overlayCam);
-            }
+
             Destroy(instantiatedOverlayCamera);
             instantiatedOverlayCamera = null;
-
             overlayCam = null;
         }
-
-        if (globalVolume != null)
-        {
-            ColorAdjustments colorAdjustments;
-            if (globalVolume.profile.TryGet(out colorAdjustments))
-            {
-                colorAdjustments.saturation.value = originalSaturation.value;
-            }
-        }
     }
+
 }
