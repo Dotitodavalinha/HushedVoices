@@ -29,9 +29,11 @@ public class StationaryPolice : MonoBehaviour
     private float currentStateTimer;
     private bool isWatching;
     private bool hasCaughtPlayer = false;
+    Animator animator;
 
     private void Start()
     {
+        animator = GetComponent<Animator>();
         GameObject playerObject = GameObject.FindWithTag(playerTag);
         if (playerObject != null)
         {
@@ -79,6 +81,9 @@ public class StationaryPolice : MonoBehaviour
             {
                 // Cambiar a "Vigilando"
                 currentStateTimer = timeOn;
+
+                animator.SetBool("isSleeping", false);
+
                 if (visionConeVisual != null)
                 {
                     visionConeVisual.SetActive(true);
@@ -88,6 +93,9 @@ public class StationaryPolice : MonoBehaviour
             {
                 // Cambiar a "Descansando"
                 currentStateTimer = timeOff;
+
+                animator.SetBool("isSleeping", true);
+
                 if (visionConeVisual != null)
                 {
                     visionConeVisual.SetActive(false);
