@@ -21,8 +21,12 @@ public class ConcentrationManager : MonoBehaviour
     [SerializeField] private bool inputEnabled = true;
 
     [Header("Visual Feedback")]
-    //public GameObject concentrationOverlayPrefab; // prefab con panel transparente
     private GameObject activeOverlay;
+    // variables publica de solo lectura para el UI :
+    public int MaxUsesPerDay => maxUsesPerDay;
+    public int UsesRemaining => usesRemaining;
+    public float RemainingSeconds => Mathf.Max(0f, timer);
+    public float DurationSeconds => durationSeconds;
 
     [Header("Fatiga")]
     [Tooltip("Cuánto más lento se mueve el jugador luego de usar Concentración (1 = sin cambio, 0.67 = 33% más lento)")]
