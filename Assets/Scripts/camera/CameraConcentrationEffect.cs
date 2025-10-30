@@ -103,8 +103,9 @@ public class CameraConcentrationEffect : MonoBehaviour
 
         overlayCam = null;
         instantiatedOverlayCamera = null;
-        applyingEffects = false;
+        applyingEffects = false;    
         removingEffects = false;
+
     }
 
 
@@ -151,43 +152,45 @@ public class CameraConcentrationEffect : MonoBehaviour
         }
     }
 
-    private void ApplyEffects()
+   private void ApplyEffects()
+{
+    if (overlayCameraPrefab != null && cameraData != null)
     {
-        if (overlayCameraPrefab != null && cameraData != null)
+        if (instantiatedOverlayCamera != null)
         {
-            if (instantiatedOverlayCamera != null)
-            {
-                Debug.LogWarning("Overlay camera ya existe, no se crea otra.");
-                return;
-            }
-
-            originalFOV = mainCamera.fieldOfView;
-            targetFOV = originalFOV + fovIncrease;
-
-            instantiatedOverlayCamera = Instantiate(overlayCameraPrefab, transform);
-            overlayCam = instantiatedOverlayCamera.GetComponent<Camera>();
-
-            if (overlayCam != null)
-            {
-                overlayCam.clearFlags = CameraClearFlags.Depth;
-                overlayCam.fieldOfView = mainCamera.fieldOfView;
-
-                if (!cameraData.cameraStack.Contains(overlayCam))
-                    cameraData.cameraStack.Add(overlayCam);
-            }
-
-            applyingEffects = true;
-            removingEffects = false;
-            targetOnOff = 1f;
+            Debug.LogWarning("Overlay camera ya existe, no se crea otra.");
+            return;
         }
-    }
 
-    private void RemoveEffects()
-    {
-        applyingEffects = false;
-        removingEffects = true;
-        targetOnOff = 0f;
+        // Asegurarse de que originalFOV no se sobrescriba innecesariamente
+        targetFOV = originalFOV + fovIncrease;
+
+        instantiatedOverlayCamera = Instantiate(overlayCameraPrefab, transform);
+        overlayCam = instantiatedOverlayCamera.GetComponent<Camera>();
+
+        if (overlayCam != null)
+        {
+            overlayCam.clearFlags = CameraClearFlags.Depth;
+            overlayCam.fieldOfView = mainCamera.fieldOfView;
+
+            if (!cameraData.cameraStack.Contains(overlayCam))
+                cameraData.cameraStack.Add(overlayCam);
+        }
+
+        applyingEffects = true;
+        removingEffects = false;
+        targetOnOff = 1f;
     }
+}
+
+private void RemoveEffects()
+{
+    applyingEffects = false;
+    removingEffects = true;
+    targetOnOff = 0f;
+    // Asegurarse de que el FOV vuelva al valor original
+    targetFOV = originalFOV;
+}
 
 
     private IEnumerator ForceDisableMaterial()
