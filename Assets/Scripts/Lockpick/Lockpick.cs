@@ -6,7 +6,6 @@ public class Lockpick : MonoBehaviour
 {
     int[] order = { 1, 2, 3, 4, 5 };
     int currentOrder = 0;
-    int wrongAttempt = 0;
 
     [Header("Waypoints")]
     [SerializeField] private Transform[] horizontalPositions;
@@ -27,6 +26,12 @@ public class Lockpick : MonoBehaviour
 
     [Header("Game Control")]
     [SerializeField] private LockInteraction lockInteractionController;
+
+    private Coroutine verticalCycleCoroutine;
+
+    private bool isWaitingForSecondPress = false;
+    private Tumbler pendingTumbler = null;
+
     void Start()
     {
         allTumblers = FindObjectsOfType<Tumbler>();
@@ -60,12 +65,10 @@ public class Lockpick : MonoBehaviour
 
         if (currentOrder == 5)
         {
-            //Debug.Log("Puzzle completado");
             if (lockInteractionController != null)
             {
                 lockInteractionController.CompletePuzzleSequence();
             }
-
             currentOrder++;
         }
     }
@@ -75,32 +78,89 @@ public class Lockpick : MonoBehaviour
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float verticalInput = Input.GetAxisRaw("Vertical");
 
-        // Bloquea todo el movimiento horizontal y vertical si un ciclo vertical está activo
-        if (isVerticalCycleActive) return;
-
-        // MOVIMIENTO HORIZONTAL
-        if (horizontalInput != 0)
+        if (isWaitingForSecondPress && verticalInput > 0)
         {
-            int nextIndex = currentHIndex + (int)horizontalInput;
+            isWaitingForSecondPress = false;
+            isVertical = true;
+            UpdateTargetPosition();
 
+            if (verticalCycleCoroutine != null)
+            {
+                StopCoroutine(verticalCycleCoroutine);
+            }
+
+            verticalCycleCoroutine = StartCoroutine(VerticalLockpickCycle());
+
+            if (pendingTumbler != null)
+            {
+                if (CheckTumbler(pendingTumbler.TumblerNumber, order, currentOrder))
+                {
+                    pendingTumbler.LockTumbler();
+                    currentOrder++;
+                }
+                else
+                {
+                    if (verticalCycleCoroutine != null)
+                    {
+                        StopCoroutine(verticalCycleCoroutine);
+                        verticalCycleCoroutine = null;
+                    }
+                    StartCoroutine(FailAndResetSequence());
+                }
+                pendingTumbler = null;
+            }
+        }
+        else if (horizontalInput != 0)
+        {
+            if (verticalCycleCoroutine != null)
+            {
+                StopCoroutine(verticalCycleCoroutine);
+                verticalCycleCoroutine = null;
+                isVerticalCycleActive = false;
+                isVertical = false;
+            }
+
+            isWaitingForSecondPress = false;
+            pendingTumbler = null;
+
+            int nextIndex = currentHIndex + (int)Mathf.Sign(horizontalInput);
             if (nextIndex >= 0 && nextIndex < horizontalPositions.Length)
             {
                 currentHIndex = nextIndex;
                 UpdateTargetPosition();
-                return;
             }
+            return;
+        }
+        else if (verticalInput > 0 && !isVertical)
+        {
+            isVertical = true;
+            UpdateTargetPosition();
+            verticalCycleCoroutine = StartCoroutine(VerticalLockpickCycle());
+        }
+    }
+
+    IEnumerator FailAndResetSequence()
+    {
+        isVerticalCycleActive = true;
+        currentOrder = 0;
+
+        foreach (Tumbler tumbler in allTumblers)
+        {
+            tumbler.ResetTumbler();
         }
 
-        // MOVIMIENTO VERTICAL
-        else if (verticalInput > 0)
+        isWaitingForSecondPress = false;
+        pendingTumbler = null;
+
+        if (isVertical)
         {
-            if (!isVertical)
-            {
-                isVertical = true;
-                UpdateTargetPosition();
-                StartCoroutine(VerticalLockpickCycle());
-            }
+            isVertical = false;
+            UpdateTargetPosition();
+            yield return new WaitUntil(() => transform.position == targetPosition);
         }
+
+        isVerticalCycleActive = false;
+        verticalCycleCoroutine = null;
     }
 
     private void UpdateTargetPosition()
@@ -117,6 +177,20 @@ public class Lockpick : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        Tumbler hitTumbler = other.gameObject.GetComponent<Tumbler>();
+        if (hitTumbler == null || hitTumbler.IsLocked) return;
+        if (!isVertical) return;
+        if (isWaitingForSecondPress) return;
+
+        pendingTumbler = hitTumbler;
+        isWaitingForSecondPress = true;
+
+        bool correct = CheckTumbler(hitTumbler.TumblerNumber, order, currentOrder);
+        SoundManager.instance.PlaySound(correct ? SoundID.click : SoundID.clack);
+    }
+
     IEnumerator VerticalLockpickCycle()
     {
         isVerticalCycleActive = true;
@@ -129,50 +203,14 @@ public class Lockpick : MonoBehaviour
 
         yield return new WaitUntil(() => transform.position == targetPosition);
 
-        isVerticalCycleActive = false;
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        Tumbler hitTumbler = other.gameObject.GetComponent<Tumbler>();
-
-        if (hitTumbler != null)
+        if (isWaitingForSecondPress)
         {
-            int tumblerNumber = hitTumbler.TumblerNumber;
-
-            if (CheckTumbler(tumblerNumber, order, currentOrder))
-            {
-                hitTumbler.LockTumbler();
-                currentOrder++;
-                //Debug.Log("Correcto, Current Order es:" + currentOrder);
-            }
-            else
-            {
-                //Debug.Log("Incorrecto, se reinicia el puzzle.");
-                wrongAttempt++;
-                StartCoroutine(FailAndResetSequence());
-            }
-        }
-    }
-
-    IEnumerator FailAndResetSequence()
-    {
-        isVerticalCycleActive = true;
-
-        currentOrder = 0;
-        foreach (Tumbler tumbler in allTumblers)
-        {
-            tumbler.ResetTumbler();
-        }
-
-        if (isVertical)
-        {
-            isVertical = false;
-            UpdateTargetPosition();
-            yield return new WaitUntil(() => transform.position == targetPosition);
+            isWaitingForSecondPress = false;
+            pendingTumbler = null;
         }
 
         isVerticalCycleActive = false;
+        verticalCycleCoroutine = null;
     }
 
     private void ResetAllTumblers()

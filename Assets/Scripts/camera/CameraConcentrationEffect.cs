@@ -1,9 +1,5 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.Rendering;
-using System.Linq;
-using UnityEngine.Rendering;
-using System.Linq;
 
 [RequireComponent(typeof(Camera))]
 public class CameraConcentrationEffect : MonoBehaviour
@@ -14,20 +10,26 @@ public class CameraConcentrationEffect : MonoBehaviour
     [Tooltip("Cuánto FOV se sumará a la cámara principal durante el efecto.")]
     public float fovIncrease = -5f;
 
+    [Tooltip("Velocidad de transición del efecto y del FOV.")]
+    public float transitionSpeed = 1f;
+
+    public Material overlayMaterial;
+
     private Camera mainCamera;
     private UniversalAdditionalCameraData cameraData;
     private GameObject instantiatedOverlayCamera;
+    private Camera overlayCam;
 
     private float originalFOV;
+    private float targetFOV;
 
-    private Camera overlayCam;
-    public Material overlayMaterial;
+    private bool applyingEffects = false;
+    private bool removingEffects = false;
 
     void Awake()
     {
         mainCamera = GetComponent<Camera>();
         cameraData = GetComponent<UniversalAdditionalCameraData>();
-
         originalFOV = mainCamera.fieldOfView;
     }
 
@@ -49,13 +51,48 @@ public class CameraConcentrationEffect : MonoBehaviour
         }
     }
 
-    void LateUpdate()
+    void Update()
     {
-        if (overlayCam != null && mainCamera != null)
+        if (applyingEffects)
         {
-            if (overlayCam.fieldOfView != mainCamera.fieldOfView)
-            {
+            // --- Efecto blur ---
+            float current = overlayMaterial.GetFloat("_onOff");
+            current += Time.deltaTime * transitionSpeed;
+            overlayMaterial.SetFloat("_onOff", Mathf.Clamp01(current));
+
+            // --- FOV ---
+            mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, targetFOV, Time.deltaTime * transitionSpeed);
+            if (overlayCam != null)
                 overlayCam.fieldOfView = mainCamera.fieldOfView;
+
+            if (current >= 1f && Mathf.Abs(mainCamera.fieldOfView - targetFOV) < 0.01f)
+                applyingEffects = false;
+        }
+
+        if (removingEffects)
+        {
+            // --- Efecto blur ---
+            float current = overlayMaterial.GetFloat("_onOff");
+            current -= Time.deltaTime * transitionSpeed;
+            overlayMaterial.SetFloat("_onOff", Mathf.Clamp01(current));
+
+            // --- FOV ---
+            mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, originalFOV, Time.deltaTime * transitionSpeed);
+            if (overlayCam != null)
+                overlayCam.fieldOfView = mainCamera.fieldOfView;
+
+            if (current <= 0f && Mathf.Abs(mainCamera.fieldOfView - originalFOV) < 0.01f)
+            {
+                removingEffects = false;
+
+                if (cameraData != null && overlayCam != null && cameraData.cameraStack.Contains(overlayCam))
+                    cameraData.cameraStack.Remove(overlayCam);
+
+                if (instantiatedOverlayCamera != null)
+                    Destroy(instantiatedOverlayCamera);
+
+                overlayCam = null;
+                instantiatedOverlayCamera = null;
             }
         }
     }
@@ -64,19 +101,15 @@ public class CameraConcentrationEffect : MonoBehaviour
     {
         if (overlayCameraPrefab != null && cameraData != null)
         {
-            overlayMaterial.SetFloat("_onOff", 1);
-            // Si ya hay una subcamara, no agregamos otra
             if (instantiatedOverlayCamera != null)
             {
                 Debug.LogWarning("Overlay camera ya existe, no se crea otra.");
                 return;
             }
 
-            // Guardamos FOV original
             originalFOV = mainCamera.fieldOfView;
-            mainCamera.fieldOfView += fovIncrease;
+            targetFOV = originalFOV + fovIncrease;
 
-            // Instanciamos
             instantiatedOverlayCamera = Instantiate(overlayCameraPrefab, transform);
             overlayCam = instantiatedOverlayCamera.GetComponent<Camera>();
 
@@ -85,7 +118,6 @@ public class CameraConcentrationEffect : MonoBehaviour
                 overlayCam.clearFlags = CameraClearFlags.Depth;
                 overlayCam.fieldOfView = mainCamera.fieldOfView;
 
-                // Añadimos a la pila SOLO si no está ya agregado
                 if (!cameraData.cameraStack.Contains(overlayCam))
                     cameraData.cameraStack.Add(overlayCam);
             }
@@ -93,6 +125,9 @@ public class CameraConcentrationEffect : MonoBehaviour
             {
                 Debug.LogError("El prefab overlayCameraPrefab no tiene Camera!");
             }
+
+            applyingEffects = true;
+            removingEffects = false;
         }
     }
 
@@ -100,18 +135,8 @@ public class CameraConcentrationEffect : MonoBehaviour
     {
         if (instantiatedOverlayCamera != null)
         {
-            overlayMaterial.SetFloat("_onOff", 0);
-
-            mainCamera.fieldOfView = originalFOV;
-
-
-            if (cameraData != null && overlayCam != null && cameraData.cameraStack.Contains(overlayCam))
-                cameraData.cameraStack.Remove(overlayCam);
-
-            Destroy(instantiatedOverlayCamera);
-            instantiatedOverlayCamera = null;
-            overlayCam = null;
+            applyingEffects = false;
+            removingEffects = true;
         }
     }
-
 }

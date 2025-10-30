@@ -5040,7 +5040,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tumblerNumber: 2
-  lockedPosition: {x: 14.6, y: 1.46, z: 49.71}
+  lockedOffset: {x: 0, y: 3.25, z: 0}
 --- !u!222 &374750731
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6210,6 +6210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   overlayCameraPrefab: {fileID: 280873389989313199, guid: 5c9d5575584c4a141aa58b010b92f7db, type: 3}
   fovIncrease: -5
+  transitionSpeed: 1
   overlayMaterial: {fileID: 2100000, guid: 97e217d49e97f374db669be7f32d2457, type: 2}
 --- !u!4 &478016743 stripped
 Transform:
@@ -6915,7 +6916,7 @@ Transform:
   m_GameObject: {fileID: 544767837}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12.189999, y: -0.42000008, z: 0}
+  m_LocalPosition: {x: 12.189999, y: -1.75, z: 0}
   m_LocalScale: {x: 0.4, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7710,7 +7711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tumblerNumber: 5
-  lockedPosition: {x: 22.48, y: 1.46, z: 49.71}
+  lockedOffset: {x: 0, y: 3.25, z: 0}
 --- !u!222 &616203142
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8676,6 +8677,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   overlayCameraPrefab: {fileID: 280873389989313199, guid: 5c9d5575584c4a141aa58b010b92f7db, type: 3}
   fovIncrease: -5
+  transitionSpeed: 1
   overlayMaterial: {fileID: 2100000, guid: 97e217d49e97f374db669be7f32d2457, type: 2}
 --- !u!1001 &686703926
 PrefabInstance:
@@ -15552,6 +15554,7 @@ GameObject:
   - component: {fileID: 1209380480}
   - component: {fileID: 1209380484}
   - component: {fileID: 1209380486}
+  - component: {fileID: 1209380487}
   m_Layer: 10
   m_Name: Lockpick
   m_TagString: Untagged
@@ -15595,8 +15598,8 @@ MonoBehaviour:
   - {fileID: 1790869616}
   verticalPosition: {fileID: 544767838}
   stepSpeedHorizontal: 12
-  stepSpeedVertical: 8
-  autoLowerDelay: 0.2
+  stepSpeedVertical: 3
+  autoLowerDelay: 0.5
   text: {fileID: 0}
   lockInteractionController: {fileID: 312169440}
 --- !u!222 &1209380482
@@ -15697,6 +15700,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 18.62237, y: 0.3338065}
   m_EdgeRadius: 0
+--- !u!50 &1209380487
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1209380478}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!4 &1211610777 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6046405586180581075, guid: af39b86a2c14ebc4691325e1c7578742, type: 3}
@@ -18494,6 +18524,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   overlayCameraPrefab: {fileID: 280873389989313199, guid: 5c9d5575584c4a141aa58b010b92f7db, type: 3}
   fovIncrease: -5
+  transitionSpeed: 1
   overlayMaterial: {fileID: 2100000, guid: 97e217d49e97f374db669be7f32d2457, type: 2}
 --- !u!1 &1345100765
 GameObject:
@@ -18655,6 +18686,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 76cfa656e55a2824fbfe1bda50f8e3f4, type: 3}
   - {fileID: 8300000, guid: 77551e837778f3b4684aefbf03b76bc5, type: 3}
   - {fileID: 8300000, guid: f1b4a5638c3e30c46a16b49d5a0195af, type: 3}
+  - {fileID: 8300000, guid: fea3207ec64dd634a89d99d2c57112c0, type: 3}
+  - {fileID: 8300000, guid: f8fcfd2266304b14d8e684f8642b7fef, type: 3}
   music:
   - {fileID: 8300000, guid: b4626748016c2074babeb23a8ddbc618, type: 3}
   - {fileID: 8300000, guid: 2a5cee6b4abc4c84aac1151387e471c2, type: 3}
@@ -22405,7 +22438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tumblerNumber: 1
-  lockedPosition: {x: 12, y: 1.46, z: 49.71}
+  lockedOffset: {x: 0, y: 3.25, z: 0}
 --- !u!222 &1711278546
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -25346,7 +25379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tumblerNumber: 3
-  lockedPosition: {x: 17.25, y: 1.46, z: 49.71}
+  lockedOffset: {x: 0, y: 3.25, z: 0}
 --- !u!222 &1934956629
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -27842,7 +27875,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tumblerNumber: 4
-  lockedPosition: {x: 19.86, y: 1.46, z: 49.71}
+  lockedOffset: {x: 0, y: 3.25, z: 0}
 --- !u!222 &2061368568
 CanvasRenderer:
   m_ObjectHideFlags: 0

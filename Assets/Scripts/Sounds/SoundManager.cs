@@ -258,6 +258,8 @@ public enum SoundID
     BookOpenSound,
     alarm,
     camChange,
+    click,
+    clack
 }
 
 public enum MusicID

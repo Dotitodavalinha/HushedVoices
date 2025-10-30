@@ -74,12 +74,10 @@ public class StationaryPolice : MonoBehaviour
         currentStateTimer -= Time.deltaTime;
         if (currentStateTimer <= 0)
         {
-            // Cambiar de estado
             isWatching = !isWatching;
 
             if (isWatching)
             {
-                // Cambiar a "Vigilando"
                 currentStateTimer = timeOn;
 
                 animator.SetBool("isSleeping", false);
@@ -91,7 +89,6 @@ public class StationaryPolice : MonoBehaviour
             }
             else
             {
-                // Cambiar a "Descansando"
                 currentStateTimer = timeOff;
 
                 animator.SetBool("isSleeping", true);
@@ -106,26 +103,19 @@ public class StationaryPolice : MonoBehaviour
 
     private void HandleVision()
     {
-        // Calcula la dirección y distancia al jugador
         Vector3 directionToPlayer = (player.position - transform.position);
         float distanceToPlayer = directionToPlayer.magnitude;
 
-        // 1. Comprobar si está dentro de la distancia de visión
         if (distanceToPlayer <= viewDistance)
         {
-            // 2. Comprobar si está dentro del ángulo de visión
             float angle = Vector3.Angle(transform.forward, directionToPlayer.normalized);
 
             if (angle <= viewAngle / 2f)
             {
-                // 3. Comprobar si hay obstáculos
-                // (Lanzamos un rayo desde el policía hacia el jugador)
-                Vector3 eyePosition = transform.position + Vector3.up * 0.5f; // Un poco de altura para no chocar con el suelo
+                Vector3 eyePosition = transform.position + Vector3.up * 0.5f;
 
-                // Si el rayo NO golpea un obstáculo...
                 if (!Physics.Raycast(eyePosition, directionToPlayer.normalized, distanceToPlayer, obstacleMask))
                 {
-                    // ... ¡significa que vemos al jugador!
                     ArrestPlayer();
                 }
             }
@@ -135,7 +125,7 @@ public class StationaryPolice : MonoBehaviour
     private void ArrestPlayer()
     {
         hasCaughtPlayer = true;
-        isWatching = false; // Dejar de vigilar
+        isWatching = false;
         if (visionConeVisual != null)
         {
             visionConeVisual.SetActive(false);
@@ -143,32 +133,25 @@ public class StationaryPolice : MonoBehaviour
 
         Debug.Log("¡Jugador atrapado! ¡Estás arrestado!");
 
-        // --- AQUÍ PONES TU LÓGICA DE ARRESTO ---
-        // Por ejemplo, la línea que tenías en tu script original:
          JailManager.Instance.SetMaxValue();
 
-        // (Opcional) Puedes desactivar este script para que no siga corriendo
-        // this.enabled = false;
     }
 
     private void OnDrawGizmosSelected()
     {
-        // Usar un color diferente si está vigilando o no (si la app está corriendo)
         Gizmos.color = isWatching ? Color.yellow : Color.gray;
         if (!Application.isPlaying)
         {
-            Gizmos.color = Color.yellow; // Color por defecto en el editor
+            Gizmos.color = Color.yellow;
         }
 
         Vector3 forward = transform.forward;
         Vector3 leftDir = Quaternion.Euler(0, -viewAngle / 2f, 0) * forward;
         Vector3 rightDir = Quaternion.Euler(0, viewAngle / 2f, 0) * forward;
 
-        // Dibujar las líneas del cono
         Gizmos.DrawRay(transform.position, leftDir * viewDistance);
         Gizmos.DrawRay(transform.position, rightDir * viewDistance);
 
-        // (Opcional) Dibujar un arco
 #if UNITY_EDITOR
         UnityEditor.Handles.color = Gizmos.color;
         UnityEditor.Handles.DrawWireArc(transform.position, Vector3.up, leftDir, viewAngle, viewDistance);
