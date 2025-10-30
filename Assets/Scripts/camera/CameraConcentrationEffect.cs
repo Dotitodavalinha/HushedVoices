@@ -27,37 +27,50 @@ public class CameraConcentrationEffect : MonoBehaviour
     private bool applyingEffects = false;
     private bool removingEffects = false;
 
+    private float currentOnOff = 0f;
+    private float targetOnOff = 0f;
     void Awake()
     {
         mainCamera = GetComponent<Camera>();
         cameraData = GetComponent<UniversalAdditionalCameraData>();
         originalFOV = mainCamera.fieldOfView;
     }
-
-    void OnEnable()
+    private void Start()
     {
         if (ConcentrationManager.Instance != null)
         {
-            ConcentrationManager.Instance.OnConcentrationStarted += ApplyEffects;
-            ConcentrationManager.Instance.OnConcentrationEnded += RemoveEffects;
+            if (ConcentrationManager.Instance.IsActive())
+                ApplyEffects();
+            else
+                ForceResetEffect();
         }
+    }
 
-        //  Chequeo inmediato del estado global
-        if (ConcentrationManager.Instance != null && !ConcentrationManager.Instance.IsActive())
+    void OnEnable()
+{
+    if (ConcentrationManager.Instance != null)
+    {
+        ConcentrationManager.Instance.OnConcentrationStarted += ApplyEffects;
+        ConcentrationManager.Instance.OnConcentrationEnded += RemoveEffects;
+
+        if (ConcentrationManager.Instance.IsActive())
+        {
+            ApplyEffects();
+        }
+        else
         {
             ForceResetEffect();
         }
     }
+}
     private void ForceResetEffect()
     {
-        // Apaga material y FOV aunque no haya overlayCam
         if (overlayMaterial != null)
             overlayMaterial.SetFloat("_onOff", 0f);
 
         if (mainCamera != null)
             mainCamera.fieldOfView = originalFOV;
 
-        // Limpieza de cámara overlay vieja
         if (cameraData != null && overlayCam != null && cameraData.cameraStack.Contains(overlayCam))
             cameraData.cameraStack.Remove(overlayCam);
 
@@ -78,59 +91,62 @@ public class CameraConcentrationEffect : MonoBehaviour
             ConcentrationManager.Instance.OnConcentrationStarted -= ApplyEffects;
             ConcentrationManager.Instance.OnConcentrationEnded -= RemoveEffects;
         }
+
+        if (overlayMaterial != null)
+            overlayMaterial.SetFloat("_onOff", 0f);
+
+        if (cameraData != null && overlayCam != null && cameraData.cameraStack.Contains(overlayCam))
+            cameraData.cameraStack.Remove(overlayCam);
+
+        if (instantiatedOverlayCamera != null)
+            Destroy(instantiatedOverlayCamera);
+
+        overlayCam = null;
+        instantiatedOverlayCamera = null;
+        applyingEffects = false;
+        removingEffects = false;
     }
+
 
     void Update()
     {
+        if (overlayMaterial == null) return;
+
+        // --- BLUR (onOff) ---
+        currentOnOff = Mathf.MoveTowards(currentOnOff, targetOnOff, Time.deltaTime * transitionSpeed);
+        overlayMaterial.SetFloat("_onOff", currentOnOff);
+
+        // --- FOV ---
+        float currentFovTarget = applyingEffects ? targetFOV : originalFOV;
+        mainCamera.fieldOfView = Mathf.MoveTowards(mainCamera.fieldOfView, currentFovTarget, Time.deltaTime * transitionSpeed);
+        if (overlayCam != null)
+            overlayCam.fieldOfView = mainCamera.fieldOfView;
+
+        // --- LIMPIEZA DE ESTADOS ---
+        if (applyingEffects && Mathf.Approximately(currentOnOff, 1f) && Mathf.Approximately(mainCamera.fieldOfView, targetFOV))
+            applyingEffects = false;
+
+        if (removingEffects && Mathf.Approximately(currentOnOff, 0f) && Mathf.Approximately(mainCamera.fieldOfView, originalFOV))
+        {
+            removingEffects = false;
+
+            // Limpieza de overlay camera
+            if (cameraData != null && overlayCam != null && cameraData.cameraStack.Contains(overlayCam))
+                cameraData.cameraStack.Remove(overlayCam);
+
+            if (instantiatedOverlayCamera != null)
+                Destroy(instantiatedOverlayCamera);
+
+            overlayCam = null;
+            instantiatedOverlayCamera = null;
+        }
+
+        // --- FORZAR DESACTIVACIÓN si manager indica que terminó ---
         if (ConcentrationManager.Instance != null)
         {
-            if (!ConcentrationManager.Instance.IsActive() && (applyingEffects || overlayMaterial.GetFloat("_onOff") > 0f))
+            if (!ConcentrationManager.Instance.IsActive() && (applyingEffects || currentOnOff > 0f))
             {
                 RemoveEffects();
-            }
-        }
-
-
-        if (applyingEffects)
-        {
-            // --- Efecto blur ---
-            float current = overlayMaterial.GetFloat("_onOff");
-            current += Time.deltaTime * transitionSpeed;
-            overlayMaterial.SetFloat("_onOff", Mathf.Clamp01(current));
-
-            // --- FOV ---
-            mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, targetFOV, Time.deltaTime * transitionSpeed);
-            if (overlayCam != null)
-                overlayCam.fieldOfView = mainCamera.fieldOfView;
-
-            if (current >= 1f && Mathf.Abs(mainCamera.fieldOfView - targetFOV) < 0.01f)
-                applyingEffects = false;
-        }
-
-        if (removingEffects)
-        {
-            // --- Efecto blur ---
-            float current = overlayMaterial.GetFloat("_onOff");
-            current -= Time.deltaTime * transitionSpeed;
-            overlayMaterial.SetFloat("_onOff", Mathf.Clamp01(current));
-
-            // --- FOV ---
-            mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, originalFOV, Time.deltaTime * transitionSpeed);
-            if (overlayCam != null)
-                overlayCam.fieldOfView = mainCamera.fieldOfView;
-
-            if (current <= 0f && Mathf.Abs(mainCamera.fieldOfView - originalFOV) < 0.01f)
-            {
-                removingEffects = false;
-
-                if (cameraData != null && overlayCam != null && cameraData.cameraStack.Contains(overlayCam))
-                    cameraData.cameraStack.Remove(overlayCam);
-
-                if (instantiatedOverlayCamera != null)
-                    Destroy(instantiatedOverlayCamera);
-
-                overlayCam = null;
-                instantiatedOverlayCamera = null;
             }
         }
     }
@@ -159,13 +175,10 @@ public class CameraConcentrationEffect : MonoBehaviour
                 if (!cameraData.cameraStack.Contains(overlayCam))
                     cameraData.cameraStack.Add(overlayCam);
             }
-            else
-            {
-                Debug.LogError("El prefab overlayCameraPrefab no tiene Camera!");
-            }
 
             applyingEffects = true;
             removingEffects = false;
+            targetOnOff = 1f;
         }
     }
 
@@ -173,20 +186,9 @@ public class CameraConcentrationEffect : MonoBehaviour
     {
         applyingEffects = false;
         removingEffects = true;
-
-        //  Si el overlay material sigue con onOff > 0, aseguramos que empiece a apagarse.
-        if (overlayMaterial != null && overlayMaterial.GetFloat("_onOff") > 0f)
-        {
-            overlayMaterial.SetFloat("_onOff", 1f);
-        }
-
-        //  Si el overlayCam o la cámara fueron destruidos (por cambio de escena),
-        // el Update no podrá correr, así que apagamos directo.
-        if (overlayCam == null || instantiatedOverlayCamera == null)
-        {
-            StartCoroutine(ForceDisableMaterial());
-        }
+        targetOnOff = 0f;
     }
+
 
     private IEnumerator ForceDisableMaterial()
     {
