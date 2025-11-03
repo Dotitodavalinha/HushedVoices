@@ -22,7 +22,6 @@ public class ConcentrationManager : MonoBehaviour
 
     [Header("Visual Feedback")]
     private GameObject activeOverlay;
-    // variables publica de solo lectura para el UI :
     public int MaxUsesPerDay => maxUsesPerDay;
     public int UsesRemaining => usesRemaining;
     public float RemainingSeconds => Mathf.Max(0f, timer);
@@ -35,15 +34,13 @@ public class ConcentrationManager : MonoBehaviour
     public float fatigueDuration = 5f;
     private bool isFatigued = false;
 
-    //accion q pide mantener activa la concentracion
     private int holdCounter = 0;
-    // si true, la concentración expiró en timer pero espera a que se liberen los holds
     private bool isPendingEnd = false;
 
 
     public event Action OnConcentrationStarted;
     public event Action OnConcentrationEnded;
-    public event Action<int> OnUsesChanged; // pasa usesRemaining
+    public event Action<int> OnUsesChanged;
 
     private float timer = 0f;
 
@@ -71,7 +68,6 @@ public class ConcentrationManager : MonoBehaviour
     }
     private IEnumerator SubscribeWhenReady()
     {
-        // espera a que el singleton exista (cubre orden de carga/cambio de escena)
         while (DaysManager.Instance == null) yield return null;
         DaysManager.Instance.OnDayStart += HandleDayStart;
     }

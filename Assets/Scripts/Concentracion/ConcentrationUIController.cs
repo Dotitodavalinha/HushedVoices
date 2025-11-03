@@ -5,25 +5,20 @@ using System.Collections;
 
 public class ConcentrationUIController : MonoBehaviour
 {
-    [Header("Prefabs / Assets")]
-    [Tooltip("Imagen para cada 'uso'. Puede ser el mismo prefab; se le baja alpha cuando el uso está gastado.")]
-    [SerializeField] private Image useIconPrefab;
-    [Tooltip("Sprite lleno para uso disponible (opcional).")]
+    [Header("Sprites (Opcional)")]
+    [Tooltip("Sprite lleno para uso disponible.")]
     [SerializeField] private Sprite fullSprite;
-    [Tooltip("Sprite vacío para uso gastado (opcional).")]
+    [Tooltip("Sprite vacío para uso gastado.")]
     [SerializeField] private Sprite emptySprite;
 
-    [Tooltip("Contenedor horizontal para los usos (se crea si no existe).")]
-    [SerializeField] private HorizontalLayoutGroup usesContainerPrefab;
+    // ----- CAMPOS MODIFICADOS -----
+    [Header("Referencias de UI (Asignar en Editor)")]
+    [Tooltip("La Barra (Image) que muestra la duración. Debe ser de tipo 'Filled'.")]
+    [SerializeField] private Image durationBar;
 
-    [Tooltip("Barra (Image fillAmount) que representa los segundos activos. Se muestra solo cuando está activo.")]
-    [SerializeField] private Image durationBarPrefab;
-
-    [Header("Layout")]
-    [Tooltip("Margen desde el borde de la pantalla (px).")]
-    [SerializeField] private Vector2 screenPadding = new Vector2(24, 24);
-    [Tooltip("Lado de la pantalla para los usos.")]
-    [SerializeField] private AnchorSide anchorSide = AnchorSide.Right;
+    [Tooltip("La lista de Imágenes (Image) que representan los 3 usos.")]
+    [SerializeField] private List<Image> useIcons;
+    // ----- FIN CAMPOS MODIFICADOS -----
 
     [Header("Ojos de concentración")]
     [SerializeField] private List<Animator> eyesAnimators;
@@ -34,19 +29,24 @@ public class ConcentrationUIController : MonoBehaviour
 
     private Canvas _canvas;
     private RectTransform _root;
-    private HorizontalLayoutGroup _usesContainer;
-    private Image _durationBar;
-    private readonly List<Image> _useIcons = new();
+    // Se eliminan _usesContainer, _durationBar, y _useIcons (ahora son campos serializados)
 
     private ConcentrationManager M => ConcentrationManager.Instance;
 
-    public enum AnchorSide { Left, Right }
+    // Se elimina 'AnchorSide' enum
 
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
         EnsureCanvas();
-        BuildStaticUI();
+        // Se elimina BuildStaticUI()
+
+        // Ocultamos la barra de duración al inicio
+        if (durationBar != null)
+        {
+            durationBar.gameObject.SetActive(false);
+        }
+
         TrySubscribe();
     }
 
@@ -57,14 +57,15 @@ public class ConcentrationUIController : MonoBehaviour
     {
         if (M == null) return;
 
-        if (_durationBar != null)
+        // Usamos la referencia 'durationBar' directamente
+        if (durationBar != null)
         {
             bool active = M.IsActive();
-            _durationBar.gameObject.SetActive(active);
+            durationBar.gameObject.SetActive(active);
             if (active)
             {
                 float t = Mathf.Approximately(M.DurationSeconds, 0f) ? 0f : (M.RemainingSeconds / M.DurationSeconds);
-                _durationBar.fillAmount = Mathf.Clamp01(t);
+                durationBar.fillAmount = Mathf.Clamp01(t);
             }
         }
     }
@@ -89,99 +90,45 @@ public class ConcentrationUIController : MonoBehaviour
         M.OnConcentrationEnded -= HandleEnded;
     }
 
+    // MODIFICADO: Ahora solo busca un Canvas, no lo crea.
     private void EnsureCanvas()
     {
         _canvas = FindObjectOfType<Canvas>();
         if (_canvas == null)
         {
-            var go = new GameObject("ConcentrationCanvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
-            _canvas = go.GetComponent<Canvas>();
-            _canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-
-            var scaler = go.GetComponent<CanvasScaler>();
-            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scaler.referenceResolution = new Vector2(1920, 1080);
-            scaler.matchWidthOrHeight = 1f;
-
-            DontDestroyOnLoad(go);
+            Debug.LogError("ConcentrationUIController: ¡No se encontró ningún Canvas en la escena! La UI no funcionará.");
+            return;
         }
         _root = _canvas.transform as RectTransform;
     }
 
-    private void BuildStaticUI()
-    {
-        if (_usesContainer == null)
-        {
-            if (usesContainerPrefab != null)
-                _usesContainer = Instantiate(usesContainerPrefab, _root);
-            else
-            {
-                var go = new GameObject("ConcentrationUses", typeof(RectTransform), typeof(HorizontalLayoutGroup));
-                _usesContainer = go.GetComponent<HorizontalLayoutGroup>();
-                _usesContainer.transform.SetParent(_root, false);
-                _usesContainer.spacing = 8f;
-                _usesContainer.childAlignment = TextAnchor.UpperRight;
-                _usesContainer.childForceExpandHeight = false;
-                _usesContainer.childForceExpandWidth = false;
-            }
+    // ELIMINADO: El método BuildStaticUI() ya no es necesario,
+    // ya que la UI se construye en el Editor.
 
-            var rt = _usesContainer.transform as RectTransform;
-            rt.sizeDelta = new Vector2(200, 64);
-            AnchorToSide(rt, anchorSide, screenPadding);
-        }
-
-        if (_durationBar == null)
-        {
-            if (durationBarPrefab != null)
-                _durationBar = Instantiate(durationBarPrefab, _root);
-            else
-            {
-                var go = new GameObject("ConcentrationDurationBar", typeof(RectTransform), typeof(Image));
-                _durationBar = go.GetComponent<Image>();
-                _durationBar.type = Image.Type.Filled;
-                _durationBar.fillMethod = Image.FillMethod.Horizontal;
-                _durationBar.fillOrigin = (int)Image.OriginHorizontal.Left;
-            }
-
-            var rt = _durationBar.rectTransform;
-            rt.sizeDelta = new Vector2(280, 18);
-            AnchorToSide(rt, anchorSide, screenPadding + new Vector2(0, 64));
-            _durationBar.gameObject.SetActive(false);
-        }
-    }
-
+    // MODIFICADO: Ya no instancia iconos, solo los activa/desactiva.
     private void EnsureUsesBuilt()
     {
-        if (M == null) return;
+        if (M == null || useIcons == null) return;
 
         int needed = M.MaxUsesPerDay;
 
-        while (_useIcons.Count < needed)
+        // En lugar de crear, activamos o desactivamos los iconos existentes
+        for (int i = 0; i < useIcons.Count; i++)
         {
-            Image icon = null;
-            if (useIconPrefab != null)
-                icon = Instantiate(useIconPrefab, _usesContainer.transform);
-            else
+            if (useIcons[i] != null)
             {
-                var go = new GameObject("UseIcon", typeof(RectTransform), typeof(Image));
-                icon = go.GetComponent<Image>();
+                useIcons[i].gameObject.SetActive(i < needed);
             }
-
-            var rt = icon.rectTransform;
-            rt.sizeDelta = new Vector2(24, 24);
-            _useIcons.Add(icon);
         }
-
-        for (int i = 0; i < _useIcons.Count; i++)
-            _useIcons[i].gameObject.SetActive(i < needed);
 
         RefreshUses(M.UsesRemaining);
     }
 
     private void RefreshUses(int usesRemaining)
     {
-        if (_useIcons.Count == 0 && M != null) EnsureUsesBuilt();
-        if (_useIcons.Count == 0) return;
+        // Usamos la lista 'useIcons' asignada en el editor
+        if (useIcons.Count == 0 && M != null) EnsureUsesBuilt();
+        if (useIcons.Count == 0) return;
 
         if (M != null && usesRemaining == M.MaxUsesPerDay)
         {
@@ -195,11 +142,13 @@ public class ConcentrationUIController : MonoBehaviour
             }
         }
 
-        int total = Mathf.Min(_useIcons.Count, M != null ? M.MaxUsesPerDay : _useIcons.Count);
+        int total = Mathf.Min(useIcons.Count, M != null ? M.MaxUsesPerDay : useIcons.Count);
         for (int i = 0; i < total; i++)
         {
             bool available = i < usesRemaining;
-            var img = _useIcons[i];
+            var img = useIcons[i];
+
+            if (img == null) continue; // Seguridad
 
             if (fullSprite != null && emptySprite != null)
             {
@@ -208,37 +157,21 @@ public class ConcentrationUIController : MonoBehaviour
             }
             else
             {
-                img.sprite = img.sprite;
+                // No cambiamos el sprite, solo la opacidad
                 img.color = new Color(1, 1, 1, available ? 1f : 0.25f);
             }
         }
     }
 
-
-    private static void AnchorToSide(RectTransform rt, AnchorSide side, Vector2 padding)
-    {
-        if (side == AnchorSide.Right)
-        {
-            rt.anchorMin = new Vector2(1, 1);
-            rt.anchorMax = new Vector2(1, 1);
-            rt.pivot = new Vector2(1, 1);
-            rt.anchoredPosition = new Vector2(-padding.x, -padding.y);
-        }
-        else
-        {
-            rt.anchorMin = new Vector2(0, 1);
-            rt.anchorMax = new Vector2(0, 1);
-            rt.pivot = new Vector2(0, 1);
-            rt.anchoredPosition = new Vector2(padding.x, -padding.y);
-        }
-    }
+    // ELIMINADO: El método AnchorToSide() ya no es necesario.
+    // El anclaje se hace en el RectTransform en el editor.
 
     private void HandleStarted()
     {
         if (isEyeSequenceActive) return;
         isEyeSequenceActive = true;
 
-        if (_durationBar != null) _durationBar.gameObject.SetActive(true);
+        if (durationBar != null) durationBar.gameObject.SetActive(true);
 
         if (eyeRoutine != null) StopCoroutine(eyeRoutine);
 
@@ -255,10 +188,10 @@ public class ConcentrationUIController : MonoBehaviour
         if (!isEyeSequenceActive) return;
         isEyeSequenceActive = false;
 
-        if (_durationBar != null)
+        if (durationBar != null)
         {
-            _durationBar.fillAmount = 0f;
-            _durationBar.gameObject.SetActive(false);
+            durationBar.fillAmount = 0f;
+            durationBar.gameObject.SetActive(false);
         }
 
         if (currentEyeIndex < eyesAnimators.Count && eyesAnimators[currentEyeIndex] != null)
@@ -271,13 +204,9 @@ public class ConcentrationUIController : MonoBehaviour
     private IEnumerator TurnOffEyeSequence(Animator anim)
     {
         anim.Play("TurnOff");
-
         yield return null;
-
         AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
-
         yield return new WaitForSeconds(stateInfo.length * (1f / anim.speed));
-
         anim.gameObject.SetActive(false);
     }
 }
