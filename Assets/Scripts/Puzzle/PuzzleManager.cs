@@ -1,16 +1,29 @@
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class PuzzleManager : MonoBehaviour
+public class PuzzleManagerUI : MonoBehaviour
 {
-    public static PuzzleManager Instance { get; private set; }
-    public GameObject dollBoardPrefab;
-    public GameObject partPrefab;
+    public static PuzzleManagerUI Instance { get; private set; }
+
+    [Header("Refs")]
+    public Canvas canvasRoot;
+    public GraphicRaycaster raycaster;
+    public EventSystem eventSystem;
+
+    [Header("Prefabs")]
+    public GameObject dollBoardPrefabUI; // DollBoard_UI
+    public GameObject partPrefabUI;      // Part_UI
+
+    [Header("Sprites")]
     public Sprite headSpr, torsoSpr, armLSpr, armRSpr, legLSpr, legRSpr;
 
     GameObject board;
     int placedCount;
+    bool wasCursorVisible;
+    CursorLockMode prevLock;
 
-    void Awake() { Instance = this; }
+    void Awake() => Instance = this;
 
     void Update()
     {
@@ -18,38 +31,53 @@ public class PuzzleManager : MonoBehaviour
             StartPuzzle();
     }
 
-    void StartPuzzle()
+    public void StartPuzzle()
     {
         if (board != null) return;
         placedCount = 0;
 
-        board = Instantiate(dollBoardPrefab, Vector3.zero, Quaternion.identity);
+        wasCursorVisible = Cursor.visible;
+        prevLock = Cursor.lockState;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
 
-        // Columnita a la derecha:
-        Vector3 basePos = new Vector3(3f, 1.8f, 0f);
-        SpawnPart("Head", headSpr, basePos + new Vector3(0, -0.0f, 0));
-        SpawnPart("Torso", torsoSpr, basePos + new Vector3(0, -0.8f, 0));
-        SpawnPart("ArmL", armLSpr, basePos + new Vector3(0, -1.6f, 0));
-        SpawnPart("ArmR", armRSpr, basePos + new Vector3(0, -2.4f, 0));
-        SpawnPart("LegL", legLSpr, basePos + new Vector3(0, -3.2f, 0));
-        SpawnPart("LegR", legRSpr, basePos + new Vector3(0, -4.0f, 0));
+        board = Instantiate(dollBoardPrefabUI, canvasRoot.transform);
+
+        Vector2 basePos = new Vector2(420f, 200f);
+        SpawnPart("Head", headSpr, basePos + new Vector2(0, 0));
+        SpawnPart("Torso", torsoSpr, basePos + new Vector2(0, -90));
+        SpawnPart("ArmL", armLSpr, basePos + new Vector2(0, -180));
+        SpawnPart("ArmR", armRSpr, basePos + new Vector2(0, -270));
+        SpawnPart("LegL", legLSpr, basePos + new Vector2(0, -360));
+        SpawnPart("LegR", legRSpr, basePos + new Vector2(0, -450));
     }
 
-    void SpawnPart(string id, Sprite spr, Vector3 pos)
+    void SpawnPart(string id, Sprite spr, Vector2 anchoredPos)
     {
-        var go = Instantiate(partPrefab, pos, Quaternion.identity);
-        go.GetComponent<SpriteRenderer>().sprite = spr;
-        var dp = go.GetComponent<DraggablePart>();
+        var go = Instantiate(partPrefabUI, canvasRoot.transform);
+        var rt = go.GetComponent<RectTransform>();
+        rt.anchoredPosition = anchoredPos;
+
+        var img = go.GetComponent<Image>();
+        img.sprite = spr;
+
+        var dp = go.GetComponent<DraggablePartUI>();
         dp.targetId = id;
+        dp.raycaster = raycaster;
+        dp.SetInitialAnchoredPos(rt.anchoredPosition); // importante
     }
 
     public void NotifyPlaced()
     {
         placedCount++;
-        if (placedCount >= 6)
-        {
-            // TODO: feedback + cerrar puzzle
-            Debug.Log("PuzzleSolved");
-        }
+        if (placedCount >= 6) FinishPuzzle();
+    }
+
+    void FinishPuzzle()
+    {
+        Cursor.visible = wasCursorVisible;
+        Cursor.lockState = prevLock;
+        Debug.Log("Puzzle UI Solved");
+        // Si querés cerrar el board: Destroy(board); board = null;
     }
 }

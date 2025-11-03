@@ -1,49 +1,88 @@
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
-public class DraggablePart : MonoBehaviour
+public class DraggablePartUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public string targetId;
-    public float snapDistance = 0.25f;
+    public float snapMaxDistance = 60f; // en px aprox
+    public GraphicRaycaster raycaster;
 
-    Vector3 startPos;
+    RectTransform rt;
+    CanvasGroup cg;
+    Vector2 startAnchoredPos;
+    Vector3 pointerOffset;
     bool placed;
-    Camera cam;
-    SocketZone hovered;
 
-    void Awake() { cam = Camera.main; startPos = transform.position; }
+    void Awake()
+    {
+        rt = GetComponent<RectTransform>();
+        cg = GetComponent<CanvasGroup>();
+    }
 
-    void OnMouseDrag()
+    void Start()
+    {
+        if (startAnchoredPos == Vector2.zero)
+            startAnchoredPos = rt.anchoredPosition;
+    }
+
+    // Lo llama el manager después de posicionar
+    public void SetInitialAnchoredPos(Vector2 pos)
+    {
+        rt.anchoredPosition = pos;
+        startAnchoredPos = pos;
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
     {
         if (placed) return;
-        Vector3 m = cam.ScreenToWorldPoint(Input.mousePosition);
-        m.z = 0f;
-        transform.position = m;
+        cg.blocksRaycasts = false;
+
+        Vector3 worldPoint;
+        RectTransformUtility.ScreenPointToWorldPointInRectangle(
+            rt, eventData.position, eventData.pressEventCamera, out worldPoint);
+        pointerOffset = rt.position - worldPoint;
     }
 
-    void OnMouseUp()
+    public void OnDrag(PointerEventData eventData)
     {
         if (placed) return;
-        if (hovered != null && hovered.id == targetId &&
-            Vector2.Distance(transform.position, hovered.transform.position) <= snapDistance)
-        {
-            transform.position = hovered.transform.position;
-            placed = true;
-            GetComponent<Collider2D>().enabled = false;
-            var rb = GetComponent<Rigidbody2D>(); if (rb) rb.simulated = false;
-            PuzzleManager.Instance.NotifyPlaced();
-        }
-        else
-        {
-            transform.position = startPos;
-        }
+
+        Vector3 worldPoint;
+        RectTransformUtility.ScreenPointToWorldPointInRectangle(
+            rt, eventData.position, eventData.pressEventCamera, out worldPoint);
+        rt.position = worldPoint + pointerOffset;
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    public void OnEndDrag(PointerEventData eventData)
     {
-        if (other.TryGetComponent(out SocketZone socket)) hovered = socket;
-    }
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.TryGetComponent(out SocketZone socket) && hovered == socket) hovered = null;
+        if (placed) return;
+
+        var results = new List<RaycastResult>();
+        raycaster.Raycast(eventData, results);
+
+        SocketZoneUI targetSocket = null;
+        foreach (var r in results)
+            if (r.gameObject.TryGetComponent(out SocketZoneUI s)) { targetSocket = s; break; }
+
+        if (targetSocket != null && targetSocket.id == targetId)
+        {
+            var socketRT = targetSocket.GetComponent<RectTransform>();
+            Vector3 socketWorldCenter = socketRT.TransformPoint(socketRT.rect.center);
+
+            if (Vector2.Distance(rt.position, socketWorldCenter) <= snapMaxDistance)
+            {
+                rt.position = socketWorldCenter;
+                placed = true;
+                cg.blocksRaycasts = true;
+                cg.interactable = false;
+                PuzzleManagerUI.Instance.NotifyPlaced();
+                return;
+            }
+        }
+
+        rt.anchoredPosition = startAnchoredPos;
+        cg.blocksRaycasts = true;
     }
 }
