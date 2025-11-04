@@ -77,11 +77,8 @@ public class Lockpick : MonoBehaviour
 
     private void HandleInput()
     {
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-        float verticalInput = Input.GetAxisRaw("Vertical");
-
         // LÓGICA 1: VERIFICAR (Presionar 'W' después del tanteo)
-        if (isWaitingForSecondPress && verticalInput > 0)
+        if (isWaitingForSecondPress && Input.GetKeyDown(KeyCode.W))
         {
             isWaitingForSecondPress = false;
             justMovedHorizontally = false;
@@ -92,6 +89,9 @@ public class Lockpick : MonoBehaviour
                 verticalCycleCoroutine = null;
             }
             isVerticalCycleActive = false;
+
+            isVertical = false;
+            UpdateTargetPosition();
 
             if (pendingTumbler != null)
             {
@@ -110,29 +110,14 @@ public class Lockpick : MonoBehaviour
         }
 
         // LÓGICA 2: MOVERSE HORIZONTALMENTE (A/D)
-        else if (horizontalInput != 0 && !isVerticalCycleActive)
+        else if (Input.GetKeyDown(KeyCode.D) && !isVerticalCycleActive)
         {
-            if (verticalCycleCoroutine != null)
-            {
-                StopCoroutine(verticalCycleCoroutine);
-                verticalCycleCoroutine = null;
-                isVerticalCycleActive = false;
-                isVertical = false;
-            }
-
-            isWaitingForSecondPress = false;
-            pendingTumbler = null;
-
-            int nextIndex = currentHIndex + (int)Mathf.Sign(horizontalInput);
-            if (nextIndex >= 0 && nextIndex < horizontalPositions.Length)
-            {
-                if (currentHIndex != nextIndex)
-                {
-                    justMovedHorizontally = true;
-                }
-                currentHIndex = nextIndex;
-                UpdateTargetPosition();
-            }
+            MoveHorizontal(1);
+            return;
+        }
+        else if (Input.GetKeyDown(KeyCode.A) && !isVerticalCycleActive)
+        {
+            MoveHorizontal(-1);
             return;
         }
 
@@ -154,6 +139,33 @@ public class Lockpick : MonoBehaviour
         }
     }
 
+    // --- NUEVO MÉTODO HELPER para mover horizontal ---
+    private void MoveHorizontal(int direction)
+    {
+        if (verticalCycleCoroutine != null)
+        {
+            StopCoroutine(verticalCycleCoroutine);
+            verticalCycleCoroutine = null;
+            isVerticalCycleActive = false;
+            isVertical = false;
+        }
+
+        isWaitingForSecondPress = false;
+        pendingTumbler = null;
+
+        int nextIndex = currentHIndex + direction;
+        if (nextIndex >= 0 && nextIndex < horizontalPositions.Length)
+        {
+            if (currentHIndex != nextIndex)
+            {
+                justMovedHorizontally = true;
+            }
+            currentHIndex = nextIndex;
+            UpdateTargetPosition();
+        }
+    }
+
+    // Método de fallo instantáneo (cuando presionás 'W' y es incorrecto)
     private void FailSequence()
     {
         isVerticalCycleActive = false;
@@ -207,6 +219,7 @@ public class Lockpick : MonoBehaviour
         justMovedHorizontally = true;
     }
 
+    // Método helper para saber qué Tumbler está debajo
     private Tumbler GetCurrentTumbler()
     {
         int targetTumblerNumber = currentHIndex + 1;
@@ -260,7 +273,6 @@ public class Lockpick : MonoBehaviour
         UpdateTargetPosition();
 
         yield return new WaitUntil(() => transform.position == targetPosition);
-
 
         isVerticalCycleActive = false;
         verticalCycleCoroutine = null;
