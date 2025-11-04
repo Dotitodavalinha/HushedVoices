@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.09939027, g: 0.10259357, b: 0.20005988, a: 1}
+  m_FogColor: {r: 0.6802714, g: 0.3747148, b: 0.22567569, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.2025187, g: 0.20757172, b: 0.3490566, a: 1}
+  m_AmbientSkyColor: {r: 1, g: 0.97378874, b: 0.90420395, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.1581417, g: 0.16925314, b: 0.3246287, a: 1}
+  m_IndirectSpecularColor: {r: 0.8851735, g: 0.5925886, b: 0.40284497, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5977,7 +5977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetSceneName: Room
-  entryPointIDInTargetScene: DesdePueblo
+  entryPointIDInTargetScene: DesdeCelda
 --- !u!65 &451011440
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8291,7 +8291,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 636803806}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.039356828, y: -0.8888412, z: -0.4498503, w: -0.07776358}
+  m_LocalRotation: {x: -0.06613083, y: -0.6488851, z: 0.7558783, w: -0.056770124}
   m_LocalPosition: {x: -15.9, y: 4.28, z: 0.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8332,8 +8332,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.41428402, g: 0.41005722, b: 0.37958133, a: 1}
-  m_Intensity: 0.12103748
+  m_Color: {r: 1, g: 0.98524344, b: 0.9229857, a: 1}
+  m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -19369,7 +19369,7 @@ MonoBehaviour:
   maxSunIntensity: 0.5
   DirectionalLight: {fileID: 636803809}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 21.57925
+  TimeOfDay: 11.419267
   DaySpeed: 20
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -25346,6 +25346,7 @@ MonoBehaviour:
   counter: 0
   maxValue: 4
   objectToActivate: {fileID: 0}
+  totalArrests: 0
   CheatInmortal: 0
 --- !u!1 &1926583801
 GameObject:
