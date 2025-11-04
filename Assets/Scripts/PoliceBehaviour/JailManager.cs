@@ -25,7 +25,6 @@ public class JailManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        //Debug.Log("JailManager persistente creado");
     }
 
     private void Start()
@@ -41,8 +40,18 @@ public class JailManager : MonoBehaviour
         counter++;
         if (counter >= maxValue)
         {
-            //triggered = true;
             Debug.LogWarning("a la carcelphitee");
+
+            Debug.Log("ARRESTO: Intentando llamar a PlayerClueTracker.LoseAllClues()");
+            if (PlayerClueTracker.Instance != null)
+            {
+                PlayerClueTracker.Instance.LoseAllClues();
+            }
+            else
+            {
+                Debug.LogError("ARRESTO FALLIDO: PlayerClueTracker.Instance es NULO.");
+            }
+
             if (objectToActivate != null)
             {
                 objectToActivate.SetActive(true);
@@ -53,20 +62,29 @@ public class JailManager : MonoBehaviour
                 Debug.Log("no se encontro el png de 'fuiste encarcelado'");
             }
 
-            // Time.timeScale = 0f; // Pausa total
             StartCoroutine(WaitAndGoToRoom());
         }
     }
     public void SetMaxValue()
     {
-        if (CheatInmortal) // si activamos un bool no podemos caer presos, basicamente. Es para debug.
+        if (CheatInmortal)
         {
             return;
         }
         else
         {
-            // triggered = true;
             Debug.LogWarning("a la carcelphitee");
+
+            Debug.Log("ARRESTO: Intentando llamar a PlayerClueTracker.LoseAllClues()");
+            if (PlayerClueTracker.Instance != null)
+            {
+                PlayerClueTracker.Instance.LoseAllClues();
+            }
+            else
+            {
+                Debug.LogError("ARRESTO FALLIDO: PlayerClueTracker.Instance es NULO.");
+            }
+
             if (objectToActivate != null)
             {
                 objectToActivate.SetActive(true);
@@ -77,7 +95,6 @@ public class JailManager : MonoBehaviour
                 Debug.LogWarning("no se encontro el png de 'fuiste encarcelado'");
             }
 
-            // Time.timeScale = 0f; // Pausa total
             StartCoroutine(WaitAndGoToRoom());
             Debug.Log("go to room corrutina");
         }
@@ -90,7 +107,6 @@ public class JailManager : MonoBehaviour
 
         SceneTransitionData data = new SceneTransitionData("StationInside", "DesdeJail");
         SceneTransitionManager.Instance.TransitionToScene(data);
-
     }
 
     private void OnEnable()

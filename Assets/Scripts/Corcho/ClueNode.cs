@@ -61,6 +61,7 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             clueVisual.SetActive(found);
     }
 
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         board?.ChangeCursor(board.zoomIn);
@@ -199,6 +200,7 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         }
     }
 
+
     private void SetVisualColor(Color color)
     {
         if (clueVisualImage != null)
@@ -241,6 +243,14 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         string parentName = transform.parent.name;
         PlayerPrefs.SetString(data.clueID + "_parent", parentName);
 
+        if (playArea != null && transform.parent == playArea.transform)
+        {
+            if (PlayerClueTracker.Instance != null)
+            {
+                PlayerClueTracker.Instance.AddSafeClue(data.clueID);
+            }
+        }
+
         string connections = string.Join(",", data.connectedClues);
         PlayerPrefs.SetString(data.clueID + "_connections", connections);
 
@@ -259,11 +269,17 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         return new Rect(x, y, size.x, size.y);
     }
+
     public void MoveToCorcho(RectTransform newParent, ClueBoardManager b)
     {
         transform.SetParent(newParent, true);
         BindBoard(b, newParent);
+
+        if (PlayerClueTracker.Instance != null && data != null && !string.IsNullOrEmpty(data.clueID))
+        {
+            PlayerClueTracker.Instance.AddSafeClue(data.clueID);
+        }
     }
 
-    public void OnPointerClick(PointerEventData eventData) { /* vacio, todo se maneja en Up y Drag */ }
+    public void OnPointerClick(PointerEventData eventData) { }
 }

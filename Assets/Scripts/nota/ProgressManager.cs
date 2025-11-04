@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using System;
 using System.Collections.Generic;
@@ -16,11 +15,9 @@ public class ProgressManager : MonoBehaviour
     public bool ColegioStreet;
     public bool GotCoffe;
     public bool LostCoffe;
+
     public string PolicemanZDialogueRoot = "RootPoliceZ1";
     private Dictionary<string, string> npcRoots = new Dictionary<string, string>();
-
-
-
 
     void Awake()
     {
@@ -39,7 +36,7 @@ public class ProgressManager : MonoBehaviour
     {
         if (npcRoots.ContainsKey(npcName))
             return npcRoots[npcName];
-        return defaultRoot; // si nunca se cambió, devolvemos el inicial
+        return defaultRoot;
     }
 
     public void ResetAllBools()
@@ -50,12 +47,10 @@ public class ProgressManager : MonoBehaviour
             if (campo.FieldType == typeof(bool))
             {
                 campo.SetValue(this, false);
-                //Debug.Log($"Se apaga {campo.Name}");
             }
         }
-
-        //Debug.Log("Todos los bools del ProgressManager fueron reseteados a false.");
     }
+
     public void ResetNPCRoots()
     {
         var npcList = FindObjectsOfType<NPCDialogue>();
@@ -64,24 +59,21 @@ public class ProgressManager : MonoBehaviour
             if (npc.roots != null && npc.roots.Count > 0)
             {
                 var firstRoot = npc.roots[0];
-
-                // Verificar que el primer elemento de la lista no sea nulo
                 if (firstRoot != null)
                 {
                     string defaultRootName = firstRoot.name;
-
                     npc.GoToRoot(defaultRootName, false);
                     npcRoots[npc.npcName] = defaultRootName;
                     Debug.Log($"Se reinició el root de {npc.npcName} a {defaultRootName}");
                 }
                 else
                 {
-                    Debug.LogWarning($"El primer root de NPC '{npc.npcName}' es nulo en la escena actual.");
+                    Debug.LogWarning($"El primer root de NPC '{npc.npcName}' es nulo.");
                 }
             }
             else
             {
-                Debug.LogWarning($"El NPC '{npc.npcName}' no tiene raíces (roots) asignadas en el Inspector de esta escena.");
+                Debug.LogWarning($"El NPC '{npc.npcName}' no tiene raíces (roots) asignadas.");
             }
         }
     }
@@ -94,14 +86,10 @@ public class ProgressManager : MonoBehaviour
             if (npc.npcName == npcID)
             {
                 Debug.Log("cambia el root de " + npcID + " a " + rootName);
-                npc.GoToRoot(rootName, false); // <--- NO llamamos otra vez al ProgressManager
+                npc.GoToRoot(rootName, false);
                 break;
             }
         }
-
-        // Guardamos en diccionario para persistencia
         npcRoots[npcID] = rootName;
     }
-
 }
-
