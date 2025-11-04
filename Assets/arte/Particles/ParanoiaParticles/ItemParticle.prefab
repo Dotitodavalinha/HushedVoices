@@ -1,0 +1,155 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4634501476040819213
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5549814053742870936}
+  - component: {fileID: 1707631460456415976}
+  - component: {fileID: 154408801074950443}
+  m_Layer: 0
+  m_Name: ItemParticle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5549814053742870936
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634501476040819213}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.408, y: 3.111, z: 0.011}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!2083052967 &1707631460456415976
+VisualEffect:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634501476040819213}
+  m_Enabled: 1
+  m_Asset: {fileID: 8926484042661614526, guid: 3d2dcdf290ab79c49b370bf9f2081995, type: 3}
+  m_InitialEventName: OnPlay
+  m_InitialEventNameOverriden: 0
+  m_StartSeed: 0
+  m_ResetSeedOnPlay: 1
+  m_AllowInstancing: 1
+  m_ResourceVersion: 1
+  m_PropertySheet:
+    m_Float:
+      m_Array:
+      - m_Value: 20
+        m_Name: Height
+        m_Overridden: 1
+      - m_Value: 4
+        m_Name: Speed
+        m_Overridden: 1
+      - m_Value: 0.5
+        m_Name: Size
+        m_Overridden: 1
+      - m_Value: 0.5
+        m_Name: New float
+        m_Overridden: 1
+      - m_Value: 3
+        m_Name: FlechasSpd
+        m_Overridden: 1
+      - m_Value: 0.5
+        m_Name: FloatSize
+        m_Overridden: 1
+      - m_Value: 0.4
+        m_Name: FlechasInOutSpd
+        m_Overridden: 1
+    m_Vector2f:
+      m_Array: []
+    m_Vector3f:
+      m_Array: []
+    m_Vector4f:
+      m_Array:
+      - m_Value: {x: 0.6320754, y: 0, z: 0, w: 1}
+        m_Name: Color1
+        m_Overridden: 0
+      - m_Value: {x: 1.7772316, y: 0.15928014, z: 0.15928014, w: 0.45490196}
+        m_Name: ColorGlow
+        m_Overridden: 1
+    m_Uint:
+      m_Array: []
+    m_Int:
+      m_Array: []
+    m_Matrix4x4f:
+      m_Array: []
+    m_AnimationCurve:
+      m_Array: []
+    m_Gradient:
+      m_Array: []
+    m_NamedObject:
+      m_Array:
+      - m_Value: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
+        m_Name: TextureGlow
+        m_Overridden: 0
+      - m_Value: {fileID: 2800000, guid: 6772b093bb2335d4b85658d4b5e9b6b1, type: 3}
+        m_Name: Textura1
+        m_Overridden: 1
+      - m_Value: {fileID: 2800000, guid: 829247c600ae8c242b7cafaaa9c1b0a5, type: 3}
+        m_Name: Textura2
+        m_Overridden: 1
+      - m_Value: {fileID: 2800000, guid: af02c7cc6f874734c90c4df32ccfa452, type: 3}
+        m_Name: Textura3
+        m_Overridden: 1
+      - m_Value: {fileID: 2800000, guid: d04463b8ecad17e478db5177a15bb294, type: 3}
+        m_Name: Textura4
+        m_Overridden: 1
+    m_Bool:
+      m_Array: []
+--- !u!73398921 &154408801074950443
+VFXRenderer:
+  serializedVersion: 1
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634501476040819213}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
