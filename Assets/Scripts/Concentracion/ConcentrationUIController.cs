@@ -11,14 +11,12 @@ public class ConcentrationUIController : MonoBehaviour
     [Tooltip("Sprite vacío para uso gastado.")]
     [SerializeField] private Sprite emptySprite;
 
-    // ----- CAMPOS MODIFICADOS -----
     [Header("Referencias de UI (Asignar en Editor)")]
     [Tooltip("La Barra (Image) que muestra la duración. Debe ser de tipo 'Filled'.")]
     [SerializeField] private Image durationBar;
 
     [Tooltip("La lista de Imágenes (Image) que representan los 3 usos.")]
     [SerializeField] private List<Image> useIcons;
-    // ----- FIN CAMPOS MODIFICADOS -----
 
     [Header("Ojos de concentración")]
     [SerializeField] private List<Animator> eyesAnimators;
@@ -29,19 +27,14 @@ public class ConcentrationUIController : MonoBehaviour
 
     private Canvas _canvas;
     private RectTransform _root;
-    // Se eliminan _usesContainer, _durationBar, y _useIcons (ahora son campos serializados)
 
     private ConcentrationManager M => ConcentrationManager.Instance;
 
-    // Se elimina 'AnchorSide' enum
 
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
         EnsureCanvas();
-        // Se elimina BuildStaticUI()
-
-        // Ocultamos la barra de duración al inicio
         if (durationBar != null)
         {
             durationBar.gameObject.SetActive(false);
@@ -57,7 +50,6 @@ public class ConcentrationUIController : MonoBehaviour
     {
         if (M == null) return;
 
-        // Usamos la referencia 'durationBar' directamente
         if (durationBar != null)
         {
             bool active = M.IsActive();
@@ -90,7 +82,6 @@ public class ConcentrationUIController : MonoBehaviour
         M.OnConcentrationEnded -= HandleEnded;
     }
 
-    // MODIFICADO: Ahora solo busca un Canvas, no lo crea.
     private void EnsureCanvas()
     {
         _canvas = FindObjectOfType<Canvas>();
@@ -102,17 +93,12 @@ public class ConcentrationUIController : MonoBehaviour
         _root = _canvas.transform as RectTransform;
     }
 
-    // ELIMINADO: El método BuildStaticUI() ya no es necesario,
-    // ya que la UI se construye en el Editor.
-
-    // MODIFICADO: Ya no instancia iconos, solo los activa/desactiva.
     private void EnsureUsesBuilt()
     {
         if (M == null || useIcons == null) return;
 
         int needed = M.MaxUsesPerDay;
 
-        // En lugar de crear, activamos o desactivamos los iconos existentes
         for (int i = 0; i < useIcons.Count; i++)
         {
             if (useIcons[i] != null)
@@ -126,7 +112,6 @@ public class ConcentrationUIController : MonoBehaviour
 
     private void RefreshUses(int usesRemaining)
     {
-        // Usamos la lista 'useIcons' asignada en el editor
         if (useIcons.Count == 0 && M != null) EnsureUsesBuilt();
         if (useIcons.Count == 0) return;
 
@@ -148,7 +133,7 @@ public class ConcentrationUIController : MonoBehaviour
             bool available = i < usesRemaining;
             var img = useIcons[i];
 
-            if (img == null) continue; // Seguridad
+            if (img == null) continue;
 
             if (fullSprite != null && emptySprite != null)
             {
@@ -157,14 +142,11 @@ public class ConcentrationUIController : MonoBehaviour
             }
             else
             {
-                // No cambiamos el sprite, solo la opacidad
                 img.color = new Color(1, 1, 1, available ? 1f : 0.25f);
             }
         }
     }
 
-    // ELIMINADO: El método AnchorToSide() ya no es necesario.
-    // El anclaje se hace en el RectTransform en el editor.
 
     private void HandleStarted()
     {
