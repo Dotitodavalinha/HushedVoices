@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: -1.883, y: -0.567, z: 25.637}
   m_AnchorMin: {x: 0.19668445, y: 0.342}
   m_AnchorMax: {x: 0.51479846, y: 0.48681745}
-  m_AnchoredPosition: {x: -3.600006, y: -3.9000015}
+  m_AnchoredPosition: {x: -3.600006, y: -3.899994}
   m_SizeDelta: {x: -50, y: -47.399796}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6858217812963769095
@@ -202,7 +202,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.18300001, y: 0.05614831}
   m_AnchorMax: {x: 0.9407187, y: 0.8621483}
-  m_AnchoredPosition: {x: 5.5959015, y: 3.0990906}
+  m_AnchoredPosition: {x: 5.5959167, y: 3.09906}
   m_SizeDelta: {x: 11.192, y: 6.1962}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1650587477838700771
@@ -315,7 +315,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: -0.561, y: -0.216, z: 21.331}
   m_AnchorMin: {x: 0.58179843, y: 0}
   m_AnchorMax: {x: 0.8176579, y: 0.26700002}
-  m_AnchoredPosition: {x: 4.3496017, y: 14.268585}
+  m_AnchoredPosition: {x: 4.349594, y: 14.268555}
   m_SizeDelta: {x: -14.398804, y: -87.879105}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8847703168105296086
@@ -701,7 +701,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.26920882, y: 0}
   m_AnchorMax: {x: 0.67819786, y: 1}
-  m_AnchoredPosition: {x: -2.9466858, y: -14.119019}
+  m_AnchoredPosition: {x: -2.9466553, y: -14.119019}
   m_SizeDelta: {x: -175.76001, y: -240.64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5447001986672622463
@@ -768,6 +768,32 @@ MonoBehaviour:
     partGO: {fileID: 7807935601342241058}
   - id: Torso
     partGO: {fileID: 1650587477838700771}
+  holdSeconds: 1.5
+  endScale: 1
+  scaleCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.98813236
+      value: 1.1544535
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7425182307219669011
 GameObject:
   m_ObjectHideFlags: 0

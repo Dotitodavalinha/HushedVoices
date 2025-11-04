@@ -218,7 +218,7 @@ public class ConcentrationManager : MonoBehaviour
 
     public void ForceEnd() => EndConcentration();
 
-    public void RefillUses()
+    public void RefillUses() 
     {
         usesRemaining = maxUsesPerDay;
         OnUsesChanged?.Invoke(usesRemaining);

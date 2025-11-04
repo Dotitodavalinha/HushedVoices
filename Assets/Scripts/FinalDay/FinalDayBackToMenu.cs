@@ -10,12 +10,14 @@ public class FinalDayBackToMenu : MonoBehaviour
     public GameManager gameManager;
     public ProgressManager progressManager; 
     [SerializeField] private LightingManager lightingManager;
+    public ConcentrationManager concentrationManager;
 
     private void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
         lightingManager = FindObjectOfType<LightingManager>();
         progressManager = FindObjectOfType<ProgressManager>();
+        concentrationManager = FindObjectOfType<ConcentrationManager>();
     }
 
     public void LoadScene(string sceneName)
@@ -51,6 +53,10 @@ public class FinalDayBackToMenu : MonoBehaviour
 
     public void ResetAllManagers()
     {
+
+        //reset Concentration Uses
+        if (concentrationManager != null)
+            ConcentrationManager.Instance.RefillUses();
 
         // Resetea progreso
         if (progressManager != null)
