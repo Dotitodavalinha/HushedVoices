@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class PuzzleManagerUI : MonoBehaviour
+public class PuzzleManager : MonoBehaviour
 {
-    public static PuzzleManagerUI Instance { get; private set; }
+    public static PuzzleManager Instance { get; private set; }
 
     [Header("Refs")]
     public Canvas canvasRoot;
@@ -19,7 +19,11 @@ public class PuzzleManagerUI : MonoBehaviour
     public Sprite headSpr, torsoSpr, armLSpr, armRSpr, legLSpr, legRSpr;
 
     GameObject board;
+    DollBoardUIController boardCtrl;
+
     int placedCount;
+    const int TOTAL_PARTS = 6;
+
     bool wasCursorVisible;
     CursorLockMode prevLock;
 
@@ -42,6 +46,7 @@ public class PuzzleManagerUI : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
 
         board = Instantiate(dollBoardPrefabUI, canvasRoot.transform);
+        boardCtrl = board.GetComponent<DollBoardUIController>();
 
         Vector2 basePos = new Vector2(420f, 200f);
         SpawnPart("Head", headSpr, basePos + new Vector2(0, 0));
@@ -61,23 +66,36 @@ public class PuzzleManagerUI : MonoBehaviour
         var img = go.GetComponent<Image>();
         img.sprite = spr;
 
-        var dp = go.GetComponent<DraggablePartUI>();
+        var dp = go.GetComponent<DraggablePart>();
         dp.targetId = id;
         dp.raycaster = raycaster;
-        dp.SetInitialAnchoredPos(rt.anchoredPosition); // importante
+        dp.SetInitialAnchoredPos(rt.anchoredPosition); // clave para evitar “salto”
     }
 
+    // llamada desde DraggablePartUI cuando una pieza fue correcta
+    public void CorrectPlacement(string id)
+    {
+        if (boardCtrl != null)
+        {
+            boardCtrl.RevealPart(id);
+            placedCount++;
+            if (boardCtrl.IsComplete(TOTAL_PARTS))
+                boardCtrl.PlayCompleteAndClose(FinishPuzzle);
+        }
+    }
+
+    // solo si alguna vez querés contar colocaciones “a la vieja”
     public void NotifyPlaced()
     {
         placedCount++;
-        if (placedCount >= 6) FinishPuzzle();
+        if (placedCount >= TOTAL_PARTS) FinishPuzzle();
     }
 
     void FinishPuzzle()
     {
         Cursor.visible = wasCursorVisible;
         Cursor.lockState = prevLock;
+        Destroy(board); board = null;
         Debug.Log("Puzzle UI Solved");
-        // Si querés cerrar el board: Destroy(board); board = null;
     }
 }

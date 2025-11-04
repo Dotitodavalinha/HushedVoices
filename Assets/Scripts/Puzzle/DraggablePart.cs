@@ -3,10 +3,10 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
-public class DraggablePartUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class DraggablePart : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public string targetId;
-    public float snapMaxDistance = 60f; // en px aprox
+    public float snapMaxDistance = 60f; // píxeles aprox
     public GraphicRaycaster raycaster;
 
     RectTransform rt;
@@ -27,7 +27,6 @@ public class DraggablePartUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             startAnchoredPos = rt.anchoredPosition;
     }
 
-    // Lo llama el manager después de posicionar
     public void SetInitialAnchoredPos(Vector2 pos)
     {
         rt.anchoredPosition = pos;
@@ -62,24 +61,28 @@ public class DraggablePartUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         var results = new List<RaycastResult>();
         raycaster.Raycast(eventData, results);
 
-        SocketZoneUI targetSocket = null;
+        SocketZone targetSocket = null;
         foreach (var r in results)
-            if (r.gameObject.TryGetComponent(out SocketZoneUI s)) { targetSocket = s; break; }
+            if (r.gameObject.TryGetComponent(out SocketZone s)) { targetSocket = s; break; }
 
         if (targetSocket != null && targetSocket.id == targetId)
         {
+            // 1) punto de snap: usa SnapPoint si existe; si no, el centro del rect
             var socketRT = targetSocket.GetComponent<RectTransform>();
-            Vector3 socketWorldCenter = socketRT.TransformPoint(socketRT.rect.center);
+            Transform snapT = socketRT.Find("SnapPoint");
+            Vector3 snapWorldPos = snapT != null
+                ? ((RectTransform)snapT).position
+                : socketRT.TransformPoint(socketRT.rect.center);
 
-            if (Vector2.Distance(rt.position, socketWorldCenter) <= snapMaxDistance)
-            {
-                rt.position = socketWorldCenter;
-                placed = true;
-                cg.blocksRaycasts = true;
-                cg.interactable = false;
-                PuzzleManagerUI.Instance.NotifyPlaced();
-                return;
-            }
+            // 2) como ya hicimos raycast sobre el rect, no hace falta distancia:
+            //    si querés margen de error, podés mantener un umbral:
+            // if (Vector2.Distance(rt.position, snapWorldPos) <= snapMaxDistance) { ... }
+
+            // pegar y terminar
+            rt.position = snapWorldPos;
+            gameObject.SetActive(false);                 // oculto la pieza UI
+            PuzzleManager.Instance.CorrectPlacement(targetId);
+            return;
         }
 
         rt.anchoredPosition = startAnchoredPos;
