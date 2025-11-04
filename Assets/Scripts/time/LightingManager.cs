@@ -4,7 +4,7 @@ using UnityEngine;
 [ExecuteAlways]
 public class LightingManager : MonoBehaviour
 {
-    [SerializeField] private Material Sky; 
+    [SerializeField] private Material Sky;
     [SerializeField] private Material ambientShader;
 
     [SerializeField] private float maxSunIntensity;
@@ -21,6 +21,13 @@ public class LightingManager : MonoBehaviour
 
     public event Action OnDayFinished;
 
+    public void StartNewDay()
+    {
+        TimeOfDay = 5f;
+        tiempoPausado = false;
+        Debug.Log($"LightingManager: Nuevo día. Hora reseteada a {TimeOfDay}");
+    }
+
     private void Start()
     {
         RenderSettings.skybox = Sky;
@@ -33,7 +40,6 @@ public class LightingManager : MonoBehaviour
         }
         else
         {
-            // Ya se jugó antes, cargamos el tiempo guardado
             if (PlayerPrefs.HasKey("SavedTimeOfDay"))
                 TimeOfDay = PlayerPrefs.GetFloat("SavedTimeOfDay");
         }
@@ -55,22 +61,11 @@ public class LightingManager : MonoBehaviour
             {
                 TimeOfDay += Time.deltaTime / DaySpeed;
 
-                // si llego a la hora limite deja de avanzar el clockPhite
                 if (TimeOfDay >= horaLimiteNoche && TimeOfDay < 24f)
                 {
                     tiempoPausado = true;
                     TimeOfDay = horaLimiteNoche;
                 }
-
-                /* 
-                // FUTURO: cuando se habilite el juego nocturno,
-                // este bloque permitirá invocar el fin de día automático a las 00
-                if (TimeOfDay >= 24f)
-                {
-                    TimeOfDay = 0f;
-                    OnDayFinished?.Invoke();
-                }
-                */
 
                 TimeOfDay %= 24;
             }
@@ -89,7 +84,7 @@ public class LightingManager : MonoBehaviour
         UpdateSunLight();
 
 
-        PlayerPrefs.SetFloat("SavedTimeOfDay", TimeOfDay); //guardo el tiempo en cada frame 
+        PlayerPrefs.SetFloat("SavedTimeOfDay", TimeOfDay);
     }
 
     public void ResetTime()
@@ -164,5 +159,4 @@ public class LightingManager : MonoBehaviour
             DirectionalLight.intensity = sunIntensity;
         }
     }
-
 }

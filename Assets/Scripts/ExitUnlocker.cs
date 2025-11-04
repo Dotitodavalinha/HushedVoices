@@ -98,7 +98,7 @@ public class ExitUnlocker : MonoBehaviour
 
     private bool HasClues()
     {
-        return PlayerClueTracker.Instance.HasClue("list") &&
+        return PlayerClueTracker.Instance.HasClue("reportUI") &&
                PlayerClueTracker.Instance.HasClue("bensNote") &&
                PlayerClueTracker.Instance.HasClue("Tv");
     }

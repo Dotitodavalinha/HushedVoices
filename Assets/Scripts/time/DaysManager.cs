@@ -8,14 +8,14 @@ public class DaysManager : MonoBehaviour
 {
     public static DaysManager Instance { get; private set; }
 
-    [SerializeField] private int currentDay = 0; // dia 0 = prólogo, visible en editor
-    public int CurrentDay => currentDay;         // solo lectura desde afuera
+    [SerializeField] private int currentDay = 0;
+    public int CurrentDay => currentDay;
 
-    public event Action<int> OnDayChanged;           // int = nuevo día
-    public event Action OnDayEnd;                    // trigger fin de día
-    public event Action OnDayStart;                  // trigger inicio de día
+    public event Action<int> OnDayChanged;
+    public event Action OnDayEnd;
+    public event Action OnDayStart;
 
-    [SerializeField] private LightingManager timeSystem; // script de reloj
+    [SerializeField] private LightingManager timeSystem;
 
     private void Awake()
     {
@@ -48,6 +48,25 @@ public class DaysManager : MonoBehaviour
         currentDay++;
         OnDayChanged?.Invoke(currentDay);
         Debug.LogWarning("Day Finished. Current day: " + currentDay);
+
+        if (timeSystem != null)
+        {
+            timeSystem.StartNewDay();
+            Debug.Log("DaysManager: Se ha llamado a timeSystem.StartNewDay()");
+        }
+        else
+        {
+            TryHookTimeSystem();
+            if (timeSystem != null)
+            {
+                timeSystem.StartNewDay();
+            }
+            else
+            {
+                Debug.LogError("DAYSMANAGER: No se pudo encontrar el LightingManager (timeSystem) para resetear la hora.");
+            }
+        }
+
         OnDayStart?.Invoke();
     }
 
@@ -57,8 +76,6 @@ public class DaysManager : MonoBehaviour
         OnDayChanged?.Invoke(currentDay);
     }
 
-
-    // esta wea de abajo es para suscribirse al TimeSystem cuando cambio de escena
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         TryHookTimeSystem();
@@ -70,11 +87,10 @@ public class DaysManager : MonoBehaviour
         if (found != null && found != timeSystem)
         {
             if (timeSystem != null)
-                timeSystem.OnDayFinished -= HandleDayFinished; // me desuscribo del viejo
+                timeSystem.OnDayFinished -= HandleDayFinished;
 
             timeSystem = found;
-            timeSystem.OnDayFinished += HandleDayFinished; // me suscribo al nuevo
+            timeSystem.OnDayFinished += HandleDayFinished;
         }
     }
-
 }

@@ -10,6 +10,10 @@ public class JailManager : MonoBehaviour
     public int maxValue = 4;
     public GameObject objectToActivate;
 
+    [Header("Conteo Total de Arrestos")]
+    [Tooltip("Lleva la cuenta de cuántas veces has sido arrestado en total.")]
+    public int totalArrests = 0;
+
     private bool triggered = false;
 
     [SerializeField] private bool CheatInmortal;
@@ -52,6 +56,26 @@ public class JailManager : MonoBehaviour
                 Debug.LogError("ARRESTO FALLIDO: PlayerClueTracker.Instance es NULO.");
             }
 
+            totalArrests++;
+            Debug.Log($"Número total de arrestos: {totalArrests}");
+
+            if (totalArrests > 1)
+            {
+                Debug.Log("Este es el segundo arresto (o más). Avanzando al día siguiente.");
+                if (DaysManager.Instance != null)
+                {
+                    DaysManager.Instance.NextDay();
+                }
+                else
+                {
+                    Debug.LogError("JAILMANAGER: DaysManager.Instance es NULO. No se puede avanzar el día.");
+                }
+            }
+            else
+            {
+                Debug.Log("Este es el primer arresto. El día no avanza.");
+            }
+
             if (objectToActivate != null)
             {
                 objectToActivate.SetActive(true);
@@ -83,6 +107,26 @@ public class JailManager : MonoBehaviour
             else
             {
                 Debug.LogError("ARRESTO FALLIDO: PlayerClueTracker.Instance es NULO.");
+            }
+
+            totalArrests++;
+            Debug.Log($"Número total de arrestos: {totalArrests}");
+
+            if (totalArrests > 1)
+            {
+                Debug.Log("Este es el segundo arresto (o más). Avanzando al día siguiente.");
+                if (DaysManager.Instance != null)
+                {
+                    DaysManager.Instance.NextDay();
+                }
+                else
+                {
+                    Debug.LogError("JAILMANAGER: DaysManager.Instance es NULO. No se puede avanzar el día.");
+                }
+            }
+            else
+            {
+                Debug.Log("Este es el primer arresto. El día no avanza.");
             }
 
             if (objectToActivate != null)

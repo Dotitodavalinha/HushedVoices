@@ -93,7 +93,7 @@ public class BeforeGoToStreet : MonoBehaviour
 
     private bool TieneClues()
     {
-        return PlayerClueTracker.Instance.HasClue("list") &&
+        return PlayerClueTracker.Instance.HasClue("reportUI") &&
                PlayerClueTracker.Instance.HasClue("bensNote") &&
                PlayerClueTracker.Instance.HasClue("Tv");
     }
