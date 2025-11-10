@@ -137,6 +137,16 @@ public abstract class InteractableBase : MonoBehaviour
             Destroy(destroyThisBeforeSelf);
         }
 
+        var revealable = GetComponent<RevealableByConcentration>();
+        if (revealable == null)
+            revealable = GetComponentInParent<RevealableByConcentration>();
+
+        if (revealable != null)
+        {
+            revealable.OnClueCollected();
+        }
+
+
         if (destroyAfterUse)
             Destroy(gameObject);
 
