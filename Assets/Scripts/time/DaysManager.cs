@@ -93,4 +93,16 @@ public class DaysManager : MonoBehaviour
             timeSystem.OnDayFinished += HandleDayFinished;
         }
     }
+
+
+    public int CurrentHour
+    {
+        get
+        {
+            // LightingManager.TimeOfDay es 0..24 (float). Lo redondeamos hacia abajo.
+            // Asegurate de tener asignado "timeSystem" como ya hacías.
+            return timeSystem != null ? Mathf.FloorToInt(timeSystem.TimeOfDay) : 0;
+        }
+    }
+
 }
