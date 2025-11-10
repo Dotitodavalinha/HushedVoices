@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public abstract class InteractableBase : MonoBehaviour 
+public abstract class InteractableBase : MonoBehaviour  
 {
     [Header("Opciones comunes")]
     [SerializeField] protected bool needInteract = true; // requiere apretar E
@@ -11,6 +11,10 @@ public abstract class InteractableBase : MonoBehaviour
     [SerializeField] protected bool holdConcentrationIfOpen = false;
     [SerializeField] protected NOTEInteractionZone zonaInteraccion;
     [SerializeField] protected GameObject pressE_UI;
+
+    [Header("ObjectToDestroy")]
+    [SerializeField] private GameObject destroyThisBeforeSelf; // si se asigna, se destruye justo antes de este interactable
+
 
     [Header("Outlines (opcional)")]
     [SerializeField] protected List<GameObject> outlinerCubes = new List<GameObject>();
@@ -127,8 +131,15 @@ public abstract class InteractableBase : MonoBehaviour
         if (pressE_UI != null)
             pressE_UI.SetActive(false);
 
+        // si hay algo asignado lo destruimos antes de destruirnos a nosotros mismos
+        if (destroyThisBeforeSelf != null)
+        {
+            Destroy(destroyThisBeforeSelf);
+        }
+
         if (destroyAfterUse)
             Destroy(gameObject);
+
     }
 
     // Exponer un cierre público seguro para que componentes externos (p. ej. puzzles) puedan cerrar el interactable

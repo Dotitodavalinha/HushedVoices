@@ -21,6 +21,11 @@ public class RevealableByConcentration : MonoBehaviour
     [Tooltip("Si este objeto comparte el mismo GameObject con un Interactable, arrastralo aquí para bloquear/permitir la interacción")]
     public InteractableBase interactableToToggle;
 
+    [Tooltip("Interactable que se mantendrá DESACTIVADO durante la Concentración y ACTIVADO sin Concentración")]
+    public InteractableBase interactableOppositeToggle; 
+    private bool oppositeDisabledByMe = false;          
+
+
 
     // runtime
     private bool highlighted = false;
@@ -84,6 +89,21 @@ public class RevealableByConcentration : MonoBehaviour
                 // SoundManager.instance.PlaySound(SoundID.CluePickupSound);
             }
         }
+
+        // desactivar un interactable ajeno mientras haya Concentración (si es q hay uno)
+        if (interactableOppositeToggle != null)
+        {
+            if (!interactableOppositeToggle.IsOpen && interactableOppositeToggle.enabled)
+            {
+                interactableOppositeToggle.enabled = false;
+                oppositeDisabledByMe = true;
+            }
+            else
+            {
+                oppositeDisabledByMe = false;
+            }
+        }
+
     }
 
     private void OnConcentrationEnded()
@@ -115,6 +135,14 @@ public class RevealableByConcentration : MonoBehaviour
                     Outline.SetActive(false);
             }
         }
+
+        // reactivar el interactable 'normal' si lo habiamos apagado
+        if (interactableOppositeToggle != null && oppositeDisabledByMe)
+        {
+            interactableOppositeToggle.enabled = true;
+        }
+        oppositeDisabledByMe = false;
+
     }
 
 

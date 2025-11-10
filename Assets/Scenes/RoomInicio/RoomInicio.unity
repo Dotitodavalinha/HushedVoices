@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.46742785, g: 0.2749656, b: 0.21636532, a: 1}
+  m_FogColor: {r: 0.09803921, g: 0.10196081, b: 0.20000002, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.9457553, g: 0.7796564, b: 0.4812221, a: 1}
+  m_AmbientSkyColor: {r: 0.2025187, g: 0.20757172, b: 0.3490566, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.87925524, g: 0.58421916, b: 0.39941156, a: 1}
+  m_IndirectSpecularColor: {r: 0.14090109, g: 0.16818628, b: 0.32461888, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5553,6 +5553,7 @@ MonoBehaviour:
   holdConcentrationIfOpen: 0
   zonaInteraccion: {fileID: 260555118}
   pressE_UI: {fileID: 1730840401}
+  destroyThisBeforeSelf: {fileID: 0}
   outlinerCubes: []
   prefabs:
   - {fileID: 2585326292302825618, guid: f853a7fb47169b34ab41fabb0edf864e, type: 3}
@@ -14154,6 +14155,7 @@ MonoBehaviour:
   holdConcentrationIfOpen: 0
   zonaInteraccion: {fileID: 411903429}
   pressE_UI: {fileID: 460308050}
+  destroyThisBeforeSelf: {fileID: 0}
   outlinerCubes: []
   prefabs:
   - {fileID: 6124066644080502729, guid: 5c2ad875b119f7945897a8a83389d705, type: 3}
@@ -33302,6 +33304,7 @@ MonoBehaviour:
   holdConcentrationIfOpen: 0
   zonaInteraccion: {fileID: 1199123744}
   pressE_UI: {fileID: 0}
+  destroyThisBeforeSelf: {fileID: 0}
   outlinerCubes: []
   prefabs:
   - {fileID: 2585326292302825618, guid: c503c71710890c243a42188d286b0389, type: 3}
@@ -34871,6 +34874,7 @@ MonoBehaviour:
   holdConcentrationIfOpen: 0
   zonaInteraccion: {fileID: 1234861341}
   pressE_UI: {fileID: 1322261432}
+  destroyThisBeforeSelf: {fileID: 0}
   outlinerCubes: []
   prefabs:
   - {fileID: 42809895855776898, guid: 60c594457d16d3e4ea35d3d94f714c2a, type: 3}
@@ -36420,6 +36424,7 @@ MonoBehaviour:
   holdConcentrationIfOpen: 0
   zonaInteraccion: {fileID: 1280871379}
   pressE_UI: {fileID: 1551170354}
+  destroyThisBeforeSelf: {fileID: 0}
   outlinerCubes:
   - {fileID: 750556164}
   - {fileID: 1474975904}
@@ -38047,6 +38052,7 @@ MonoBehaviour:
   holdConcentrationIfOpen: 0
   zonaInteraccion: {fileID: 1337831318}
   pressE_UI: {fileID: 1574414996}
+  destroyThisBeforeSelf: {fileID: 0}
   outlinerCubes: []
   prefabs:
   - {fileID: 6124066644080502729, guid: 32ec98cb50d724349b32e833fbb71a38, type: 3}
@@ -39964,7 +39970,7 @@ MonoBehaviour:
   maxSunIntensity: 0.4
   DirectionalLight: {fileID: 1724289880}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 15.876996
+  TimeOfDay: 22
   DaySpeed: 20
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -40661,6 +40667,7 @@ MonoBehaviour:
   holdConcentrationIfOpen: 0
   zonaInteraccion: {fileID: 1460782653}
   pressE_UI: {fileID: 1730840401}
+  destroyThisBeforeSelf: {fileID: 0}
   outlinerCubes: []
   prefabs:
   - {fileID: 2585326292302825618, guid: fec1275220fe87444b4ad9deeb1b4248, type: 3}
@@ -44327,6 +44334,7 @@ MonoBehaviour:
   Outline: {fileID: 0}
   keepRevealedAfterEnd: 0
   interactableToToggle: {fileID: 1588502457}
+  interactableOppositeToggle: {fileID: 7615844447992488693}
 --- !u!65 &1588502454
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -44395,9 +44403,11 @@ MonoBehaviour:
   holdConcentrationIfOpen: 0
   zonaInteraccion: {fileID: 1588502456}
   pressE_UI: {fileID: 908362107}
+  destroyThisBeforeSelf: {fileID: 6601311788206978049}
   outlinerCubes:
   - {fileID: 0}
   prefabs:
+  - {fileID: 4602194880031335369, guid: 3bcec34a146649044829bcd7b43fd9f5, type: 3}
   - {fileID: 2585326292302825618, guid: d03dfeca51fd8064bbf83e3bfc61f535, type: 3}
 --- !u!4 &1590814911 stripped
 Transform:
@@ -47322,7 +47332,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1724289877}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.023910098, y: -0.9579742, z: 0.2732935, w: -0.08381194}
+  m_LocalRotation: {x: 0.043577906, y: -0.8627299, z: -0.4980974, w: -0.07547914}
   m_LocalPosition: {x: -6.174999, y: 3.2090003, z: -3.6359997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -47363,8 +47373,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.8839993, g: 0.83899504, b: 0.64661837, a: 1}
-  m_Intensity: 0.32961264
+  m_Color: {r: 0.37294975, g: 0.37422884, b: 0.36609012, a: 1}
+  m_Intensity: 0.1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -48800,6 +48810,7 @@ MonoBehaviour:
   holdConcentrationIfOpen: 0
   zonaInteraccion: {fileID: 1763417451}
   pressE_UI: {fileID: 1730840401}
+  destroyThisBeforeSelf: {fileID: 0}
   outlinerCubes: []
   prefabs:
   - {fileID: 2585326292302825618, guid: aff77e15282c9e641ba66c97176ed90e, type: 3}
@@ -51926,6 +51937,7 @@ MonoBehaviour:
   holdConcentrationIfOpen: 0
   zonaInteraccion: {fileID: 1908780940}
   pressE_UI: {fileID: 1730840401}
+  destroyThisBeforeSelf: {fileID: 0}
   outlinerCubes: []
   prefabs:
   - {fileID: 2585326292302825618, guid: b2ac3dc574ac7244fb32165e27a525b9, type: 3}
@@ -58560,10 +58572,10 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 0.2966138, y: 0.5175796, z: 0.17424105}
-  m_Center: {x: -0.036519863, y: -0.15264621, z: -0.008878663}
+  m_Size: {x: 0.18414553, y: 0.2884323, z: 0.18988298}
+  m_Center: {x: -0.024529247, y: 0.0016703096, z: -0.01691824}
 --- !u!4 &5220279180461583903
 Transform:
   m_ObjectHideFlags: 0
@@ -58863,7 +58875,6 @@ GameObject:
   - component: {fileID: 1729078047429786620}
   - component: {fileID: 5080861585261438565}
   - component: {fileID: 7615844447992488693}
-  - component: {fileID: 7615844447992488691}
   - component: {fileID: 7615844447992488690}
   m_Layer: 0
   m_Name: Ben'sNote
@@ -59058,20 +59069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1df6c4161099704b921a419e73e704b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zonaInteraccion: {fileID: 7615844447992488691}
---- !u!114 &7615844447992488691
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6601311788206978049}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bda4e817eb36a04e94c427b5d6f1e44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jugadorDentro: 0
+  zonaInteraccion: {fileID: 1588502456}
 --- !u!114 &7615844447992488693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59087,8 +59085,9 @@ MonoBehaviour:
   needInteract: 1
   destroyAfterUse: 1
   holdConcentrationIfOpen: 0
-  zonaInteraccion: {fileID: 7615844447992488691}
+  zonaInteraccion: {fileID: 1588502456}
   pressE_UI: {fileID: 908362107}
+  destroyThisBeforeSelf: {fileID: 0}
   outlinerCubes: []
   prefabs:
   - {fileID: 4602194880031335369, guid: 3bcec34a146649044829bcd7b43fd9f5, type: 3}

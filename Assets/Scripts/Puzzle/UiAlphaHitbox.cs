@@ -1,4 +1,4 @@
-// UiAlphaHitbox.cs (REEMPLAZA ENTERO)
+
 using UnityEngine;
 using UnityEngine.UI;
 
