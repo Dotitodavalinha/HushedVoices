@@ -1,6 +1,5 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
+using System.Collections;
 
 public class Tumbler : MonoBehaviour
 {
@@ -33,5 +32,23 @@ public class Tumbler : MonoBehaviour
     {
         transform.position = initialPosition;
         isLocked = false;
+    }
+
+    // Corutina para 'Tanteo': Tiembla Y VUELVE (PISTA)
+    public IEnumerator CorrectTumbler()
+    {
+        float duration = 1.0f;
+        float elapsed = 0f;
+        float magnitude = 0.1f;
+
+        while (elapsed < duration)
+        {
+            float x = Random.Range(-1f, 1f) * magnitude;
+            float y = Random.Range(0f, 1f) * magnitude;
+            transform.position = initialPosition + new Vector3(x, y, 0);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        transform.position = initialPosition;
     }
 }

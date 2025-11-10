@@ -25,6 +25,8 @@ public class StationaryPolice : MonoBehaviour
     [Tooltip("Un objeto (ej. un cono de luz o malla) que se activa/desactiva con la visión.")]
     [SerializeField] private GameObject visionConeVisual;
 
+    [SerializeField] private ParticleSystem sleepingParticles;
+
     private Transform player;
     private float currentStateTimer;
     private bool isWatching;
@@ -68,7 +70,6 @@ public class StationaryPolice : MonoBehaviour
             HandleVision();
         }
     }
-
     private void HandleTimer()
     {
         currentStateTimer -= Time.deltaTime;
@@ -79,8 +80,12 @@ public class StationaryPolice : MonoBehaviour
             if (isWatching)
             {
                 currentStateTimer = timeOn;
-
                 animator.SetBool("isSleeping", false);
+
+                if (sleepingParticles != null)
+                {
+                    sleepingParticles.Stop();
+                }
 
                 if (visionConeVisual != null)
                 {
@@ -90,8 +95,12 @@ public class StationaryPolice : MonoBehaviour
             else
             {
                 currentStateTimer = timeOff;
-
                 animator.SetBool("isSleeping", true);
+
+                if (sleepingParticles != null)
+                {
+                    sleepingParticles.Play();
+                }
 
                 if (visionConeVisual != null)
                 {
@@ -126,15 +135,19 @@ public class StationaryPolice : MonoBehaviour
     {
         hasCaughtPlayer = true;
         isWatching = false;
+
+        if (sleepingParticles != null)
+        {
+            sleepingParticles.Stop();
+        }
+
         if (visionConeVisual != null)
         {
             visionConeVisual.SetActive(false);
         }
 
         Debug.Log("¡Jugador atrapado! ¡Estás arrestado!");
-
-         JailManager.Instance.SetMaxValue();
-
+        JailManager.Instance.SetMaxValue();
     }
 
     private void OnDrawGizmosSelected()

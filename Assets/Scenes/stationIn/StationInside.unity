@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.45736176, g: 0.27068967, b: 0.2150878, a: 1}
+  m_FogColor: {r: 0.40483567, g: 0.24565028, b: 0.21359226, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 1, g: 0.8479951, b: 0.44445783, a: 1}
+  m_AmbientSkyColor: {r: 0.93167394, g: 0.72245735, b: 0.34655237, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.8654087, g: 0.56385183, b: 0.3944372, a: 1}
+  m_IndirectSpecularColor: {r: 0.83327425, g: 0.5153834, b: 0.37887427, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6096,6 +6096,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1630742203093369430, guid: 2badb281830459345b5ad59a0bb0e4e4, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5708923352521264404, guid: 2badb281830459345b5ad59a0bb0e4e4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -26.987
@@ -6139,6 +6143,10 @@ PrefabInstance:
     - target: {fileID: 7622933653886900226, guid: 2badb281830459345b5ad59a0bb0e4e4, type: 3}
       propertyPath: m_Name
       value: bubble
+      objectReference: {fileID: 0}
+    - target: {fileID: 7622933653886900226, guid: 2badb281830459345b5ad59a0bb0e4e4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8348,7 +8356,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 636803806}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.08431843, y: -0.25211918, z: 0.96376336, w: -0.022057587}
+  m_LocalRotation: {x: -0.013106807, y: -0.9848657, z: 0.14981139, w: -0.086164646}
   m_LocalPosition: {x: -15.9, y: 4.28, z: 0.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8389,8 +8397,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.9844768, g: 0.9038805, b: 0.56384504, a: 1}
-  m_Intensity: 0.5
+  m_Color: {r: 0.85388666, g: 0.7971997, b: 0.5548839, a: 1}
+  m_Intensity: 0.35766095
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -15203,6 +15211,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   visionConeVisual: {fileID: 395034041}
+  sleepingParticles: {fileID: 0}
 --- !u!1001 &1172129622
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15845,7 +15854,7 @@ MonoBehaviour:
   verticalPosition: {fileID: 544767838}
   stepSpeedHorizontal: 12
   stepSpeedVertical: 3
-  autoLowerDelay: 0.5
+  autoLowerDelay: 1
   text: {fileID: 0}
   lockInteractionController: {fileID: 312169440}
 --- !u!222 &1209380482
@@ -19426,7 +19435,7 @@ MonoBehaviour:
   maxSunIntensity: 0.5
   DirectionalLight: {fileID: 636803809}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 7.954664
+  TimeOfDay: 16.84678
   DaySpeed: 20
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -21702,6 +21711,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1618095583}
   m_CullTransparentMesh: 1
+--- !u!198 &1622045605 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1630742203093369430, guid: 2badb281830459345b5ad59a0bb0e4e4, type: 3}
+  m_PrefabInstance: {fileID: 456480815}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1624774301
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29796,6 +29810,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   visionConeVisual: {fileID: 1442496805}
+  sleepingParticles: {fileID: 1622045605}
 --- !u!4 &2140303166 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6046405586180581075, guid: af39b86a2c14ebc4691325e1c7578742, type: 3}
