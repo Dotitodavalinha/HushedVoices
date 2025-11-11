@@ -75,6 +75,35 @@ public class Lockpick : MonoBehaviour
         }
     }
 
+    void OnDisable()
+    {
+        StopAllCoroutines();
+        verticalCycleCoroutine = null;
+
+        isVerticalCycleActive = false;
+        isVertical = false;
+        isWaitingForSecondPress = false;
+        justMovedHorizontally = true;
+        pendingTumbler = null;
+
+        currentHIndex = 0;
+        UpdateTargetPosition();
+        transform.position = targetPosition;
+    }
+
+    void OnEnable()
+    {
+        ResetAllTumblers();
+
+        isVerticalCycleActive = false;
+        isWaitingForSecondPress = false;
+        pendingTumbler = null;
+        verticalCycleCoroutine = null;
+
+        currentHIndex = 0;
+        UpdateTargetPosition();
+        transform.position = targetPosition;
+    }
     private void HandleInput()
     {
         if (isWaitingForSecondPress && Input.GetKeyDown(KeyCode.W) && !isVerticalCycleActive)

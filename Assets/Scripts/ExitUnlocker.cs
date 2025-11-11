@@ -31,8 +31,8 @@ public class ExitUnlocker : MonoBehaviour
 
         if (PlayerClueTracker.Instance != null)
         {
-            PlayerClueTracker.OnClueAdded += CheckAndUnlockExit;
-            //Debug.Log(" ExitUnlocker se suscribió al evento de pistas.");
+            // MODIFICADO: Se suscribe al nuevo evento "OnCluesAdded" (plural)
+            PlayerClueTracker.OnCluesAdded += CheckAndUnlockExit;
         }
         else
         {
@@ -55,29 +55,33 @@ public class ExitUnlocker : MonoBehaviour
         BedPass.OnPlayerSlept += MarcarComoDormido;
 
         if (PlayerClueTracker.Instance != null)
-            PlayerClueTracker.OnClueAdded += CheckAndUnlockExit;
+            // MODIFICADO: Se suscribe al nuevo evento "OnCluesAdded" (plural)
+            PlayerClueTracker.OnCluesAdded += CheckAndUnlockExit;
 
         BrokenClueCleaner.OnAllBrokenCleaned -= MarcarCorchoLimpio;
         BrokenClueCleaner.OnAllBrokenCleaned += MarcarCorchoLimpio;
     }
 
-    private void CheckAndUnlockExit()
+    // MODIFICADO: La función ahora acepta "List<string> clues" para coincidir con el evento
+    private void CheckAndUnlockExit(List<string> clues)
+    {
+        // No necesitamos usar la lista "clues" aquí, pero la necesitamos para que la firma coincida
+        CheckConditions();
+    }
+
+    // Función separada para poder llamarla desde otros sitios sin el parámetro
+    private void CheckConditions()
     {
         if (HasClues() && boardUsed && hasSlept && houseCleaned && corchoEstaLimpio)
         {
-            //Debug.Log(" Todas las condiciones cumplidas — desbloqueando salida.");
-
             if (exitCollider != null)
                 exitCollider.SetActive(true);
 
             if (OulinePuerta != null)
                 OulinePuerta.SetActive(true);
         }
-        else
-        {
-            //Debug.Log($"Clues: {HasClues()}, Board: {boardUsed}, Sleep: {hasSlept}, Clean: {houseCleaned}, Corcho limpio: {corchoEstaLimpio}");
-        }
     }
+
 
     private void OnDisable()
     {
@@ -90,7 +94,8 @@ public class ExitUnlocker : MonoBehaviour
 
         if (PlayerClueTracker.Instance != null)
         {
-            PlayerClueTracker.OnClueAdded -= CheckAndUnlockExit;
+            // MODIFICADO: Se desuscribe del nuevo evento "OnCluesAdded" (plural)
+            PlayerClueTracker.OnCluesAdded -= CheckAndUnlockExit;
         }
 
         BrokenClueCleaner.OnAllBrokenCleaned -= MarcarCorchoLimpio;
@@ -108,24 +113,23 @@ public class ExitUnlocker : MonoBehaviour
         corchoEstaLimpio = true;
         boardUsed = true;
         Debug.Log(" -> ESTADO ACTUALIZADO: Corcho limpio y usado.");
-        CheckAndUnlockExit();
+        CheckConditions(); // MODIFICADO
     }
 
     private void MarcarComoDormido()
     {
         hasSlept = true;
-        CheckAndUnlockExit();
+        CheckConditions(); // MODIFICADO
     }
 
     public void MarcarCorchoUsado()
     {
         boardUsed = true;
-        CheckAndUnlockExit();
+        CheckConditions(); // MODIFICADO
     }
     private void MarcarCasaLimpia()
     {
         houseCleaned = true;
-        CheckAndUnlockExit();
+        CheckConditions(); // MODIFICADO
     }
-
 }

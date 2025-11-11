@@ -17,8 +17,8 @@ public class PlayerClueTracker : MonoBehaviour
     [Tooltip("Los IDs de las pistas que NUNCA se pierden al ser arrestado")]
     [SerializeField] public List<string> safeClues = new List<string>();
 
-    public static event Action OnClueAdded;
-    public static event Action OnClueLost;
+    public static event Action<List<string>> OnCluesAdded; // MODIFICADO
+    public static event Action<List<string>> OnCluesLost;
 
     private void Awake()
     {
@@ -39,25 +39,25 @@ public class PlayerClueTracker : MonoBehaviour
         if (clues.Add(clueID))
         {
             cluesList.Add(clueID);
-            OnClueAdded?.Invoke();
+            OnCluesAdded?.Invoke(new List<string> { clueID }); // MODIFICADO
         }
     }
 
     public void AddClues(List<string> clueIDs)
     {
-        bool cluesWereAdded = false;
+        List<string> addedCluesList = new List<string>(); // MODIFICADO
         foreach (string clueID in clueIDs)
         {
             if (clues.Add(clueID))
             {
                 cluesList.Add(clueID);
-                cluesWereAdded = true;
+                addedCluesList.Add(clueID); // MODIFICADO
             }
         }
 
-        if (cluesWereAdded)
+        if (addedCluesList.Count > 0)
         {
-            OnClueAdded?.Invoke();
+            OnCluesAdded?.Invoke(addedCluesList); // MODIFICADO
         }
     }
     public void AddCluesByList(string clueID)
@@ -65,7 +65,7 @@ public class PlayerClueTracker : MonoBehaviour
         if (clues.Add(clueID))
         {
             cluesList.Add(clueID);
-            OnClueAdded?.Invoke();
+            OnCluesAdded?.Invoke(new List<string> { clueID }); // MODIFICADO
         }
     }
 
@@ -84,13 +84,11 @@ public class PlayerClueTracker : MonoBehaviour
         }
 
         safeClues.Add(clueID);
-        //Debug.Log($"PISTA SEGURA: '{clueID}' se añadió a safeClues.");
     }
 
 
     public void LoseAllClues()
     {
-        //Debug.Log($"LOSEALLCLUES: Método llamado. Pistas actuales: {cluesList.Count}");
         if (cluesList.Count == 0) return;
 
         List<string> cluesToLose = new List<string>();
@@ -104,12 +102,10 @@ public class PlayerClueTracker : MonoBehaviour
 
         if (cluesToLose.Count == 0)
         {
-            //Debug.Log("LOSEALLCLUES: El jugador solo tiene pistas seguras. No se pierde nada.");
             return;
         }
 
         lostClues.AddRange(cluesToLose);
-        //Debug.Log($"LOSEALLCLUES: {cluesToLose.Count} pistas movidas a lostClues.");
 
         foreach (string clueID in cluesToLose)
         {
@@ -117,31 +113,27 @@ public class PlayerClueTracker : MonoBehaviour
             cluesList.Remove(clueID);
         }
 
-        OnClueLost?.Invoke();
-        //Debug.Log($"LOSEALLCLUES: Proceso completado. Pistas restantes: {cluesList.Count}. Pistas perdidas: {lostClues.Count}");
+        OnCluesLost?.Invoke(cluesToLose);
     }
 
     public void RecoverAllClues()
     {
         if (lostClues.Count == 0)
         {
-            //Debug.Log("RECOVER: No hay pistas en lostClues para recuperar.");
             return;
         }
 
-        //Debug.Log($"RECOVER: Recuperando {lostClues.Count} pistas.");
-
-        AddClues(lostClues);
+        // Esta función ya llama a AddClues, que ahora dispara el evento.
+        // No se necesita más código aquí.
+        AddClues(new List<string>(lostClues)); // Se pasa una copia por si acaso
 
         lostClues.Clear();
-        //Debug.Log("RECOVER: Pistas recuperadas. lostClues ahora está vacía.");
     }
 
     public void LoseSpecificClue(string clueID)
     {
         if (safeClues.Contains(clueID))
         {
-            //Debug.Log($"LOSE_SPECIFIC: No se puede perder la pista '{clueID}' porque es una pista segura.");
             return;
         }
 
@@ -155,8 +147,7 @@ public class PlayerClueTracker : MonoBehaviour
                 lostClues.Add(clueID);
             }
 
-            OnClueLost?.Invoke();
-            //Debug.Log($"Pista '{clueID}' perdida y enviada a comisaría.");
+            OnCluesLost?.Invoke(new List<string> { clueID });
         }
     }
 }
