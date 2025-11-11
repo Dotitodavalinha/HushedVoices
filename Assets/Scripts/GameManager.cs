@@ -57,6 +57,11 @@ public class GameManager : MonoBehaviour
             Scene currentScene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(currentScene.buildIndex);
         }
+        if (Input.GetKeyUp(KeyCode.N))
+        {
+           
+            SceneManager.LoadScene("park");
+        }
     } 
 
     #region UI Lock

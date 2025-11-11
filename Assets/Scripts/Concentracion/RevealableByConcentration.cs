@@ -121,6 +121,7 @@ public class RevealableByConcentration : MonoBehaviour
             }
         }
     }
+
     private void OnConcentrationEnded()
     {
 
@@ -174,6 +175,7 @@ public class RevealableByConcentration : MonoBehaviour
         }
         oppositeDisabledByMe = false;
     }
+
     private void Highlight(bool on)
 
     {
@@ -207,8 +209,6 @@ public class RevealableByConcentration : MonoBehaviour
 
     }
 
-
-
     private bool HasLineOfSight()
 
     {
@@ -229,8 +229,6 @@ public class RevealableByConcentration : MonoBehaviour
 
     }
 
-
-
     private void OnDestroy()
 
     {
@@ -246,7 +244,6 @@ public class RevealableByConcentration : MonoBehaviour
         }
 
     }
-
 
     public void OnClueCollected()
     {

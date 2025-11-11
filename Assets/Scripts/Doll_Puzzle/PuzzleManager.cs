@@ -27,13 +27,27 @@ public class PuzzleManager : MonoBehaviour
     bool wasCursorVisible;
     CursorLockMode prevLock;
 
-    void Awake() => Instance = this;
 
+    private bool hasHead, hasTorso, hasArmL, hasArmR, hasLegL, hasLegR;
+
+    public bool AllPartsCollected =>
+        hasHead && hasTorso && hasArmL && hasArmR && hasLegL && hasLegR;
+
+
+
+    void Awake() => Instance = this;
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.H))
-            StartPuzzle();
+        {
+            if (AllPartsCollected)
+                StartPuzzle();
+            else
+                Debug.Log("Falta recoger piezas de la muñeca antes de iniciar el puzzle.");
+        }
     }
+
+
 
     public void StartPuzzle()
     {
@@ -98,4 +112,23 @@ public class PuzzleManager : MonoBehaviour
         Destroy(board); board = null;
         Debug.Log("Puzzle UI Solved");
     }
+
+    public void RegisterFoundPart(DollPartType part)
+    {
+        switch (part)
+        {
+            case DollPartType.Head: hasHead = true; break;
+            case DollPartType.Torso: hasTorso = true; break;
+            case DollPartType.ArmL: hasArmL = true; break;
+            case DollPartType.ArmR: hasArmR = true; break;
+            case DollPartType.LegL: hasLegL = true; break;
+            case DollPartType.LegR: hasLegR = true; break;
+        }
+
+        Debug.Log($"[PuzzleManager] Parte registrada: {part}. All={AllPartsCollected}");
+
+        // opcional: auto-abrir puzzle al completar
+        // if (AllPartsCollected && board == null) StartPuzzle();
+    }
+
 }
