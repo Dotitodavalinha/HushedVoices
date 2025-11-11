@@ -17,7 +17,7 @@ public class PlayerClueTracker : MonoBehaviour
     [Tooltip("Los IDs de las pistas que NUNCA se pierden al ser arrestado")]
     [SerializeField] public List<string> safeClues = new List<string>();
 
-    public static event Action<List<string>> OnCluesAdded; // MODIFICADO
+    public static event Action<List<string>> OnCluesAdded;
     public static event Action<List<string>> OnCluesLost;
 
     private void Awake()
@@ -39,25 +39,25 @@ public class PlayerClueTracker : MonoBehaviour
         if (clues.Add(clueID))
         {
             cluesList.Add(clueID);
-            OnCluesAdded?.Invoke(new List<string> { clueID }); // MODIFICADO
+            OnCluesAdded?.Invoke(new List<string> { clueID });
         }
     }
 
     public void AddClues(List<string> clueIDs)
     {
-        List<string> addedCluesList = new List<string>(); // MODIFICADO
+        List<string> addedCluesList = new List<string>();
         foreach (string clueID in clueIDs)
         {
             if (clues.Add(clueID))
             {
                 cluesList.Add(clueID);
-                addedCluesList.Add(clueID); // MODIFICADO
+                addedCluesList.Add(clueID);
             }
         }
 
         if (addedCluesList.Count > 0)
         {
-            OnCluesAdded?.Invoke(addedCluesList); // MODIFICADO
+            OnCluesAdded?.Invoke(addedCluesList);
         }
     }
     public void AddCluesByList(string clueID)
@@ -65,7 +65,7 @@ public class PlayerClueTracker : MonoBehaviour
         if (clues.Add(clueID))
         {
             cluesList.Add(clueID);
-            OnCluesAdded?.Invoke(new List<string> { clueID }); // MODIFICADO
+            OnCluesAdded?.Invoke(new List<string> { clueID });
         }
     }
 
@@ -123,9 +123,7 @@ public class PlayerClueTracker : MonoBehaviour
             return;
         }
 
-        // Esta función ya llama a AddClues, que ahora dispara el evento.
-        // No se necesita más código aquí.
-        AddClues(new List<string>(lostClues)); // Se pasa una copia por si acaso
+        AddClues(new List<string>(lostClues));
 
         lostClues.Clear();
     }

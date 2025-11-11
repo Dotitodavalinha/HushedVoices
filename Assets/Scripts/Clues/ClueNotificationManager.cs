@@ -24,20 +24,20 @@ public class ClueNotificationManager : MonoBehaviour
     private void OnEnable()
     {
         PlayerClueTracker.OnCluesLost += HandleCluesLost;
-        PlayerClueTracker.OnCluesAdded += HandleCluesAdded; // AÑADIDO
+        PlayerClueTracker.OnCluesAdded += HandleCluesAdded;
     }
 
     private void OnDisable()
     {
         PlayerClueTracker.OnCluesLost -= HandleCluesLost;
-        PlayerClueTracker.OnCluesAdded -= HandleCluesAdded; // AÑADIDO
+        PlayerClueTracker.OnCluesAdded -= HandleCluesAdded;
     }
 
     private void HandleCluesLost(List<string> lostClueIDs)
     {
         if (_clueDatabase == null)
         {
-            Debug.LogError("ERROR: ¡La ClueDatabase no está asignada en el Inspector!");
+            //Debug.LogError("ERROR: ¡La ClueDatabase no está asignada en el Inspector!");
             return;
         }
 
@@ -47,7 +47,7 @@ public class ClueNotificationManager : MonoBehaviour
 
             if (icon == null)
             {
-                Debug.LogWarning($"NO SE ENCONTRÓ el sprite para '{id}'. No se creará prefab.");
+                //Debug.LogWarning($"NO SE ENCONTRÓ el sprite para '{id}'. No se creará prefab.");
                 continue;
             }
 
@@ -56,17 +56,16 @@ public class ClueNotificationManager : MonoBehaviour
             ClueNotificationItem item = notificationGO.GetComponent<ClueNotificationItem>();
             if (item != null)
             {
-                item.Initialize(icon, "-1 Pista");
+                item.Initialize(icon, "-1 Clue");
             }
         }
     }
 
-    // --- FUNCIÓN NUEVA AÑADIDA ---
     private void HandleCluesAdded(List<string> addedClueIDs)
     {
         if (_clueDatabase == null)
         {
-            Debug.LogError("ERROR: ¡La ClueDatabase no está asignada en el Inspector!");
+            //Debug.LogError("ERROR: ¡La ClueDatabase no está asignada en el Inspector!");
             return;
         }
 
@@ -76,7 +75,7 @@ public class ClueNotificationManager : MonoBehaviour
 
             if (icon == null)
             {
-                Debug.LogWarning($"NO SE ENCONTRÓ el sprite para '{id}'. No se creará prefab.");
+                //Debug.LogWarning($"NO SE ENCONTRÓ el sprite para '{id}'. No se creará prefab.");
                 continue;
             }
 
@@ -85,7 +84,7 @@ public class ClueNotificationManager : MonoBehaviour
             ClueNotificationItem item = notificationGO.GetComponent<ClueNotificationItem>();
             if (item != null)
             {
-                item.Initialize(icon, "+1 Pista"); // MODIFICADO EL TEXTO
+                item.Initialize(icon, "+1 Clue");
             }
         }
     }
