@@ -16,6 +16,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject responseButtonPrefab;
     [SerializeField] private TextMeshProUGUI npcNameText;
     private NPCDialogue currentNPC;
+    GameObject lookAtObject;
 
     private List<Button> currentResponseButtons = new List<Button>();
     private int selectedResponseIndex = -1;
@@ -52,6 +53,8 @@ public class DialogueManager : MonoBehaviour
             return;
         }
         Instance = this;
+
+
     }
 
     private void Start()
@@ -96,13 +99,20 @@ public class DialogueManager : MonoBehaviour
         movementLocker.LockMovement();
         ShowNode(dialogue.rootNode, currentNPC);
 
+        Vector3 targetPosition = movementLocker.transform.position;
+
         camAnterior = camManager.GetCurrentCamera();
         camManager.SwitchCamera(lukeCamera);
-        camManager.CambiarLookAt(npc.transform);
+
+        Vector3 promedio = (npc.transform.position + targetPosition) / 2;
+
+        lookAtObject = new GameObject("LookAtObject");
+        lookAtObject.transform.position = promedio;
+
+        camManager.CambiarLookAt(lookAtObject.transform);
 
         if (npc.noRotateToLook)
         {
-            Vector3 targetPosition = movementLocker.transform.position;
             targetPosition.y = npc.transform.position.y;
             npc.transform.LookAt(targetPosition);
         }
@@ -241,6 +251,8 @@ public class DialogueManager : MonoBehaviour
         var player = GameObject.FindWithTag("Player").transform;
         if (camAnterior != null)
             camManager.SwitchCamera(camAnterior);
+
+        Destroy(lookAtObject);
         camManager.CambiarLookAt(player.transform);
     }
 
@@ -329,4 +341,5 @@ public class DialogueManager : MonoBehaviour
         cg.interactable = true;
         cg.blocksRaycasts = true;
     }
+
 }
