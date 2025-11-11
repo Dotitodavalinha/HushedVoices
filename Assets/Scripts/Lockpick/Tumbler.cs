@@ -37,7 +37,7 @@ public class Tumbler : MonoBehaviour
     // Corutina para 'Tanteo': Tiembla Y VUELVE (PISTA)
     public IEnumerator CorrectTumbler()
     {
-        float duration = 1.0f;
+        float duration = 0.3f;
         float elapsed = 0f;
         float magnitude = 0.1f;
 
