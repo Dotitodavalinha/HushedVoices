@@ -28,7 +28,7 @@ public class PuzzleManager : MonoBehaviour
     CursorLockMode prevLock;
 
 
-    private bool hasHead, hasTorso, hasArmL, hasArmR, hasLegL, hasLegR;
+    public bool hasHead, hasTorso, hasArmL, hasArmR, hasLegL, hasLegR;
 
     public bool AllPartsCollected =>
         hasHead && hasTorso && hasArmL && hasArmR && hasLegL && hasLegR;

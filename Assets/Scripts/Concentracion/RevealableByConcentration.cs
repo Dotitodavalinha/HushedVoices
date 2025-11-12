@@ -14,9 +14,13 @@ public class RevealableByConcentration : MonoBehaviour
     [Tooltip("ID de la pista que se añadirá al PlayerClueTracker")]
     public string clueId;
 
-    [Header("Visuals")]
-    public GameObject Outline;           // opcional: objeto que actúa como outline
+    [Tooltip("Si lo marcas true no se destruye dsp de interactuarlo")]
     public bool keepRevealedAfterEnd = false; // si true, permanece marcado tras End
+
+    [Header("Visuals")]
+    public GameObject FeedbackWithConcentration;           // opcional: objeto que actúa como outline
+    public GameObject FeedbackWithoutConcentration;
+
 
     [Header("Interactable control")]
     [Tooltip("Si este objeto comparte el mismo GameObject con un Interactable, arrastralo aquí para bloquear/permitir la interacción")]
@@ -26,8 +30,6 @@ public class RevealableByConcentration : MonoBehaviour
     public InteractableBase interactableOppositeToggle;
     private bool oppositeDisabledByMe = false;
 
-    [Header("Visual de pista (partículas o signo de pregunta)")]
-    public GameObject clueIndicator;
 
     // runtime
     private bool highlighted = false;
@@ -47,6 +49,10 @@ public class RevealableByConcentration : MonoBehaviour
         // asegurarnos de que visual empieza off
 
         Highlight(false);
+
+        if (FeedbackWithConcentration != null) FeedbackWithConcentration.SetActive(false);
+        if (FeedbackWithoutConcentration != null) FeedbackWithoutConcentration.SetActive(true);
+
         if (interactableToToggle != null)
         {
 
@@ -68,11 +74,12 @@ public class RevealableByConcentration : MonoBehaviour
         float d = Vector3.Distance(player.position, transform.position);
         if (d > revealRadius) return;
         if (requireLineOfSight && !HasLineOfSight()) return;
-        // mostrar outline / visual
-        Highlight(true);
-        // activamos la interacción solo mientras está revelado
-        if (interactableToToggle != null)
+        
+        Highlight(true); // mostrar outline / visual
+        if (FeedbackWithoutConcentration != null) FeedbackWithoutConcentration.SetActive(false); // apagar visual
 
+
+        if (interactableToToggle != null)
             interactableToToggle.enabled = true;
 
         else if (interactableComponent != null)
@@ -126,8 +133,11 @@ public class RevealableByConcentration : MonoBehaviour
     {
 
         if (!keepRevealedAfterEnd)
-
             Highlight(false);
+
+        if (FeedbackWithoutConcentration != null)
+            FeedbackWithoutConcentration.SetActive(true);
+
         if (!keepRevealedAfterEnd)
         {
             // preferimos el interactable asignado manualmente si existe
@@ -135,15 +145,11 @@ public class RevealableByConcentration : MonoBehaviour
             InteractableBase target = interactableToToggle != null ? interactableToToggle : interactableComponent;
             if (target != null)
             {
-
                 // si el interactable está abierto (player lo está usando), no lo desactivamos
 
                 if (!target.IsOpen)
-
                 {
-
                     target.enabled = false;
-
                 }
 
                 // si está abierto, lo dejamos activo para que el jugador pueda cerrarlo.
@@ -158,9 +164,9 @@ public class RevealableByConcentration : MonoBehaviour
             {
                 // fallback: si no hay componente interactable, apagamos el outline asignado
 
-                if (Outline != null)
+                if (FeedbackWithConcentration != null)
 
-                    Outline.SetActive(false);
+                    FeedbackWithConcentration.SetActive(false);
             }
 
         }
@@ -181,31 +187,14 @@ public class RevealableByConcentration : MonoBehaviour
     {
 
         highlighted = on;
-        // prioridad: si tiene InteractableBase, pedimos que active sus outlines
 
-        if (interactableComponent != null)
+        if (FeedbackWithConcentration != null)
+            FeedbackWithConcentration.SetActive(on);
 
+        if (interactableComponent != null) // prendemos los outlines del interatableComponent de tener
         {
-
             interactableComponent.SetOutlinesActive(on);
-
         }
-
-        else
-
-        {
-
-            // fallback al GameObject Outline asignado manualmente
-
-            if (Outline != null)
-
-                Outline.SetActive(on);
-
-        }
-
-
-
-        // también podés lanzar partículas/SFX aquí si querés
 
     }
 
@@ -248,15 +237,15 @@ public class RevealableByConcentration : MonoBehaviour
     public void OnClueCollected()
     {
         // Apagar el efecto visual de la pista
-        if (clueIndicator != null && clueIndicator.activeSelf)
+        if (FeedbackWithoutConcentration != null && FeedbackWithoutConcentration.activeSelf)
         {
-            clueIndicator.SetActive(false);
+            FeedbackWithoutConcentration.SetActive(false);
         }
 
         // También podés apagar el outline si querés
-        if (Outline != null && Outline.activeSelf)
+        if (FeedbackWithConcentration != null && FeedbackWithConcentration.activeSelf)
         {
-            Outline.SetActive(false);
+            FeedbackWithConcentration.SetActive(false);
         }
 
         // Desuscribirse de los eventos de concentración (ya no hace falta seguir escuchando)
