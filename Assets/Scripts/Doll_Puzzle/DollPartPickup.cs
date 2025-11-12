@@ -47,7 +47,7 @@ public class DollPartPickup : MonoBehaviour
         if (collected) return;
         collected = true;
 
-        // Notificar al PuzzleManager (lleva el conteo de piezas y gating del minijuego)
+        print("avisamos al manager q agarramos pista");
         if (PuzzleManager.Instance != null)
             PuzzleManager.Instance.RegisterFoundPart(partType);
     }

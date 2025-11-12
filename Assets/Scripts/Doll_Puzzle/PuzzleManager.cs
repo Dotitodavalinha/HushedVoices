@@ -115,6 +115,7 @@ public class PuzzleManager : MonoBehaviour
 
     public void RegisterFoundPart(DollPartType part)
     {
+        Debug.Log("Se registra DollPart" + part);
         switch (part)
         {
             case DollPartType.Head: hasHead = true; break;
@@ -124,8 +125,9 @@ public class PuzzleManager : MonoBehaviour
             case DollPartType.LegL: hasLegL = true; break;
             case DollPartType.LegR: hasLegR = true; break;
         }
+        if (AllPartsCollected && board == null)
+            Debug.Log("se encontraron todas las DollParts");
 
-        Debug.Log($"[PuzzleManager] Parte registrada: {part}. All={AllPartsCollected}");
 
         // opcional: auto-abrir puzzle al completar
         // if (AllPartsCollected && board == null) StartPuzzle();

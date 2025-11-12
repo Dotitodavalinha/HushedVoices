@@ -251,7 +251,6 @@ public class RevealableByConcentration : MonoBehaviour
         if (clueIndicator != null && clueIndicator.activeSelf)
         {
             clueIndicator.SetActive(false);
-            Debug.Log($"[RevealableByConcentration] Efecto visual desactivado al recoger la pista '{clueId}'.");
         }
 
         // También podés apagar el outline si querés
