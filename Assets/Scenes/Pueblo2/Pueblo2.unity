@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.24016178, g: 0.16852453, b: 0.20629658, a: 1}
+  m_FogColor: {r: 0.66729265, g: 0.368658, b: 0.22505921, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.04
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.67058635, g: 0.23188296, b: 0.3188998, a: 1}
+  m_AmbientSkyColor: {r: 1, g: 0.9664645, b: 0.87743556, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.7
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.676437, g: 0.25190133, b: 0.31920037, a: 1}
+  m_IndirectSpecularColor: {r: 0.8851601, g: 0.5925591, b: 0.40287957, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -807,7 +807,7 @@ Transform:
   m_GameObject: {fileID: 50883439}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.006, y: 2.16, z: 0}
+  m_LocalPosition: {x: 0, y: 2.211, z: 0.131}
   m_LocalScale: {x: 0.91161, y: 0.91161, z: 0.91161}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9197,7 +9197,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 478297718}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.039495237, y: 0.6332814, z: -0.032388616, w: 0.77223426}
+  m_LocalRotation: {x: 0.039495215, y: 0.6332814, z: -0.032388598, w: 0.77223426}
   m_LocalPosition: {x: -16, y: 5, z: 26.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -17190,7 +17190,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 881084645}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.015862493, y: -0.9795565, z: -0.181309, w: -0.08570015}
+  m_LocalRotation: {x: -0.067606665, y: -0.6287016, z: 0.7727472, w: -0.055004302}
   m_LocalPosition: {x: 58.24, y: 7.95, z: 24.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -17231,8 +17231,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.6285511, g: 0.595783, b: 0.44951653, a: 1}
-  m_Intensity: 0.47401106
+  m_Color: {r: 1, g: 0.98112005, b: 0.9014655, a: 1}
+  m_Intensity: 1.25
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -20544,7 +20544,7 @@ Transform:
   m_GameObject: {fileID: 1038823140}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 9.676, y: 0.596, z: -0.245}
+  m_LocalPosition: {x: 12.43, y: 0.596, z: 0.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -27674,7 +27674,7 @@ MonoBehaviour:
   maxSunIntensity: 1.25
   DirectionalLight: {fileID: 881084648}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 19.398184
+  TimeOfDay: 11.217543
   DaySpeed: 17
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -29729,7 +29729,7 @@ Transform:
   m_GameObject: {fileID: 1419306306}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.999747, z: -0, w: -0.022496002}
-  m_LocalPosition: {x: 12.44, y: 0.521, z: 0.06}
+  m_LocalPosition: {x: 9.7, y: 0.521, z: 0.534}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -29752,7 +29752,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: "Ni\xF1a"
   npcVoiceType: 2
-  roots: []
+  roots:
+  - {fileID: 11400000, guid: 4d4f3e71f538fe148862d697741ca0c6, type: 2}
   currentRoot: {fileID: 11400000, guid: a7eed4d8fd25c3a40bffd04755fc76de, type: 2}
   moodController: {fileID: 1419306309}
   NightManager: {fileID: 0}

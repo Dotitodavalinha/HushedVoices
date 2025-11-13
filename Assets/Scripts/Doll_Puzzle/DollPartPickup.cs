@@ -10,38 +10,67 @@ public class DollPartPickup : MonoBehaviour
     public bool autoCollectOnFirstActivate = true;
 
     [Header("Refs (opcionales, se autodescubren)")]
-    public UIInteractable uiInteractable;                    // para detectar activación y cerrarlo
+    [Tooltip("Interactuable que se usa SIN concentración")]
+    public UIInteractable uiInteractableNormal;
+
+    [Tooltip("Interactuable que se usa DURANTE la concentración")]
+    public UIInteractable uiInteractableConcentration;
+
     public RevealableByConcentration revealable;             // para apagar VFX/outline al recoger
 
     private bool collected;
-    private bool lastIsOpen;
+    private bool lastIsOpenNormal;
+    private bool lastIsOpenConcentration;
 
     void Reset()
     {
-        uiInteractable = GetComponent<UIInteractable>();
-        revealable = GetComponent<RevealableByConcentration>();
+        // Por si seguís usando un único UIInteractable en el mismo GO
+        if (!uiInteractableNormal)
+            uiInteractableNormal = GetComponent<UIInteractable>();
+
+        if (!revealable)
+            revealable = GetComponent<RevealableByConcentration>();
     }
 
     void Awake()
     {
-        if (!uiInteractable) uiInteractable = GetComponent<UIInteractable>();
-        if (!revealable) revealable = GetComponent<RevealableByConcentration>();
+        if (!uiInteractableNormal)
+            uiInteractableNormal = GetComponent<UIInteractable>();
+
+        if (!revealable)
+            revealable = GetComponent<RevealableByConcentration>();
     }
+
 
     void Update()
     {
-        if (!autoCollectOnFirstActivate || collected || uiInteractable == null) return;
+        if (!autoCollectOnFirstActivate || collected) return;
 
-        // Detecta flanco de apertura del interactuable (IsOpen true recién activado)
-        bool isOpen = uiInteractable.IsOpen;
-        if (isOpen && !lastIsOpen)
+        // Interactuable normal (sin concentración)
+        if (uiInteractableNormal != null)
         {
-            Collect();                // recoge en el momento que se abre
+            bool isOpenNormal = uiInteractableNormal.IsOpen;
+            if (isOpenNormal && !lastIsOpenNormal)
+            {
+                Collect();
+            }
+            lastIsOpenNormal = isOpenNormal;
         }
-        lastIsOpen = isOpen;
+
+        // Interactuable de concentración
+        if (uiInteractableConcentration != null)
+        {
+            bool isOpenConc = uiInteractableConcentration.IsOpen;
+            if (isOpenConc && !lastIsOpenConcentration)
+            {
+                Collect();
+            }
+            lastIsOpenConcentration = isOpenConc;
+        }
     }
 
-   
+
+
     public void Collect()
     {
         if (collected) return;

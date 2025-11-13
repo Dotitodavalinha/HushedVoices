@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class PuzzleManager : MonoBehaviour
 {
@@ -10,6 +11,13 @@ public class PuzzleManager : MonoBehaviour
     public Canvas canvasRoot;
     public GraphicRaycaster raycaster;
     public EventSystem eventSystem;
+    [Header("Scene Refs (autobind)")]
+    [SerializeField] bool autoBindSceneRefs = true; // NUEVO
+
+    [Header("Doll drawing")]
+    public GameObject dollDrawingPrefabUI;   //  prefab del dibujo de la nena
+    GameObject drawingInstance;              // instancia actual del dibujo
+
 
     [Header("Prefabs")]
     public GameObject dollBoardPrefabUI; // DollBoard_UI
@@ -39,11 +47,22 @@ public class PuzzleManager : MonoBehaviour
     public bool AllPartsCollected =>
         hasHead && hasTorso && hasArmL && hasArmR && hasLegL && hasLegR;
 
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
 
+        if (autoBindSceneRefs) BindSceneRefs(); // intenta enlazar refs de la escena actual
+    }
 
-    void Awake() => Instance = this;
     void Update()
     {
+        // Debug / acceso manual al puzzle
         if (Input.GetKeyDown(KeyCode.H))
         {
             if (AllPartsCollected)
@@ -51,34 +70,60 @@ public class PuzzleManager : MonoBehaviour
             else
                 Debug.Log("Falta recoger piezas de la muñeca antes de iniciar el puzzle.");
         }
-        // si alguien setea PuzzleStarted = true durante el diálogo
-        if (openWhenPuzzleStarted && PuzzleStarted && !pendingPopup && board == null)
-            pendingPopup = true;
 
-        // si estamos esperando y ya NO hay UI abierta (terminó el diálogo), abrimos
-        if (pendingPopup && GameManager.Instance != null && !GameManager.Instance.IsAnyUIOpen) // :contentReference[oaicite:2]{index=2}
-        {
-            pendingPopup = false;
-            StartPuzzle();
-        }
-
-        // cerrar con E si está abierto
-        if (closeWithE && board != null && Input.GetKeyDown(KeyCode.E))
-            FinishPuzzle();
+        // Cerrar SOLO el dibujo con E
+        if (closeWithE && drawingInstance != null && Input.GetKeyDown(KeyCode.E))
+            CloseDollDrawing();
     }
 
+
+    public void ShowDollDrawing()
+    {
+        if (drawingInstance != null) return;  // ya está abierto
+
+        if (autoBindSceneRefs) BindSceneRefs();
+        if (canvasRoot == null)
+        {
+            Debug.LogWarning("PuzzleManager: no hay Canvas para mostrar el dibujo.");
+            return;
+        }
+
+        drawingInstance = Instantiate(dollDrawingPrefabUI, canvasRoot.transform);
+       
+    }
+    void CloseDollDrawing()
+    {
+        if (drawingInstance == null) return;
+        Destroy(drawingInstance);
+        drawingInstance = null;
+    }
+
+
+    void BindSceneRefs()
+    {
+        // Si están asignadas en el inspector para cada escena, no tocamos.
+        if (canvasRoot == null) canvasRoot = FindObjectOfType<Canvas>(true);
+        if (raycaster == null) raycaster = FindObjectOfType<GraphicRaycaster>(true);
+        if (eventSystem == null) eventSystem = FindObjectOfType<EventSystem>(true);
+    }
 
 
     public void StartPuzzle()
     {
         if (board != null) return;
-        placedCount = 0;
 
-        // bloquear controles/UI mientras está el dibujo
-        if (GameManager.Instance != null) GameManager.Instance.TryLockUI(); // :contentReference[oaicite:3]{index=3}
+        if (autoBindSceneRefs) BindSceneRefs();
+        if (canvasRoot == null || raycaster == null || eventSystem == null)
+        {
+            Debug.LogWarning("PuzzleManager: faltan refs de escena (Canvas/Raycaster/EventSystem).");
+            return;
+        }
+
+        placedCount = 0;
+        if (GameManager.Instance != null) GameManager.Instance.TryLockUI();
 
         wasCursorVisible = Cursor.visible;
-        prevLock = Cursor.lockState;
+        prevLock = CursorLockMode.None;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
@@ -93,6 +138,7 @@ public class PuzzleManager : MonoBehaviour
         SpawnPart("LegL", legLSpr, basePos + new Vector2(0, -360));
         SpawnPart("LegR", legRSpr, basePos + new Vector2(0, -450));
     }
+
 
     void SpawnPart(string id, Sprite spr, Vector2 anchoredPos)
     {
@@ -141,6 +187,7 @@ public class PuzzleManager : MonoBehaviour
         pendingPopup = false;
 
         Debug.Log("Puzzle UI Solved/Cerrado");
+        ProgressManager.Instance.CambiarRootNPC("Niña", "DollFound");
     }
 
 
@@ -157,11 +204,25 @@ public class PuzzleManager : MonoBehaviour
             case DollPartType.LegR: hasLegR = true; break;
         }
         if (AllPartsCollected && board == null)
+        {
             Debug.Log("se encontraron todas las DollParts");
+            StartPuzzle();  // se abre el puzzle automáticamente al tener todas
+        }
 
-
-        // opcional: auto-abrir puzzle al completar
-        // if (AllPartsCollected && board == null) StartPuzzle();
     }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded; // NUEVO
+    }
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded; // NUEVO
+    }
+    void OnSceneLoaded(Scene s, LoadSceneMode m)
+    {
+        if (autoBindSceneRefs) BindSceneRefs(); // NUEVO: re-enlaza refs por escena
+    }
+
 
 }

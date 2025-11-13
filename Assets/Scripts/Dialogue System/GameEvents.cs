@@ -54,6 +54,7 @@ public class GameEvents : MonoBehaviour
 
         if (r.responseText.Contains("Ok, what if I bring you a coffee?"))
         {
+            Debug.LogWarning("Wiring up coffee response");
             r.onResponseChosen.RemoveAllListeners();
             r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("Chloe", "Root"));
             r.onResponseChosen.AddListener(() => ProgressManager.Instance.Policez = true);
@@ -98,9 +99,16 @@ public class GameEvents : MonoBehaviour
         }
         if (r.responseText.Contains("Let me see..."))
         {
-            r.onResponseChosen.RemoveAllListeners();
-            PuzzleManager.Instance.PuzzleStarted = true;  // recibir dibujo niña
+            Debug.LogWarning("Wiring up girl drawing response");
+            // NO borro los otros listeners: dejo que el sistema de diálogo cierre la UI como siempre
+            r.onResponseChosen.AddListener(() =>
+            {
+                Debug.LogWarning("Recibo dibujo de la niña");
+                if (PuzzleManager.Instance != null)
+                    PuzzleManager.Instance.ShowDollDrawing();   // nuevo método
+            });
         }
+
 
         if (r.responseText.Contains("Vanessa"))
         {
