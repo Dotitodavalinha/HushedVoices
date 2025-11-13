@@ -36115,7 +36115,6 @@ GameObject:
   - component: {fileID: 1277641236}
   - component: {fileID: 1277641235}
   - component: {fileID: 1277641237}
-  - component: {fileID: 1277641238}
   m_Layer: 0
   m_Name: GoToStreet
   m_TagString: Untagged
@@ -36173,19 +36172,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetSceneName: Pueblo
   entryPointIDInTargetScene: DesdeRoom
---- !u!114 &1277641238
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1277641233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e427dfcbce57434080a44f73b824073, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObjectToActivate: {fileID: 1277641233}
 --- !u!1 &1277786017
 GameObject:
   m_ObjectHideFlags: 0
@@ -41168,6 +41154,7 @@ GameObject:
   - component: {fileID: 1482871588}
   - component: {fileID: 1482871587}
   - component: {fileID: 1482871589}
+  - component: {fileID: 1482871590}
   m_Layer: 0
   m_Name: BeforeGoToStreet
   m_TagString: Untagged
@@ -41234,6 +41221,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.5667381, y: 1, z: 0.6369295}
   m_Center: {x: 0.013380051, y: 0, z: -0.14486742}
+--- !u!114 &1482871590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482871586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e427dfcbce57434080a44f73b824073, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectToActivate: {fileID: 1277641233}
 --- !u!1 &1482895307
 GameObject:
   m_ObjectHideFlags: 0
