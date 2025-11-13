@@ -9,6 +9,9 @@ using UnityEngine.EventSystems;
 
 public class DialogueManager : MonoBehaviour
 {
+    GameObject lukeCameraObject; //HARDCODEADO POR FEDE PARA QUE SE ASIGNE LA CAMARA QUE QUIERO
+
+
     [Header("UI")]
     [SerializeField] private GameObject dialoguePanel;
     [SerializeField] private TextMeshProUGUI npcText;
@@ -314,7 +317,9 @@ public class DialogueManager : MonoBehaviour
             movementLocker = FindObjectOfType<PlayerMovementLocker>();
 
         if (lukeCamera == null)
-            lukeCamera = FindObjectOfType<CinemachineFreeLook>();
+            lukeCameraObject = GameObject.Find("LukeCamera");
+            lukeCamera = lukeCameraObject.GetComponent<CinemachineFreeLook>();
+            Debug.Log("Gonza: hace un manager yametee!! '>///<");
 
         if (camManager == null)
             camManager = FindObjectOfType<CameraManagerZ>();
