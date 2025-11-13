@@ -21,6 +21,12 @@ public class PuzzleManager : MonoBehaviour
     GameObject board;
     DollBoardUIController boardCtrl;
 
+    [Header("Popup control")]
+    [SerializeField] private bool openWhenPuzzleStarted = true; // abre auto tras diálogo
+    [SerializeField] private bool closeWithE = true;             // cerrar con E
+    bool pendingPopup;                                           // esperando a que cierre la UI
+    public bool PuzzleStarted = false;
+
     int placedCount;
     const int TOTAL_PARTS = 6;
 
@@ -45,6 +51,20 @@ public class PuzzleManager : MonoBehaviour
             else
                 Debug.Log("Falta recoger piezas de la muñeca antes de iniciar el puzzle.");
         }
+        // si alguien setea PuzzleStarted = true durante el diálogo
+        if (openWhenPuzzleStarted && PuzzleStarted && !pendingPopup && board == null)
+            pendingPopup = true;
+
+        // si estamos esperando y ya NO hay UI abierta (terminó el diálogo), abrimos
+        if (pendingPopup && GameManager.Instance != null && !GameManager.Instance.IsAnyUIOpen) // :contentReference[oaicite:2]{index=2}
+        {
+            pendingPopup = false;
+            StartPuzzle();
+        }
+
+        // cerrar con E si está abierto
+        if (closeWithE && board != null && Input.GetKeyDown(KeyCode.E))
+            FinishPuzzle();
     }
 
 
@@ -53,6 +73,9 @@ public class PuzzleManager : MonoBehaviour
     {
         if (board != null) return;
         placedCount = 0;
+
+        // bloquear controles/UI mientras está el dibujo
+        if (GameManager.Instance != null) GameManager.Instance.TryLockUI(); // :contentReference[oaicite:3]{index=3}
 
         wasCursorVisible = Cursor.visible;
         prevLock = Cursor.lockState;
@@ -109,9 +132,17 @@ public class PuzzleManager : MonoBehaviour
     {
         Cursor.visible = wasCursorVisible;
         Cursor.lockState = prevLock;
-        Destroy(board); board = null;
-        Debug.Log("Puzzle UI Solved");
+
+        if (GameManager.Instance != null) GameManager.Instance.UnlockUI(); // :contentReference[oaicite:4]{index=4}
+
+        if (board != null) { Destroy(board); board = null; }
+        // si esto vino del flujo “PuzzleStarted tras diálogo”, ya consumimos ese estado
+        PuzzleStarted = false;
+        pendingPopup = false;
+
+        Debug.Log("Puzzle UI Solved/Cerrado");
     }
+
 
     public void RegisterFoundPart(DollPartType part)
     {
