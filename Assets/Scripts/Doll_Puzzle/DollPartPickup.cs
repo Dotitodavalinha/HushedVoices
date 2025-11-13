@@ -69,8 +69,6 @@ public class DollPartPickup : MonoBehaviour
         }
     }
 
-
-
     public void Collect()
     {
         if (collected) return;

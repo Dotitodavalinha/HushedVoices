@@ -109,7 +109,6 @@ public class GameEvents : MonoBehaviour
             });
         }
 
-
         if (r.responseText.Contains("Vanessa"))
         {
             // r.onResponseChosen.RemoveAllListeners();

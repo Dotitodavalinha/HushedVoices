@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class PuzzleManager : MonoBehaviour
 {
     public static PuzzleManager Instance { get; private set; }
+    public bool dollQuestActive = false;
+
 
     [Header("Refs")]
     public Canvas canvasRoot;
@@ -89,7 +91,9 @@ public class PuzzleManager : MonoBehaviour
         }
 
         drawingInstance = Instantiate(dollDrawingPrefabUI, canvasRoot.transform);
-       
+        dollQuestActive = true;
+
+
     }
     void CloseDollDrawing()
     {
