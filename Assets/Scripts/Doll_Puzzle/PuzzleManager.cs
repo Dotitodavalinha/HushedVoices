@@ -8,6 +8,8 @@ public class PuzzleManager : MonoBehaviour
     public static PuzzleManager Instance { get; private set; }
     public bool dollQuestActive = false;
 
+    bool waitingToShowDrawing;
+    bool closingDrawing;
 
     [Header("Refs")]
     public Canvas canvasRoot;
@@ -73,34 +75,73 @@ public class PuzzleManager : MonoBehaviour
                 Debug.Log("Falta recoger piezas de la muñeca antes de iniciar el puzzle.");
         }
 
-        // Cerrar SOLO el dibujo con E
-        if (closeWithE && drawingInstance != null && Input.GetKeyDown(KeyCode.E))
+        // AHORA
+        if (closeWithE && drawingInstance != null && Input.GetKeyDown(KeyCode.E) && !closingDrawing)
             CloseDollDrawing();
+
     }
 
 
     public void ShowDollDrawing()
     {
-        if (drawingInstance != null) return;  // ya está abierto
+        if (drawingInstance != null || waitingToShowDrawing)
+            return;  // ya está abierto
+
+        StartCoroutine(Co_ShowDollDrawing());
+
+    }
+    private System.Collections.IEnumerator Co_ShowDollDrawing()
+    {
+        waitingToShowDrawing = true;
+
+        // Esperamos a que NO haya ninguna UI abierta (que el diálogo haya hecho UnlockUI)
+        while (GameManager.Instance != null && GameManager.Instance.IsAnyUIOpen)
+            yield return null;   // o "yield return new WaitForEndOfFrame();" 
+
+        if (GameManager.Instance != null)
+            GameManager.Instance.TryLockUI();
 
         if (autoBindSceneRefs) BindSceneRefs();
         if (canvasRoot == null)
         {
-            Debug.LogWarning("PuzzleManager: no hay Canvas para mostrar el dibujo.");
-            return;
+            waitingToShowDrawing = false;
+            yield break;
         }
 
         drawingInstance = Instantiate(dollDrawingPrefabUI, canvasRoot.transform);
-        dollQuestActive = true;
-
-
+        waitingToShowDrawing = false;
     }
+
+
     void CloseDollDrawing()
     {
-        if (drawingInstance == null) return;
+        if (!closingDrawing && drawingInstance != null)
+            StartCoroutine(Co_CloseDollDrawingDelayed());
+    }
+
+
+    private System.Collections.IEnumerator Co_CloseDollDrawingDelayed()
+    {
+        if (drawingInstance == null) yield break;
+
+        closingDrawing = true;
+
+        // 1) Cerramos la UI VISUALMENTE YA MISMO
         Destroy(drawingInstance);
         drawingInstance = null;
+
+        // 2) Mantenemos el lock de UI hasta el final del frame
+        //    (o incluso un frame extra si querés)
+        yield return null; // espera 1 frame
+                           // o si querés ser ultra safe: yield return new WaitForEndOfFrame();
+
+        // 3) Ahora sí liberamos la UI para que el siguiente input pueda abrir diálogos
+        if (GameManager.Instance != null)
+            GameManager.Instance.UnlockUI();
+
+        closingDrawing = false;
     }
+
 
 
     void BindSceneRefs()

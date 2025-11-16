@@ -103,6 +103,7 @@ public class GameManager : MonoBehaviour
     public void UnlockUI()
     {
         uiLockCount = 0;
+        Debug.Log("UI desbloqueada. Conteo de locks: " + uiLockCount);
         if (playerLocker != null)
             playerLocker.UnlockMovement();
     }

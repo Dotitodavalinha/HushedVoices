@@ -318,8 +318,9 @@ public class DialogueManager : MonoBehaviour
 
         if (lukeCamera == null)
             lukeCameraObject = GameObject.Find("LukeCamera");
+        if (lukeCameraObject != null)
             lukeCamera = lukeCameraObject.GetComponent<CinemachineFreeLook>();
-            Debug.Log("Gonza: hace un manager yametee!! '>///<");
+        Debug.Log("Gonza: hace un manager yametee!! '>///<");
 
         if (camManager == null)
             camManager = FindObjectOfType<CameraManagerZ>();
