@@ -4,17 +4,26 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-
-public class BrokenClueCleaner : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+// Añadimos IPointerClickHandler
+public class BrokenClueCleaner : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public static event Action OnAllBrokenCleaned;
-
     private static List<BrokenClueCleaner> allCleaners = new List<BrokenClueCleaner>();
 
     private bool isHovering = false;
     private ClueBoardManager board;
 
     [SerializeField] private GameObject breakAnimationPrefab;
+
+    // --- NUEVO ---
+    [Header("Configuración de Guardado")]
+    [Tooltip("ID Único para esta pista rota, ej: 'broken_1'")]
+    [SerializeField] private string brokenClueID;
+
+    // Propiedad pública para que el Board Manager la lea
+    public string BrokenClueID { get { return brokenClueID; } }
+    // --- FIN NUEVO ---
+
 
     private void Awake()
     {
@@ -26,23 +35,30 @@ public class BrokenClueCleaner : MonoBehaviour, IPointerEnterHandler, IPointerEx
         board = FindObjectOfType<ClueBoardManager>();
     }
 
-    void Update()
+    // --- MODIFICADO ---
+    // Usamos esto en vez de Update() para detectar el clic
+    public void OnPointerClick(PointerEventData eventData)
     {
-        if (isHovering && Input.GetMouseButtonDown(0))
+        // Si el board no existe, o si ESTAMOS en el menú principal, no hacer nada.
+        if (board == null || board.IsOnMainMenu) return;
+
+        // Solo funciona si estamos en un panel de caso Y hacemos clic izquierdo
+        if (eventData.button == PointerEventData.InputButton.Left)
         {
             PlayBreakAnimation();
-            if (board != null)
-                board.ChangeCursor(board.hover);
+            board.ChangeCursor(board.hover);
         }
     }
+
+    // Ya no necesitamos esto
+    void Update() { }
 
     private void PlayBreakAnimation()
     {
         if (breakAnimationPrefab != null)
         {
-            GameObject anim = Instantiate(breakAnimationPrefab,transform.position,Quaternion.identity,transform.parent);
+            GameObject anim = Instantiate(breakAnimationPrefab, transform.position, Quaternion.identity, transform.parent);
         }
-
         Destroy(gameObject);
     }
 
@@ -61,13 +77,23 @@ public class BrokenClueCleaner : MonoBehaviour, IPointerEnterHandler, IPointerEx
         }
     }
 
+    // --- MODIFICADO ---
     public void OnPointerEnter(PointerEventData eventData)
     {
-        isHovering = true;
-        GetComponent<Image>().color = Color.gray;
+        if (board == null) return;
 
-        if (board != null)
+        // Solo mostrar cursor de borrar si NO estamos en el main menu
+        if (!board.IsOnMainMenu)
+        {
+            isHovering = true;
+            GetComponent<Image>().color = Color.gray;
             board.ChangeCursor(board.deleteClues);
+        }
+        else
+        {
+            // Si estamos en el main menu, mostrar cursor 'hover' normal
+            board.ChangeCursor(board.hover);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -78,4 +104,24 @@ public class BrokenClueCleaner : MonoBehaviour, IPointerEnterHandler, IPointerEx
         if (board != null)
             board.ChangeCursor(board.hover);
     }
+
+    // --- NUEVAS FUNCIONES ---
+    // (Igual que en ClueNode.cs)
+    public void SaveState()
+    {
+        // Usamos el ID del campo primero. Si está vacío, usamos el nombre del objeto.
+        string uniqueID = string.IsNullOrEmpty(brokenClueID) ? this.gameObject.name : brokenClueID;
+
+        if (string.IsNullOrEmpty(uniqueID)) return;
+
+        string parentName = transform.parent.name;
+        PlayerPrefs.SetString(uniqueID + "_parent", parentName);
+        PlayerPrefs.Save();
+    }
+
+    public void MoveToCorcho(RectTransform newParent)
+    {
+        transform.SetParent(newParent, true);
+    }
+    // --- FIN NUEVAS FUNCIONES ---
 }

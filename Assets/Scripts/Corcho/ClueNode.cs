@@ -7,7 +7,20 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 {
     public ClueData data;
 
-    public RectTransform RectTransform { get; private set; }
+    // --- ARREGLO PARA OBJETOS INACTIVOS ---
+    private RectTransform _rectTransform;
+    public RectTransform RectTransform
+    {
+        get
+        {
+            if (_rectTransform == null)
+            {
+                _rectTransform = GetComponent<RectTransform>();
+            }
+            return _rectTransform;
+        }
+    }
+    // --- FIN DEL ARREGLO ---
 
     private Canvas canvas;
     private CanvasGroup canvasGroup;
@@ -28,7 +41,9 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     private void Awake()
     {
-        RectTransform = GetComponent<RectTransform>();
+        // Asignamos la variable interna
+        _rectTransform = GetComponent<RectTransform>();
+
         canvas = GetComponentInParent<Canvas>();
         canvasGroup = GetComponent<CanvasGroup>();
         if (canvasGroup == null)
@@ -60,19 +75,27 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             clueVisual.SetActive(found);
     }
 
-
     public void OnPointerEnter(PointerEventData eventData)
     {
-        board?.ChangeCursor(board.zoomIn);
-    }
+        if (board == null) return;
 
+        if (board.IsOnMainMenu)
+        {
+            board.ChangeCursor(board.hover);
+        }
+        else
+        {
+            board.ChangeCursor(board.zoomIn);
+        }
+    }
     public void OnPointerExit(PointerEventData eventData)
     {
         board?.ChangeCursor(board.hover);
     }
-
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (board != null && board.IsOnMainMenu) return;
+
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             isLeftDragging = false;
@@ -88,6 +111,8 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (board != null && board.IsOnMainMenu) return;
+
         if (eventData.button == PointerEventData.InputButton.Right && isRightDragging)
         {
             isRightDragging = false;
@@ -126,6 +151,12 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (board != null && board.IsOnMainMenu)
+        {
+            eventData.pointerDrag = null;
+            return;
+        }
+
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             isLeftDragging = true;
@@ -136,6 +167,8 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (board != null && board.IsOnMainMenu) return;
+
         if (eventData.button == PointerEventData.InputButton.Left && isLeftDragging)
         {
             RectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
@@ -144,13 +177,10 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             board?.RecalculateLines();
             board?.ChangeCursor(board.grab);
 
-            // --- ¡AQUÍ ESTÁ LA MODIFICACIÓN! ---
             if (transform.parent != null)
             {
-                // 1. Chequeamos si el padre es una zona de "drop" (el corcho)
                 bool shouldClamp = transform.parent.GetComponent<ClueBoardDropZone>() != null;
 
-                // 2. Si lo es, aplicamos la "pared invisible"
                 if (shouldClamp)
                 {
                     RectTransform playArea = transform.parent.GetComponent<RectTransform>();
@@ -170,10 +200,7 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
                     RectTransform.position = pos;
                 }
-                // 3. Si NO lo es (ej. es el "Folio"), no hacemos nada y dejamos
-                //    que el jugador la arrastre libremente.
             }
-            // --- FIN DE LA MODIFICACIÓN ---
 
             CheckCollisionAndSetColor();
         }
@@ -186,6 +213,8 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (board != null && board.IsOnMainMenu) return;
+
         if (eventData.button == PointerEventData.InputButton.Left && isLeftDragging)
         {
             isLeftDragging = false;
