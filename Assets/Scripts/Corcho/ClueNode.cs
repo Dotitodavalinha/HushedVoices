@@ -21,7 +21,6 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private bool isRightDragging = false;
 
     private ClueBoardManager board;
-    private RectTransform playArea;
 
     public GameObject clueVisual;
     private Image clueVisualImage;
@@ -46,13 +45,13 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             }
         }
     }
-    public void BindBoard(ClueBoardManager b, RectTransform area)
+
+    public void BindBoard(ClueBoardManager b)
     {
         if (b != null)
         {
             board = b;
         }
-        playArea = area;
     }
 
     public void SetFound(bool found)
@@ -145,23 +144,37 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             board?.RecalculateLines();
             board?.ChangeCursor(board.grab);
 
-            if (playArea != null)
+            // --- ¡AQUÍ ESTÁ LA MODIFICACIÓN! ---
+            if (transform.parent != null)
             {
-                Vector3[] areaCorners = new Vector3[4];
-                playArea.GetWorldCorners(areaCorners);
+                // 1. Chequeamos si el padre es una zona de "drop" (el corcho)
+                bool shouldClamp = transform.parent.GetComponent<ClueBoardDropZone>() != null;
 
-                Vector3[] nodeCorners = new Vector3[4];
-                RectTransform.GetWorldCorners(nodeCorners);
+                // 2. Si lo es, aplicamos la "pared invisible"
+                if (shouldClamp)
+                {
+                    RectTransform playArea = transform.parent.GetComponent<RectTransform>();
 
-                Vector3 pos = RectTransform.position;
-                float nodeWidth = nodeCorners[2].x - nodeCorners[0].x;
-                float nodeHeight = nodeCorners[2].y - nodeCorners[0].y;
+                    Vector3[] areaCorners = new Vector3[4];
+                    playArea.GetWorldCorners(areaCorners);
 
-                pos.x = Mathf.Clamp(pos.x, areaCorners[0].x + nodeWidth / 2, areaCorners[2].x - nodeWidth / 2);
-                pos.y = Mathf.Clamp(pos.y, areaCorners[0].y + nodeHeight / 2, areaCorners[2].y - nodeHeight / 2);
+                    Vector3[] nodeCorners = new Vector3[4];
+                    RectTransform.GetWorldCorners(nodeCorners);
 
-                RectTransform.position = pos;
+                    Vector3 pos = RectTransform.position;
+                    float nodeWidth = nodeCorners[2].x - nodeCorners[0].x;
+                    float nodeHeight = nodeCorners[2].y - nodeCorners[0].y;
+
+                    pos.x = Mathf.Clamp(pos.x, areaCorners[0].x + nodeWidth / 2, areaCorners[2].x - nodeWidth / 2);
+                    pos.y = Mathf.Clamp(pos.y, areaCorners[0].y + nodeHeight / 2, areaCorners[2].y - nodeHeight / 2);
+
+                    RectTransform.position = pos;
+                }
+                // 3. Si NO lo es (ej. es el "Folio"), no hacemos nada y dejamos
+                //    que el jugador la arrastre libremente.
             }
+            // --- FIN DE LA MODIFICACIÓN ---
+
             CheckCollisionAndSetColor();
         }
 
@@ -237,17 +250,17 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void SaveState()
     {
-        PlayerPrefs.SetFloat(data.clueID + "_x", data.boardPosition.x);
-        PlayerPrefs.SetFloat(data.clueID + "_y", data.boardPosition.y);
+        PlayerPrefs.SetFloat(data.clueID + "_x", RectTransform.anchoredPosition.x);
+        PlayerPrefs.SetFloat(data.clueID + "_y", RectTransform.anchoredPosition.y);
 
         string parentName = transform.parent.name;
         PlayerPrefs.SetString(data.clueID + "_parent", parentName);
 
-        if (playArea != null && transform.parent == playArea.transform)
+        if (transform.parent != null)
         {
             if (PlayerClueTracker.Instance != null)
             {
-                PlayerClueTracker.Instance.AddSafeClue(data.clueID);
+                // PlayerClueTracker.Instance.AddSafeClue(data.clueID);
             }
         }
 
@@ -273,11 +286,11 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public void MoveToCorcho(RectTransform newParent, ClueBoardManager b)
     {
         transform.SetParent(newParent, true);
-        BindBoard(b, newParent);
+        BindBoard(b);
 
         if (PlayerClueTracker.Instance != null && data != null && !string.IsNullOrEmpty(data.clueID))
         {
-            PlayerClueTracker.Instance.AddSafeClue(data.clueID);
+            // PlayerClueTracker.Instance.AddSafeClue(data.clueID);
         }
     }
 

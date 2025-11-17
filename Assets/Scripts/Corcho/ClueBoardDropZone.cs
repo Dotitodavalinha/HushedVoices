@@ -4,17 +4,19 @@ using UnityEngine.EventSystems;
 public class ClueBoardDropZone : MonoBehaviour, IDropHandler
 {
     [SerializeField] private ClueBoardManager board;
-    public RectTransform corchoArea;
 
     public void OnDrop(PointerEventData eventData)
     {
         var clueNode = eventData.pointerDrag?.GetComponent<ClueNode>();
         if (clueNode != null)
         {
-            clueNode.transform.SetParent(corchoArea, true);
+            clueNode.transform.SetParent(this.transform, true);
 
             if (board != null)
-                clueNode.BindBoard(board, corchoArea);
+            {
+                // ESTA ES LA LÍNEA CORREGIDA
+                clueNode.BindBoard(board);
+            }
 
             clueNode.SaveState();
         }

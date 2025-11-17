@@ -7,11 +7,22 @@ public class ClueBoardManager : MonoBehaviour
     [Header("Nodes")]
     public List<ClueNode> clueNodes;
     [SerializeField] private GameObject clueBoard;
-    [SerializeField] private RectTransform playAreaObject;
+
+    // ESTO ES NUEVO: Referencias a los paneles
+    [Header("Zoom Panels")]
+    [SerializeField] private GameObject mainMenuPanel;
+    [SerializeField] private GameObject case1Panel;
+    [SerializeField] private GameObject case2Panel;
+    [SerializeField] private GameObject case3Panel;
+    [SerializeField] private GameObject case4Panel;
+    private GameObject activePanel;
+
+    // ESTO CAMBIÓ: Ya no es una variable, se asigna dinámicamente
+    private Transform currentLinesContainer;
+    private RectTransform currentPlayArea;
 
     [Header("Lines")]
     [SerializeField] private GameObject lineUIPrefab;
-    [SerializeField] private Transform linesContainer;
     [SerializeField] private float lineYOffset = 10f;
     [SerializeField] private float lineThickness = 8f;
     private List<GameObject> lines = new();
@@ -36,22 +47,39 @@ public class ClueBoardManager : MonoBehaviour
     public GameObject culpablesPanel;
 
 
+    [Header("Panel Containers")]
+    [SerializeField] private RectTransform case1PlayArea;
+    [SerializeField] private Transform case1Lines;
+    [SerializeField] private RectTransform case2PlayArea;
+    [SerializeField] private Transform case2Lines;
+    [SerializeField] private RectTransform case3PlayArea;
+    [SerializeField] private Transform case3Lines;
+    [SerializeField] private RectTransform case4PlayArea;
+    [SerializeField] private Transform case4Lines;
+
+    [Header("Mini Corcho Containers")]
+    [SerializeField] private RectTransform miniCorcho1Area;
+    [SerializeField] private Transform miniCorcho1Lines;
+    [SerializeField] private RectTransform miniCorcho2Area;
+    [SerializeField] private Transform miniCorcho2Lines;
+    [SerializeField] private RectTransform miniCorcho3Area;
+    [SerializeField] private Transform miniCorcho3Lines;
+    [SerializeField] private RectTransform miniCorcho4Area;
+    [SerializeField] private Transform miniCorcho4Lines;
+
     private void Awake()
     {
-        if (linesContainer == null)
-        {
-            var found = clueBoard.transform.Find("LinesContainer");
-            if (found != null) linesContainer = found;
-        }
+        // ESTO CAMBIÓ: Ya no busca 'playAreaObject' o 'linesContainer'
+        // Se asignarán cuando se abra un panel.
 
-        Cursor.visible=false;
+        Cursor.visible = false;
 
         foreach (var node in clueNodes)
         {
-            node.BindBoard(this, playAreaObject);
+            // ESTO CAMBIÓ: BindBoard ahora es más simple
+            node.BindBoard(this);
             node.SetFound(PlayerClueTracker.Instance.HasClue(node.data.clueID));
         }
-
     }
 
     private void Update()
@@ -86,12 +114,16 @@ public class ClueBoardManager : MonoBehaviour
     {
         ChangeCursor(hover);
         clueBoard.SetActive(true);
+
+        // ESTO ES NUEVO: Al abrir, mostramos el menú principal y refrescamos.
+        // RefreshBoard pondrá todo en su mini-corcho guardado.
+        ShowPanel(mainMenuPanel);
         RefreshBoard();
     }
 
     public void CloseBoard()
     {
-        cursor.CursorSpriteChange(defaultCursor, new Vector2(1,1));
+        cursor.CursorSpriteChange(defaultCursor, new Vector2(1, 1));
         clueBoard.SetActive(false);
     }
 
@@ -106,7 +138,10 @@ public class ClueBoardManager : MonoBehaviour
                 string parentName = PlayerPrefs.GetString(node.data.clueID + "_parent");
                 Transform parent = GameObject.Find(parentName)?.transform;
                 if (parent != null)
+                {
+                    // ESTO CAMBIÓ: Usa la nueva función MoveToCorcho
                     node.MoveToCorcho(parent as RectTransform, this);
+                }
             }
 
             if (PlayerPrefs.HasKey(node.data.clueID + "_x"))
@@ -121,7 +156,6 @@ public class ClueBoardManager : MonoBehaviour
             {
                 string val = PlayerPrefs.GetString(key);
                 List<string> targets = new List<string>(val.Split(',', System.StringSplitOptions.RemoveEmptyEntries));
-
                 dynamicConnections[node.data.clueID] = targets;
             }
 
@@ -174,12 +208,17 @@ public class ClueBoardManager : MonoBehaviour
 
     public void RecalculateLines()
     {
-        //Debug.Log("RECALCULANDO LINEAS");
         foreach (var l in lines) Destroy(l);
         lines.Clear();
 
+        // ESTO ES NUEVO: Si no hay un contenedor de líneas activo, no dibujes.
+        if (currentLinesContainer == null) return;
+
         foreach (var node in clueNodes)
         {
+            // ESTO ES NUEVO: Solo dibuja líneas para nodos en el área activa
+            if (node.transform.parent != currentPlayArea) continue;
+
             foreach (var targetID in node.data.connectedClues)
             {
                 ClueNode target = clueNodes.Find(n => n.data.clueID == targetID);
@@ -199,9 +238,14 @@ public class ClueBoardManager : MonoBehaviour
 
     private void DrawLine(ClueNode from, ClueNode to)
     {
+        // ESTO ES NUEVO: Asegurarse que ambos nodos están en el área activa
+        if (from.transform.parent != currentPlayArea || to.transform.parent != currentPlayArea)
+            return;
+
         if (string.CompareOrdinal(from.data.clueID, to.data.clueID) > 0) return;
 
-        GameObject line = Instantiate(lineUIPrefab, linesContainer);
+        // ESTO CAMBIÓ: Usa el 'currentLinesContainer'
+        GameObject line = Instantiate(lineUIPrefab, currentLinesContainer);
         RectTransform rect = line.GetComponent<RectTransform>();
 
         Vector2 start = from.RectTransform.anchoredPosition;
@@ -224,7 +268,6 @@ public class ClueBoardManager : MonoBehaviour
 
     private void ApplyLineGeometry(RectTransform lineRect, Vector2 start, Vector2 end)
     {
-        
         Vector2 dir = end - start;
         float dist = dir.magnitude;
         lineRect.sizeDelta = new Vector2(dist, lineThickness);
@@ -235,22 +278,24 @@ public class ClueBoardManager : MonoBehaviour
 
     public void ShowPreviewFromNodeToScreen(ClueNode fromNode, Vector2 screenPos, Camera uiCam)
     {
+        // ESTO ES NUEVO: Chequeo de seguridad
+        if (currentLinesContainer == null) return;
+
         cursor.CursorSpriteChange(connect, new Vector2(1, 1));
         if (previewLineGO == null)
         {
-            previewLineGO = Instantiate(lineUIPrefab, linesContainer);
+            previewLineGO = Instantiate(lineUIPrefab, currentLinesContainer);
             previewLineRect = previewLineGO.GetComponent<RectTransform>();
         }
 
         Vector2 localPoint;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(clueBoard.GetComponent<RectTransform>(), screenPos, uiCam, out localPoint);
 
-        // La línea empieza desde la parte superior central del nodo
         Vector2 start = fromNode.RectTransform.anchoredPosition;
         Vector2 end = localPoint;
 
         start.y += fromNode.RectTransform.rect.height / 2 + lineYOffset;
-        end.y += lineYOffset; // el punto de destino queda con offset solo
+        end.y += lineYOffset;
 
         ApplyLineGeometry(previewLineRect, start, end);
 
@@ -307,5 +352,148 @@ public class ClueBoardManager : MonoBehaviour
     public void ChangeCursor(Texture2D texture)
     {
         cursor.CursorSpriteChange(texture, new Vector2(32, 32));
+    }
+
+
+    // --- TODA ESTA SECCIÓN ES NUEVA ---
+    // --- LÓGICA DE ZOOM Y NAVEGACIÓN ---
+
+    // Esta función reemplaza al MenuManager
+    private void ShowPanel(GameObject panelToShow)
+    {
+        mainMenuPanel.SetActive(false);
+        case1Panel.SetActive(false);
+        case2Panel.SetActive(false);
+        case3Panel.SetActive(false);
+        case4Panel.SetActive(false);
+
+        panelToShow.SetActive(true);
+        activePanel = panelToShow;
+    }
+
+    private void SetActiveContainers(RectTransform playArea, Transform linesContainer)
+    {
+        currentPlayArea = playArea;
+        currentLinesContainer = linesContainer;
+    }
+
+    // (DENTRO DE ClueBoardManager.cs)
+
+    private void TransferChildren(Transform fromParent, Transform toParent)
+    {
+        if (fromParent == null || toParent == null) return;
+
+        for (int i = fromParent.childCount - 1; i >= 0; i--)
+        {
+            Transform child = fromParent.GetChild(i);
+
+            // --- ESTE ES EL NUEVO CÓDIGO ---
+            // Revisa si el hijo es una pista (ClueNode) o una línea (ClueLine)
+            // (Necesitás tener un script 'ClueLine' en tu prefab de línea)
+            bool isClue = child.GetComponent<ClueNode>() != null;
+            bool isLine = child.GetComponent<ClueLine>() != null;
+
+            // Si NO es una pista Y NO es una línea, se saltea este hijo.
+            // Esto evita que mueva tu botón "Volver".
+            if (!isClue && !isLine)
+            {
+                continue; // Saltar al siguiente hijo
+            }
+            // --- FIN DEL NUEVO CÓDIGO ---
+
+            Vector2 savedPos = Vector2.zero;
+            Vector3 savedScale = Vector3.one;
+            RectTransform rt = child.GetComponent<RectTransform>();
+            if (rt != null)
+            {
+                savedPos = rt.anchoredPosition;
+                savedScale = rt.localScale;
+            }
+
+            child.SetParent(toParent, false);
+
+            if (rt != null)
+            {
+                rt.anchoredPosition = savedPos;
+                rt.localScale = savedScale;
+            }
+
+            if (isClue) // Solo guarda el estado si era una pista
+            {
+                child.GetComponent<ClueNode>().SaveState();
+            }
+        }
+    }
+
+    public void ZoomToPanel(int panelIndex)
+    {
+        GameObject panelToShow = null;
+        RectTransform targetPlayArea = null;
+        Transform targetLines = null;
+        RectTransform sourceMiniArea = null;
+        Transform sourceMiniLines = null;
+
+        switch (panelIndex)
+        {
+            case 1:
+                panelToShow = case1Panel;
+                targetPlayArea = case1PlayArea;
+                targetLines = case1Lines;
+                sourceMiniArea = miniCorcho1Area;
+                sourceMiniLines = miniCorcho1Lines;
+                break;
+            case 2:
+                panelToShow = case2Panel;
+                targetPlayArea = case2PlayArea;
+                targetLines = case2Lines;
+                sourceMiniArea = miniCorcho2Area;
+                sourceMiniLines = miniCorcho2Lines;
+                break;
+            case 3:
+                panelToShow = case3Panel;
+                targetPlayArea = case3PlayArea;
+                targetLines = case3Lines;
+                sourceMiniArea = miniCorcho3Area;
+                sourceMiniLines = miniCorcho3Lines;
+                break;
+            case 4:
+                panelToShow = case4Panel;
+                targetPlayArea = case4PlayArea;
+                targetLines = case4Lines;
+                sourceMiniArea = miniCorcho4Area;
+                sourceMiniLines = miniCorcho4Lines;
+                break;
+        }
+
+        if (panelToShow == null) return;
+
+        TransferChildren(sourceMiniArea, targetPlayArea);
+        TransferChildren(sourceMiniLines, targetLines);
+        SetActiveContainers(targetPlayArea, targetLines);
+        ShowPanel(panelToShow);
+        RecalculateLines();
+    }
+
+    public void ZoomToMainMenu()
+    {
+        if (activePanel == null || activePanel == mainMenuPanel) return;
+
+        RectTransform sourcePlayArea = null;
+        Transform sourceLines = null;
+        RectTransform targetMiniArea = null;
+        Transform targetMiniLines = null;
+
+        if (activePanel == case1Panel) { sourcePlayArea = case1PlayArea; sourceLines = case1Lines; targetMiniArea = miniCorcho1Area; targetMiniLines = miniCorcho1Lines; }
+        else if (activePanel == case2Panel) { sourcePlayArea = case2PlayArea; sourceLines = case2Lines; targetMiniArea = miniCorcho2Area; targetMiniLines = miniCorcho2Lines; }
+        else if (activePanel == case3Panel) { sourcePlayArea = case3PlayArea; sourceLines = case3Lines; targetMiniArea = miniCorcho3Area; targetMiniLines = miniCorcho3Lines; }
+        else if (activePanel == case4Panel) { sourcePlayArea = case4PlayArea; sourceLines = case4Lines; targetMiniArea = miniCorcho4Area; targetMiniLines = miniCorcho4Lines; }
+
+        if (sourcePlayArea == null) return;
+
+        TransferChildren(sourcePlayArea, targetMiniArea);
+        TransferChildren(sourceLines, targetMiniLines);
+        SetActiveContainers(targetMiniArea, targetMiniLines);
+        ShowPanel(mainMenuPanel);
+        RecalculateLines();
     }
 }
