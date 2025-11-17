@@ -99,32 +99,40 @@ public class GameEvents : MonoBehaviour
         }
         if (r.responseText.Contains("Let me see...")) // agarras el dibujo de la níño
         {
-            Debug.LogWarning("Wiring up girl drawing response");
-            // NO borro los otros listeners: dejo que el sistema de diálogo cierre la UI como siempre
+            r.onResponseChosen.RemoveAllListeners();
             r.onResponseChosen.AddListener(() =>
             {
-                Debug.LogWarning("Recibo dibujo de la niña");
+                Debug.LogError("Recibo dibujo de la niña");
                 if (PuzzleManager.Instance != null)
-                    PuzzleManager.Instance.ShowDollDrawing();   // nuevo método
-                PlayerClueTracker.Instance.AddClue("Vanessa_name");
+                    PuzzleManager.Instance.ShowDollDrawing();   // arranco puzzle y muestro dibujo
+
             });
         }
 
         if (r.responseText.Contains("Thank you very much, sir")) 
         {
-            Debug.LogWarning("Habilitas conversacion con las señoras");
-          
+            r.onResponseChosen.RemoveAllListeners();
+
             r.onResponseChosen.AddListener(() =>
             {
-                //añado clue q agregue la posibilidad de hablar con las señoras
+                Debug.LogError("Habilitas conversacion con las señoras");
+                PlayerClueTracker.Instance.AddClue("Chismosas_Dialogue"); // habilita diálogo con las señoras en el parque
 
             });
         }
 
+        if (r.responseText.Contains("Don't worry, I'll find out where she is."))
+        {
+            r.onResponseChosen.RemoveAllListeners();
+            r.onResponseChosen.AddListener(() =>
+            {
+                PlayerClueTracker.Instance.AddClue("Vanessa_name"); 
+
+            });
+        }
         if (r.responseText.Contains("Vanessa"))
         {
-            // r.onResponseChosen.RemoveAllListeners();
-            r.onResponseChosen.AddListener(() => PlayerClueTracker.Instance.AddClue("parkGuy"));
+          //se confirma q el player sabe el nombre de la maestra(?
         }
 
         if (string.Equals(r.name, "no ah vuelto a casa...", System.StringComparison.OrdinalIgnoreCase))

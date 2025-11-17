@@ -86,7 +86,7 @@ public class PuzzleManager : MonoBehaviour
     {
         if (drawingInstance != null || waitingToShowDrawing)
             return;  // ya está abierto
-
+        dollQuestActive = true;
         StartCoroutine(Co_ShowDollDrawing());
 
     }
