@@ -39,6 +39,8 @@ public class PuzzleManager : MonoBehaviour
     bool pendingPopup;                                           // esperando a que cierre la UI
     public bool PuzzleStarted = false;
 
+    bool waitingToStartPuzzle;
+
     int placedCount;
     const int TOTAL_PARTS = 6;
 
@@ -155,7 +157,8 @@ public class PuzzleManager : MonoBehaviour
 
     public void StartPuzzle()
     {
-        if (board != null) return;
+        // ya hay puzzle o ya estamos esperando a abrirlo
+        if (board != null || waitingToStartPuzzle) return;
 
         if (autoBindSceneRefs) BindSceneRefs();
         if (canvasRoot == null || raycaster == null || eventSystem == null)
@@ -164,14 +167,34 @@ public class PuzzleManager : MonoBehaviour
             return;
         }
 
-        placedCount = 0;
-        if (GameManager.Instance != null) GameManager.Instance.TryLockUI();
+        StartCoroutine(Co_StartPuzzle());
+    }
 
+
+    private System.Collections.IEnumerator Co_StartPuzzle()
+    {
+        waitingToStartPuzzle = true;
+
+        // 1) Esperar a que NO haya ninguna UI abierta (la de la pieza, diálogos, etc.)
+        while (GameManager.Instance != null && GameManager.Instance.IsAnyUIOpen)
+            yield return null;
+
+        // 2) Tomar lock de UI para el puzzle
+        if (GameManager.Instance != null)
+            GameManager.Instance.TryLockUI();
+
+        if (autoBindSceneRefs) BindSceneRefs();
+
+        placedCount = 0;
+        Debug.Log("Inicio puzzle y lockeo UI");
+
+        // 3) Cursor
         wasCursorVisible = Cursor.visible;
-        prevLock = CursorLockMode.None;
+        prevLock = Cursor.lockState;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
+        // 4) Instanciar board y piezas
         board = Instantiate(dollBoardPrefabUI, canvasRoot.transform);
         boardCtrl = board.GetComponent<DollBoardUIController>();
 
@@ -182,6 +205,8 @@ public class PuzzleManager : MonoBehaviour
         SpawnPart("ArmR", armRSpr, basePos + new Vector2(0, -270));
         SpawnPart("LegL", legLSpr, basePos + new Vector2(0, -360));
         SpawnPart("LegR", legRSpr, basePos + new Vector2(0, -450));
+
+        waitingToStartPuzzle = false;
     }
 
 
