@@ -32,7 +32,7 @@ public class NPCMoodController : MonoBehaviour
     {
         spriteRenderer.sprite = happyFace;
         // La paranoia se modifica solo en el momento del cambio
-        ParanoiaManager.Instance.ModifyParanoia(-0.33f);
+       // ParanoiaManager.Instance.ModifyParanoia(-0.33f);
         SoundManager.instance.ChangeVolumeOneMusic(MusicID.StaticSound, -1f / 3f);
 
         NPCMoodManager.Instance.SetMood(npcId, MoodType.Happy);
@@ -49,7 +49,7 @@ public class NPCMoodController : MonoBehaviour
         spriteRenderer.sprite = angryFace;
 
         // La paranoia se modifica solo en el momento del cambio
-        ParanoiaManager.Instance.ModifyParanoia(1f / 3f);
+        //ParanoiaManager.Instance.ModifyParanoia(1f / 3f);
         SoundManager.instance.ChangeVolumeOneMusic(MusicID.StaticSound, 1f / 3f);
 
         if (JailManager.Instance != null && IsNotPolice == true)
