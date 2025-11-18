@@ -47,22 +47,22 @@ public class CameraConcentrationEffect : MonoBehaviour
     }
 
     void OnEnable()
-{
-    if (ConcentrationManager.Instance != null)
     {
-        ConcentrationManager.Instance.OnConcentrationStarted += ApplyEffects;
-        ConcentrationManager.Instance.OnConcentrationEnded += RemoveEffects;
+        if (ConcentrationManager.Instance != null)
+        {
+            ConcentrationManager.Instance.OnConcentrationStarted += ApplyEffects;
+            ConcentrationManager.Instance.OnConcentrationEnded += RemoveEffects;
 
-        if (ConcentrationManager.Instance.IsActive())
-        {
-            ApplyEffects();
-        }
-        else
-        {
-            ForceResetEffect();
+            if (ConcentrationManager.Instance.IsActive())
+            {
+                ApplyEffects();
+            }
+            else
+            {
+                ForceResetEffect();
+            }
         }
     }
-}
     private void ForceResetEffect()
     {
         if (overlayMaterial != null)
@@ -103,7 +103,7 @@ public class CameraConcentrationEffect : MonoBehaviour
 
         overlayCam = null;
         instantiatedOverlayCamera = null;
-        applyingEffects = false;    
+        applyingEffects = false;
         removingEffects = false;
 
     }
@@ -148,49 +148,50 @@ public class CameraConcentrationEffect : MonoBehaviour
             if (!ConcentrationManager.Instance.IsActive() && (applyingEffects || currentOnOff > 0f))
             {
                 RemoveEffects();
+                ForceResetEffect();
             }
         }
     }
 
-   private void ApplyEffects()
-{
-    if (overlayCameraPrefab != null && cameraData != null)
+    private void ApplyEffects()
     {
-        if (instantiatedOverlayCamera != null)
+        if (overlayCameraPrefab != null && cameraData != null)
         {
-            Debug.LogWarning("Overlay camera ya existe, no se crea otra.");
-            return;
+            if (instantiatedOverlayCamera != null)
+            {
+                Debug.LogWarning("Overlay camera ya existe, no se crea otra.");
+                return;
+            }
+
+            // Asegurarse de que originalFOV no se sobrescriba innecesariamente
+            targetFOV = originalFOV + fovIncrease;
+
+            instantiatedOverlayCamera = Instantiate(overlayCameraPrefab, transform);
+            overlayCam = instantiatedOverlayCamera.GetComponent<Camera>();
+
+            if (overlayCam != null)
+            {
+                overlayCam.clearFlags = CameraClearFlags.Depth;
+                overlayCam.fieldOfView = mainCamera.fieldOfView;
+
+                if (!cameraData.cameraStack.Contains(overlayCam))
+                    cameraData.cameraStack.Add(overlayCam);
+            }
+
+            applyingEffects = true;
+            removingEffects = false;
+            targetOnOff = 1f;
         }
-
-        // Asegurarse de que originalFOV no se sobrescriba innecesariamente
-        targetFOV = originalFOV + fovIncrease;
-
-        instantiatedOverlayCamera = Instantiate(overlayCameraPrefab, transform);
-        overlayCam = instantiatedOverlayCamera.GetComponent<Camera>();
-
-        if (overlayCam != null)
-        {
-            overlayCam.clearFlags = CameraClearFlags.Depth;
-            overlayCam.fieldOfView = mainCamera.fieldOfView;
-
-            if (!cameraData.cameraStack.Contains(overlayCam))
-                cameraData.cameraStack.Add(overlayCam);
-        }
-
-        applyingEffects = true;
-        removingEffects = false;
-        targetOnOff = 1f;
     }
-}
 
-private void RemoveEffects()
-{
-    applyingEffects = false;
-    removingEffects = true;
-    targetOnOff = 0f;
-    // Asegurarse de que el FOV vuelva al valor original
-    targetFOV = originalFOV;
-}
+    private void RemoveEffects()
+    {
+        applyingEffects = false;
+        removingEffects = true;
+        targetOnOff = 0f;
+        // Asegurarse de que el FOV vuelva al valor original
+        targetFOV = originalFOV;
+    }
 
 
     private IEnumerator ForceDisableMaterial()
