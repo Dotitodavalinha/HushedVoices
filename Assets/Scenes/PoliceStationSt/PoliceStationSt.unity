@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.5060278, g: 0.29304403, b: 0.21807545, a: 1}
+  m_FogColor: {r: 0.23659024, g: 0.16685179, b: 0.20613834, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.03
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.95443916, g: 0.81493044, b: 0.56427145, a: 1}
+  m_AmbientSkyColor: {r: 0.65801704, g: 0.23123011, b: 0.31970963, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.7
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.8854039, g: 0.5930129, b: 0.4022087, a: 1}
+  m_IndirectSpecularColor: {r: 0.6690673, g: 0.25021833, b: 0.31953055, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -462,6 +462,68 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1001 &7914106
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2179573693113454930}
+    m_Modifications:
+    - target: {fileID: 3816223690595770489, guid: ee629d66112960443a389ee85ec6d7a4, type: 3}
+      propertyPath: m_Name
+      value: PoliciaFixFBX Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 4593147800066489027, guid: ee629d66112960443a389ee85ec6d7a4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4593147800066489027, guid: ee629d66112960443a389ee85ec6d7a4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.866
+      objectReference: {fileID: 0}
+    - target: {fileID: 4593147800066489027, guid: ee629d66112960443a389ee85ec6d7a4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4593147800066489027, guid: ee629d66112960443a389ee85ec6d7a4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9999848
+      objectReference: {fileID: 0}
+    - target: {fileID: 4593147800066489027, guid: ee629d66112960443a389ee85ec6d7a4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4593147800066489027, guid: ee629d66112960443a389ee85ec6d7a4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.0055157826
+      objectReference: {fileID: 0}
+    - target: {fileID: 4593147800066489027, guid: ee629d66112960443a389ee85ec6d7a4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4593147800066489027, guid: ee629d66112960443a389ee85ec6d7a4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4593147800066489027, guid: ee629d66112960443a389ee85ec6d7a4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4593147800066489027, guid: ee629d66112960443a389ee85ec6d7a4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ee629d66112960443a389ee85ec6d7a4, type: 3}
+--- !u!4 &7914107 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4593147800066489027, guid: ee629d66112960443a389ee85ec6d7a4, type: 3}
+  m_PrefabInstance: {fileID: 7914106}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8180377
 GameObject:
   m_ObjectHideFlags: 0
@@ -26886,6 +26948,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PoliciaFBX
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8d42648c5d139bc4489afc88e810ab42, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 8d42648c5d139bc4489afc88e810ab42, type: 3}
       propertyPath: m_Controller
       value: 
@@ -30425,7 +30491,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730473041}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.030391384, y: -0.9336673, z: 0.34737486, w: -0.081685364}
+  m_LocalRotation: {x: 0.016482852, y: -0.9782175, z: -0.18839973, w: -0.085583}
   m_LocalPosition: {x: 58.24, y: 7.95, z: 34.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -30466,8 +30532,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.9025695, g: 0.86476976, b: 0.70318997, a: 1}
-  m_Intensity: 0.8561189
+  m_Color: {r: 0.62311494, g: 0.59107095, b: 0.44774222, a: 1}
+  m_Intensity: 0.38647902
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -42756,7 +42822,7 @@ MonoBehaviour:
   maxSunIntensity: 1
   DirectionalLight: {fileID: 730473044}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 15.278943
+  TimeOfDay: 19.45352
   DaySpeed: 17
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -65040,7 +65106,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2061776780}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.06850703, y: 0.608484, z: -0.052844264, w: 0.7888356}
+  m_LocalRotation: {x: 0.068507046, y: 0.608484, z: -0.05284427, w: 0.7888356}
   m_LocalPosition: {x: -13, y: 5, z: 26.5}
   m_LocalScale: {x: 1, y: 1, z: 1.2132}
   m_ConstrainProportionsScale: 0
@@ -67004,6 +67070,7 @@ Transform:
   - {fileID: 1115355887}
   - {fileID: 794303272}
   - {fileID: 1464370745}
+  - {fileID: 7914107}
   - {fileID: 566517953}
   m_Father: {fileID: 285433019}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
