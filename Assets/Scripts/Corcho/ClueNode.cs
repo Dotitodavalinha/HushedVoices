@@ -7,7 +7,6 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 {
     public ClueData data;
 
-    // --- ARREGLO PARA OBJETOS INACTIVOS ---
     private RectTransform _rectTransform;
     public RectTransform RectTransform
     {
@@ -20,7 +19,6 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             return _rectTransform;
         }
     }
-    // --- FIN DEL ARREGLO ---
 
     private Canvas canvas;
     private CanvasGroup canvasGroup;
@@ -41,7 +39,6 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     private void Awake()
     {
-        // Asignamos la variable interna
         _rectTransform = GetComponent<RectTransform>();
 
         canvas = GetComponentInParent<Canvas>();
@@ -162,6 +159,8 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             isLeftDragging = true;
             originalPosition = RectTransform.anchoredPosition;
             canvasGroup.blocksRaycasts = false;
+
+            RectTransform.SetAsLastSibling();
         }
     }
 
@@ -219,6 +218,8 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         {
             isLeftDragging = false;
             canvasGroup.blocksRaycasts = true;
+
+            RectTransform.SetAsFirstSibling();
 
             bool isColliding = CheckCollisionAndSetColor();
 
@@ -299,7 +300,6 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         PlayerPrefs.Save();
     }
 
-
     private Rect GetRectFromRectTransform()
     {
         Vector2 anchoredPos = RectTransform.anchoredPosition;
@@ -315,6 +315,9 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public void MoveToCorcho(RectTransform newParent, ClueBoardManager b)
     {
         transform.SetParent(newParent, true);
+
+        transform.SetAsFirstSibling();
+
         BindBoard(b);
 
         if (PlayerClueTracker.Instance != null && data != null && !string.IsNullOrEmpty(data.clueID))

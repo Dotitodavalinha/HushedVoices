@@ -194,7 +194,6 @@ public class ClueBoardManager : MonoBehaviour
             }
         }
 
-        // Bucle para cargar la "basura"
         foreach (var basura in brokenClues)
         {
             if (basura == null) continue;
@@ -211,6 +210,7 @@ public class ClueBoardManager : MonoBehaviour
                 if (parent != null)
                 {
                     basura.MoveToCorcho(parent as RectTransform);
+                    basura.transform.SetAsFirstSibling();
                 }
             }
         }
@@ -319,6 +319,8 @@ public class ClueBoardManager : MonoBehaviour
             }
 
             child.SetParent(toParent, false);
+
+            child.SetAsFirstSibling();
 
             if (rt != null)
             {
