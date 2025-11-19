@@ -18,6 +18,7 @@ public class FolioAnimation : MonoBehaviour
         else
         {
             folioAnimator.SetBool("isOpen", true);
+            SoundManager.instance.PlaySound(SoundID.Carpeta, false, 1f, 5.5f);
         }
 
         isOpen = !isOpen;

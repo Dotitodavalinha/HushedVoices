@@ -80,14 +80,15 @@ public class SoundManager : MonoBehaviour
         return sfxChannel[(int)id].isPlaying;
     }
 
-    public void PlaySound(SoundID id, bool loop = false, float pitch = 1)
+    public void PlaySound(SoundID id, bool loop = false, float pitch = 1, float volumeScale = 1f)
     {
         sfxChannel[(int)id].loop = loop;
-        sfxChannel[(int)id].volume = volumeSFX;
+        float finalVolume = volumeSFX * volumeScale;
+        sfxChannel[(int)id].volume = finalVolume;
+        Debug.Log($"Sonido: {id} | Global: {volumeSFX} | Scale: {volumeScale} | Final: {sfxChannel[(int)id].volume}");
+
         sfxChannel[(int)id].pitch = pitch;
         sfxChannel[(int)id].Play();
-        
-
     }
 
     public void StopAllSounds()
@@ -259,7 +260,10 @@ public enum SoundID
     alarm,
     camChange,
     click,
-    clack
+    clack,
+    Carpeta,
+    ClueFromFolder,
+    HiloCorcho
 }
 
 public enum MusicID
