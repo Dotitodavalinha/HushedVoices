@@ -59,6 +59,8 @@ public class BrokenClueCleaner : MonoBehaviour, IPointerEnterHandler, IPointerEx
         {
             GameObject anim = Instantiate(breakAnimationPrefab, transform.position, Quaternion.identity, transform.parent);
         }
+        SoundManager.instance.PlaySound(SoundID.paperTear, false, UnityEngine.Random.Range(0.7f, 1f));
+
         Destroy(gameObject);
     }
 

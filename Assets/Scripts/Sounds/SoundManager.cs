@@ -85,7 +85,6 @@ public class SoundManager : MonoBehaviour
         sfxChannel[(int)id].loop = loop;
         float finalVolume = volumeSFX * volumeScale;
         sfxChannel[(int)id].volume = finalVolume;
-        Debug.Log($"Sonido: {id} | Global: {volumeSFX} | Scale: {volumeScale} | Final: {sfxChannel[(int)id].volume}");
 
         sfxChannel[(int)id].pitch = pitch;
         sfxChannel[(int)id].Play();
@@ -263,7 +262,9 @@ public enum SoundID
     clack,
     Carpeta,
     ClueFromFolder,
-    HiloCorcho
+    HiloCorcho,
+    paperTear,
+    CutSound
 }
 
 public enum MusicID

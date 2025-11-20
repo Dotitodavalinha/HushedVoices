@@ -490,6 +490,8 @@ public class ClueBoardManager : MonoBehaviour
 
         if (changed) RecalculateLines();
         SaveDynamicConnections();
+        SoundManager.instance.PlaySound(SoundID.CutSound);
+
     }
 
     private void SaveDynamicConnections()
