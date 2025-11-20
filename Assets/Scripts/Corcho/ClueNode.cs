@@ -129,7 +129,7 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                 {
                     board.AddConnection(this.data.clueID, target.data.clueID);
 
-                    SoundManager.instance.PlaySound(SoundID.HiloCorcho);
+                    SoundManager.instance.PlaySound(SoundID.HiloCorcho, false, 1f, 5.5f);
                 }
 
                 board.HidePreviewLine();
@@ -158,7 +158,7 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            SoundManager.instance.PlaySound(SoundID.ClueFromFolder);
+            SoundManager.instance.PlaySound(SoundID.ClueFromFolder, false, 1f, 5.5f);
 
             isLeftDragging = true;
             originalPosition = RectTransform.anchoredPosition;
