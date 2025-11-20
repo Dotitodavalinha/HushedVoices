@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.5230291, g: 0.30133462, b: 0.21820691, a: 1}
+  m_FogColor: {r: 0.47904986, g: 0.2804088, b: 0.21688023, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.03
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 1, g: 0.88505286, b: 0.57989514, a: 1}
+  m_AmbientSkyColor: {r: 0.9483699, g: 0.790277, b: 0.50622725, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.7
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.8850352, g: 0.5923158, b: 0.40325043, a: 1}
+  m_IndirectSpecularColor: {r: 0.8854258, g: 0.5930607, b: 0.40213358, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -36711,7 +36711,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1937477860}
+  - {fileID: 1554970178}
+  - {fileID: 1610082329}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &702500482
@@ -37633,7 +37634,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730473041}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.08062886, y: -0.37825024, z: 0.9215914, w: -0.03309263}
+  m_LocalRotation: {x: -0.025878767, y: -0.951267, z: 0.29579544, w: -0.08322514}
   m_LocalPosition: {x: 58.24, y: 7.95, z: 34.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -37674,8 +37675,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.9352865, b: 0.6622608, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 0.88959056, g: 0.8467555, b: 0.66365135, a: 1}
+  m_Intensity: 0.8090955
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -38099,7 +38100,7 @@ GameObject:
   - component: {fileID: 742955122}
   - component: {fileID: 742955121}
   m_Layer: 0
-  m_Name: GoToDepto
+  m_Name: GoToPueblo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38132,8 +38133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0954e5730b380ac48afd9ef8c2bcac77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSceneName: Pueblo_Deptos
-  entryPointIDInTargetScene: DesdePuebloAlmacen
+  targetSceneName: Pueblo
+  entryPointIDInTargetScene: DesdeAlmacen
 --- !u!65 &742955122
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -56415,7 +56416,7 @@ MonoBehaviour:
   maxSunIntensity: 1
   DirectionalLight: {fileID: 730473044}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 8.9753065
+  TimeOfDay: 15.696929
   DaySpeed: 17
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -70586,11 +70587,11 @@ Transform:
   m_GameObject: {fileID: 1554970177}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7660445, z: -0, w: -0.6427876}
-  m_LocalPosition: {x: 24.05, y: 1.389, z: 39.97}
+  m_LocalPosition: {x: 56.99919, y: 1.389, z: 26.595474}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 697002780}
   m_LocalEulerAnglesHint: {x: 0, y: 260, z: 0}
 --- !u!1 &1555957521
 GameObject:
@@ -72286,7 +72287,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1610082329}
   m_Layer: 0
-  m_Name: DesdeDeptos
+  m_Name: DesdePueblo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72300,12 +72301,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1610082328}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -20.53, y: 1.389, z: 40.18}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 12.419191, y: 1.389, z: 26.805473}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 697002780}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &1610225049
 GameObject:
@@ -73878,7 +73879,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1652678400}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.064171046, y: -0.5919397, z: 0.047361776, w: 0.8020264}
+  m_LocalRotation: {x: 0.064171046, y: -0.59193975, z: 0.047361776, w: 0.8020264}
   m_LocalPosition: {x: 16, y: 5, z: 26.5}
   m_LocalScale: {x: 1.2132, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -82207,37 +82208,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1936822133}
   m_Mesh: {fileID: 6060208598947023799, guid: 504e2ed3dbf002d45b53895b382a09b4, type: 3}
---- !u!1 &1937477859
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1937477860}
-  m_Layer: 0
-  m_Name: DesdePueblo2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1937477860
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1937477859}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 14.18, y: 1.411, z: 28.43}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 697002780}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &1939989998
 GameObject:
   m_ObjectHideFlags: 0
@@ -95735,8 +95705,6 @@ SceneRoots:
   - {fileID: 697002780}
   - {fileID: 86686842}
   - {fileID: 585166443}
-  - {fileID: 1554970178}
-  - {fileID: 1610082329}
   - {fileID: 546539161}
   - {fileID: 39369767}
   - {fileID: 423751391}
