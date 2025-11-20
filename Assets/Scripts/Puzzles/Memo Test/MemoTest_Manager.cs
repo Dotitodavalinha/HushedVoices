@@ -5,11 +5,14 @@ using UnityEngine.UI;
 
 public class MemoTest_Manager : MonoBehaviour
 {
+    [Header("Root UI")]
+    [SerializeField] private GameObject memoRoot;          // panel negro / root del memotest
+    [SerializeField] private RectTransform boardParent;    // contenedor de cartas
+    [SerializeField] private GridLayoutGroup grid;
+
     [Header("Grid")]
     [SerializeField] private int columns = 4;
     [SerializeField] private int rows = 2;
-    [SerializeField] private RectTransform boardParent;
-    [SerializeField] private GridLayoutGroup grid;
 
     [Header("Card Setup")]
     [SerializeField] private MemoCard cardPrefab;          // único prefab
@@ -22,9 +25,19 @@ public class MemoTest_Manager : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private bool spawnOnStart = false;
 
+    // estado interno
     private MemoCard firstSelected;
     private MemoCard secondSelected;
     private bool isCheckingPair = false;
+
+    private bool waitingToStartMemo = false;
+    private bool memoOpen = false;
+
+    private int totalPairs;
+    private int matchedPairs;
+
+    bool wasCursorVisible;
+    CursorLockMode prevLock;
 
     private void Awake()
     {
@@ -39,23 +52,93 @@ public class MemoTest_Manager : MonoBehaviour
             grid.spacing = cellSpacing;
             grid.childAlignment = TextAnchor.MiddleCenter;
         }
+
+        if (memoRoot != null)
+            memoRoot.SetActive(false); // arranca cerrado
     }
 
     private void Start()
     {
         if (spawnOnStart)
-            SetupBoard();
+            StartMemoTest();
     }
 
     private void Update()
     {
+        // placeholder para probar
         if (Input.GetKeyDown(KeyCode.M))
         {
-            SetupBoard();
+            StartMemoTest();
         }
     }
 
-    public void SetupBoard()
+    // ------------------ APERTURA / CIERRE CON GAME MANAGER ------------------
+
+    public void StartMemoTest()
+    {
+        if (waitingToStartMemo || memoOpen)
+            return;
+
+        StartCoroutine(Co_StartMemoTest());
+    }
+
+    private IEnumerator Co_StartMemoTest()
+    {
+        waitingToStartMemo = true;
+
+        // 1) Esperar a que NO haya ninguna otra UI abierta
+        while (GameManager.Instance != null && GameManager.Instance.IsAnyUIOpen)
+            yield return null;
+
+        // 2) Lockear UI
+        if (GameManager.Instance != null)
+            GameManager.Instance.TryLockUI();
+
+        // 3) Cursor
+        wasCursorVisible = Cursor.visible;
+        prevLock = Cursor.lockState;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        // 4) Activar root del memotest y armar tablero
+        if (memoRoot != null)
+            memoRoot.SetActive(true);
+
+        SetupBoard();
+
+        memoOpen = true;
+        waitingToStartMemo = false;
+    }
+
+    private void FinishMemoTest()
+    {
+        // limpiar cartas
+        if (boardParent != null)
+        {
+            for (int i = boardParent.childCount - 1; i >= 0; i--)
+            {
+                Destroy(boardParent.GetChild(i).gameObject);
+            }
+        }
+
+        // ocultar panel
+        if (memoRoot != null)
+            memoRoot.SetActive(false);
+
+        // restaurar cursor
+        Cursor.visible = wasCursorVisible;
+        Cursor.lockState = prevLock;
+
+        // liberar UI
+        if (GameManager.Instance != null)
+            GameManager.Instance.UnlockUI();
+
+        memoOpen = false;
+    }
+
+    // ------------------ LÓGICA DEL TABLERO / PAREJAS ------------------
+
+    private void SetupBoard()
     {
         if (boardParent == null || cardPrefab == null)
         {
@@ -77,7 +160,7 @@ public class MemoTest_Manager : MonoBehaviour
             return;
         }
 
-        // Limpiar tablero anterior
+        // limpiar tablero anterior
         for (int i = boardParent.childCount - 1; i >= 0; i--)
         {
             Destroy(boardParent.GetChild(i).gameObject);
@@ -86,6 +169,8 @@ public class MemoTest_Manager : MonoBehaviour
         firstSelected = null;
         secondSelected = null;
         isCheckingPair = false;
+        matchedPairs = 0;
+        totalPairs = pairCount;
 
         // Crear IDs de pareja (0,0,1,1,2,2...)
         List<int> pairIds = new List<int>(totalSlots);
@@ -110,6 +195,7 @@ public class MemoTest_Manager : MonoBehaviour
 
     public void OnCardClicked(MemoCard card)
     {
+        if (!memoOpen) return;
         if (isCheckingPair) return;
         if (card.IsRevealed) return;
 
@@ -133,12 +219,20 @@ public class MemoTest_Manager : MonoBehaviour
 
         if (firstSelected.PairId == secondSelected.PairId)
         {
-            // Son pareja: las dejamos dadas vuelta
-            // Si querés deshabilitar el click, podrías quitar el raycast, etc.
+            // son pareja  contabilizar
+            matchedPairs++;
+
+            // ¿ganó el memotest?
+            if (matchedPairs >= totalPairs)
+            {
+                // Esperamos un pelín para que el jugador vea la última pareja
+                yield return new WaitForSeconds(0.3f);
+                FinishMemoTest();
+            }
         }
         else
         {
-            // No son pareja, se dan vuelta de nuevo
+            // no son pareja  se dan vuelta de nuevo
             firstSelected.ShowBack();
             secondSelected.ShowBack();
         }
