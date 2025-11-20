@@ -82,7 +82,7 @@ public class NightManager : MonoBehaviour
         }
         if (!hasInstantiatedAlert)
         {
-            SoundManager.instance.PlaySound(SoundID.alarm, false, 1f, 5.5f);
+            SoundManager.instance.PlaySound(SoundID.alarm);
             Instantiate(IsNightAlert, canvasTransform);
             hasInstantiatedAlert = true;
         }
