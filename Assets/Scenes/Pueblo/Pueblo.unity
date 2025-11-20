@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.27259707, g: 0.18446565, b: 0.20631175, a: 1}
+  m_FogColor: {r: 0.20556593, g: 0.15232141, b: 0.20476386, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.03
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.76377857, g: 0.23849696, b: 0.3141111, a: 1}
+  m_AmbientSkyColor: {r: 0.54883194, g: 0.22555909, b: 0.32674423, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.7
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.7192022, g: 0.3017524, b: 0.32510957, a: 1}
+  m_IndirectSpecularColor: {r: 0.60002977, g: 0.2349759, b: 0.3218724, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1723,9 +1723,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2391989537613696622, guid: 8f3fdfbc3f28d8343bfefdcc68aab656, type: 3}
   m_PrefabInstance: {fileID: 76892258}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &76892260 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3060720840075777236, guid: 8f3fdfbc3f28d8343bfefdcc68aab656, type: 3}
+--- !u!95 &76892260 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7327154907346052331, guid: 8f3fdfbc3f28d8343bfefdcc68aab656, type: 3}
   m_PrefabInstance: {fileID: 76892258}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &83458269
@@ -34137,7 +34137,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730473041}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.08652858, y: 0.119299784, z: 0.9890255, w: 0.010437385}
+  m_LocalRotation: {x: 0.021831632, y: -0.9644353, z: -0.24953653, w: -0.084377214}
   m_LocalPosition: {x: 58.24, y: 7.95, z: 34.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -34178,8 +34178,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.7108074, g: 0.6593073, b: 0.44202873, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 0.5758931, g: 0.55013925, b: 0.43232936, a: 1}
+  m_Intensity: 0.33240247
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -42302,7 +42302,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1053430766}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.14526978, y: 0.48942074, z: -0.08307395, w: 0.8558404}
+  m_LocalRotation: {x: 0.1452698, y: 0.4894208, z: -0.08307398, w: 0.8558404}
   m_LocalPosition: {x: 2, y: 5, z: 26.5}
   m_LocalScale: {x: 1, y: 1, z: 1.2132}
   m_ConstrainProportionsScale: 0
@@ -45107,6 +45107,11 @@ PrefabInstance:
 --- !u!108 &1140085336 stripped
 Light:
   m_CorrespondingSourceObject: {fileID: 8345019484313345486, guid: c4df33eeda0086b4c99c05b6f649b22d, type: 3}
+  m_PrefabInstance: {fileID: 1140085335}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1140085337 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2178460154901900525, guid: c4df33eeda0086b4c99c05b6f649b22d, type: 3}
   m_PrefabInstance: {fileID: 1140085335}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1143364875 stripped
@@ -49104,7 +49109,7 @@ MonoBehaviour:
   maxSunIntensity: 1
   DirectionalLight: {fileID: 730473044}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 5.0829344
+  TimeOfDay: 19.9342
   DaySpeed: 17
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -65217,8 +65222,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nightManager: {fileID: 0}
-  Linterna: {fileID: 76892260}
-  animator: {fileID: 0}
+  Linterna: {fileID: 1140085337}
+  animator: {fileID: 76892260}
   dayController: {fileID: 9100000, guid: 99ae15773c68e0c4494f8f9430ce7434, type: 2}
   nightController: {fileID: 9100000, guid: bebee34c26357b540a42f174d6be1dfa, type: 2}
 --- !u!136 &1706536857
@@ -74803,7 +74808,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2061776780}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.07265013, y: 0.60241586, z: -0.05519333, w: 0.79295075}
+  m_LocalRotation: {x: 0.07265012, y: 0.6024158, z: -0.055193312, w: 0.79295075}
   m_LocalPosition: {x: -13, y: 5, z: 26.5}
   m_LocalScale: {x: 1, y: 1, z: 1.2132}
   m_ConstrainProportionsScale: 0
