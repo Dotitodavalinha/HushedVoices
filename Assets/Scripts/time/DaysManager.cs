@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DaysManager : MonoBehaviour
 {
@@ -40,19 +38,19 @@ public class DaysManager : MonoBehaviour
     private void HandleDayFinished()
     {
         OnDayEnd?.Invoke();
-        NextDay();
+
+        Debug.Log("Son las 22:00. El tiempo se pausó. Esperando acción del jugador para iniciar NextDay().");
     }
 
     public void NextDay()
     {
         currentDay++;
         OnDayChanged?.Invoke(currentDay);
-        Debug.LogWarning("Day Finished. Current day: " + currentDay);
+        Debug.LogWarning("Iniciando siguiente día: " + currentDay);
 
         if (timeSystem != null)
         {
             timeSystem.StartNewDay();
-            Debug.Log("DaysManager: Se ha llamado a timeSystem.StartNewDay()");
         }
         else
         {
@@ -60,10 +58,6 @@ public class DaysManager : MonoBehaviour
             if (timeSystem != null)
             {
                 timeSystem.StartNewDay();
-            }
-            else
-            {
-                Debug.LogError("DAYSMANAGER: No se pudo encontrar el LightingManager (timeSystem) para resetear la hora.");
             }
         }
 
@@ -83,7 +77,8 @@ public class DaysManager : MonoBehaviour
 
     private void TryHookTimeSystem()
     {
-        var found = GameObject.Find("TimeManager")?.GetComponent<LightingManager>();
+        var found = GameObject.FindAnyObjectByType<LightingManager>();
+
         if (found != null && found != timeSystem)
         {
             if (timeSystem != null)
@@ -94,15 +89,11 @@ public class DaysManager : MonoBehaviour
         }
     }
 
-
     public int CurrentHour
     {
         get
         {
-            // LightingManager.TimeOfDay es 0..24 (float). Lo redondeamos hacia abajo.
-            // Asegurate de tener asignado "timeSystem" como ya hacías.
             return timeSystem != null ? Mathf.FloorToInt(timeSystem.TimeOfDay) : 0;
         }
     }
-
 }
