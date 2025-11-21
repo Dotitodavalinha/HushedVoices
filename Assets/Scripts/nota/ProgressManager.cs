@@ -92,4 +92,18 @@ public class ProgressManager : MonoBehaviour
         }
         npcRoots[npcID] = rootName;
     }
+    public void TriggerMemoTest()
+    {
+        // Buscar el manager en la escena actual
+        var memo = FindObjectOfType<MemoTest_Manager>(true);
+
+        if (memo == null)
+        {
+            Debug.LogWarning("ProgressManager: No se encontró MemoTest_Manager en la escena.");
+            return;
+        }
+
+        memo.StartMemoTest();
+    }
+
 }

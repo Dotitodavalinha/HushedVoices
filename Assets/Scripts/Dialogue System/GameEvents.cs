@@ -121,6 +121,18 @@ public class GameEvents : MonoBehaviour
             });
         }
 
+        if (r.responseText.Contains("Alright, fair enough. Let's play"))
+        {
+            r.onResponseChosen.RemoveAllListeners();
+
+            r.onResponseChosen.AddListener(() =>
+            {
+                Debug.LogError("Empieza el memoTest");
+                ProgressManager.Instance.TriggerMemoTest(); // habilita MemoTest
+
+            });
+        }
+
         if (r.responseText.Contains("Don't worry, I'll find out where she is."))
         {
             r.onResponseChosen.RemoveAllListeners();

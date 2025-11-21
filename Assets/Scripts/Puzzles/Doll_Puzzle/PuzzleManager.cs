@@ -256,6 +256,8 @@ public class PuzzleManager : MonoBehaviour
         PuzzleStarted = false;
         pendingPopup = false;
 
+        dollQuestActive = false;
+
         Debug.Log("Puzzle UI Solved/Cerrado");
         ProgressManager.Instance.CambiarRootNPC("Niña", "DollFound");
     }

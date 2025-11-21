@@ -225,10 +225,13 @@ public class MemoTest_Manager : MonoBehaviour
             // ¿ganó el memotest?
             if (matchedPairs >= totalPairs)
             {
-                // Esperamos un pelín para que el jugador vea la última pareja
                 yield return new WaitForSeconds(0.3f);
+
+                ProgressManager.Instance.CambiarRootNPC("Lola", "Root1"); //Root chismos actualizado
+
                 FinishMemoTest();
             }
+
         }
         else
         {
