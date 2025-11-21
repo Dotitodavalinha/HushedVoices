@@ -38,9 +38,12 @@ public class PoliceBehaviour : MonoBehaviour
     public CinemachineFreeLook lukeCamera;
     private bool isTransitioning = false;
 
+    // Referencia local para el Locker
+    private PlayerMovementLocker movementLocker;
+
     private void Start()
     {
-        
+
         animator = GetComponentInChildren<Animator>();
         nightManager = FindObjectOfType<NightManager>();
 
@@ -48,6 +51,9 @@ public class PoliceBehaviour : MonoBehaviour
         flashLight.color = defaultColor;
         initialY = transform.position.y;
         initialRotation = transform.rotation;
+
+        // Búsqueda inicial del Locker
+        movementLocker = FindAnyObjectByType<PlayerMovementLocker>();
     }
 
     private void Update()
@@ -258,6 +264,11 @@ public class PoliceBehaviour : MonoBehaviour
 
     private IEnumerator CambiarCamaraYLuegoAtrapar()
     {
+        if (movementLocker != null)
+        {
+            movementLocker.LockMovement();
+        }
+
         animator.SetBool("IsWaiting", true);
         animator.SetBool("IsChasing", false);
 

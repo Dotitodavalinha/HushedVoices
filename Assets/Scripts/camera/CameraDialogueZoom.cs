@@ -13,6 +13,8 @@ public class CameraDialogueZoom : MonoBehaviour
     private bool hasZoomed = false;
     private bool originalPosSaved = false;
 
+    private PlayerMovementLocker movementLocker;
+
     private void Awake()
     {
         if (cameraManager == null)
@@ -21,10 +23,12 @@ public class CameraDialogueZoom : MonoBehaviour
 
     private void Start()
     {
+        movementLocker = FindAnyObjectByType<PlayerMovementLocker>();
+
         if (dialogueScript != null)
         {
-          //  dialogueScript.OnDialogueStart += HandleDialogueStart;
-          //  dialogueScript.OnDialogueEnd += HandleDialogueEnd;
+            //  dialogueScript.OnDialogueStart += HandleDialogueStart;
+            //  dialogueScript.OnDialogueEnd += HandleDialogueEnd;
         }
     }
 
@@ -33,7 +37,7 @@ public class CameraDialogueZoom : MonoBehaviour
     {
         if (!hasZoomed && cameraManager.GetCurrentCameraBehaviour() != null)
         {
-           // ZoomToDialogue(dialogueScript.playerTransform, dialogueScript.npcTransform, 1f);
+            // ZoomToDialogue(dialogueScript.playerTransform, dialogueScript.npcTransform, 1f);
             hasZoomed = true;
         }
     }
@@ -54,6 +58,12 @@ public class CameraDialogueZoom : MonoBehaviour
     {
         if (!cameraManager.IsInitialized()) return;
         Debug.Log("Zoom start");
+
+        if (movementLocker != null)
+        {
+            movementLocker.LockMovement();
+        }
+
         if (originalPos != null)
         {
             Destroy(originalPos.gameObject);
@@ -99,6 +109,7 @@ public class CameraDialogueZoom : MonoBehaviour
 
         camTransform.position = targetPosition;
         camTransform.rotation = targetRotation;
+
     }
 
     private IEnumerator ReturnToOriginalCoroutine(float duration)
@@ -127,5 +138,10 @@ public class CameraDialogueZoom : MonoBehaviour
 
         Destroy(originalPos.gameObject);
         originalPosSaved = false;
+
+        if (movementLocker != null)
+        {
+            movementLocker.UnlockMovement();
+        }
     }
 }

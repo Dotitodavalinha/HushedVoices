@@ -13,7 +13,7 @@ public class BedPass : MonoBehaviour
 
     [SerializeField] private float fadeDuration = 1f;
 
-    [SerializeField] private GameObject CantSleepYetUI; 
+    [SerializeField] private GameObject CantSleepYetUI;
     private bool infoOpen = false;
     [SerializeField] private GameObject cleaningObject; // referencia al objeto que debe limpiarse antes de usar la cama
 
@@ -26,11 +26,17 @@ public class BedPass : MonoBehaviour
 
     [SerializeField] private Fade fadeScript;
 
+    // Referencia local para el Locker
+    private PlayerMovementLocker movementLocker;
+
 
     void Start()
     {
         PressE_UI.SetActive(false);
         timeManager = GameObject.Find("TimeManager")?.GetComponent<LightingManager>();
+
+        // Búsqueda inicial del Locker
+        movementLocker = FindAnyObjectByType<PlayerMovementLocker>();
     }
 
     void Update()
@@ -112,6 +118,11 @@ public class BedPass : MonoBehaviour
 
     private IEnumerator SleepSequence()
     {
+        if (movementLocker != null)
+        {
+            movementLocker.LockMovement();
+        }
+
         fadeScript.FadeIn();
         yield return new WaitForSeconds(fadeDuration);
 
@@ -122,8 +133,11 @@ public class BedPass : MonoBehaviour
 
         OnPlayerSlept?.Invoke();
 
-      
-
         fadeScript.FadeOut();
+
+        if (movementLocker != null)
+        {
+            movementLocker.UnlockMovement();
+        }
     }
 }
