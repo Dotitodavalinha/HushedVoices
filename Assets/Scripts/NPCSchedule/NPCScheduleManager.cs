@@ -6,9 +6,11 @@ using System.Collections.Generic;
 
 public interface ISpawnPointResolver
 {
-    // Devuelve una posición para (sceneId, locationId, npcId). Si no hay, false.
-    bool TryGetPoint(string sceneId, string locationId, string npcId, out Vector3 pos);
+    // Devuelve posición y rotación para (sceneId, locationId, npcId).
+    bool TryGetPoint(string sceneId, string locationId, string npcId,
+                     out Vector3 pos, out Quaternion rot);
 }
+
 
 public class NPCScheduleManager : MonoBehaviour
 {
@@ -41,6 +43,30 @@ public class NPCScheduleManager : MonoBehaviour
 
     ISpawnPointResolver resolver;
 
+    bool ResolveSpawn(string sceneId, string locationId, string npcId,
+                   out Vector3 pos, out Quaternion rot)
+    {
+        if (resolver == null)
+        {
+            Debug.LogError(
+                $"NPCScheduleManager: no hay ISpawnPointResolver asignado, no se puede resolver spawn para npcId='{npcId}', " +
+                $"scene='{sceneId}', locationId='{locationId}'."
+            );
+            pos = Vector3.zero;
+            rot = Quaternion.identity;
+            return false;
+        }
+
+        bool ok = resolver.TryGetPoint(sceneId, locationId, npcId, out pos, out rot);
+        if (!ok)
+        {
+            // El resolver ya logueó un error concreto
+            return false;
+        }
+        return true;
+    }
+
+
     class ActiveNpc
     {
         public string npcId;
@@ -52,80 +78,112 @@ public class NPCScheduleManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+        if (Instance != null && Instance != this)
+        {
+            Debug.LogWarning("NPCScheduleManager duplicado, destruyendo el nuevo.");
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        resolver = spawnPointResolverMB as ISpawnPointResolver; // puede ser null
-    }
 
-    void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        // Cuando tengas un evento “OnHourChanged”, llamá RefreshAll() desde ahí.
-        // Mientras, podés llamarlo manualmente después de cambiar la hora.
-    }
-
-    void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        resolver = spawnPointResolverMB as ISpawnPointResolver;
+        if (resolver == null && spawnPointResolverMB != null)
+        {
+            Debug.LogError("NPCScheduleManager: el MonoBehaviour asignado en 'spawnPointResolverMB' NO implementa ISpawnPointResolver.");
+        }
     }
 
     void Start()
     {
         RefreshAll(); // primer cálculo al iniciar
     }
-
-    void OnSceneLoaded(Scene s, LoadSceneMode m)
+    private void Update()
     {
-        RefreshAll();
+        // DEBUG: refreshear a mano con la Y
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            Debug.Log("NPCScheduleManager: RefreshAll() manual por tecla Y.");
+            RefreshAll();
+        }
     }
 
-    /// <summary>Forzá recalcular spawns (llamalo cuando cambie la hora/día).</summary>
     public void RefreshAll()
     {
         string sceneId = SceneManager.GetActiveScene().name;
         int hour = GetCurrentHour();
         DayMask today = GetTodayMask();
 
+        Debug.Log($"NPCScheduleManager.RefreshAll -> Scene='{sceneId}', DayMask='{today}', Hour={hour}");
+
         for (int i = 0; i < npcs.Count; i++)
         {
             var e = npcs[i];
+
+            if (e.prefab == null)
+            {
+                Debug.LogError($"NPCScheduleManager: NpcEntry index {i} (npcId='{e.npcId}') no tiene prefab asignado.");
+                continue;
+            }
+
             int blockIndex = GetActiveBlockIndex(e.schedule, today, hour);
+            active.TryGetValue(e.npcId, out var inst);
 
             bool shouldBeHere = blockIndex >= 0 && e.schedule[blockIndex].sceneId == sceneId;
-            active.TryGetValue(e.npcId, out var inst);
 
             if (shouldBeHere)
             {
                 var b = e.schedule[blockIndex];
 
+                // Resolver posición + rotación
+                Vector3 pos;
+                Quaternion rot;
+                bool hasSpawn = ResolveSpawn(sceneId, b.locationId, e.npcId, out pos, out rot);
+
+                if (!hasSpawn)
+                {
+                    // Ya se logueó el error en ResolveSpawn
+                    continue;
+                }
+
                 if (inst == null)
                 {
-                    Vector3 pos = ResolveSpawn(sceneId, b.locationId, e.npcId);
-                    var go = Instantiate(e.prefab, pos, Quaternion.identity);
-                    active[e.npcId] = new ActiveNpc { npcId = e.npcId, go = go, lastBlockIndex = blockIndex, lastLocationId = b.locationId };
+                    // Spawn nuevo
+                    var go = Instantiate(e.prefab, pos, rot);
+                    active[e.npcId] = new ActiveNpc
+                    {
+                        npcId = e.npcId,
+                        go = go,
+                        lastBlockIndex = blockIndex,
+                        lastLocationId = b.locationId
+                    };
+                    Debug.Log($"NPCScheduleManager: instanciado npcId='{e.npcId}' en scene='{sceneId}', locationId='{b.locationId}'.");
                 }
                 else
                 {
+                    // Ya existe: si cambió de bloque o de location, reubicar y reorientar
                     if (inst.lastBlockIndex != blockIndex || inst.lastLocationId != b.locationId)
                     {
                         inst.lastBlockIndex = blockIndex;
                         inst.lastLocationId = b.locationId;
-                        Vector3 pos = ResolveSpawn(sceneId, b.locationId, e.npcId);
-                        inst.go.transform.position = pos;
+                        inst.go.transform.SetPositionAndRotation(pos, rot);
+                        Debug.Log($"NPCScheduleManager: movido npcId='{e.npcId}' a nueva locationId='{b.locationId}' en scene='{sceneId}'.");
                     }
                 }
             }
+
             else
             {
                 if (inst != null)
                 {
+                    Debug.Log($"NPCScheduleManager: destruyendo npcId='{e.npcId}' (no corresponde en esta escena/horario).");
                     Destroy(inst.go);
                     active.Remove(e.npcId);
                 }
             }
         }
     }
+
 
     int GetActiveBlockIndex(List<Block> blocks, DayMask today, int hour)
     {
@@ -142,21 +200,14 @@ public class NPCScheduleManager : MonoBehaviour
             }
             else
             {
-                // ej: 22 -> 3 (pasa por medianoche)
+
                 if (hour >= b.startHour || hour < b.endHour) return i;
             }
         }
         return -1;
     }
 
-    Vector3 ResolveSpawn(string sceneId, string locationId, string npcId)
-    {
-        if (resolver != null && resolver.TryGetPoint(sceneId, locationId, npcId, out var pos))
-            return pos;
-        return Vector3.zero; // placeholder
-    }
 
-    // ======= Adaptadores a tus singletons =======
     int GetCurrentHour()
     {
         // Usa DaysManager.CurrentHour (deriva de LightingManager.TimeOfDay 0..24)
