@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public abstract class InteractableBase : MonoBehaviour  
+public abstract class InteractableBase : MonoBehaviour
 {
     [Header("Opciones comunes")]
     [SerializeField] protected bool needInteract = true; // requiere apretar E
     [SerializeField] protected bool destroyAfterUse = false;
     [SerializeField] protected bool holdConcentrationIfOpen = false;
     [SerializeField] protected NOTEInteractionZone zonaInteraccion;
-    [SerializeField] protected GameObject pressE_UI;
+    [SerializeField] public GameObject pressE_UI;
 
     [Header("ObjectToDestroy")]
     [SerializeField] private GameObject destroyThisBeforeSelf; // si se asigna, se destruye justo antes de este interactable
@@ -85,7 +85,7 @@ public abstract class InteractableBase : MonoBehaviour
 
     protected bool TryActivate()
     {
-        if (!GameManager.Instance.TryLockUI()) return false; 
+        if (!GameManager.Instance.TryLockUI()) return false;
 
         active = true;
         OnActivate();
@@ -196,6 +196,12 @@ public abstract class InteractableBase : MonoBehaviour
             if (singleOutliner != null)
                 singleOutliner.gameObject.SetActive(false);
         }
+    }
+    // Forzar ocultar el indicador "Press E" desde afuera
+    public void ForceHidePressE()
+    {
+        if (pressE_UI != null)
+            pressE_UI.SetActive(false);
     }
 
 

@@ -22,6 +22,8 @@ public class PuzzleManager : MonoBehaviour
     public GameObject dollDrawingPrefabUI;   //  prefab del dibujo de la nena
     GameObject drawingInstance;              // instancia actual del dibujo
 
+    [Header("Piece size")]
+    [SerializeField] private float pieceMaxSize = 120f; // píxeles máx de ancho/alto
 
     [Header("Prefabs")]
     public GameObject dollBoardPrefabUI; // DollBoard_UI
@@ -218,12 +220,37 @@ public class PuzzleManager : MonoBehaviour
 
         var img = go.GetComponent<Image>();
         img.sprite = spr;
+        img.preserveAspect = true; // importante para no deformar
+
+        // NUEVO: ajustar tamaño según aspecto real del sprite
+        if (spr != null)
+        {
+            float w = spr.rect.width;
+            float h = spr.rect.height;
+            if (w <= 0f || h <= 0f)
+            {
+                rt.sizeDelta = new Vector2(pieceMaxSize, pieceMaxSize);
+            }
+            else if (w >= h)
+            {
+                // más ancha que alta (brazo horizontal, cabeza, etc.)
+                float height = pieceMaxSize * (h / w);
+                rt.sizeDelta = new Vector2(pieceMaxSize, height);
+            }
+            else
+            {
+                // más alta que ancha (pierna, brazo vertical, etc.)
+                float width = pieceMaxSize * (w / h);
+                rt.sizeDelta = new Vector2(width, pieceMaxSize);
+            }
+        }
 
         var dp = go.GetComponent<DraggablePart>();
         dp.targetId = id;
         dp.raycaster = raycaster;
         dp.SetInitialAnchoredPos(rt.anchoredPosition); // clave para evitar “salto”
     }
+
 
     // llamada desde DraggablePartUI cuando una pieza fue correcta
     public void CorrectPlacement(string id)

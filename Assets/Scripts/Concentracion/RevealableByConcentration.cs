@@ -141,35 +141,30 @@ public class RevealableByConcentration : MonoBehaviour
         if (!keepRevealedAfterEnd)
         {
             // preferimos el interactable asignado manualmente si existe
-
             InteractableBase target = interactableToToggle != null ? interactableToToggle : interactableComponent;
             if (target != null)
             {
                 // si el interactable está abierto (player lo está usando), no lo desactivamos
-
                 if (!target.IsOpen)
                 {
+                    // NUEVO: asegurarnos de apagar el "Press E" antes de deshabilitar el script
+                    target.ForceHidePressE();
+
                     target.enabled = false;
                 }
 
                 // si está abierto, lo dejamos activo para que el jugador pueda cerrarlo.
-
                 // cuando el jugador cierre la UI/interacción, InteractableBase.Deactivate()
-
-                // llamará a ConcentrationManager.RemoveInteractionHold() y si había un End
-
-                // pendiente, se ejecutará entonces.
+                // llamará a ConcentrationManager.RemoveInteractionHold(), etc.
             }
             else
             {
                 // fallback: si no hay componente interactable, apagamos el outline asignado
-
                 if (FeedbackWithConcentration != null)
-
                     FeedbackWithConcentration.SetActive(false);
             }
-
         }
+
         // reactivar el interactable 'normal' si lo habiamos apagado
 
         if (interactableOppositeToggle != null && oppositeDisabledByMe)

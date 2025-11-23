@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ConcentrationManager : MonoBehaviour
@@ -34,9 +33,8 @@ public class ConcentrationManager : MonoBehaviour
     public float fatigueDuration = 5f;
     private bool isFatigued = false;
 
+    // holds de interacción: mientras sea >0, el temporizador se PAUSA
     private int holdCounter = 0;
-    private bool isPendingEnd = false;
-
 
     public event Action OnConcentrationStarted;
     public event Action OnConcentrationEnded;
@@ -66,6 +64,7 @@ public class ConcentrationManager : MonoBehaviour
         if (DaysManager.Instance != null)
             DaysManager.Instance.OnDayStart -= HandleDayStart;
     }
+
     private IEnumerator SubscribeWhenReady()
     {
         while (DaysManager.Instance == null) yield return null;
@@ -79,7 +78,7 @@ public class ConcentrationManager : MonoBehaviour
 
     private void Update()
     {
-        // activacion manual: R (solo si inputEnabled y hay usos)
+        // activación manual: Q (solo si inputEnabled y hay usos)
         if (inputEnabled && !isActive && Input.GetKeyDown(KeyCode.Q))
         {
             TryActivate();
@@ -87,26 +86,24 @@ public class ConcentrationManager : MonoBehaviour
 
         if (isActive)
         {
+            // NUEVO COMPORTAMIENTO:
+            // Si hay una interacción/pista abierta (holdCounter > 0),
+            // la concentración SIGUE activa pero el timer se PAUSA.
+            if (holdCounter > 0)
+            {
+                return; // no descontamos tiempo mientras haya una UI de pista abierta
+            }
+
+            // Sin holds, el timer avanza normal
             timer -= Time.deltaTime;
             if (timer <= 0f)
             {
-                if (holdCounter > 0)
-                {
-                    // hay interacciones en curso: posponemos el End hasta que se liberen
-                    isPendingEnd = true;
-                    timer = 0f; // seguro
-                                // no llamamos EndConcentration() todavía
-                }
-                else
-                {
-                    EndConcentration();
-                }
+                EndConcentration();
             }
         }
-
     }
 
-    // intenta activar: devuelve true si se activo
+    // intenta activar: devuelve true si se activó
     public bool TryActivate()
     {
         if (!inputEnabled) return false;
@@ -121,7 +118,7 @@ public class ConcentrationManager : MonoBehaviour
     public bool StartConcentration()
     {
         if (isActive || usesRemaining <= 0) return false;
-        Debug.Log("Concentracion Activadaa");
+        Debug.Log("Concentracion Activada");
         isActive = true;
         timer = Mathf.Max(0.1f, durationSeconds);
         usesRemaining--;
@@ -129,36 +126,21 @@ public class ConcentrationManager : MonoBehaviour
 
         // eventos para que otros subscriptores reaccionen (VFX, SFX, revealables)
         OnConcentrationStarted?.Invoke();
-        /*
-        if (concentrationOverlayPrefab != null)
-        {
-            var canvas = FindObjectOfType<Canvas>();
-            if (canvas != null)
-            {
-                activeOverlay = Instantiate(concentrationOverlayPrefab, canvas.transform);
-                activeOverlay.transform.SetAsLastSibling(); // se asegura que quede encima de todo
-            }
-        }
-        */
-        //reproducir sonido o activar shader desde quien escucha OnConcentrationStarted
         return true;
     }
 
     public void EndConcentration()
     {
-        // si hay holds, no terminar directamente
-        if (holdCounter > 0)
-        {
-            isPendingEnd = true;
-            return;
-        }
+        // NUEVO: ya no miramos holdCounter ni posponemos el End.
+        // El timer NUNCA llega a 0 mientras holdCounter > 0, así que
+        // EndConcentration solo se dispara cuando ya no hay pista abierta
+        // (o si algún script llama ForceEnd).
 
         if (!isActive) return;
-        
 
         isActive = false;
         timer = 0f;
-       
+
         if (activeOverlay != null)
         {
             Destroy(activeOverlay);
@@ -169,14 +151,12 @@ public class ConcentrationManager : MonoBehaviour
         // activa fatiga post concentracion
         if (!isFatigued)
             StartCoroutine(ApplyFatigue());
-
-
     }
 
     private IEnumerator ApplyFatigue()
     {
         isFatigued = true;
-        inputEnabled = false; // bloquea nueva concentracion
+        inputEnabled = false; // bloquea nueva concentración
         var player = FindObjectOfType<Player_Movement>();
         float originalSpeed = 0f;
 
@@ -195,30 +175,25 @@ public class ConcentrationManager : MonoBehaviour
         isFatigued = false;
     }
 
-    
+    // llamado por los interactuables cuando abren una UI de pista
     public void AddInteractionHold()
     {
         holdCounter = Mathf.Max(0, holdCounter) + 1;
-        
-         Debug.Log($"Concentration hold added. Count: {holdCounter}");
+        Debug.Log($"Concentration hold added. Count: {holdCounter}");
     }
 
+    // llamado cuando se cierra esa UI
     public void RemoveInteractionHold()
     {
         holdCounter = Mathf.Max(0, holdCounter - 1);
-        // si ya no quedan holds y había un End pendiente, lo ejecutamos ahora
-        if (holdCounter == 0 && isPendingEnd)
-        {
-            isPendingEnd = false;
-            
-            EndConcentration();
-        }
-        // Debug.Log($"Concentration hold removed. Count: {holdCounter}");
+        Debug.Log($"Concentration hold removed. Count: {holdCounter}");
+        // NO hay más lógica acá: si holdCounter vuelve a 0,
+        // el Update retomará el conteo normal del timer.
     }
 
     public void ForceEnd() => EndConcentration();
 
-    public void RefillUses() 
+    public void RefillUses()
     {
         usesRemaining = maxUsesPerDay;
         OnUsesChanged?.Invoke(usesRemaining);
