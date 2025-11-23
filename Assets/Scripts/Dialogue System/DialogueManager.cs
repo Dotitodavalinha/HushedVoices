@@ -247,9 +247,8 @@ public class DialogueManager : MonoBehaviour
         selectedResponseIndex = -1;
         EventSystem.current.SetSelectedGameObject(null);
 
-        GameManager.Instance.UnlockUI();
-        movementLocker.UnlockMovement();
-        currentNode = null;
+        StartCoroutine(UnlockMovementAfterTime(0.7f));
+        currentNode = null; 
 
         var player = GameObject.FindWithTag("Player").transform;
         if (camAnterior != null)
@@ -346,6 +345,13 @@ public class DialogueManager : MonoBehaviour
         cg.alpha = 1;
         cg.interactable = true;
         cg.blocksRaycasts = true;
+    }
+
+    private IEnumerator UnlockMovementAfterTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+        GameManager.Instance.UnlockUI();
+        movementLocker.UnlockMovement();
     }
 
 }
