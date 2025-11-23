@@ -56,16 +56,22 @@ public class GameEvents : MonoBehaviour
         {
             Debug.LogWarning("Wiring up coffee response");
             r.onResponseChosen.RemoveAllListeners();
-            r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("Chloe", "Root"));
+            r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("Chloe", "Root")); // pedirle cafe a chloe para el yuta
+            r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("PolicemanZ", "RootPoliceZ1"));
             r.onResponseChosen.AddListener(() => ProgressManager.Instance.Policez = true);
         }
 
         if (r.responseText.Contains("Hi, can you make me a black coffee please?"))
         {
             // r.onResponseChosen.RemoveAllListeners();
-            r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("PolicemanZ", "RootPoliceZ1"));
-            r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("Chloe", "Root2"));
+           
+            r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("Chloe", "Root2")); 
             r.onResponseChosen.AddListener(() => ProgressManager.Instance.GotCoffe = true);
+            r.onResponseChosen.AddListener(() =>
+            {
+                PlayerClueTracker.Instance.AddClue("HasBlackCoffe");
+
+            });
         }
 
         if (r.responseText.Contains("Yeah, here you go sir"))
