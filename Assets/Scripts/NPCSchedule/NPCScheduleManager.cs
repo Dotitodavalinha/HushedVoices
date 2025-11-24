@@ -128,6 +128,24 @@ public class NPCScheduleManager : MonoBehaviour
 
             int blockIndex = GetActiveBlockIndex(e.schedule, today, hour);
             active.TryGetValue(e.npcId, out var inst);
+            // justo después de: active.TryGetValue(e.npcId, out var inst);
+            if (inst != null && inst.go == null)
+            {
+                // por si en algún momento lo destruye otro script
+                active.Remove(e.npcId);
+            }
+            else if (inst != null)
+            {
+                var despawn = inst.go.GetComponent<NPCDespawn>();
+                if (despawn != null && despawn.HasFinishedLeaving)
+                {
+                    // Ya terminó la ruta y está en modo fantasma: ahora sí lo limpiamos del diccionario.
+                    Debug.Log($"NPCScheduleManager: limpieza post-ruta de npcId='{e.npcId}'.");
+                    Destroy(inst.go);
+                    active.Remove(e.npcId);
+                    inst = null;
+                }
+            }
 
             bool shouldBeHere = blockIndex >= 0 && e.schedule[blockIndex].sceneId == sceneId;
 
@@ -176,11 +194,24 @@ public class NPCScheduleManager : MonoBehaviour
             {
                 if (inst != null)
                 {
-                    Debug.Log($"NPCScheduleManager: destruyendo npcId='{e.npcId}' (no corresponde en esta escena/horario).");
-                    Destroy(inst.go);
-                    active.Remove(e.npcId);
+                    var despawn = inst.go.GetComponent<NPCDespawn>();
+
+                    if (despawn != null && despawn.HasWaypoints && !despawn.HasFinishedLeaving)
+                    {
+                        // Le decimos que se vaya caminando en lugar de desaparecer
+                        Debug.Log($"NPCScheduleManager: npcId='{e.npcId}' debería irse, iniciando ruta de salida.");
+                        despawn.StartLeavingFromSchedule();
+                        // NO lo destruimos todavía, dejamos que termine la ruta.
+                    }
+                    else
+                    {
+                        Debug.Log($"NPCScheduleManager: destruyendo npcId='{e.npcId}' (no corresponde en esta escena/horario o no tiene ruta).");
+                        Destroy(inst.go);
+                        active.Remove(e.npcId);
+                    }
                 }
             }
+
         }
     }
 

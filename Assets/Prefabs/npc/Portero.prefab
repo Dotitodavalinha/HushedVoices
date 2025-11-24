@@ -34,7 +34,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1842980246077360898}
+  - {fileID: 5364824692245945611}
   - {fileID: 2458405498295978354}
   - {fileID: 7744711932024567771}
   m_Father: {fileID: 0}
@@ -153,13 +153,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64a052f24fe1d614f97b0be301461d5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 5725121931971989880}
+  animator: {fileID: 2059134000335521649}
   speed: 2.5
   turnSpeed: 5
   waypoints:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  npcId: Portero
+  autoBindPathById: 1
+  TriggerDialogue: {fileID: 9215491522683499816}
 --- !u!1 &4064311508365312542
 GameObject:
   m_ObjectHideFlags: 0
@@ -793,13 +796,13 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be394f89091f64e4783f2794e35e4aea, type: 3}
---- !u!4 &1842980246077360898 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: be394f89091f64e4783f2794e35e4aea, type: 3}
-  m_PrefabInstance: {fileID: 5618547158516841184}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &5725121931971989880 stripped
+--- !u!95 &2059134000335521649 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: be394f89091f64e4783f2794e35e4aea, type: 3}
+  m_PrefabInstance: {fileID: 5618547158516841184}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5364824692245945611 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: be394f89091f64e4783f2794e35e4aea, type: 3}
   m_PrefabInstance: {fileID: 5618547158516841184}
   m_PrefabAsset: {fileID: 0}

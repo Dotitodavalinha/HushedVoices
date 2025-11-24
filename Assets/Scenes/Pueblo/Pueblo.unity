@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.20137978, g: 0.15036081, b: 0.2045784, a: 1}
+  m_FogColor: {r: 0.3050983, g: 0.19963297, b: 0.20785551, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.03
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.53409946, g: 0.22479388, b: 0.32769343, a: 1}
+  m_AmbientSkyColor: {r: 0.8342836, g: 0.31162697, b: 0.3151864, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.7
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.58991665, g: 0.23282474, b: 0.32212722, a: 1}
+  m_IndirectSpecularColor: {r: 0.7481492, g: 0.36558703, b: 0.33919567, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11483,6 +11483,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 268936735}
+  - component: {fileID: 268936736}
   m_Layer: 0
   m_Name: Chloe
   m_TagString: Untagged
@@ -11510,6 +11511,25 @@ Transform:
   - {fileID: 1485015889}
   m_Father: {fileID: 366072281}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &268936736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268936734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 350ea24d71a937246a756fd7625086a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcId: Chloe
+  points:
+  - {fileID: 1021644947}
+  - {fileID: 2029571543}
+  - {fileID: 1629456897}
+  - {fileID: 503454260}
+  - {fileID: 1485015889}
 --- !u!1001 &272069286
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22948,6 +22968,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 475047377}
+  - component: {fileID: 475047378}
   m_Layer: 0
   m_Name: Marina
   m_TagString: Untagged
@@ -22974,6 +22995,24 @@ Transform:
   - {fileID: 720853813}
   m_Father: {fileID: 366072281}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &475047378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 475047376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 350ea24d71a937246a756fd7625086a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcId: Marina
+  points:
+  - {fileID: 216949123}
+  - {fileID: 397032895}
+  - {fileID: 1908849201}
+  - {fileID: 720853813}
 --- !u!4 &475427313 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: dccff95669fe0a449bf45824f3ba9408, type: 3}
@@ -34076,7 +34115,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730473041}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.022547208, y: -0.96228194, z: -0.25771558, w: -0.08418882}
+  m_LocalRotation: {x: -0.087029144, y: 0.053687833, z: 0.994747, w: 0.00469708}
   m_LocalPosition: {x: 58.24, y: 7.95, z: 34.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -34117,8 +34156,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.56952137, g: 0.5446163, b: 0.43024966, a: 1}
-  m_Intensity: 0.325106
+  m_Color: {r: 0.7589475, g: 0.70232916, b: 0.46345693, a: 1}
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -49112,7 +49151,7 @@ MonoBehaviour:
   maxSunIntensity: 1
   DirectionalLight: {fileID: 730473044}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 19.999058
+  TimeOfDay: 5.5880885
   DaySpeed: 17
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -74078,7 +74117,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2061776780}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.07265013, y: 0.60241586, z: -0.05519333, w: 0.79295075}
+  m_LocalRotation: {x: 0.07265012, y: 0.6024158, z: -0.055193312, w: 0.79295075}
   m_LocalPosition: {x: -13, y: 5, z: 26.5}
   m_LocalScale: {x: 1, y: 1, z: 1.2132}
   m_ConstrainProportionsScale: 0
@@ -77150,6 +77189,8 @@ MonoBehaviour:
   - {fileID: 1629456897}
   - {fileID: 503454260}
   - {fileID: 1485015889}
+  npcId: 
+  autoBindPathById: 1
 --- !u!114 &1990373677641950892
 MonoBehaviour:
   m_ObjectHideFlags: 0
