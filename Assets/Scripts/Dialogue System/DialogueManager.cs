@@ -21,6 +21,8 @@ public class DialogueManager : MonoBehaviour
     private NPCDialogue currentNPC;
     GameObject lookAtObject;
 
+    private bool skipTyping = false; 
+    private bool advancePageTrigger = false; 
     private List<Button> currentResponseButtons = new List<Button>();
     private int selectedResponseIndex = -1;
 
@@ -87,6 +89,8 @@ public class DialogueManager : MonoBehaviour
                 SetSelectedResponse(selectedResponseIndex);
             }
         }
+
+        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
     }
 
 
@@ -147,23 +151,50 @@ public class DialogueManager : MonoBehaviour
     private IEnumerator TypeText(string fullText, NPCDialogue npc, float typingSpeed = 0.05f)
     {
         isTyping = true;
+        skipTyping = false;
         npcText.text = "";
+        npcText.pageToDisplay = 1;
+
         foreach (char c in fullText)
         {
             npcText.text += c;
-            switch (npc.npcVoiceType)
+            npcText.ForceMeshUpdate();
+
+            if (npcText.textInfo.pageCount > npcText.pageToDisplay)
             {
-                case 0: SoundManager.instance.PlaySound(SoundID.DialogueTypingHighSound); break;
-                case 1: SoundManager.instance.PlaySound(SoundID.DialogueTypingSound); break;
-                case 2: SoundManager.instance.PlaySound(SoundID.DialogueTypingLowSound); break;
+                skipTyping = false;
+                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.J) || advancePageTrigger);
+
+                advancePageTrigger = false;
+                npcText.pageToDisplay++;
             }
-            yield return new WaitForSeconds(typingSpeed);
+            if (!skipTyping)
+            {
+                switch (npc.npcVoiceType)
+                {
+                    case 0: SoundManager.instance.PlaySound(SoundID.DialogueTypingHighSound); break;
+                    case 1: SoundManager.instance.PlaySound(SoundID.DialogueTypingSound); break;
+                    case 2: SoundManager.instance.PlaySound(SoundID.DialogueTypingLowSound); break;
+                }
+                yield return new WaitForSeconds(skipTyping ? 0f : typingSpeed);
+            }
         }
 
         isTyping = false;
         ShowResponses(currentNode, npc);
     }
-
+    public void OnNextPageButtonPressed()
+    {
+        if (isTyping)
+        {
+            skipTyping = true;
+        }
+        else
+        {
+            advancePageTrigger = true;
+        }
+        advancePageTrigger = true;
+    }
     private void ShowResponses(DialogueNodeSO node, NPCDialogue npc)
     {
         if (node == null || node.responses.Count == 0)
@@ -199,15 +230,9 @@ public class DialogueManager : MonoBehaviour
 
     public void FinishTypingCurrentText()
     {
-        if (currentNode != null)
+        if (isTyping)
         {
-            if (typingCoroutine != null)
-                StopCoroutine(typingCoroutine);
-
-            npcText.text = currentNode.npcText;
-            isTyping = false;
-
-            ShowResponses(currentNode, currentNPC);
+            skipTyping = true;
         }
     }
 
@@ -292,25 +317,51 @@ public class DialogueManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (dialoguePanel == null)
+        GameObject canvas = GameObject.Find("DialogueCanvas");
+
+        if (canvas != null)
         {
-            GameObject dialogueCanvas = GameObject.Find("DialogueCanvas");
-            if (dialogueCanvas != null)
+            Transform panelTransform = canvas.transform.Find("DialoguePanel");
+
+            if (panelTransform != null)
             {
-                dialoguePanel = dialogueCanvas.transform.Find("DialoguePanel")?.gameObject;
-                if (dialoguePanel != null)
+                dialoguePanel = panelTransform.gameObject;
+
+                responseContainer = panelTransform.Find("ButtonContainer");
+
+                Transform box = panelTransform.Find("DialogueBox");
+                if (box != null)
                 {
-                    responseContainer = dialoguePanel.transform.Find("ButtonContainer");
-                    Transform dialogueBox = dialoguePanel.transform.Find("DialogueBox");
-                    if (dialogueBox != null)
-                    {
-                        npcNameText = dialogueBox.transform.Find("NombreNPC")?.GetComponent<TextMeshProUGUI>();
-                        npcText = dialogueBox.transform.Find("DialogoNPC")?.GetComponent<TextMeshProUGUI>();
-                    }
-                    dialoguePanel.SetActive(false);
+                    npcNameText = box.Find("NombreNPC")?.GetComponent<TextMeshProUGUI>();
+                    npcText = box.Find("DialogoNPC")?.GetComponent<TextMeshProUGUI>();
                 }
+                Transform btnNextTransform = panelTransform.Find("Button"); 
+                if (btnNextTransform != null)
+                {
+                    Button btnNext = btnNextTransform.GetComponent<Button>();
+                    btnNext.onClick.RemoveAllListeners();
+                    btnNext.onClick.AddListener(OnNextPageButtonPressed);
+                }
+                DialoguePanelOff();
             }
         }
+        else
+        {
+            Debug.LogWarning("No se encontró 'DialogueCanvas' en esta escena. ¿Tiene el nombre correcto?");
+        }
+
+        if (movementLocker == null)
+            movementLocker = FindObjectOfType<PlayerMovementLocker>();
+
+        if (lukeCamera == null)
+            lukeCameraObject = GameObject.Find("LukeCamera");
+
+        if (lukeCameraObject != null)
+            lukeCamera = lukeCameraObject.GetComponent<CinemachineFreeLook>();
+
+        if (camManager == null)
+            camManager = FindObjectOfType<CameraManagerZ>();
+    
 
         if (movementLocker == null)
             movementLocker = FindObjectOfType<PlayerMovementLocker>();
