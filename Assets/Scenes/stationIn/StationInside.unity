@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.47146234, g: 0.27685517, b: 0.21654406, a: 1}
+  m_FogColor: {r: 0.09803921, g: 0.10196081, b: 0.20000002, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.94666296, g: 0.78334326, b: 0.48990244, a: 1}
+  m_AmbientSkyColor: {r: 0.2025187, g: 0.20757172, b: 0.3490566, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.8821014, g: 0.5883036, b: 0.40066534, a: 1}
+  m_IndirectSpecularColor: {r: 0.14090109, g: 0.16818628, b: 0.32461888, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3038,6 +3038,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 207219360}
   m_CullTransparentMesh: 1
+--- !u!1 &215449331 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5923129442890812214, guid: 13a967c273d600d4fbe64dec287625e3, type: 3}
+  m_PrefabInstance: {fileID: 667254958}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &225019091
 GameObject:
   m_ObjectHideFlags: 0
@@ -6039,7 +6044,7 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 0
-  visionConeVisual: {fileID: 1530040203}
+  visionConeVisual: {fileID: 215449331}
   sleepingParticles: {fileID: 0}
 --- !u!4 &403553655 stripped
 Transform:
@@ -7820,6 +7825,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!1 &549240426 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5923129442890812214, guid: 13a967c273d600d4fbe64dec287625e3, type: 3}
+  m_PrefabInstance: {fileID: 1766518844}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &558699058
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9180,7 +9190,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 636803806}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.024595045, y: -0.95570606, z: 0.28112245, w: -0.0836135}
+  m_LocalRotation: {x: 0.043577906, y: -0.8627299, z: -0.4980974, w: -0.07547914}
   m_LocalPosition: {x: -15.9, y: 4.28, z: 0.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9221,8 +9231,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.88594025, g: 0.841689, b: 0.6525312, a: 1}
-  m_Intensity: 0.4092756
+  m_Color: {r: 0.37294975, g: 0.37422884, b: 0.36609012, a: 1}
+  m_Intensity: 0.1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -16060,7 +16070,7 @@ Transform:
   - {fileID: 885129690}
   - {fileID: 398612064}
   - {fileID: 1066480364}
-  - {fileID: 1792143848}
+  - {fileID: 2391989538239790985}
   - {fileID: 1662005462}
   - {fileID: 802693581}
   - {fileID: 631341430}
@@ -21106,7 +21116,7 @@ MonoBehaviour:
   maxSunIntensity: 0.5
   DirectionalLight: {fileID: 636803809}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 15.814488
+  TimeOfDay: 22
   DaySpeed: 20
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -25196,7 +25206,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1792143848}
+    m_TransformParent: {fileID: 2391989538239790985}
     m_Modifications:
     - target: {fileID: 5573374594129383098, guid: 13a967c273d600d4fbe64dec287625e3, type: 3}
       propertyPath: m_LocalScale.x
@@ -25704,6 +25714,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BigPolizFBX 1 Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 3060720840075777236, guid: 8f3fdfbc3f28d8343bfefdcc68aab656, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7327154907346052331, guid: 8f3fdfbc3f28d8343bfefdcc68aab656, type: 3}
       propertyPath: m_Avatar
       value: 
@@ -25723,23 +25737,13 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1792143850}
   m_SourcePrefab: {fileID: 100100000, guid: 8f3fdfbc3f28d8343bfefdcc68aab656, type: 3}
---- !u!4 &1792143848 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2391989537613696622, guid: 8f3fdfbc3f28d8343bfefdcc68aab656, type: 3}
-  m_PrefabInstance: {fileID: 1792143847}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1792143849 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3060720840075777236, guid: 8f3fdfbc3f28d8343bfefdcc68aab656, type: 3}
-  m_PrefabInstance: {fileID: 1792143847}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1792143850
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1792143849}
+  m_GameObject: {fileID: 3060720840515249459}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3083f1cb0d515e8409a42585ae4c876e, type: 3}
@@ -25753,7 +25757,7 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 0
-  visionConeVisual: {fileID: 526189249214144473}
+  visionConeVisual: {fileID: 549240426}
   sleepingParticles: {fileID: 1622045605}
 --- !u!1 &1795899939
 GameObject:
@@ -32175,6 +32179,11 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &2391989538239790985 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2391989537613696622, guid: 8f3fdfbc3f28d8343bfefdcc68aab656, type: 3}
+  m_PrefabInstance: {fileID: 1792143847}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2785268396597796126
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32245,6 +32254,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6213386968810488772}
   m_CullTransparentMesh: 1
+--- !u!1 &3060720840515249459 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3060720840075777236, guid: 8f3fdfbc3f28d8343bfefdcc68aab656, type: 3}
+  m_PrefabInstance: {fileID: 1792143847}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3581806864850930567
 MonoBehaviour:
   m_ObjectHideFlags: 0
