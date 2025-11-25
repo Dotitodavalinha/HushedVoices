@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.5455098, g: 0.3118257, b: 0.2192747, a: 1}
+  m_FogColor: {r: 0.09803921, g: 0.10196081, b: 0.20000002, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.03
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 1, g: 0.8977393, b: 0.6262612, a: 1}
+  m_AmbientSkyColor: {r: 0.2025187, g: 0.20757172, b: 0.3490566, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.7
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.8850531, g: 0.5923547, b: 0.40319082, a: 1}
+  m_IndirectSpecularColor: {r: 0.14090109, g: 0.16818628, b: 0.32461888, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4388,6 +4388,82 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiLockCount: 0
   playerLocker: {fileID: 0}
+--- !u!1 &134765850
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 134765853}
+  - component: {fileID: 134765852}
+  - component: {fileID: 134765851}
+  m_Layer: 5
+  m_Name: LightsOutPuzzle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &134765851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134765850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: cb0d0a523f094874bae2bfbd2afea23a, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &134765852
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134765850}
+  m_CullTransparentMesh: 1
+--- !u!224 &134765853
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134765850}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1732820985}
+  m_Father: {fileID: 1459070940}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 955, y: 955}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &135092545
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26535,7 +26611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c9c135e18665d94a8d3045b995376db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puzzlePanel: {fileID: 1732820984}
+  puzzlePanel: {fileID: 134765850}
 --- !u!65 &513987690
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38009,7 +38085,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730473041}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.031637102, y: -0.9282455, z: 0.36161348, w: -0.08121101}
+  m_LocalRotation: {x: 0.043577906, y: -0.8627299, z: -0.4980974, w: -0.07547914}
   m_LocalPosition: {x: 58.24, y: 7.95, z: 34.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -38050,8 +38126,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.9061975, g: 0.86980534, b: 0.7142422, a: 1}
-  m_Intensity: 0.86926347
+  m_Color: {r: 0.37294975, g: 0.37422884, b: 0.36609012, a: 1}
+  m_Intensity: 0.1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -57034,7 +57110,7 @@ MonoBehaviour:
   maxSunIntensity: 1
   DirectionalLight: {fileID: 730473044}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 15.162103
+  TimeOfDay: 22
   DaySpeed: 17
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -68037,7 +68113,7 @@ RectTransform:
   - {fileID: 850125830}
   - {fileID: 998987991}
   - {fileID: 97442235}
-  - {fileID: 1732820985}
+  - {fileID: 134765853}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -76429,12 +76505,12 @@ GameObject:
   - component: {fileID: 1732820987}
   - component: {fileID: 1732820986}
   m_Layer: 5
-  m_Name: LightsOutPuzzle
+  m_Name: LightsOutGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1732820985
 RectTransform:
   m_ObjectHideFlags: 0
@@ -76442,17 +76518,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1732820984}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1459070940}
+  m_Father: {fileID: 134765853}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 1720, y: 880}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1732820986
 MonoBehaviour:
@@ -76474,8 +76550,8 @@ MonoBehaviour:
   m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 200, y: 200}
-  m_Spacing: {x: 0, y: 0}
+  m_CellSize: {x: 300, y: 260}
+  m_Spacing: {x: 0, y: 42}
   m_Constraint: 1
   m_ConstraintCount: 3
 --- !u!114 &1732820987
@@ -76490,7 +76566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9867f7a8b31b96f469ea0eaa18859730, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellPrefab: {fileID: 580486962223776731, guid: 2c389055e1ce0dc4390d664190a5377d, type: 3}
+  cellPrefab: {fileID: 4581922695967426011, guid: 2c389055e1ce0dc4390d664190a5377d, type: 3}
   rows: 3
   cols: 3
   gridParent: {fileID: 1732820985}

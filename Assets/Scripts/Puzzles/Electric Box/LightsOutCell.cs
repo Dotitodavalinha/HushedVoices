@@ -7,6 +7,7 @@ public class LightsOutCell : MonoBehaviour
     public Sprite lightOffSprite;
 
     private Image buttonImage;
+    private Animator cellAnimator;
     private bool isLightOn = true;
     private LightsOutGrid gridController;
     private int row;
@@ -15,6 +16,7 @@ public class LightsOutCell : MonoBehaviour
     void Awake()
     {
         buttonImage = GetComponent<Image>();
+        cellAnimator = GetComponent<Animator>();
 
         Button button = GetComponent<Button>();
         if (button != null)
@@ -40,16 +42,28 @@ public class LightsOutCell : MonoBehaviour
     public void ToggleState()
     {
         isLightOn = !isLightOn;
-        UpdateAppearance();
+        TriggerAnimation();
     }
 
     public void SetLightState(bool state)
     {
         isLightOn = state;
-        UpdateAppearance();
+        TriggerAnimation();
     }
 
-    private void UpdateAppearance()
+    private void TriggerAnimation()
+    {
+        if (cellAnimator != null)
+        {
+            cellAnimator.SetBool("isOn", isLightOn);
+        }
+        else
+        {
+            UpdateAppearance();
+        }
+    }
+
+    public void UpdateAppearance()
     {
         if (buttonImage == null) return;
         buttonImage.sprite = isLightOn ? lightOnSprite : lightOffSprite;
