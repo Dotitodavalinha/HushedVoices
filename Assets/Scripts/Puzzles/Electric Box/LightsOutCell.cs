@@ -27,6 +27,10 @@ public class LightsOutCell : MonoBehaviour
         UpdateAppearance();
     }
 
+    void OnEnable()
+    {
+        TriggerAnimation();
+    }
     public void Initialize(int r, int c, LightsOutGrid controller)
     {
         row = r;

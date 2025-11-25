@@ -8,19 +8,26 @@ public class LightsOutGrid : MonoBehaviour
     public int cols = 3;
     public Transform gridParent;
 
-    private PuzzleActivator puzzleActivator;
+    [Header("Activación NPC")]
+    public NPCStoreKeeper targetNPC;
 
+    private PuzzleActivator puzzleActivator;
     private LightsOutCell[,] grid;
 
     void Start()
     {
         puzzleActivator = FindObjectOfType<PuzzleActivator>();
+
+        if (targetNPC == null)
+        {
+            targetNPC = FindObjectOfType<NPCStoreKeeper>();
+        }
+
         InitializeGrid();
     }
 
     void Update()
     {
-        // Apretar C para completar el puzzle automaticamente.
         if (Input.GetKeyDown(KeyCode.C))
         {
             ForceWin();
@@ -47,7 +54,6 @@ public class LightsOutGrid : MonoBehaviour
             }
         }
 
-        // Generamos un estado inicial complejo y solvable (ejecutando 15 clics aleatorios)
         for (int i = 0; i < 15; i++)
         {
             int randomRow = Random.Range(0, rows);
@@ -93,7 +99,11 @@ public class LightsOutGrid : MonoBehaviour
 
         if (allOff)
         {
-            //Debug.Log("Apagaste las luces");
+            if (targetNPC != null)
+            {
+                targetNPC.ActivateMovementAfterPuzzle();
+            }
+
             if (puzzleActivator != null)
             {
                 puzzleActivator.DeactivatePuzzleAndActivator();
