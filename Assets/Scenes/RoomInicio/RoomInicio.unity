@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.56272405, g: 0.319598, b: 0.22058731, a: 1}
+  m_FogColor: {r: 0.09803921, g: 0.10196081, b: 0.20000002, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.96719414, g: 0.8667416, b: 0.6862558, a: 1}
+  m_AmbientSkyColor: {r: 0.2025187, g: 0.20757172, b: 0.3490566, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.8853467, g: 0.59290797, b: 0.4023508, a: 1}
+  m_IndirectSpecularColor: {r: 0.14090109, g: 0.16818628, b: 0.32461888, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3787,6 +3787,8 @@ MonoBehaviour:
   responseContainer: {fileID: 0}
   responseButtonPrefab: {fileID: 6661281635988644466, guid: 45833b80732f02f43a8404422d8ced56, type: 3}
   npcNameText: {fileID: 0}
+  nextPagePrompt: {fileID: 0}
+  NextPageBox: {fileID: 0}
   ButtonPrefabParanoia: {fileID: 6661281635988644466, guid: 87f6b66b605093b4dac69a1c6bef602b, type: 3}
   camManager: {fileID: 0}
   lukeCamera: {fileID: 0}
@@ -41680,7 +41682,7 @@ MonoBehaviour:
   maxSunIntensity: 0.4
   DirectionalLight: {fileID: 1724289880}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 14.40051
+  TimeOfDay: 22
   DaySpeed: 20
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -41913,6 +41915,11 @@ MonoBehaviour:
   - npcId: Vagabundo
     prefab: {fileID: 3568066639408637695, guid: f13e27fd61455524ba7cba5310d14cb8, type: 3}
     schedule:
+    - days: -1
+      startHour: 6
+      endHour: 20
+      sceneId: park
+      locationId: VagabundoPark_Zone
     - days: -1
       startHour: 6
       endHour: 20
@@ -49525,7 +49532,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1724289877}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.039562713, y: -0.88764626, z: 0.45220357, w: -0.07765904}
+  m_LocalRotation: {x: 0.043577906, y: -0.8627299, z: -0.4980974, w: -0.07547914}
   m_LocalPosition: {x: -6.174999, y: 3.2090003, z: -3.6359997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -49566,8 +49573,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.92984563, g: 0.9026281, b: 0.78628343, a: 1}
-  m_Intensity: 0.3849809
+  m_Color: {r: 0.37294975, g: 0.37422884, b: 0.36609012, a: 1}
+  m_Intensity: 0.1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
