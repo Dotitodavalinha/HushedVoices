@@ -75,6 +75,7 @@ public class DialogueManager : MonoBehaviour
         if (dialoguePanel == null)
             return;
 
+
         if (!IsOpen || isTyping || !HasResponses)
             return;
 
@@ -90,8 +91,9 @@ public class DialogueManager : MonoBehaviour
             }
         }
 
-        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+     
     }
+
 
 
     public void StartDialogue(DialogueSO dialogue, NPCDialogue npc)

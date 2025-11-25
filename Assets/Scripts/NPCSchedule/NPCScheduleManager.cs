@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
-[System.Flags] public enum DayMask { Mon = 1, Tue = 2, Wed = 4, Thu = 8, Fri = 16, Sat = 32, Sun = 64, All = 127 }
+[System.Flags]
+public enum DayMask { Mon = 1, Tue = 2, Wed = 4, Thu = 8, Fri = 16, Sat = 32, Sun = 64, All = 127 }
 
 public interface ISpawnPointResolver
 {
@@ -10,7 +11,6 @@ public interface ISpawnPointResolver
     bool TryGetPoint(string sceneId, string locationId, string npcId,
                      out Vector3 pos, out Quaternion rot);
 }
-
 
 public class NPCScheduleManager : MonoBehaviour
 {
@@ -20,10 +20,10 @@ public class NPCScheduleManager : MonoBehaviour
     public struct Block
     {
         public DayMask days;                     // ej: DayMask.All
-        [Range(0, 24)] public int startHour;      // 0..24
-        [Range(0, 24)] public int endHour;        // exclusivo (si start=8, end=12 => [8..11])
-        public string sceneId;                   // nombre EXACTO de la escena
-        public string locationId;                // id lógico dentro de la escena
+        [Range(0, 24)] public int startHour;    // 0..24
+        [Range(0, 24)] public int endHour;      // exclusivo (si start=8, end=12 => [8..11])
+        public string sceneId;                  // nombre EXACTO de la escena
+        public string locationId;               // id lógico dentro de la escena
     }
 
     [System.Serializable]
@@ -31,7 +31,7 @@ public class NPCScheduleManager : MonoBehaviour
     {
         public string npcId;
         public GameObject prefab;
-        public List<Block> schedule;             // ahora por horas, sin SO
+        public List<Block> schedule;           // horarios por horas, sin SO
     }
 
     [Header("Datos")]
@@ -43,37 +43,14 @@ public class NPCScheduleManager : MonoBehaviour
 
     ISpawnPointResolver resolver;
 
-    bool ResolveSpawn(string sceneId, string locationId, string npcId,
-                   out Vector3 pos, out Quaternion rot)
-    {
-        if (resolver == null)
-        {
-            Debug.LogError(
-                $"NPCScheduleManager: no hay ISpawnPointResolver asignado, no se puede resolver spawn para npcId='{npcId}', " +
-                $"scene='{sceneId}', locationId='{locationId}'."
-            );
-            pos = Vector3.zero;
-            rot = Quaternion.identity;
-            return false;
-        }
-
-        bool ok = resolver.TryGetPoint(sceneId, locationId, npcId, out pos, out rot);
-        if (!ok)
-        {
-            // El resolver ya logueó un error concreto
-            return false;
-        }
-        return true;
-    }
-
-
     class ActiveNpc
     {
         public string npcId;
         public GameObject go;
-        public int lastBlockIndex = -1;
+        public int lastBlockIndex;
         public string lastLocationId;
     }
+
     readonly Dictionary<string, ActiveNpc> active = new(); // npcId -> instancia
 
     void Awake()
@@ -98,6 +75,7 @@ public class NPCScheduleManager : MonoBehaviour
     {
         RefreshAll(); // primer cálculo al iniciar
     }
+
     private void Update()
     {
         // DEBUG: refreshear a mano con la Y
@@ -106,6 +84,30 @@ public class NPCScheduleManager : MonoBehaviour
             Debug.Log("NPCScheduleManager: RefreshAll() manual por tecla Y.");
             RefreshAll();
         }
+    }
+
+    // Helper para pedir posición + rotación al resolver
+    bool ResolveSpawn(string sceneId, string locationId, string npcId,
+                      out Vector3 pos, out Quaternion rot)
+    {
+        if (resolver == null)
+        {
+            Debug.LogError(
+                $"NPCScheduleManager: no hay ISpawnPointResolver asignado, no se puede resolver spawn para npcId='{npcId}', " +
+                $"scene='{sceneId}', locationId='{locationId}'."
+            );
+            pos = Vector3.zero;
+            rot = Quaternion.identity;
+            return false;
+        }
+
+        bool ok = resolver.TryGetPoint(sceneId, locationId, npcId, out pos, out rot);
+        if (!ok)
+        {
+            // El resolver ya loguea error concreto
+            return false;
+        }
+        return true;
     }
 
     public void RefreshAll()
@@ -127,19 +129,21 @@ public class NPCScheduleManager : MonoBehaviour
             }
 
             int blockIndex = GetActiveBlockIndex(e.schedule, today, hour);
+
             active.TryGetValue(e.npcId, out var inst);
-            // justo después de: active.TryGetValue(e.npcId, out var inst);
+
+            // Limpieza por si el GameObject fue destruido por otro lado
             if (inst != null && inst.go == null)
             {
-                // por si en algún momento lo destruye otro script
                 active.Remove(e.npcId);
+                inst = null;
             }
             else if (inst != null)
             {
                 var despawn = inst.go.GetComponent<NPCDespawn>();
                 if (despawn != null && despawn.HasFinishedLeaving)
                 {
-                    // Ya terminó la ruta y está en modo fantasma: ahora sí lo limpiamos del diccionario.
+                    // Terminó su ruta y quedó en ghost: lo destruimos y liberamos el slot
                     Debug.Log($"NPCScheduleManager: limpieza post-ruta de npcId='{e.npcId}'.");
                     Destroy(inst.go);
                     active.Remove(e.npcId);
@@ -164,10 +168,23 @@ public class NPCScheduleManager : MonoBehaviour
                     continue;
                 }
 
+                // Caso especial: estaba en medio de irse, pero ahora el horario dice que debe estar acá.
+                if (inst != null)
+                {
+                    var despawn = inst.go.GetComponent<NPCDespawn>();
+                    if (despawn != null && (despawn.IsLeaving || despawn.HasFinishedLeaving))
+                    {
+                        Debug.Log($"NPCScheduleManager: npcId='{e.npcId}' estaba saliendo pero ahora debería estar aquí. Reiniciando instancia.");
+                        Destroy(inst.go);
+                        active.Remove(e.npcId);
+                        inst = null;
+                    }
+                }
+
                 if (inst == null)
                 {
                     // Spawn nuevo
-                    var go = Instantiate(e.prefab, pos, rot);
+                    var go = Object.Instantiate(e.prefab, pos, rot);
                     active[e.npcId] = new ActiveNpc
                     {
                         npcId = e.npcId,
@@ -189,9 +206,9 @@ public class NPCScheduleManager : MonoBehaviour
                     }
                 }
             }
-
             else
             {
+                // No debería estar en esta escena / horario
                 if (inst != null)
                 {
                     var despawn = inst.go.GetComponent<NPCDespawn>();
@@ -211,10 +228,8 @@ public class NPCScheduleManager : MonoBehaviour
                     }
                 }
             }
-
         }
     }
-
 
     int GetActiveBlockIndex(List<Block> blocks, DayMask today, int hour)
     {
@@ -224,20 +239,19 @@ public class NPCScheduleManager : MonoBehaviour
             if ((b.days & today) == 0) continue;
 
             // ventana [startHour, endHour) en horas enteras
-            // soporta casos end < start (cruce de medianoche), si lo necesitás:
+            // soporta casos end < start (cruce de medianoche)
             if (b.startHour <= b.endHour)
             {
                 if (hour >= b.startHour && hour < b.endHour) return i;
             }
             else
             {
-
+                // ej: 22 -> 3
                 if (hour >= b.startHour || hour < b.endHour) return i;
             }
         }
         return -1;
     }
-
 
     int GetCurrentHour()
     {

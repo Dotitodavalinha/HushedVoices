@@ -9,7 +9,8 @@ public class DialogueTrigger : MonoBehaviour
 
     private void Start()
     {
-        pressEText.SetActive(false);
+        if (pressEText != null)
+            pressEText.SetActive(false);
     }
 
     private void Update()
@@ -24,7 +25,8 @@ public class DialogueTrigger : MonoBehaviour
                     return;
 
                 npcDialogue.StartDialogue(npcDialogue.currentRoot);
-                pressEText.SetActive(false);
+                if (pressEText != null)
+                    pressEText.SetActive(false);
             }
         }
         else
@@ -64,13 +66,13 @@ public class DialogueTrigger : MonoBehaviour
         }
     }
 
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             playerInRange = true;
-            pressEText.SetActive(true);
+            if (pressEText != null)
+                pressEText.SetActive(true);
         }
     }
 
@@ -79,7 +81,20 @@ public class DialogueTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
-            pressEText.SetActive(false);
+            if (pressEText != null)
+                pressEText.SetActive(false);
         }
+    }
+
+    //  LLAMADO DESDE NPCDespawn CUANDO EL NPC SE ESTÁ YENDO
+    public void ForceDisableInteractions()
+    {
+        playerInRange = false;
+
+        if (pressEText != null)
+            pressEText.SetActive(false);
+
+        // Deshabilitamos el trigger para que no vuelva a abrir diálogos
+        enabled = false;
     }
 }
