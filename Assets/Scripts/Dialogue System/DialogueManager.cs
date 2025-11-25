@@ -18,6 +18,8 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private Transform responseContainer;
     [SerializeField] private GameObject responseButtonPrefab;
     [SerializeField] private TextMeshProUGUI npcNameText;
+    [SerializeField] private GameObject nextPagePrompt;
+    [SerializeField] private GameObject NextPageBox;
     private NPCDialogue currentNPC;
     GameObject lookAtObject;
 
@@ -156,6 +158,7 @@ public class DialogueManager : MonoBehaviour
         skipTyping = false;
         npcText.text = "";
         npcText.pageToDisplay = 1;
+        if (NextPageBox != null) NextPageBox.SetActive(false);
 
         foreach (char c in fullText)
         {
@@ -165,11 +168,15 @@ public class DialogueManager : MonoBehaviour
             if (npcText.textInfo.pageCount > npcText.pageToDisplay)
             {
                 skipTyping = false;
-                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.J) || advancePageTrigger);
+                if (NextPageBox != null) NextPageBox.SetActive(true);
+
+                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E) || advancePageTrigger);
+                if (NextPageBox != null) NextPageBox.SetActive(false);
 
                 advancePageTrigger = false;
                 npcText.pageToDisplay++;
             }
+
             if (!skipTyping)
             {
                 switch (npc.npcVoiceType)
@@ -183,6 +190,8 @@ public class DialogueManager : MonoBehaviour
         }
 
         isTyping = false;
+        if (NextPageBox != null) NextPageBox.SetActive(false);
+
         ShowResponses(currentNode, npc);
     }
     public void OnNextPageButtonPressed()
@@ -328,7 +337,6 @@ public class DialogueManager : MonoBehaviour
             if (panelTransform != null)
             {
                 dialoguePanel = panelTransform.gameObject;
-
                 responseContainer = panelTransform.Find("ButtonContainer");
 
                 Transform box = panelTransform.Find("DialogueBox");
@@ -336,8 +344,31 @@ public class DialogueManager : MonoBehaviour
                 {
                     npcNameText = box.Find("NombreNPC")?.GetComponent<TextMeshProUGUI>();
                     npcText = box.Find("DialogoNPC")?.GetComponent<TextMeshProUGUI>();
+                    Transform nextPageBoxTransform = box.Find("NextPageBox");
+
+                    if (nextPageBoxTransform != null)
+                    {
+                        NextPageBox = nextPageBoxTransform.gameObject;
+                        NextPageBox.SetActive(false);
+                        Transform promptTransform = nextPageBoxTransform.Find("NextPagePrompt");
+                        if (promptTransform != null)
+                        {
+                            nextPagePrompt = promptTransform.gameObject;
+                          
+                        }
+                    }
+                    else
+                    {
+                        nextPageBoxTransform = panelTransform.Find("NextPageBox");
+                        if (nextPageBoxTransform != null)
+                        {
+                            NextPageBox = nextPageBoxTransform.gameObject;
+                            NextPageBox.SetActive(false);
+                        }
+                    }
                 }
-                Transform btnNextTransform = panelTransform.Find("Button"); 
+
+                Transform btnNextTransform = panelTransform.Find("Button");
                 if (btnNextTransform != null)
                 {
                     Button btnNext = btnNextTransform.GetComponent<Button>();
@@ -349,38 +380,18 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("No se encontró 'DialogueCanvas' en esta escena. ¿Tiene el nombre correcto?");
+            Debug.LogWarning("No se encontró 'DialogueCanvas' en esta escena.");
         }
-
-        if (movementLocker == null)
-            movementLocker = FindObjectOfType<PlayerMovementLocker>();
-
-        if (lukeCamera == null)
-            lukeCameraObject = GameObject.Find("LukeCamera");
-
-        if (lukeCameraObject != null)
-            lukeCamera = lukeCameraObject.GetComponent<CinemachineFreeLook>();
-
-        if (camManager == null)
-            camManager = FindObjectOfType<CameraManagerZ>();
-    
-
-        if (movementLocker == null)
-            movementLocker = FindObjectOfType<PlayerMovementLocker>();
-
-        if (lukeCamera == null)
-            lukeCameraObject = GameObject.Find("LukeCamera");
-        if (lukeCameraObject != null)
-            lukeCamera = lukeCameraObject.GetComponent<CinemachineFreeLook>();
-        Debug.Log("Gonza: hace un manager yametee!! '>///<");
-
-        if (camManager == null)
-            camManager = FindObjectOfType<CameraManagerZ>();
+        if (movementLocker == null) movementLocker = FindObjectOfType<PlayerMovementLocker>();
+        if (lukeCameraObject == null) lukeCameraObject = GameObject.Find("LukeCamera");
+        if (lukeCameraObject != null) lukeCamera = lukeCameraObject.GetComponent<CinemachineFreeLook>();
+        if (camManager == null) camManager = FindObjectOfType<CameraManagerZ>();
     }
-
 
     private void DialoguePanelOff()
     {
+        if (NextPageBox != null) NextPageBox.SetActive(false);
+
         CanvasGroup cg = dialoguePanel.GetComponent<CanvasGroup>();
         dialoguePanel.SetActive(false);
         cg.alpha = 0;
