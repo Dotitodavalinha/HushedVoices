@@ -156,53 +156,70 @@ public class DialogueManager : MonoBehaviour
     {
         isTyping = true;
         skipTyping = false;
-        npcText.text = "";
-        npcText.pageToDisplay = 1;
+        List<string> sentences = SplitIntoSentences(fullText);
+
         if (NextPageBox != null) NextPageBox.SetActive(false);
 
-        foreach (char c in fullText)
+        foreach (string sentence in sentences)
         {
-            npcText.text += c;
-            npcText.ForceMeshUpdate();
-
-            if (npcText.textInfo.pageCount > npcText.pageToDisplay)
+            npcText.text = "";
+            npcText.pageToDisplay = 1;
+            foreach (char c in sentence)
             {
-                skipTyping = false;
-                if (NextPageBox != null) NextPageBox.SetActive(true);
-
-                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E) || advancePageTrigger);
-                if (NextPageBox != null) NextPageBox.SetActive(false);
-
-                advancePageTrigger = false;
-                npcText.pageToDisplay++;
-            }
-
-            if (!skipTyping)
-            {
+                npcText.text += c;
                 switch (npc.npcVoiceType)
                 {
                     case 0: SoundManager.instance.PlaySound(SoundID.DialogueTypingHighSound); break;
                     case 1: SoundManager.instance.PlaySound(SoundID.DialogueTypingSound); break;
                     case 2: SoundManager.instance.PlaySound(SoundID.DialogueTypingLowSound); break;
                 }
-                yield return new WaitForSeconds(skipTyping ? 0f : typingSpeed);
+                yield return new WaitForSeconds(typingSpeed);
+            }
+            yield return new WaitForSeconds(0.5f);
+            if (sentence != sentences[sentences.Count - 1])
+            {
+                if (NextPageBox != null) NextPageBox.SetActive(true);
+                if (nextPagePrompt != null) nextPagePrompt.SetActive(true);
+                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E) || advancePageTrigger);
+                if (NextPageBox != null) NextPageBox.SetActive(false);
+                if (nextPagePrompt != null) nextPagePrompt.SetActive(false);
+
+                advancePageTrigger = false;
             }
         }
-
         isTyping = false;
         if (NextPageBox != null) NextPageBox.SetActive(false);
+        if (nextPagePrompt != null) nextPagePrompt.SetActive(false);
 
         ShowResponses(currentNode, npc);
     }
+
+    private List<string> SplitIntoSentences(string text)
+    {
+        string tempPlaceholder = "[[ELLIPSIS]]";
+        string textProtected = text.Replace("...", tempPlaceholder);
+        string processed = textProtected.Replace(".", ".|").Replace("?", "?|").Replace("!", "!|");
+
+        string[] splitArray = processed.Split(new char[] { '|' }, System.StringSplitOptions.RemoveEmptyEntries);
+
+        List<string> cleanSentences = new List<string>();
+        foreach (string s in splitArray)
+        {
+            string trimmed = s.Trim();
+            if (!string.IsNullOrEmpty(trimmed))
+            {
+                string finalSentence = trimmed.Replace(tempPlaceholder, "...");
+                cleanSentences.Add(finalSentence);
+            }
+        }
+        return cleanSentences;
+    }
+
     public void OnNextPageButtonPressed()
     {
         if (isTyping)
         {
-            skipTyping = true;
-        }
-        else
-        {
-            advancePageTrigger = true;
+            return;
         }
         advancePageTrigger = true;
     }
