@@ -17,7 +17,6 @@ public class BedPass : MonoBehaviour
     private bool infoOpen = false;
     [SerializeField] private GameObject cleaningObject; // referencia al objeto que debe limpiarse antes de usar la cama
 
-
     public LightingManager timeManager;
     private bool jugadorCerca;
     private bool puedeDormir;
@@ -28,7 +27,6 @@ public class BedPass : MonoBehaviour
 
     // Referencia local para el Locker
     private PlayerMovementLocker movementLocker;
-
 
     void Start()
     {
@@ -41,7 +39,7 @@ public class BedPass : MonoBehaviour
 
     void Update()
     {
-        //si el objeto de limpieza aun existe, no permitir interaccion con la cama
+        // Si el objeto de limpieza aún existe, no permitir interacción con la cama
         if (cleaningObject != null)
         {
             PressE_UI.SetActive(false);
@@ -67,6 +65,7 @@ public class BedPass : MonoBehaviour
         {
             PressE_UI.SetActive(false);
         }
+
         if (puedeDormir)
         {
             Outline.SetActive(true);
@@ -74,9 +73,9 @@ public class BedPass : MonoBehaviour
         else
         {
             Outline.SetActive(false);
-
         }
-        //si queres dormir de dia
+
+        // Si querés dormir de día (no puedeDormir)
         if (jugadorCerca && !puedeDormir)
         {
             PressE_UI.SetActive(true);
@@ -127,9 +126,17 @@ public class BedPass : MonoBehaviour
         yield return new WaitForSeconds(fadeDuration);
 
         ParanoiaManager.Instance.SetParanoiaValueDirect(0f);
-        DaysManager.Instance.NextDay();
-        timeManager.TimeOfDay = 6f;
-        timeManager.tiempoPausado = false;
+
+        // Ahora delegamos todo el avance de día y reseteo de hora al DaysManager / LightingManager
+        if (DaysManager.Instance != null)
+        {
+            DaysManager.Instance.NextDay();
+        }
+        else if (timeManager != null)
+        {
+            // Fallback por si algo raro pasa y no hay DaysManager
+            timeManager.StartNewDay();
+        }
 
         OnPlayerSlept?.Invoke();
 

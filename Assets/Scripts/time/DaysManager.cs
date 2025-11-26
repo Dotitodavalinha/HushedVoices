@@ -10,10 +10,17 @@ public class DaysManager : MonoBehaviour
     public int CurrentDay => currentDay;
 
     public event Action<int> OnDayChanged;
-    public event Action OnDayEnd;
     public event Action OnDayStart;
 
     [SerializeField] private LightingManager timeSystem;
+
+    // Flag para saber si el día ya fue avanzado automáticamente al cruzar medianoche
+    private bool dayAdvancedThisCycle = false;
+
+    private bool IsInRoomInicio()
+    {
+        return SceneManager.GetActiveScene().name == "RoomInicio";
+    }
 
     private void Awake()
     {
@@ -31,26 +38,26 @@ public class DaysManager : MonoBehaviour
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-        if (timeSystem != null)
-            timeSystem.OnDayFinished -= HandleDayFinished;
-    }
-
-    private void HandleDayFinished()
-    {
-        OnDayEnd?.Invoke();
-
-        Debug.Log("Son las 22:00. El tiempo se pausó. Esperando acción del jugador para iniciar NextDay().");
     }
 
     public void NextDay()
     {
-        currentDay++;
-        OnDayChanged?.Invoke(currentDay);
-        Debug.LogWarning("Iniciando siguiente día: " + currentDay);
+        // Llamado por la cama u otros eventos que hacen "dormir"/pasar de día
+
+        if (!dayAdvancedThisCycle)
+        {
+            currentDay++;
+            OnDayChanged?.Invoke(currentDay);
+            Debug.LogWarning("Iniciando siguiente día (manual): " + currentDay);
+        }
+        else
+        {
+            Debug.LogWarning("NextDay() llamado después de haber pasado medianoche. No se incrementa el día otra vez, solo se salta a la mañana.");
+        }
 
         if (timeSystem != null)
         {
-            timeSystem.StartNewDay();
+            timeSystem.StartNewDay(); // pone la hora en 5 y resetea flags internos
         }
         else
         {
@@ -62,6 +69,21 @@ public class DaysManager : MonoBehaviour
         }
 
         OnDayStart?.Invoke();
+
+        // Nuevo día “limpio”: reseteamos el flag hasta la próxima medianoche.
+        dayAdvancedThisCycle = false;
+    }
+
+    /// <summary>
+    /// Llamado automáticamente por el LightingManager cuando el tiempo cruza de 23:xx a 00:xx
+    /// en escenas que NO son RoomInicio.
+    /// </summary>
+    public void AutoNextDayFromMidnight()
+    {
+        currentDay++;
+        dayAdvancedThisCycle = true;
+        OnDayChanged?.Invoke(currentDay);
+        Debug.LogWarning("Día avanzado automáticamente al cruzar medianoche. Día actual: " + currentDay);
     }
 
     public void ForceSetDay(int day)
@@ -81,11 +103,7 @@ public class DaysManager : MonoBehaviour
 
         if (found != null && found != timeSystem)
         {
-            if (timeSystem != null)
-                timeSystem.OnDayFinished -= HandleDayFinished;
-
             timeSystem = found;
-            timeSystem.OnDayFinished += HandleDayFinished;
         }
     }
 

@@ -1,11 +1,10 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [ExecuteAlways]
 public class LightingManager : MonoBehaviour
 {
-    // YA NO HAY INSTANCIA STATIC (Singleton eliminado)
-
     [SerializeField] private Material Sky;
     [SerializeField] private Material ambientShader;
 
@@ -17,15 +16,21 @@ public class LightingManager : MonoBehaviour
     [SerializeField] public float DaySpeed;
     [SerializeField] public bool IsNight => (TimeOfDay >= 20f || TimeOfDay < 5f);
 
+    // Solo se usa para RoomInicio
     public float horaLimiteNoche = 22f;
     public bool tiempoPausado = false;
 
     // Eventos necesarios para los NPCs
-    public event Action OnDayFinished;
-    public event Action OnNightStart; // Evento de las 20:00
-    public event Action OnDayStart;   // Evento de las 05:00
+    public event Action OnDayFinished; // Solo se usará en RoomInicio (cuando se frena a las 22)
+    public event Action OnNightStart;  // Evento de las 20:00
+    public event Action OnDayStart;    // Evento de las 05:00 (StartNewDay)
 
     private bool nightEventTriggered = false;
+
+    private bool IsInRoomInicio()
+    {
+        return SceneManager.GetActiveScene().name == "RoomInicio";
+    }
 
     public void StartNewDay()
     {
@@ -61,39 +66,60 @@ public class LightingManager : MonoBehaviour
 
         if (Application.isPlaying)
         {
-            if (TimeOfDay >= 5f && tiempoPausado)
-            {
-                tiempoPausado = false;
-            }
+            bool inRoomInicio = IsInRoomInicio();
 
-            if (!tiempoPausado)
+            // Avance de tiempo
+            if (!(inRoomInicio && tiempoPausado))
             {
+                float previousTime = TimeOfDay;
+
                 TimeOfDay += Time.deltaTime / DaySpeed;
+                bool wrappedMidnight = false;
 
-                // --- LÓGICA AGREGADA PARA NPCs ---
-                // Necesitamos esto para avisarles que salgan a las 20:00
-                if (TimeOfDay >= 20f && TimeOfDay < 21f && !nightEventTriggered)
+                if (inRoomInicio)
                 {
-                    nightEventTriggered = true;
-                    OnNightStart?.Invoke();
+                    // En RoomInicio frenamos a las 22 y avisamos que terminó el día
+                    if (TimeOfDay >= horaLimiteNoche && TimeOfDay < 24f)
+                    {
+                        tiempoPausado = true;
+                        TimeOfDay = horaLimiteNoche;
+                        OnDayFinished?.Invoke();
+                    }
                 }
-                // --------------------------------
-
-                if (TimeOfDay >= horaLimiteNoche && TimeOfDay < 24f)
+                else
                 {
-                    tiempoPausado = true;
-                    TimeOfDay = horaLimiteNoche;
-                    OnDayFinished?.Invoke();
-                }
+                    // En el resto de escenas NO frenamos a las 22, el día sigue normal
+                    if (TimeOfDay >= 24f)
+                    {
+                        TimeOfDay %= 24f;
+                        wrappedMidnight = true;
+                    }
 
-                TimeOfDay %= 24;
+                    // Evento de noche para NPCs (solo si aún no se disparó este día)
+                    if (previousTime < 20f && TimeOfDay >= 20f && !nightEventTriggered)
+                    {
+                        nightEventTriggered = true;
+                        OnNightStart?.Invoke();
+                    }
+
+                    // Si cruzamos medianoche, nuevo día automático
+                    if (wrappedMidnight)
+                    {
+                        nightEventTriggered = false; // reseteamos para el nuevo día
+
+                        if (DaysManager.Instance != null)
+                        {
+                            DaysManager.Instance.AutoNextDayFromMidnight();
+                        }
+                    }
+                }
             }
 
-            UpdateLighting(TimeOfDay / 24);
+            UpdateLighting(TimeOfDay / 24f);
         }
         else
         {
-            UpdateLighting(TimeOfDay / 24);
+            UpdateLighting(TimeOfDay / 24f);
         }
 
         Sky.SetFloat("_TimeOfDay", TimeOfDay);
@@ -115,9 +141,6 @@ public class LightingManager : MonoBehaviour
 
         OnDayStart?.Invoke();
     }
-
-    // ... (Tus métodos de UpdateLighting, OnValidate, etc. se mantienen igual) ...
-    // Copia aquí abajo los métodos UpdateLighting, OnValidate, UpdateAmbientLight y UpdateSunLight
 
     private void UpdateLighting(float timePercent)
     {

@@ -13,6 +13,7 @@ public class DollPartPickup : MonoBehaviour
     [Tooltip("Interactuable que se usa SIN concentración")]
     public UIInteractable uiInteractableNormal;
 
+
     [Tooltip("Interactuable que se usa DURANTE la concentración")]
     public UIInteractable uiInteractableConcentration;
 
@@ -77,6 +78,10 @@ public class DollPartPickup : MonoBehaviour
         print("avisamos al manager q agarramos pista");
         if (PuzzleManager.Instance != null)
             PuzzleManager.Instance.RegisterFoundPart(partType);
+
+       
     }
+
+
 }
 
