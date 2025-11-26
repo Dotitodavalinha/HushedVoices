@@ -106,6 +106,7 @@ MonoBehaviour:
   npcVoiceType: 2
   roots:
   - {fileID: 11400000, guid: 9777b86d11abe7e4ab131568e5233842, type: 2}
+  - {fileID: 11400000, guid: 9099d5d8839cecb4d9dc9bd5daf90fed, type: 2}
   currentRoot: {fileID: 11400000, guid: 9777b86d11abe7e4ab131568e5233842, type: 2}
   moodController: {fileID: 7095411083003426429}
   NightManager: {fileID: 0}
@@ -571,8 +572,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bffb47406d17ead4b8dd364f272f4378, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2712017808189715894}
   m_SourcePrefab: {fileID: 100100000, guid: bffb47406d17ead4b8dd364f272f4378, type: 3}
+--- !u!95 &1816133944006739599 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: bffb47406d17ead4b8dd364f272f4378, type: 3}
+  m_PrefabInstance: {fileID: 5214783105076673310}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4944891141309892175 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: bffb47406d17ead4b8dd364f272f4378, type: 3}
+  m_PrefabInstance: {fileID: 5214783105076673310}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2712017808189715894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4944891141309892175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35289776e8eef9846b8eecf5d19121af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1816133944006739599}
+  forceSleepOverride: 0
 --- !u!4 &5752250007167229173 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bffb47406d17ead4b8dd364f272f4378, type: 3}
