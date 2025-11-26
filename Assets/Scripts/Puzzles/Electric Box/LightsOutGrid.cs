@@ -28,6 +28,7 @@ public class LightsOutGrid : MonoBehaviour
 
     void Update()
     {
+        // Truco para ganar rápido con la C
         if (Input.GetKeyDown(KeyCode.C))
         {
             ForceWin();
@@ -36,8 +37,18 @@ public class LightsOutGrid : MonoBehaviour
 
     private void InitializeGrid()
     {
+        // 1. Limpieza de hijos antiguos (evita que se acumulen cuadros vacíos)
+        if (gridParent.childCount > 0)
+        {
+            foreach (Transform child in gridParent)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
         grid = new LightsOutCell[rows, cols];
 
+        // 2. Crear celdas nuevas
         for (int r = 0; r < rows; r++)
         {
             for (int c = 0; c < cols; c++)
@@ -54,6 +65,7 @@ public class LightsOutGrid : MonoBehaviour
             }
         }
 
+        // 3. Mezclar el puzzle
         for (int i = 0; i < 15; i++)
         {
             int randomRow = Random.Range(0, rows);
@@ -64,6 +76,17 @@ public class LightsOutGrid : MonoBehaviour
             ToggleCellAndCheckBounds(randomRow - 1, randomCol);
             ToggleCellAndCheckBounds(randomRow, randomCol + 1);
             ToggleCellAndCheckBounds(randomRow, randomCol - 1);
+        }
+    }
+    public void ResetPuzzleLogic()
+    {
+        gameObject.SetActive(true);
+
+        InitializeGrid();
+
+        if (puzzleActivator != null)
+        {
+            puzzleActivator.gameObject.SetActive(true);
         }
     }
 
@@ -99,8 +122,12 @@ public class LightsOutGrid : MonoBehaviour
 
         if (allOff)
         {
+            // ganaste
             if (targetNPC != null)
             {
+                if (targetNPC.objectToToggle != null)
+                    targetNPC.objectToToggle.SetActive(false);
+
                 targetNPC.ActivateMovementAfterPuzzle();
             }
 
@@ -108,6 +135,7 @@ public class LightsOutGrid : MonoBehaviour
             {
                 puzzleActivator.DeactivatePuzzleAndActivator();
             }
+
             transform.gameObject.SetActive(false);
         }
     }
@@ -118,7 +146,6 @@ public class LightsOutGrid : MonoBehaviour
         {
             cell.SetLightState(false);
         }
-
         CheckWinCondition();
     }
 }
