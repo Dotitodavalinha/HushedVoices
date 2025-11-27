@@ -10,6 +10,7 @@ using UnityEngine.EventSystems;
 public class DialogueManager : MonoBehaviour
 {
     GameObject lukeCameraObject; //HARDCODEADO POR FEDE PARA QUE SE ASIGNE LA CAMARA QUE QUIERO
+    public NPCDialogue CurrentNPC => currentNPC;   // NUEVO
 
 
     [Header("UI")]
