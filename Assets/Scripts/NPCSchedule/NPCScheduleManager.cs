@@ -43,9 +43,8 @@ public class NPCScheduleManager : MonoBehaviour
 
     ISpawnPointResolver resolver;
 
-    
     private int lastHour = -1;
-
+    private string lastSceneId = null;
 
     class ActiveNpc
     {
@@ -77,10 +76,10 @@ public class NPCScheduleManager : MonoBehaviour
 
     void Start()
     {
-        lastHour = GetCurrentHour();  // guardamos la hora inicial
-        RefreshAll();                 // primer cálculo al iniciar
+        lastHour = GetCurrentHour();
+        lastSceneId = SceneManager.GetActiveScene().name;
+        RefreshAll(); // primer cálculo al iniciar
     }
-
 
     private void Update()
     {
@@ -90,17 +89,32 @@ public class NPCScheduleManager : MonoBehaviour
             Debug.Log("NPCScheduleManager: RefreshAll() manual por tecla Y.");
             RefreshAll();
         }
+        RefreshAll();
 
-        // --- NUEVO: refrescar automáticamente cuando cambia la hora de juego ---
+        // refrescar automáticamente cuando cambia la hora de juego
         int currentHour = GetCurrentHour();
         if (currentHour != lastHour)
         {
             lastHour = currentHour;
             Debug.Log($"NPCScheduleManager: cambio de hora detectado ({currentHour}). Refrescando schedule.");
-            RefreshAll();
+           // RefreshAll();
         }
     }
 
+    // NUEVO: limpia todas las instancias activas (se usa al cambiar de escena)
+    private void ClearAllActiveNpcs()
+    {
+        foreach (var kvp in active)
+        {
+            if (kvp.Value != null && kvp.Value.go != null)
+            {
+                Destroy(kvp.Value.go);
+            }
+        }
+
+        active.Clear();
+        Debug.Log("NPCScheduleManager: ClearAllActiveNpcs ejecutado (cambio de escena detectado).");
+    }
 
     // Helper para pedir posición + rotación al resolver
     bool ResolveSpawn(string sceneId, string locationId, string npcId,
@@ -112,18 +126,16 @@ public class NPCScheduleManager : MonoBehaviour
                 $"NPCScheduleManager: no hay ISpawnPointResolver asignado, no se puede resolver spawn para npcId='{npcId}', " +
                 $"scene='{sceneId}', locationId='{locationId}'."
             );
-            pos = Vector3.zero;
-            rot = Quaternion.identity;
-            return false;
         }
 
-        bool ok = resolver.TryGetPoint(sceneId, locationId, npcId, out pos, out rot);
-        if (!ok)
+        if (resolver != null && resolver.TryGetPoint(sceneId, locationId, npcId, out pos, out rot))
         {
-            // El resolver ya loguea error concreto
-            return false;
+            return true;
         }
-        return true;
+
+        pos = Vector3.zero;
+        rot = Quaternion.identity;
+        return false;
     }
 
     public void RefreshAll()
@@ -131,6 +143,14 @@ public class NPCScheduleManager : MonoBehaviour
         string sceneId = SceneManager.GetActiveScene().name;
         int hour = GetCurrentHour();
         DayMask today = GetTodayMask();
+
+        // Si cambió de escena desde el último Refresh, limpiamos todo antes de recalcular
+        if (lastSceneId != sceneId)
+        {
+            Debug.Log($"NPCScheduleManager: escena cambió de '{lastSceneId}' a '{sceneId}', limpiando NPCs activos.");
+            ClearAllActiveNpcs();
+            lastSceneId = sceneId;
+        }
 
         Debug.Log($"NPCScheduleManager.RefreshAll -> Scene='{sceneId}', DayMask='{today}', Hour={hour}");
 
@@ -180,7 +200,7 @@ public class NPCScheduleManager : MonoBehaviour
 
                 if (!hasSpawn)
                 {
-                    // Ya se logueó el error en ResolveSpawn
+                    // El resolver ya logueó el error concreto (o devolvió false)
                     continue;
                 }
 
@@ -267,22 +287,6 @@ public class NPCScheduleManager : MonoBehaviour
             }
         }
         return -1;
-    }
-
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        Debug.Log($"NPCScheduleManager: escena cargada '{scene.name}', refrescando schedule.");
-        RefreshAll();
     }
 
     int GetCurrentHour()
