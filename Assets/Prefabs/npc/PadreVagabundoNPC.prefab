@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6409589228764249830}
   - component: {fileID: 7095411083003426429}
   - component: {fileID: 5002571784139821737}
+  - component: {fileID: 2594806455994347382}
   m_Layer: 0
   m_Name: PadreVagabundoNPC
   m_TagString: Untagged
@@ -152,6 +153,26 @@ CapsuleCollider:
   m_Height: 1.6429712
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0.000000029802326}
+--- !u!114 &2594806455994347382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3568066639408637695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64a052f24fe1d614f97b0be301461d5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  speed: 2.5
+  turnSpeed: 5
+  waypoints: []
+  npcId: Vagabundo
+  autoBindPathById: 1
+  npcDialogue: {fileID: 0}
+  dialogueTrigger: {fileID: 0}
 --- !u!1 &5023172921753023937
 GameObject:
   m_ObjectHideFlags: 0
