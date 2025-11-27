@@ -8,7 +8,6 @@ public class NPCStoreKeeper : MonoBehaviour
     [Header("Door & Room Control")]
     public DoorController controlledDoor;
 
-    // AQUI USAMOS TU SCRIPT
     public NOTEInteractionZone restrictedZone;
 
     [Header("Objeto a Controlar (Luces)")]
@@ -103,14 +102,8 @@ public class NPCStoreKeeper : MonoBehaviour
     {
         if (isArresting) return;
 
-        if (isMoving && !isReturning)
-        {
-            CheckVisionAndChase();
-        }
-        else if (isChasing)
-        {
-            CheckVisionAndChase();
-        }
+        if (isMoving && !isReturning) CheckVisionAndChase();
+        else if (isChasing) CheckVisionAndChase();
 
         if (isChasing)
         {
@@ -140,31 +133,17 @@ public class NPCStoreKeeper : MonoBehaviour
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         bool canSee = false;
 
-        if (distanceToPlayer <= proximitySense)
-        {
-            canSee = true;
-        }
+        if (distanceToPlayer <= proximitySense) canSee = true;
         else if (distanceToPlayer <= viewDistance)
         {
             Vector3 npcEyes = transform.position + Vector3.up * eyeHeight;
             Vector3 playerTarget = player.transform.position + Vector3.up * (eyeHeight * 0.8f);
-
             Vector3 dirToPlayer = (playerTarget - npcEyes).normalized;
-            Vector3 flatDir = dirToPlayer; flatDir.y = 0;
-            Vector3 flatFwd = transform.forward; flatFwd.y = 0;
 
-            if (Vector3.Angle(flatFwd, flatDir) <= viewAngle / 2f)
+            if (Vector3.Angle(transform.forward, dirToPlayer) <= viewAngle / 2f)
             {
-                if (Physics.Raycast(npcEyes, dirToPlayer, out RaycastHit hit, distanceToPlayer, obstacleMask))
-                {
-                    canSee = false;
-                    Debug.DrawLine(npcEyes, hit.point, Color.red);
-                }
-                else
-                {
+                if (!Physics.Raycast(npcEyes, dirToPlayer, distanceToPlayer, obstacleMask))
                     canSee = true;
-                    Debug.DrawLine(npcEyes, playerTarget, Color.green);
-                }
             }
         }
 
@@ -175,24 +154,20 @@ public class NPCStoreKeeper : MonoBehaviour
     private void HandleChaseMovement()
     {
         if (player == null) return;
-
         Vector3 targetPos = player.transform.position;
         Vector3 myPos = transform.position;
-
         Vector3 movementTarget = new Vector3(targetPos.x, myPos.y, targetPos.z);
-        transform.position = Vector3.MoveTowards(myPos, movementTarget, speed * Time.deltaTime);
 
+        transform.position = Vector3.MoveTowards(myPos, movementTarget, speed * Time.deltaTime);
         Vector3 direction = (movementTarget - myPos).normalized;
+
         if (direction != Vector3.zero)
-        {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), turnSpeed * Time.deltaTime);
-        }
 
         if (animator) animator.SetBool("isWalking", true);
         if (TriggerDialogue != null) TriggerDialogue.SetActive(false);
 
         float dist2D = Vector3.Distance(new Vector3(myPos.x, 0, myPos.z), new Vector3(targetPos.x, 0, targetPos.z));
-
         if (dist2D < catchDistance) StartCoroutine(PerformArrestSequence());
     }
 
@@ -200,7 +175,6 @@ public class NPCStoreKeeper : MonoBehaviour
     {
         isArresting = true;
         isChasing = false;
-
         if (animator) animator.SetBool("isWalking", false);
         if (movementLocker != null) movementLocker.LockMovement();
 
@@ -211,7 +185,6 @@ public class NPCStoreKeeper : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1.5f);
-
         if (JailManager.Instance != null) JailManager.Instance.SetMaxValue();
     }
 
@@ -225,7 +198,6 @@ public class NPCStoreKeeper : MonoBehaviour
     {
         if (animator) animator.SetBool("isWalking", false);
         yield return new WaitForSeconds(delayBeforeLeaving);
-
         if (!HasWaypoints) yield break;
 
         if (controlledDoor != null) controlledDoor.UnlockDoor();
@@ -234,7 +206,6 @@ public class NPCStoreKeeper : MonoBehaviour
         isReturning = false;
         currentPointIndex = 0;
         waypoints = originalWaypoints;
-
         if (TriggerDialogue != null) TriggerDialogue.SetActive(false);
         if (animator) animator.SetBool("isWalking", true);
     }
@@ -247,8 +218,7 @@ public class NPCStoreKeeper : MonoBehaviour
         Vector3 direction = (target.position - transform.position).normalized;
         if (direction != Vector3.zero)
         {
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, turnSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), turnSpeed * Time.deltaTime);
         }
         if (Vector3.Distance(transform.position, target.position) < 0.1f) currentPointIndex++;
         if (currentPointIndex >= waypoints.Count)
@@ -263,7 +233,6 @@ public class NPCStoreKeeper : MonoBehaviour
     private IEnumerator PauseAndReturnCoroutine()
     {
         yield return new WaitForSeconds(pauseAtDestination);
-
         if (objectToToggle != null) objectToToggle.SetActive(true);
         if (lightsOutGrid != null) lightsOutGrid.ResetPuzzleLogic();
 
@@ -278,22 +247,19 @@ public class NPCStoreKeeper : MonoBehaviour
     {
         if (controlledDoor != null) controlledDoor.LockDoor();
 
-        // --- AQUI USAMOS TU SCRIPT NOTEInteractionZone ---
         if (restrictedZone != null)
         {
-            // Le preguntamos a TU script si "jugadorDentro" es true
             if (restrictedZone.jugadorDentro)
             {
-                Debug.Log("JUGADOR CAPTURADO: Detectado por NOTEInteractionZone.");
+                Debug.Log("JUGADOR CAPTURADO: Estás dentro de la ArrestZone.");
                 StartCoroutine(PerformArrestSequence());
                 return;
             }
         }
         else
         {
-            Debug.LogWarning("FALTA ASIGNAR: NOTEInteractionZone en el inspector del NPC.");
+            Debug.LogWarning("OJO: No has arrastrado la ArrestZone al NPC.");
         }
-        // -------------------------------------------
 
         isMoving = false;
         isReturning = false;
@@ -305,7 +271,6 @@ public class NPCStoreKeeper : MonoBehaviour
         if (animator) animator.SetBool("isWalking", false);
         SetGhostMode(false);
         if (TriggerDialogue != null) TriggerDialogue.SetActive(true);
-
         if (objectToToggle != null) objectToToggle.SetActive(true);
     }
 
@@ -321,16 +286,9 @@ public class NPCStoreKeeper : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Vector3 eyeOrigin = transform.position + Vector3.up * eyeHeight;
-        Vector3 forward = transform.forward;
-        Vector3 leftDir = Quaternion.Euler(0, -viewAngle / 2f, 0) * forward;
-        Vector3 rightDir = Quaternion.Euler(0, viewAngle / 2f, 0) * forward;
-        Gizmos.DrawRay(eyeOrigin, leftDir * viewDistance);
-        Gizmos.DrawRay(eyeOrigin, rightDir * viewDistance);
+        Gizmos.DrawRay(eyeOrigin, (Quaternion.Euler(0, -viewAngle / 2f, 0) * transform.forward) * viewDistance);
+        Gizmos.DrawRay(eyeOrigin, (Quaternion.Euler(0, viewAngle / 2f, 0) * transform.forward) * viewDistance);
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(eyeOrigin, forward * viewDistance);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, catchDistance);
-        Gizmos.color = new Color(1, 0.5f, 0, 0.5f);
-        Gizmos.DrawWireSphere(transform.position, proximitySense);
+        Gizmos.DrawRay(eyeOrigin, transform.forward * viewDistance);
     }
 }
