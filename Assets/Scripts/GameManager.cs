@@ -52,11 +52,11 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.R))
+        /*if (Input.GetKeyUp(KeyCode.R))
         {
             Scene currentScene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(currentScene.buildIndex);
-        }
+        }*/
         if (Input.GetKeyUp(KeyCode.N))
         {
            

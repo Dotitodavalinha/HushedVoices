@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.15402281, g: 0.12818095, b: 0.2024803, a: 1}
+  m_FogColor: {r: 0.6206746, g: 0.3469028, b: 0.22284493, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.36743435, g: 0.21613736, b: 0.33843136, a: 1}
+  m_AmbientSkyColor: {r: 1, g: 0.9401567, b: 0.78128684, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4549651, g: 0.20647731, b: 0.32412326, a: 1}
+  m_IndirectSpecularColor: {r: 0.8851181, g: 0.5924781, b: 0.40299726, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -25585,9 +25585,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 846672580}
-  - component: {fileID: 846672579}
   - component: {fileID: 846672582}
   - component: {fileID: 846672581}
+  - component: {fileID: 846672583}
   m_Layer: 0
   m_Name: Corcho
   m_TagString: Untagged
@@ -25595,27 +25595,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &846672579
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 846672578}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.7668123, y: 0.18644816, z: 0.17667526}
-  m_Center: {x: 0.011382905, y: -0.40677348, z: 0.06791236}
 --- !u!4 &846672580
 Transform:
   m_ObjectHideFlags: 0
@@ -25663,6 +25642,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jugadorDentro: 0
+--- !u!136 &846672583
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846672578}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.34301
+  m_Height: 1.6299998
+  m_Direction: 1
+  m_Center: {x: -2.32533e-16, y: -0.49999988, z: -0.05699009}
 --- !u!1 &846792756
 GameObject:
   m_ObjectHideFlags: 0
@@ -41682,7 +41684,7 @@ MonoBehaviour:
   maxSunIntensity: 0.4
   DirectionalLight: {fileID: 1724289880}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 20.732792
+  TimeOfDay: 10.492975
   DaySpeed: 20
   horaLimiteNoche: 22
   tiempoPausado: 0
@@ -49532,7 +49534,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1724289877}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.030516822, y: -0.9331326, z: -0.34880865, w: -0.08163858}
+  m_LocalRotation: {x: -0.07251189, y: -0.5526943, z: 0.82881415, w: -0.04835452}
   m_LocalPosition: {x: -6.174999, y: 3.2090003, z: -3.6359997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -49573,8 +49575,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.49743974, g: 0.48213622, b: 0.40672275, a: 1}
-  m_Intensity: 0.1475203
+  m_Color: {r: 1, g: 0.9663092, b: 0.8241677, a: 1}
+  m_Intensity: 0.4
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208

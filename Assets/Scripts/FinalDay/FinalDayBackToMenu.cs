@@ -8,16 +8,16 @@ using UnityEngine.SceneManagement;
 public class FinalDayBackToMenu : MonoBehaviour
 {
     public GameManager gameManager;
-    public ProgressManager progressManager; 
+    public ProgressManager progressManager;
     [SerializeField] private LightingManager lightingManager;
     public ConcentrationManager concentrationManager;
 
     private void Start()
     {
-        gameManager = FindObjectOfType<GameManager>();
+        gameManager = GameManager.Instance;
         lightingManager = FindObjectOfType<LightingManager>();
-        progressManager = FindObjectOfType<ProgressManager>();
-        concentrationManager = FindObjectOfType<ConcentrationManager>();
+        progressManager = ProgressManager.Instance;
+        concentrationManager = ConcentrationManager.Instance;
     }
 
     public void LoadScene(string sceneName)
@@ -31,19 +31,13 @@ public class FinalDayBackToMenu : MonoBehaviour
         ResetAllManagers();
         PlayerPrefs.DeleteAll();
         PlayerPrefs.Save();
-
-        if (PlayerClueTracker.Instance != null)
-        {
-            PlayerClueTracker.Instance.clues.Clear();
-            PlayerClueTracker.Instance.cluesList.Clear();
-        }
-
         SceneManager.LoadScene(sceneName);
     }
 
     public void QuitGame()
     {
         ResetAllManagers();
+
         Application.Quit();
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
@@ -53,51 +47,51 @@ public class FinalDayBackToMenu : MonoBehaviour
 
     public void ResetAllManagers()
     {
+        Debug.Log("--- INICIANDO RESETEO TOTAL ---");
 
-        //reset Concentration Uses
-        if (concentrationManager != null)
-            ConcentrationManager.Instance.RefillUses();
-
-        // Resetea progreso
-        if (progressManager != null)
-            ProgressManager.Instance.CambiarRootNPC("PolicemanZ", "RootPoliceZ0");
-        progressManager.ResetNPCRoots();
-            progressManager.ResetAllBools();
-
-        // UI Lock
-        if (gameManager != null)
-            gameManager.uiLockCount = 0;
-
-        // Ciclo día/noche
-        if (lightingManager != null)
-            lightingManager.ResetTime();
-
-        // Paranoia
-        ParanoiaManager paranoiaManager = FindObjectOfType<ParanoiaManager>();
-        if (paranoiaManager != null)
-            paranoiaManager.ResetManager();
-
-        // NightManager
-        NightManager nightManager = FindObjectOfType<NightManager>();
-        if (nightManager != null)
-            nightManager.ResetManager();
-
-        // JailManager
-        JailManager jailManager = FindObjectOfType<JailManager>();
-        if (jailManager != null)
+        if (ProgressManager.Instance != null)
         {
-            jailManager.counter = 0;
-            if (jailManager.objectToActivate != null)
-                jailManager.objectToActivate.SetActive(false);
+            ProgressManager.Instance.ResetGameProgress();
         }
-      
-        // Clues
-        if (PlayerClueTracker.Instance != null)
+        if (GameManager.Instance != null)
         {
-            Destroy(PlayerClueTracker.Instance.gameObject);
+            GameManager.Instance.uiLockCount = 0;
+            GameManager.Instance.ResetProgress();
+            if (PlayerClueTracker.Instance != null)
+            {
+                PlayerClueTracker.Instance.clues.Clear();
+                PlayerClueTracker.Instance.cluesList.Clear();
+
+            }
+            if (ConcentrationManager.Instance != null)
+                ConcentrationManager.Instance.RefillUses();
+
+            if (lightingManager != null)
+                lightingManager.ResetTime();
+            else
+            {
+                var light = FindObjectOfType<LightingManager>();
+                if (light != null) light.ResetTime();
+            }
+
+            ParanoiaManager paranoiaManager = FindObjectOfType<ParanoiaManager>();
+            if (paranoiaManager != null) paranoiaManager.ResetManager();
+
+            NightManager nightManager = FindObjectOfType<NightManager>();
+            if (nightManager != null) nightManager.ResetManager();
+
+            JailManager jailManager = FindObjectOfType<JailManager>();
+            if (jailManager != null)
+            {
+                jailManager.counter = 0;
+                if (jailManager.objectToActivate != null)
+                    jailManager.objectToActivate.SetActive(false);
+            }
+
+            if (NPCMoodManager.Instance != null)
+                NPCMoodManager.Instance.ResetAllMoods();
         }
-       
-        NPCMoodManager.Instance.ResetAllMoods();
+
     }
-}
 
+}
