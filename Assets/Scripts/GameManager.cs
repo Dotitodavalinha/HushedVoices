@@ -114,6 +114,7 @@ public class GameManager : MonoBehaviour
     {
         UnlockUI();
         SceneManager.LoadScene(sceneName);
+        NPCScheduleManager.Instance.RefreshAll();
     }
 
     public void ReloadCurrentScene()
