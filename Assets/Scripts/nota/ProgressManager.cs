@@ -32,6 +32,20 @@ public class ProgressManager : MonoBehaviour
         }
     }
 
+    public void ResetGameProgress()
+    {
+        Debug.Log("Reiniciando progreso del juego...");
+        ResetAllBools();
+        npcRoots.Clear();
+        PolicemanZDialogueRoot = "RootPoliceZ1";
+        if (GameEvents.Instance != null)
+        {
+            GameEvents.Instance.ResetEvents();
+        }
+        ResetNPCRoots();
+    }
+
+
     public string GetCurrentRoot(string npcName, string defaultRoot)
     {
         if (npcRoots.ContainsKey(npcName))

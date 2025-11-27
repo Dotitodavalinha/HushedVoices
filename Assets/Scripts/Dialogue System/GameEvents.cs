@@ -7,16 +7,13 @@ public class GameEvents : MonoBehaviour
     public static GameEvents Instance { get; private set; }
 
     [SerializeField] private PlayerResponseSO[] respuestas;
-    [SerializeField] private GameObject ColegioStreet;
 
-    // evita configurar dos veces el mismo SO cuando hay múltiples GameEvents
     private readonly HashSet<PlayerResponseSO> _registered = new HashSet<PlayerResponseSO>();
 
     void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            // fusiona respuestas de esta escena en el singleton existente
             foreach (var r in respuestas)
                 Instance.TryRegister(r);
 
@@ -30,12 +27,23 @@ public class GameEvents : MonoBehaviour
         foreach (var r in respuestas)
             TryRegister(r);
     }
+    public void ResetEvents()
+    {
+        _registered.Clear();
+        foreach (var r in respuestas)
+        {
+            r.onResponseChosen.RemoveAllListeners();
+        }
+        foreach (var r in respuestas)
+            TryRegister(r);
 
+        Debug.Log("GameEvents reseteado correctamente.");
+    }
     public void TryRegister(PlayerResponseSO r)
     {
         if (r == null || _registered.Contains(r)) return;
         _registered.Add(r);
-        WireUp(r); // configura sus listeners una sola vez
+        WireUp(r); 
     }
 
     private void WireUp(PlayerResponseSO r)
@@ -54,23 +62,19 @@ public class GameEvents : MonoBehaviour
 
         if (r.responseText.Contains("Ok, what if I bring you a coffee?"))
         {
-            Debug.LogWarning("Wiring up coffee response");
             r.onResponseChosen.RemoveAllListeners();
-            r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("Chloe", "Root")); // pedirle cafe a chloe para el yuta
+            r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("Chloe", "Root"));
             r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("PolicemanZ", "RootPoliceZ1"));
             r.onResponseChosen.AddListener(() => ProgressManager.Instance.Policez = true);
         }
 
         if (r.responseText.Contains("Hi, can you make me a black coffee please?"))
         {
-            // r.onResponseChosen.RemoveAllListeners();
-           
-            r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("Chloe", "Root2")); 
+            r.onResponseChosen.RemoveAllListeners();
+            r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("Chloe", "Root2"));
             r.onResponseChosen.AddListener(() => ProgressManager.Instance.GotCoffe = true);
-            r.onResponseChosen.AddListener(() =>
-            {
+            r.onResponseChosen.AddListener(() => {
                 PlayerClueTracker.Instance.AddClue("HasBlackCoffe");
-
             });
         }
 
@@ -82,21 +86,23 @@ public class GameEvents : MonoBehaviour
             r.onResponseChosen.AddListener(() => ProgressManager.Instance.Policeznt = true);
             r.onResponseChosen.AddListener(() => ProgressManager.Instance.ColegioStreet = true);
             r.onResponseChosen.AddListener(() => ProgressManager.Instance.PolicemanZDialogueRoot = "RootPoliceZ2");
-
-            //  cambio: null-safe entre escenas (si la referencia no existe en esta escena, busca por nombre)
             r.onResponseChosen.AddListener(() =>
             {
-                if (ColegioStreet != null) ColegioStreet.SetActive(false);
+                var barrier = GameObject.Find("ColegioStreet");
+                if (barrier != null)
+                {
+                    barrier.SetActive(false);
+                }
                 else
                 {
-                    var go = GameObject.Find("ColegioStreet");
-                    if (go != null) go.SetActive(false);
+                    Debug.LogWarning("No se encontró 'ColegioStreet' para desactivar. ¿Está ya desactivado o mal escrito?");
                 }
             });
 
             r.onResponseChosen.AddListener(() => ProgressManager.Instance.LostCoffe = true);
             r.onResponseChosen.AddListener(() => ProgressManager.Instance.GotCoffe = false);
         }
+
 
         if (r.responseText.Contains("Have you seen Ben?"))
         {
@@ -120,7 +126,7 @@ public class GameEvents : MonoBehaviour
             });
         }
 
-        if (r.responseText.Contains("Thank you very much, sir")) 
+        if (r.responseText.Contains("Thank you very much, sir"))
         {
             r.onResponseChosen.RemoveAllListeners();
 
@@ -149,13 +155,13 @@ public class GameEvents : MonoBehaviour
             r.onResponseChosen.RemoveAllListeners();
             r.onResponseChosen.AddListener(() =>
             {
-                PlayerClueTracker.Instance.AddClue("Vanessa_name"); 
+                PlayerClueTracker.Instance.AddClue("Vanessa_name");
 
             });
         }
         if (r.responseText.Contains("Vanessa"))
         {
-          //se confirma q el player sabe el nombre de la maestra(?
+            //se confirma q el player sabe el nombre de la maestra(?
         }
 
         if (string.Equals(r.name, "no ah vuelto a casa...", System.StringComparison.OrdinalIgnoreCase))
@@ -165,6 +171,3 @@ public class GameEvents : MonoBehaviour
         }
     }
 }
-
-
-
