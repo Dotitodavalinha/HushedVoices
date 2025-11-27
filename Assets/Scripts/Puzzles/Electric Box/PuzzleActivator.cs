@@ -36,8 +36,16 @@ public class PuzzleActivator : MonoBehaviour
         }
     }
 
+    // Esto asegura que si el puzzle se apaga (por completarlo) y se vuelve a prender,
+    // la variable empiece en falso y no se quede pegada.
+    private void OnDisable()
+    {
+        playerIsNear = false;
+    }
+
     private void Update()
     {
+        // Añadí !puzzlePanel.activeSelf para que no intente abrirlo si ya está abierto
         if (playerIsNear && Input.GetKeyDown(KeyCode.E))
         {
             TogglePuzzle();
@@ -46,6 +54,8 @@ public class PuzzleActivator : MonoBehaviour
 
     private void TogglePuzzle(bool? state = null)
     {
+        if (puzzlePanel == null) return;
+
         bool shouldBeActive = state ?? !puzzlePanel.activeSelf;
         puzzlePanel.SetActive(shouldBeActive);
         SetCursorState(shouldBeActive);

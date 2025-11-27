@@ -5,6 +5,12 @@ using Cinemachine;
 
 public class NPCStoreKeeper : MonoBehaviour
 {
+    [Header("Door & Room Control")]
+    public DoorController controlledDoor;
+
+    // AQUI USAMOS TU SCRIPT
+    public NOTEInteractionZone restrictedZone;
+
     [Header("Objeto a Controlar (Luces)")]
     public GameObject objectToToggle;
 
@@ -21,8 +27,6 @@ public class NPCStoreKeeper : MonoBehaviour
 
     [Tooltip("Selecciona AQUÍ las capas que son PAREDES u OBSTÁCULOS.")]
     public LayerMask obstacleMask = 1;
-
-    [Tooltip("Altura de los ojos")]
     public float eyeHeight = 1.6f;
 
     [Header("Comportamiento")]
@@ -86,6 +90,8 @@ public class NPCStoreKeeper : MonoBehaviour
 
         SetGhostMode(false);
         if (TriggerDialogue != null) TriggerDialogue.SetActive(true);
+
+        if (controlledDoor != null) controlledDoor.LockDoor();
     }
 
     private void OnDestroy()
@@ -219,7 +225,10 @@ public class NPCStoreKeeper : MonoBehaviour
     {
         if (animator) animator.SetBool("isWalking", false);
         yield return new WaitForSeconds(delayBeforeLeaving);
+
         if (!HasWaypoints) yield break;
+
+        if (controlledDoor != null) controlledDoor.UnlockDoor();
 
         isMoving = true;
         isReturning = false;
@@ -267,6 +276,25 @@ public class NPCStoreKeeper : MonoBehaviour
 
     private void ResetNPC()
     {
+        if (controlledDoor != null) controlledDoor.LockDoor();
+
+        // --- AQUI USAMOS TU SCRIPT NOTEInteractionZone ---
+        if (restrictedZone != null)
+        {
+            // Le preguntamos a TU script si "jugadorDentro" es true
+            if (restrictedZone.jugadorDentro)
+            {
+                Debug.Log("JUGADOR CAPTURADO: Detectado por NOTEInteractionZone.");
+                StartCoroutine(PerformArrestSequence());
+                return;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("FALTA ASIGNAR: NOTEInteractionZone en el inspector del NPC.");
+        }
+        // -------------------------------------------
+
         isMoving = false;
         isReturning = false;
         isChasing = false;
