@@ -17,9 +17,4 @@ public class NOTEInteractionZone : MonoBehaviour
         if (other.CompareTag("Player"))
             jugadorDentro = false;
     }
-
-    private void OnDisable()
-    {
-        jugadorDentro = false;
-    }
 }

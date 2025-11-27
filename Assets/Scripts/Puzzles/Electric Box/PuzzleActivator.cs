@@ -4,23 +4,10 @@ public class PuzzleActivator : MonoBehaviour
 {
     public GameObject puzzlePanel;
 
-    [Header("Configuración de Horario")]
-    [Range(0, 24)] public float startHour = 22f;
-    [Range(0, 24)] public float endHour = 4f;
-
-    private LightingManager timeManager;
     private bool playerIsNear = false;
-
-    // Referencia al script que quieres controlar sin modificar su código
-    private ClueInteractable clueUI;
 
     void Start()
     {
-        timeManager = FindObjectOfType<LightingManager>();
-
-        // Buscamos el script de la pista en este mismo objeto
-        clueUI = GetComponent<ClueInteractable>();
-
         if (puzzlePanel != null)
         {
             puzzlePanel.SetActive(false);
@@ -32,7 +19,7 @@ public class PuzzleActivator : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerIsNear = true;
-            UpdateUIState(); // Chequeo inicial al entrar
+            Debug.Log("Pulsa E para interactuar.");
         }
     }
 
@@ -46,64 +33,19 @@ public class PuzzleActivator : MonoBehaviour
             {
                 TogglePuzzle(false);
             }
-
-            if (clueUI != null) clueUI.enabled = true;
         }
-    }
-
-    private void OnDisable()
-    {
-        playerIsNear = false;
     }
 
     private void Update()
     {
-        if (playerIsNear)
+        if (playerIsNear && Input.GetKeyDown(KeyCode.E))
         {
-            UpdateUIState();
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                if (CheckTime())
-                {
-                    TogglePuzzle();
-                }
-            }
-        }
-    }
-
-    private void UpdateUIState()
-    {
-        if (clueUI == null) return;
-
-        bool isTime = CheckTime();
-
-        if (clueUI.enabled != isTime)
-        {
-            clueUI.enabled = isTime;
-        }
-    }
-
-    private bool CheckTime()
-    {
-        if (timeManager == null) return true;
-
-        float currentH = timeManager.TimeOfDay;
-
-        if (startHour > endHour)
-        {
-            return currentH >= startHour || currentH < endHour;
-        }
-        else
-        {
-            return currentH >= startHour && currentH < endHour;
+            TogglePuzzle();
         }
     }
 
     private void TogglePuzzle(bool? state = null)
     {
-        if (puzzlePanel == null) return;
-
         bool shouldBeActive = state ?? !puzzlePanel.activeSelf;
         puzzlePanel.SetActive(shouldBeActive);
         SetCursorState(shouldBeActive);
@@ -112,6 +54,7 @@ public class PuzzleActivator : MonoBehaviour
     public void DeactivatePuzzleAndActivator()
     {
         TogglePuzzle(false);
+
         gameObject.SetActive(false);
     }
 
