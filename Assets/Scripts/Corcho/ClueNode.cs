@@ -22,7 +22,10 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     private Canvas canvas;
     private CanvasGroup canvasGroup;
+
+    private Transform originalParent;
     private Vector2 originalPosition;
+
     private bool isLeftDragging = false;
     private float leftPressTime = 0f;
     private Vector2 leftPressPos;
@@ -75,15 +78,8 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (board == null) return;
-
-        if (board.IsOnMainMenu)
-        {
-            board.ChangeCursor(board.hover);
-        }
-        else
-        {
-            board.ChangeCursor(board.zoomIn);
-        }
+        if (board.IsOnMainMenu) board.ChangeCursor(board.hover);
+        else board.ChangeCursor(board.zoomIn);
     }
     public void OnPointerExit(PointerEventData eventData)
     {
@@ -105,7 +101,6 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             board?.ShowPreviewFromNodeToScreen(this, eventData.position, eventData.pressEventCamera);
         }
     }
-
     public void OnPointerUp(PointerEventData eventData)
     {
         if (board != null && board.IsOnMainMenu) return;
@@ -113,7 +108,6 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         if (eventData.button == PointerEventData.InputButton.Right && isRightDragging)
         {
             isRightDragging = false;
-
             if (board != null)
             {
                 var results = new List<RaycastResult>();
@@ -128,10 +122,8 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                 if (target != null)
                 {
                     board.AddConnection(this.data.clueID, target.data.clueID);
-
                     SoundManager.instance.PlaySound(SoundID.HiloCorcho, false, 1f, 5.5f);
                 }
-
                 board.HidePreviewLine();
             }
         }
@@ -161,7 +153,10 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             SoundManager.instance.PlaySound(SoundID.ClueFromFolder, false, 1f, 5.5f);
 
             isLeftDragging = true;
+
             originalPosition = RectTransform.anchoredPosition;
+            originalParent = transform.parent;
+
             canvasGroup.blocksRaycasts = false;
 
             RectTransform.SetAsLastSibling();
@@ -183,24 +178,18 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             if (transform.parent != null)
             {
                 bool shouldClamp = transform.parent.GetComponent<ClueBoardDropZone>() != null;
-
                 if (shouldClamp)
                 {
                     RectTransform playArea = transform.parent.GetComponent<RectTransform>();
-
                     Vector3[] areaCorners = new Vector3[4];
                     playArea.GetWorldCorners(areaCorners);
-
                     Vector3[] nodeCorners = new Vector3[4];
                     RectTransform.GetWorldCorners(nodeCorners);
-
                     Vector3 pos = RectTransform.position;
                     float nodeWidth = nodeCorners[2].x - nodeCorners[0].x;
                     float nodeHeight = nodeCorners[2].y - nodeCorners[0].y;
-
                     pos.x = Mathf.Clamp(pos.x, areaCorners[0].x + nodeWidth / 2, areaCorners[2].x - nodeWidth / 2);
                     pos.y = Mathf.Clamp(pos.y, areaCorners[0].y + nodeHeight / 2, areaCorners[2].y - nodeHeight / 2);
-
                     RectTransform.position = pos;
                 }
             }
@@ -222,6 +211,21 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         {
             isLeftDragging = false;
             canvasGroup.blocksRaycasts = true;
+
+            ClueBoardDropZone validZone = transform.parent.GetComponent<ClueBoardDropZone>();
+
+            if (validZone == null)
+            {
+                transform.SetParent(originalParent);
+                RectTransform.anchoredPosition = originalPosition;
+
+                SetVisualColor(originalColor);
+
+                LayoutRebuilder.ForceRebuildLayoutImmediate(originalParent as RectTransform);
+
+                return;
+            }
+
 
             RectTransform.SetAsFirstSibling();
 
@@ -247,37 +251,28 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         }
     }
 
-
     private void SetVisualColor(Color color)
     {
-        if (clueVisualImage != null)
-        {
-            clueVisualImage.color = color;
-        }
+        if (clueVisualImage != null) clueVisualImage.color = color;
     }
 
     private bool CheckCollisionAndSetColor()
     {
         if (board == null || board.clueNodes == null || clueVisualImage == null) return false;
-
         bool isColliding = false;
         Rect currentRect = GetRectFromRectTransform();
-
         foreach (var otherNode in board.clueNodes)
         {
             if (otherNode == this) continue;
             if (otherNode.transform.parent != this.transform.parent) continue;
             if (otherNode.RectTransform == null) continue;
-
             Rect otherRect = otherNode.GetRectFromRectTransform();
-
             if (currentRect.Overlaps(otherRect))
             {
                 isColliding = true;
                 break;
             }
         }
-
         SetVisualColor(isColliding ? Color.red : originalColor);
         return isColliding;
     }
@@ -286,21 +281,10 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         PlayerPrefs.SetFloat(data.clueID + "_x", RectTransform.anchoredPosition.x);
         PlayerPrefs.SetFloat(data.clueID + "_y", RectTransform.anchoredPosition.y);
-
         string parentName = transform.parent.name;
         PlayerPrefs.SetString(data.clueID + "_parent", parentName);
-
-        if (transform.parent != null)
-        {
-            if (PlayerClueTracker.Instance != null)
-            {
-                // PlayerClueTracker.Instance.AddSafeClue(data.clueID);
-            }
-        }
-
         string connections = string.Join(",", data.connectedClues);
         PlayerPrefs.SetString(data.clueID + "_connections", connections);
-
         PlayerPrefs.Save();
     }
 
@@ -309,26 +293,16 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         Vector2 anchoredPos = RectTransform.anchoredPosition;
         Vector2 size = RectTransform.sizeDelta;
         Vector2 pivot = RectTransform.pivot;
-
         float x = anchoredPos.x - size.x * pivot.x;
         float y = anchoredPos.y - size.y * pivot.y;
-
         return new Rect(x, y, size.x, size.y);
     }
 
     public void MoveToCorcho(RectTransform newParent, ClueBoardManager b)
     {
         transform.SetParent(newParent, true);
-
         transform.SetAsFirstSibling();
-
         BindBoard(b);
-
-        if (PlayerClueTracker.Instance != null && data != null && !string.IsNullOrEmpty(data.clueID))
-        {
-            // PlayerClueTracker.Instance.AddSafeClue(data.clueID);
-        }
     }
-
     public void OnPointerClick(PointerEventData eventData) { }
 }
