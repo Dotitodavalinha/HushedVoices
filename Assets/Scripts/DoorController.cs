@@ -7,6 +7,8 @@ public class DoorController : MonoBehaviour
     public float smoothSpeed = 5f;
     public float interactionRange = 3f;
 
+    public bool isLocked = true; // Empieza cerrada
+
     [Header("References")]
     public GameObject player;
 
@@ -16,14 +18,15 @@ public class DoorController : MonoBehaviour
     void Start()
     {
         initialRot = transform.localRotation;
-        player = GameObject.FindWithTag("Player");
+        if (player == null) player = GameObject.FindWithTag("Player");
     }
 
     void Update()
     {
         if (player == null) return;
 
-        if (Vector3.Distance(transform.position, player.transform.position) <= interactionRange)
+        // Solo abre si NO está bloqueada
+        if (!isLocked && Vector3.Distance(transform.position, player.transform.position) <= interactionRange)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -37,9 +40,20 @@ public class DoorController : MonoBehaviour
         transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRot, Time.deltaTime * smoothSpeed);
     }
 
+    public void UnlockDoor()
+    {
+        isLocked = false;
+    }
+
+    public void LockDoor()
+    {
+        isLocked = true;
+        isOpen = false; // Se cierra automáticamente
+    }
+
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.yellow;
+        Gizmos.color = isLocked ? Color.red : Color.yellow;
         Gizmos.DrawWireSphere(transform.position, interactionRange);
     }
 }
