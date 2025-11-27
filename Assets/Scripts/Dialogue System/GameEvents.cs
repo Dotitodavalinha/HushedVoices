@@ -103,6 +103,11 @@ public class GameEvents : MonoBehaviour
             r.onResponseChosen.RemoveAllListeners();
             r.onResponseChosen.AddListener(() => ProgressManager.Instance.CambiarRootNPC("Marina", "RootMarina1"));
         }
+        if (r.responseText.Contains("Thank you, ma’am. I really appreciate it.")) // terminas de hablar con chismosas
+        {
+            r.onResponseChosen.RemoveAllListeners();
+            r.onResponseChosen.AddListener(() => PlayerClueTracker.Instance.AddClue("Vanessa_Night"));
+        }
         if (r.responseText.Contains("Let me see...")) // agarras el dibujo de la níño
         {
             r.onResponseChosen.RemoveAllListeners();
@@ -139,7 +144,7 @@ public class GameEvents : MonoBehaviour
             });
         }
 
-        if (r.responseText.Contains("Don't worry, I'll find out where she is."))
+        if (r.responseText.Contains("Don't worry, I'll find out where she is.")) //termino conversacion con kid
         {
             r.onResponseChosen.RemoveAllListeners();
             r.onResponseChosen.AddListener(() =>

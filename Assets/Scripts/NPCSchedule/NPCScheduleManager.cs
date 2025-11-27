@@ -43,6 +43,10 @@ public class NPCScheduleManager : MonoBehaviour
 
     ISpawnPointResolver resolver;
 
+    
+    private int lastHour = -1;
+
+
     class ActiveNpc
     {
         public string npcId;
@@ -73,8 +77,10 @@ public class NPCScheduleManager : MonoBehaviour
 
     void Start()
     {
-        RefreshAll(); // primer cálculo al iniciar
+        lastHour = GetCurrentHour();  // guardamos la hora inicial
+        RefreshAll();                 // primer cálculo al iniciar
     }
+
 
     private void Update()
     {
@@ -84,7 +90,17 @@ public class NPCScheduleManager : MonoBehaviour
             Debug.Log("NPCScheduleManager: RefreshAll() manual por tecla Y.");
             RefreshAll();
         }
+
+        // --- NUEVO: refrescar automáticamente cuando cambia la hora de juego ---
+        int currentHour = GetCurrentHour();
+        if (currentHour != lastHour)
+        {
+            lastHour = currentHour;
+            Debug.Log($"NPCScheduleManager: cambio de hora detectado ({currentHour}). Refrescando schedule.");
+            RefreshAll();
+        }
     }
+
 
     // Helper para pedir posición + rotación al resolver
     bool ResolveSpawn(string sceneId, string locationId, string npcId,
@@ -251,6 +267,22 @@ public class NPCScheduleManager : MonoBehaviour
             }
         }
         return -1;
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log($"NPCScheduleManager: escena cargada '{scene.name}', refrescando schedule.");
+        RefreshAll();
     }
 
     int GetCurrentHour()
