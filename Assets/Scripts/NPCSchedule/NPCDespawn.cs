@@ -102,18 +102,28 @@ public class NPCDespawn : MonoBehaviour
             return;
         }
 
+        // NUEVO: si estoy en medio de un diálogo con ESTE NPC, cerrarlo limpio antes de irme
+        if (DialogueManager.Instance != null &&
+            DialogueManager.Instance.IsOpen &&
+            DialogueManager.Instance.CurrentNPC == npcDialogue)
+        {
+            DialogueManager.Instance.EndDialogue();
+        }
+
         isLeaving = true;
         currentPointIndex = 0;
 
-        // Cortamos diálogo mientras se va
+        // A partir de acá ya no quiero que se pueda iniciar/continuar diálogo
         if (npcDialogue != null)
             npcDialogue.enabled = false;
 
         if (dialogueTrigger != null)
             dialogueTrigger.enabled = false;
 
-        if (animator) animator.SetBool("isWalking", true);
+        if (animator)
+            animator.SetBool("isWalking", true);
     }
+
 
     private void MoveAlongPath()
     {
