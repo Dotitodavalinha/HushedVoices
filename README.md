@@ -1,5 +1,5 @@
 # Hushed Voices
-Videojuego de Dialogo, Aventura y Detective hecho en 3D desarrollado como Tesis final para la Escuela Da Vinci.
+Videojuego de Dialogo, Aventura y Detectives hecho en 3D desarrollado como Tesis final para la Escuela Da Vinci.
 
 <img width="1619" height="892" alt="image" src="https://github.com/user-attachments/assets/79f78fd0-00ed-45db-8859-724a50f382d2" />
 
