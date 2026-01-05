@@ -19,7 +19,7 @@ Como parte de un equipo de 5 desarrolladores, mis responsabilidades principales 
 ## 🚀 Instalación / Cómo Jugar
 1. Descarga el ejecutable desde la sección "Releases" (o link a Itch.io).
 2. Descomprime el archivo.
-3. Ejecuta `NombreDelJuego.exe`.
+3. Ejecuta `HushedVoices.exe`.
 4. Movimiento: ASWD
 5. Vision especial: "Q"
 6. Sigue las pistas, entrevista a los sospechosos, resuelve el caso de tu compañero sin que te atrapen.
