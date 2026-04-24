@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,6 +36,19 @@ public class NPCStoreKeeper : MonoBehaviour
     [Header("Referencias de Sistema")]
     public CameraManagerZ camManager;
     public CinemachineFreeLook arrestCamera;
+
+
+    public event Action<float> OnTravelProgressChanged;
+
+    // NUEVO: Definimos los 3 estados posibles
+    public enum NPCRepairState { Going, Repairing, Returning }
+    public event Action<NPCRepairState> OnNPCStateChanged;
+
+    private float totalPathDistance = 0f;
+    private float distanceTraveled = 0f;
+    private Vector3 lastTrackedPosition;
+
+
 
     private GameObject player;
     private PlayerMovementLocker movementLocker;
@@ -114,6 +128,22 @@ public class NPCStoreKeeper : MonoBehaviour
         if (isMoving && !isHidden && waypoints != null && waypoints.Count > 0)
         {
             MoveAlongPath();
+        }
+    }
+
+    private void StartPathTracking(List<Transform> path)
+    {
+        totalPathDistance = 0f;
+        distanceTraveled = 0f;
+        lastTrackedPosition = transform.position;
+
+        if (path == null || path.Count == 0) return;
+
+        Vector3 currentPos = transform.position;
+        foreach (Transform wp in path)
+        {
+            totalPathDistance += Vector3.Distance(currentPos, wp.position);
+            currentPos = wp.position;
         }
     }
 
@@ -206,6 +236,11 @@ public class NPCStoreKeeper : MonoBehaviour
         isReturning = false;
         currentPointIndex = 0;
         waypoints = originalWaypoints;
+
+        OnNPCStateChanged?.Invoke(NPCRepairState.Going);
+
+        StartPathTracking(waypoints);
+
         if (TriggerDialogue != null) TriggerDialogue.SetActive(false);
         if (animator) animator.SetBool("isWalking", true);
     }
@@ -214,17 +249,41 @@ public class NPCStoreKeeper : MonoBehaviour
     {
         if (currentPointIndex < 0 || currentPointIndex >= waypoints.Count) return;
         Transform target = waypoints[currentPointIndex];
+
         transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
         Vector3 direction = (target.position - transform.position).normalized;
         if (direction != Vector3.zero)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), turnSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), speed * Time.deltaTime);
         }
+
+        // Calcula el progreso de la distancia y avisa a la UI
+        float moveDelta = Vector3.Distance(transform.position, lastTrackedPosition);
+        distanceTraveled += moveDelta;
+        lastTrackedPosition = transform.position;
+
+        if (totalPathDistance > 0)
+        {
+            float progress = Mathf.Clamp01(distanceTraveled / totalPathDistance);
+
+            // Si el NPC está volviendo, invertimos el progreso para que la barra retroceda
+            if (isReturning) progress = 1f - progress;
+
+            // Disparamos el evento para que el slider lo escuche
+            OnTravelProgressChanged?.Invoke(progress);
+        }
+
+        // Chequea si llego al waypoint actual
         if (Vector3.Distance(transform.position, target.position) < 0.1f) currentPointIndex++;
+
+        // Chequea si termino todo el recorrido
         if (currentPointIndex >= waypoints.Count)
         {
+            OnTravelProgressChanged?.Invoke(isReturning ? 0f : 1f);
+
             isMoving = false;
             if (animator) animator.SetBool("isWalking", false);
+
             if (!isReturning) StartCoroutine(PauseAndReturnCoroutine());
             else ResetNPC();
         }
@@ -232,7 +291,11 @@ public class NPCStoreKeeper : MonoBehaviour
 
     private IEnumerator PauseAndReturnCoroutine()
     {
+        // Avisa que llegol y esta reparando
+        OnNPCStateChanged?.Invoke(NPCRepairState.Repairing);
+
         yield return new WaitForSeconds(pauseAtDestination);
+
         if (objectToToggle != null) objectToToggle.SetActive(true);
         if (lightsOutGrid != null) lightsOutGrid.ResetPuzzleLogic();
 
@@ -240,6 +303,12 @@ public class NPCStoreKeeper : MonoBehaviour
         isReturning = true;
         waypoints = returnWaypoints;
         currentPointIndex = 0;
+
+        // Termino de reparar, avisamos que vuelve
+        OnNPCStateChanged?.Invoke(NPCRepairState.Returning);
+
+        StartPathTracking(waypoints);
+
         if (animator) animator.SetBool("isWalking", true);
     }
 

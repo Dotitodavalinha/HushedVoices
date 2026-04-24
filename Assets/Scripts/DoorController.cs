@@ -7,7 +7,7 @@ public class DoorController : MonoBehaviour
     public float smoothSpeed = 5f;
     public float interactionRange = 3f;
 
-    public bool isLocked = true; // Empieza cerrada
+    public bool isLocked = true;
 
     [Header("References")]
     public GameObject player;
@@ -25,7 +25,7 @@ public class DoorController : MonoBehaviour
     {
         if (player == null) return;
 
-        // Solo abre si NO está bloqueada
+        // Solo abre si NO esta bloqueada
         if (!isLocked && Vector3.Distance(transform.position, player.transform.position) <= interactionRange)
         {
             if (Input.GetKeyDown(KeyCode.E))
@@ -48,7 +48,7 @@ public class DoorController : MonoBehaviour
     public void LockDoor()
     {
         isLocked = true;
-        isOpen = false; // Se cierra automáticamente
+        isOpen = false;
     }
 
     private void OnDrawGizmosSelected()
