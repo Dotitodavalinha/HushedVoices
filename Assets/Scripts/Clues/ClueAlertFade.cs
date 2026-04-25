@@ -10,7 +10,6 @@ public class ClueAlertFade : MonoBehaviour
     [SerializeField] private TextMeshProUGUI clueText; 
     [SerializeField] private float fadeDuration = 0.5f;
     [SerializeField] private float displayTime;
-
     void Start()
     {
         StartCoroutine(PlayFade());
@@ -25,7 +24,7 @@ public class ClueAlertFade : MonoBehaviour
         float t = 0f;
         while (t < fadeDuration)
         {
-            t += Time.unscaledDeltaTime;
+            t += Time.fixedDeltaTime;
             float a = Mathf.Lerp(0f, 1f, t / fadeDuration);
             backgroundImage.color = new Color(imgColor.r, imgColor.g, imgColor.b, a);
             clueText.color = new Color(textColor.r, textColor.g, textColor.b, a);

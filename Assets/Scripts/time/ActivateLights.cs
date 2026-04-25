@@ -25,7 +25,7 @@ public class ActivateLights : MonoBehaviour
         {
             dayLights.SetActive(false);
             nightLights.SetActive(true);
-            activateLights(nightLights);
+            //activateLights(nightLights);
         }
         else
         {

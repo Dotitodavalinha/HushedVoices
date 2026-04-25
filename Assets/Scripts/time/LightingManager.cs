@@ -14,6 +14,10 @@ public class LightingManager : MonoBehaviour
     [SerializeField, Range(0, 24)] public float TimeOfDay;
 
     [SerializeField] public float DaySpeed;
+
+    [Header("Control de Velocidad")]
+    [SerializeField] public float timeMultiplier = 1f;
+
     [SerializeField] public bool IsNight => (TimeOfDay >= 20f || TimeOfDay < 5f);
 
     // Solo se usa para RoomInicio
@@ -73,7 +77,7 @@ public class LightingManager : MonoBehaviour
             {
                 float previousTime = TimeOfDay;
 
-                TimeOfDay += Time.deltaTime / DaySpeed;
+                TimeOfDay += (Time.deltaTime / DaySpeed) * timeMultiplier;
                 bool wrappedMidnight = false;
 
                 if (inRoomInicio)
