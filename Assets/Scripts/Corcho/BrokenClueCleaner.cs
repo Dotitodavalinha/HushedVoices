@@ -4,26 +4,21 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-// Añadimos IPointerClickHandler
 public class BrokenClueCleaner : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public static event Action OnAllBrokenCleaned;
-    private static List<BrokenClueCleaner> allCleaners = new List<BrokenClueCleaner>();
+    public static List<BrokenClueCleaner> allCleaners = new List<BrokenClueCleaner>();
 
     private bool isHovering = false;
     private ClueBoardManager board;
 
     [SerializeField] private GameObject breakAnimationPrefab;
 
-    // --- NUEVO ---
     [Header("Configuración de Guardado")]
     [Tooltip("ID Único para esta pista rota, ej: 'broken_1'")]
     [SerializeField] private string brokenClueID;
 
-    // Propiedad pública para que el Board Manager la lea
-    public string BrokenClueID { get { return brokenClueID; } }
-    // --- FIN NUEVO ---
-
+    public string BrokenClueID => brokenClueID;
 
     private void Awake()
     {
@@ -35,14 +30,10 @@ public class BrokenClueCleaner : MonoBehaviour, IPointerEnterHandler, IPointerEx
         board = FindObjectOfType<ClueBoardManager>();
     }
 
-    // --- MODIFICADO ---
-    // Usamos esto en vez de Update() para detectar el clic
     public void OnPointerClick(PointerEventData eventData)
     {
-        // Si el board no existe, o si ESTAMOS en el menú principal, no hacer nada.
         if (board == null || board.IsOnMainMenu) return;
 
-        // Solo funciona si estamos en un panel de caso Y hacemos clic izquierdo
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             PlayBreakAnimation();
@@ -50,14 +41,11 @@ public class BrokenClueCleaner : MonoBehaviour, IPointerEnterHandler, IPointerEx
         }
     }
 
-    // Ya no necesitamos esto
-    void Update() { }
-
     private void PlayBreakAnimation()
     {
         if (breakAnimationPrefab != null)
         {
-            GameObject anim = Instantiate(breakAnimationPrefab, transform.position, Quaternion.identity, transform.parent);
+            Instantiate(breakAnimationPrefab, transform.position, Quaternion.identity, transform.parent);
         }
         SoundManager.instance.PlaySound(SoundID.paperTear, false, UnityEngine.Random.Range(0.7f, 1f));
 
@@ -67,7 +55,12 @@ public class BrokenClueCleaner : MonoBehaviour, IPointerEnterHandler, IPointerEx
     private void OnDestroy()
     {
         allCleaners.Remove(this);
-        CheckAllCleaned();
+
+        // Evita disparar el evento si el objeto se destruye por un cambio de escena
+        if (gameObject.scene.isLoaded)
+        {
+            CheckAllCleaned();
+        }
     }
 
     private static void CheckAllCleaned()
@@ -75,16 +68,13 @@ public class BrokenClueCleaner : MonoBehaviour, IPointerEnterHandler, IPointerEx
         if (allCleaners.Count == 0)
         {
             OnAllBrokenCleaned?.Invoke();
-            Debug.Log("Todas las pistas rotas fueron limpiadas.");
         }
     }
 
-    // --- MODIFICADO ---
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (board == null) return;
 
-        // Solo mostrar cursor de borrar si NO estamos en el main menu
         if (!board.IsOnMainMenu)
         {
             isHovering = true;
@@ -93,7 +83,6 @@ public class BrokenClueCleaner : MonoBehaviour, IPointerEnterHandler, IPointerEx
         }
         else
         {
-            // Si estamos en el main menu, mostrar cursor 'hover' normal
             board.ChangeCursor(board.hover);
         }
     }
@@ -103,17 +92,12 @@ public class BrokenClueCleaner : MonoBehaviour, IPointerEnterHandler, IPointerEx
         isHovering = false;
         GetComponent<Image>().color = Color.white;
 
-        if (board != null)
-            board.ChangeCursor(board.hover);
+        if (board != null) board.ChangeCursor(board.hover);
     }
 
-    // --- NUEVAS FUNCIONES ---
-    // (Igual que en ClueNode.cs)
     public void SaveState()
     {
-        // Usamos el ID del campo primero. Si está vacío, usamos el nombre del objeto.
-        string uniqueID = string.IsNullOrEmpty(brokenClueID) ? this.gameObject.name : brokenClueID;
-
+        string uniqueID = string.IsNullOrEmpty(brokenClueID) ? gameObject.name : brokenClueID;
         if (string.IsNullOrEmpty(uniqueID)) return;
 
         string parentName = transform.parent.name;
@@ -125,5 +109,4 @@ public class BrokenClueCleaner : MonoBehaviour, IPointerEnterHandler, IPointerEx
     {
         transform.SetParent(newParent, true);
     }
-    // --- FIN NUEVAS FUNCIONES ---
 }
