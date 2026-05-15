@@ -40,6 +40,11 @@ public class LightsOutCell : MonoBehaviour
 
     private void OnCellClicked()
     {
+        if (SoundManager.instance != null)
+        {
+            SoundManager.instance.PlaySound(SoundID.LightBoxSwitch);
+        }
+
         gridController.CellClicked(row, col);
     }
 

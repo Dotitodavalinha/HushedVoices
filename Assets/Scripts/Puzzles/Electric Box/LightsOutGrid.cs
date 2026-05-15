@@ -8,7 +8,7 @@ public class LightsOutGrid : MonoBehaviour
     public int cols = 3;
     public Transform gridParent;
 
-    [Header("Activación NPC")]
+    [Header("Activaciï¿½n NPC")]
     public NPCStoreKeeper targetNPC;
 
     private PuzzleActivator puzzleActivator;
@@ -28,7 +28,7 @@ public class LightsOutGrid : MonoBehaviour
 
     void Update()
     {
-        // Truco para ganar rápido con la C
+        // Truco para ganar rï¿½pido con la C
         if (Input.GetKeyDown(KeyCode.C))
         {
             ForceWin();
@@ -37,7 +37,7 @@ public class LightsOutGrid : MonoBehaviour
 
     private void InitializeGrid()
     {
-        // 1. Limpieza de hijos antiguos (evita que se acumulen cuadros vacíos)
+        // 1. Limpieza de hijos antiguos
         if (gridParent.childCount > 0)
         {
             foreach (Transform child in gridParent)
@@ -78,6 +78,7 @@ public class LightsOutGrid : MonoBehaviour
             ToggleCellAndCheckBounds(randomRow, randomCol - 1);
         }
     }
+
     public void ResetPuzzleLogic()
     {
         gameObject.SetActive(true);
@@ -123,6 +124,11 @@ public class LightsOutGrid : MonoBehaviour
         if (allOff)
         {
             // ganaste
+            if (SoundManager.instance != null)
+            {
+                SoundManager.instance.PlaySound(SoundID.LightsOff);
+            }
+
             if (targetNPC != null)
             {
                 if (targetNPC.objectToToggle != null)
@@ -142,6 +148,11 @@ public class LightsOutGrid : MonoBehaviour
 
     private void ForceWin()
     {
+        if (SoundManager.instance != null)
+        {
+            SoundManager.instance.PlaySound(SoundID.click);
+        }
+
         foreach (var cell in grid)
         {
             cell.SetLightState(false);

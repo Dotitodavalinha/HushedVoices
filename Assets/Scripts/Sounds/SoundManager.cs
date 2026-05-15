@@ -264,7 +264,10 @@ public enum SoundID
     ClueFromFolder,
     HiloCorcho,
     paperTear,
-    CutSound
+    CutSound,
+    CatMeow,
+    LightBoxSwitch,
+    LightsOff
 }
 
 public enum MusicID
