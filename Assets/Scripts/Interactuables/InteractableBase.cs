@@ -24,7 +24,7 @@ public abstract class InteractableBase : MonoBehaviour
     protected Transform canvasTransform;
     private bool justStarted = false;
 
-    // Nuevo: eventos para listeners explícitos (más fiable que solo SendMessage)
+   //ventos para listeners explícitos
     public event Action InteractableOpened;
     public event Action InteractableClosed;
 
@@ -152,13 +152,13 @@ public abstract class InteractableBase : MonoBehaviour
 
     }
 
-    // Exponer un cierre público seguro para que componentes externos (p. ej. puzzles) puedan cerrar el interactable
+    // Exponer un cierre público seguro para que componentes externos (ej. puzzles) puedan cerrar el interactable
     public void CloseInteractable()
     {
         Deactivate();
     }
 
-    // Nuevo: deshabilita la posibilidad de volver a abrir este interactable
+    // deshabilita la posibilidad de volver a abrir este interactable
     public void DisableInteraction()
     {
         CanBeInteracted = false;

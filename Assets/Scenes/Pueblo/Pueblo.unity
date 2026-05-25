@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.58857393, g: 0.33170488, b: 0.22173256, a: 1}
+  m_FogColor: {r: 0.38643754, g: 0.2375915, b: 0.211719, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.03
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.9730096, g: 0.89036417, b: 0.7418729, a: 1}
+  m_AmbientSkyColor: {r: 0.9642406, g: 0.7107713, b: 0.33804873, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.7
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.8853243, g: 0.5928628, b: 0.40241787, a: 1}
+  m_IndirectSpecularColor: {r: 0.81391335, g: 0.48423254, b: 0.3705506, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -33739,8 +33739,9 @@ GameObject:
   - component: {fileID: 709160243}
   - component: {fileID: 709160242}
   - component: {fileID: 709160241}
+  - component: {fileID: 709160246}
   m_Layer: 0
-  m_Name: Recibo
+  m_Name: Receipt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33766,7 +33767,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 709160240}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 489e2122eca06384fb12221906943316, type: 3}
   m_Name: 
@@ -33796,7 +33797,7 @@ MonoBehaviour:
   revealRadius: 15
   requireLineOfSight: 0
   AddClueOnReveal: 1
-  clueId: Receipt
+  clueId: 
   keepRevealedAfterEnd: 0
   FeedbackWithConcentration: {fileID: 1326768118}
   FeedbackWithoutConcentration: {fileID: 1244461821}
@@ -33841,6 +33842,30 @@ Transform:
   - {fileID: 1244461822}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 90}
+--- !u!114 &709160246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 709160240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82fe66b72252f7c4faa4435282c06b24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  needInteract: 1
+  destroyAfterUse: 1
+  holdConcentrationIfOpen: 1
+  zonaInteraccion: {fileID: 709160241}
+  pressE_UI: {fileID: 1003033386}
+  destroyThisBeforeSelf: {fileID: 0}
+  outlinerCubes:
+  - {fileID: 719019874}
+  prefabs:
+  - {fileID: 2585326292302825618, guid: c1740eaf75f409e41aa1ffe6c365de28, type: 3}
+  clueID: Receipt
+  isImportant_ShowAlert: 0
 --- !u!1001 &714139380
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34479,7 +34504,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730473041}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.043577906, y: -0.8627299, z: 0.49809742, w: -0.07547914}
+  m_LocalRotation: {x: -0.08661394, y: -0.11091269, z: 0.99000114, w: -0.009703609}
   m_LocalPosition: {x: 58.24, y: 7.95, z: 34.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -34520,7 +34545,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.9422818, g: 0.91988915, b: 0.8241687, a: 1}
+  m_Color: {r: 0.87942535, g: 0.80999804, b: 0.5170843, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -49731,8 +49756,9 @@ MonoBehaviour:
   maxSunIntensity: 1
   DirectionalLight: {fileID: 730473044}
   preset: {fileID: 11400000, guid: 33ca33f38dacad847846cf8b3e95838b, type: 2}
-  TimeOfDay: 14
+  TimeOfDay: 6.8523145
   DaySpeed: 17
+  timeMultiplier: 1
   horaLimiteNoche: 22
   tiempoPausado: 0
 --- !u!4 &1297959098
@@ -76794,7 +76820,7 @@ GameObject:
   - component: {fileID: 7152891378408228249}
   - component: {fileID: 7152891378408228250}
   m_Layer: 0
-  m_Name: Ben's Clue
+  m_Name: Ben's map
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
