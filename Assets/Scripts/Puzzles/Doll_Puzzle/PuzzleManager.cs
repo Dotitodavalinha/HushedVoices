@@ -323,5 +323,4 @@ public class PuzzleManager : MonoBehaviour
         if (autoBindSceneRefs) BindSceneRefs(); // NUEVO: re-enlaza refs por escena
     }
 
-
 }

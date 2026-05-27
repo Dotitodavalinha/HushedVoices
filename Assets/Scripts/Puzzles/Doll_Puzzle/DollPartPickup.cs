@@ -42,6 +42,31 @@ public class DollPartPickup : MonoBehaviour
             revealable = GetComponent<RevealableByConcentration>();
     }
 
+    void Start()
+    {
+        if (AlreadyCollected())
+        {
+            Destroy(gameObject);
+        }
+    }
+    bool AlreadyCollected()
+    {
+        if (PuzzleManager.Instance == null)
+            return false;
+
+        switch (partType)
+        {
+            case DollPartType.Head: return PuzzleManager.Instance.hasHead;
+            case DollPartType.Torso: return PuzzleManager.Instance.hasTorso;
+            case DollPartType.ArmL: return PuzzleManager.Instance.hasArmL;
+            case DollPartType.ArmR: return PuzzleManager.Instance.hasArmR;
+            case DollPartType.LegL: return PuzzleManager.Instance.hasLegL;
+            case DollPartType.LegR: return PuzzleManager.Instance.hasLegR;
+        }
+
+        return false;
+    }
+
 
     void Update()
     {
@@ -81,7 +106,6 @@ public class DollPartPickup : MonoBehaviour
 
        
     }
-
 
 }
 
