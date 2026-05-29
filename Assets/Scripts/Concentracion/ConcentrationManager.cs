@@ -106,6 +106,13 @@ public class ConcentrationManager : MonoBehaviour
     // intenta activar: devuelve true si se activó
     public bool TryActivate()
     {
+      if (GameManager.Instance != null && GameManager.Instance.IsAnyUIOpen)
+        {
+            Debug.Log("No se puede activar Concentración: hay una UI abierta.");
+            return false;
+        }
+
+
         if (!inputEnabled) return false;
         if (isActive) return false;
         if (usesRemaining <= 0) return false;

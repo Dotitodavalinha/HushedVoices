@@ -69,6 +69,10 @@ public class CleanItem : MonoBehaviour
             InRange = true;
             if (Input.GetKeyDown(KeyCode.E))
             {
+                if (GameManager.Instance != null && GameManager.Instance.IsAnyUIOpen)
+                {
+                    return;
+                }
                 ShowNote();
             }
         }

@@ -24,7 +24,7 @@ public class LibretaUI : MonoBehaviour
             else
             {
                 AbrirLibreta(0);
-                SoundManager.instance.PlaySound(SoundID.BookOpenSound);
+                
             }
         }
 
@@ -37,7 +37,7 @@ public class LibretaUI : MonoBehaviour
             else
             {
                 AbrirLibreta(3);
-                SoundManager.instance.PlaySound(SoundID.BookOpenSound);
+               
             }
         }
     }
@@ -46,6 +46,9 @@ public class LibretaUI : MonoBehaviour
     {
         if (!GameManager.Instance.TryLockUI())
             return;
+
+
+        SoundManager.instance.PlaySound(SoundID.BookOpenSound);
 
         libretaAbierta = true;
         Cursor.visible = true;
