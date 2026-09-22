@@ -29,7 +29,7 @@ public class LightsOutGrid : MonoBehaviour
     void Update()
     {
         // Truco para ganar r�pido con la C
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C)) // vine a agregar esto pero ya estaba, apoyo
         {
             ForceWin();
         }

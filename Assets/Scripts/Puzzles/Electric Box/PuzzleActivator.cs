@@ -105,6 +105,18 @@ public class PuzzleActivator : MonoBehaviour
         if (puzzlePanel == null) return;
 
         bool shouldBeActive = state ?? !puzzlePanel.activeSelf;
+
+       
+        if (shouldBeActive)
+        {
+            if (!GameManager.Instance.TryLockUI())
+                return; 
+        }
+        else
+        {
+            GameManager.Instance.UnlockUI();
+        }
+
         puzzlePanel.SetActive(shouldBeActive);
         SetCursorState(shouldBeActive);
     }

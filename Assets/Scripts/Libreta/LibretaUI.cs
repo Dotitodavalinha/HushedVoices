@@ -49,6 +49,9 @@ public class LibretaUI : MonoBehaviour
 
 
         SoundManager.instance.PlaySound(SoundID.BookOpenSound);
+        print("Abriendo libreta");
+
+
 
         libretaAbierta = true;
         Cursor.visible = true;
