@@ -61,7 +61,6 @@ public class FinalDayBackToMenu : MonoBehaviour
             {
                 PlayerClueTracker.Instance.clues.Clear();
                 PlayerClueTracker.Instance.cluesList.Clear();
-
             }
             if (ConcentrationManager.Instance != null)
                 ConcentrationManager.Instance.RefillUses();
@@ -92,6 +91,16 @@ public class FinalDayBackToMenu : MonoBehaviour
                 NPCMoodManager.Instance.ResetAllMoods();
         }
 
+        ConcentrationUIController concUI = FindObjectOfType<ConcentrationUIController>();
+        if (concUI != null)
+        {
+            Destroy(concUI.gameObject);
+        }
+
+        if (ClueNotificationManager.Instance != null)
+        {
+            Destroy(ClueNotificationManager.Instance.gameObject);
+        }
     }
 
 }

@@ -175,9 +175,25 @@ public class LightingManager : MonoBehaviour
         if (ambientShader != null)
         {
             float dayNight;
-            if (TimeOfDay <= 15f) dayNight = 1f;
-            else if (TimeOfDay >= 21f) dayNight = 0f;
-            else dayNight = Mathf.InverseLerp(21f, 15f, TimeOfDay);
+
+            if (TimeOfDay >= 0f && TimeOfDay < 6f)
+            {
+                float progresoLineal = Mathf.InverseLerp(0f, 6f, TimeOfDay);
+
+                dayNight = Mathf.Pow(progresoLineal, 4f);
+            }
+            else if (TimeOfDay >= 6f && TimeOfDay <= 15f)
+            {
+                dayNight = 1f;
+            }
+            else if (TimeOfDay > 15f && TimeOfDay < 21f)
+            {
+                dayNight = Mathf.InverseLerp(21f, 15f, TimeOfDay);
+            }
+            else
+            {
+                dayNight = 0f;
+            }
 
             ambientShader.SetFloat("_dayNight", dayNight);
         }

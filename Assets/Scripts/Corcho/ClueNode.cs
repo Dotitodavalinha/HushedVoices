@@ -40,6 +40,8 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private Image clueVisualImage;
     private Color originalColor;
 
+    public bool isDefaultClue = false;
+
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
@@ -71,8 +73,15 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void SetFound(bool found)
     {
+        if (isDefaultClue)
+        {
+            found = true;
+        }
+
         if (clueVisual != null)
+        {
             clueVisual.SetActive(found);
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -151,15 +160,15 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             SoundManager.instance.PlaySound(SoundID.ClueFromFolder, false, 1f, 5.5f);
-
             isLeftDragging = true;
 
             originalPosition = RectTransform.anchoredPosition;
             originalParent = transform.parent;
 
-            canvasGroup.blocksRaycasts = false;
+            transform.SetParent(canvas.transform, true);
+            transform.SetAsLastSibling();
 
-            RectTransform.SetAsLastSibling();
+            canvasGroup.blocksRaycasts = false;
         }
     }
 
@@ -174,25 +183,6 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
             board?.RecalculateLines();
             board?.ChangeCursor(board.grab);
-
-            if (transform.parent != null)
-            {
-                bool shouldClamp = transform.parent.GetComponent<ClueBoardDropZone>() != null;
-                if (shouldClamp)
-                {
-                    RectTransform playArea = transform.parent.GetComponent<RectTransform>();
-                    Vector3[] areaCorners = new Vector3[4];
-                    playArea.GetWorldCorners(areaCorners);
-                    Vector3[] nodeCorners = new Vector3[4];
-                    RectTransform.GetWorldCorners(nodeCorners);
-                    Vector3 pos = RectTransform.position;
-                    float nodeWidth = nodeCorners[2].x - nodeCorners[0].x;
-                    float nodeHeight = nodeCorners[2].y - nodeCorners[0].y;
-                    pos.x = Mathf.Clamp(pos.x, areaCorners[0].x + nodeWidth / 2, areaCorners[2].x - nodeWidth / 2);
-                    pos.y = Mathf.Clamp(pos.y, areaCorners[0].y + nodeHeight / 2, areaCorners[2].y - nodeHeight / 2);
-                    RectTransform.position = pos;
-                }
-            }
 
             CheckCollisionAndSetColor();
         }
@@ -212,40 +202,97 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             isLeftDragging = false;
             canvasGroup.blocksRaycasts = true;
 
-            ClueBoardDropZone validZone = transform.parent.GetComponent<ClueBoardDropZone>();
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventData, results);
 
-            if (validZone == null)
+            bool droppedOnFolder = false;
+            Transform folderTransform = null;
+            bool droppedOnBoard = false;
+            Transform boardTransform = null;
+
+            foreach (var r in results)
             {
-                transform.SetParent(originalParent);
-                RectTransform.anchoredPosition = originalPosition;
+                ClueFolderDropZone folderHit = r.gameObject.GetComponentInParent<ClueFolderDropZone>();
+                if (folderHit != null)
+                {
+                    droppedOnFolder = true;
+                    folderTransform = folderHit.transform;
+                    break;
+                }
+
+                ClueBoardDropZone boardHit = r.gameObject.GetComponentInParent<ClueBoardDropZone>();
+                if (boardHit != null)
+                {
+                    droppedOnBoard = true;
+                    boardTransform = boardHit.transform;
+                }
+            }
+
+            if (droppedOnFolder)
+            {
+                transform.SetParent(folderTransform, true);
+
+                transform.SetSiblingIndex(1);
+
+                PlayerPrefs.DeleteKey(data.clueID + "_x");
+                PlayerPrefs.DeleteKey(data.clueID + "_y");
+                PlayerPrefs.DeleteKey(data.clueID + "_parent");
+                if (data.connectedClues != null) data.connectedClues.Clear();
+                PlayerPrefs.DeleteKey(data.clueID + "_connections");
+                PlayerPrefs.Save();
 
                 SetVisualColor(originalColor);
+                LayoutRebuilder.ForceRebuildLayoutImmediate(folderTransform as RectTransform);
 
-                LayoutRebuilder.ForceRebuildLayoutImmediate(originalParent as RectTransform);
+                board?.RecalculateLines();
+                board?.ChangeCursor(board.hover);
+                return;
+            }
+            // CASO B: Lo soltamos en el corcho
+            if (droppedOnBoard)
+            {
+                transform.SetParent(boardTransform, true);
 
+                // --- LIMITAR A LOS BORDES DEL CORCHO ---
+                Vector3[] areaCorners = new Vector3[4];
+                ((RectTransform)boardTransform).GetWorldCorners(areaCorners);
+                Vector3[] nodeCorners = new Vector3[4];
+                RectTransform.GetWorldCorners(nodeCorners);
+
+                Vector3 pos = RectTransform.position;
+                float nodeWidth = nodeCorners[2].x - nodeCorners[0].x;
+                float nodeHeight = nodeCorners[2].y - nodeCorners[0].y;
+
+                pos.x = Mathf.Clamp(pos.x, areaCorners[0].x + nodeWidth / 2, areaCorners[2].x - nodeWidth / 2);
+                pos.y = Mathf.Clamp(pos.y, areaCorners[0].y + nodeHeight / 2, areaCorners[2].y - nodeHeight / 2);
+                RectTransform.position = pos;
+
+                RectTransform.SetAsFirstSibling();
+
+                bool isColliding = CheckCollisionAndSetColor();
+
+                if (isColliding)
+                {
+                    transform.SetParent(originalParent, false);
+                    RectTransform.anchoredPosition = originalPosition;
+                    data.boardPosition = originalPosition;
+                    SetVisualColor(originalColor);
+                }
+                else
+                {
+                    data.boardPosition = RectTransform.anchoredPosition;
+                    SetVisualColor(originalColor);
+                    SaveState();
+                }
+
+                board?.RecalculateLines();
+                board?.ChangeCursor(board.hover);
                 return;
             }
 
-
-            RectTransform.SetAsFirstSibling();
-
-            bool isColliding = CheckCollisionAndSetColor();
-
-            if (isColliding)
-            {
-                RectTransform.anchoredPosition = originalPosition;
-                data.boardPosition = originalPosition;
-
-                SetVisualColor(originalColor);
-            }
-            else
-            {
-                data.boardPosition = RectTransform.anchoredPosition;
-                SetVisualColor(originalColor);
-            }
-
-            SaveState();
-
+            transform.SetParent(originalParent, false);
+            RectTransform.anchoredPosition = originalPosition;
+            SetVisualColor(originalColor);
             board?.RecalculateLines();
             board?.ChangeCursor(board.hover);
         }
@@ -259,22 +306,51 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private bool CheckCollisionAndSetColor()
     {
         if (board == null || board.clueNodes == null || clueVisualImage == null) return false;
+
         bool isColliding = false;
-        Rect currentRect = GetRectFromRectTransform();
+        Rect currentRect = GetWorldRect(RectTransform);
+
         foreach (var otherNode in board.clueNodes)
         {
             if (otherNode == this) continue;
-            if (otherNode.transform.parent != this.transform.parent) continue;
             if (otherNode.RectTransform == null) continue;
-            Rect otherRect = otherNode.GetRectFromRectTransform();
+
+            // Ignoramos las pistas que estén guardadas dentro de la carpeta
+            if (otherNode.transform.parent != null && otherNode.transform.parent.GetComponentInParent<ClueFolderDropZone>() != null)
+                continue;
+
+            Rect otherRect = GetWorldRect(otherNode.RectTransform);
+
             if (currentRect.Overlaps(otherRect))
             {
                 isColliding = true;
                 break;
             }
         }
-        SetVisualColor(isColliding ? Color.red : originalColor);
+
+        // Aplicamos un color rojo más suave. (1f, 0.4f, 0.4f) es un rojo apastelado.
+        SetVisualColor(isColliding ? new Color(1f, 0.4f, 0.4f, 1f) : originalColor);
         return isColliding;
+    }
+
+    public void ResetState(Transform defaultParent)
+    {
+        PlayerPrefs.DeleteKey(data.clueID + "_x");
+        PlayerPrefs.DeleteKey(data.clueID + "_y");
+        PlayerPrefs.DeleteKey(data.clueID + "_parent");
+        PlayerPrefs.DeleteKey(data.clueID + "_connections");
+
+        if (data.connectedClues != null)
+        {
+            data.connectedClues.Clear();
+        }
+
+        if (defaultParent != null)
+        {
+            transform.SetParent(defaultParent, false);
+        }
+
+        SetFound(false);
     }
 
     public void SaveState()
@@ -288,14 +364,13 @@ public class ClueNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         PlayerPrefs.Save();
     }
 
-    private Rect GetRectFromRectTransform()
+    private Rect GetWorldRect(RectTransform rt)
     {
-        Vector2 anchoredPos = RectTransform.anchoredPosition;
-        Vector2 size = RectTransform.sizeDelta;
-        Vector2 pivot = RectTransform.pivot;
-        float x = anchoredPos.x - size.x * pivot.x;
-        float y = anchoredPos.y - size.y * pivot.y;
-        return new Rect(x, y, size.x, size.y);
+        Vector3[] corners = new Vector3[4];
+        rt.GetWorldCorners(corners);
+        float width = corners[2].x - corners[0].x;
+        float height = corners[2].y - corners[0].y;
+        return new Rect(corners[0].x, corners[0].y, width, height);
     }
 
     public void MoveToCorcho(RectTransform newParent, ClueBoardManager b)
