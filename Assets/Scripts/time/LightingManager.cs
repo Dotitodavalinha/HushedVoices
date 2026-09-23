@@ -129,7 +129,6 @@ public class LightingManager : MonoBehaviour
         Sky.SetFloat("_TimeOfDay", TimeOfDay);
 
         UpdateAmbientLight();
-        UpdateSunLight();
 
         PlayerPrefs.SetFloat("SavedTimeOfDay", TimeOfDay);
     }
@@ -196,19 +195,6 @@ public class LightingManager : MonoBehaviour
             }
 
             ambientShader.SetFloat("_dayNight", dayNight);
-        }
-    }
-
-    public void UpdateSunLight()
-    {
-        if (DirectionalLight != null)
-        {
-            float sunIntensity = maxSunIntensity;
-            if (TimeOfDay <= 14f) sunIntensity = maxSunIntensity;
-            else if (TimeOfDay >= 22f) sunIntensity = 0.1f;
-            else sunIntensity = Mathf.Lerp(maxSunIntensity, 0.1f, Mathf.InverseLerp(14f, 22f, TimeOfDay));
-
-            DirectionalLight.intensity = sunIntensity;
         }
     }
 }
